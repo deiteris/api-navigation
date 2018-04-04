@@ -36,6 +36,16 @@
       padding: 12px 16px;
     }
 
+    .list-item.endpoint {
+      font-weight: 700;
+      margin-top: 20px;
+      font-size: 15px;
+    }
+
+    .list-item.endpoint:first-of-type {
+      margin-top: 0px;
+    }
+
     *[hidden] {
       display: none !important;
     }
@@ -70,10 +80,6 @@
       @apply --layout-horizontal;
       @apply --layout-center;
       @apply --api-navigation-list-item;
-    }
-
-    .list-item.endpoint {
-      font-weight: 500;
     }
 
     .list-item.iron-selected {
