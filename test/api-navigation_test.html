@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+    <title>api-navigation test</title>
+    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+    <script src="../../iron-test-helpers/mock-interactions.js"></script>
+    <link rel="import" href="../api-navigation.html">
+  </head>
+  <body>
+
+    <test-fixture id="Basic">
+      <template>
+        <api-navigation></api-navigation>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="Summary">
+      <template>
+        <api-navigation summary></api-navigation>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="Preselected">
+      <template>
+        <api-navigation summary selected="test1"></api-navigation>
+      </template>
+    </test-fixture>
+
+    <script>
+      /* global MockInteractions */
+      suite('api-navigation', () => {
+
+        suite('Super basics - without model', () => {
+          let element;
+
+          suiteSetup((done) => {
+            element = fixture('Basic');
+            flush(() => done());
+          });
+
+          test('summary is not rendered', () => {
+            const panel = element.shadowRoot.querySelector('.summary');
+            assert.notOk(panel);
+          });
+
+          test('documentation is not rendered', () => {
+            const panel = element.shadowRoot.querySelector('.documentation');
+            assert.notOk(panel);
+          });
+
+          test('types is not rendered', () => {
+            const panel = element.shadowRoot.querySelector('.types');
+            assert.notOk(panel);
+          });
+
+          test('security is not rendered', () => {
+            const panel = element.shadowRoot.querySelector('.security');
+            assert.notOk(panel);
+          });
+
+          test('endpoints is not rendered', () => {
+            const panel = element.shadowRoot.querySelector('.endpoints');
+            assert.notOk(panel);
+          });
+        });
+
+        suite('Summary', () => {
+          let element;
+          setup((done) => {
+            element = fixture('Summary');
+            flush(() => done());
+          });
+
+          test('Summary is rendered', () => {
+            const panel = element.shadowRoot.querySelector('.summary');
+            assert.ok(panel);
+          });
+
+          test('Clicking on summary changes selection', (done) => {
+            flush(() => {
+              const node = element.shadowRoot.querySelector('.list-item.summary');
+              MockInteractions.tap(node);
+              assert.equal(element.selected, 'summary');
+              assert.equal(element.selectedType, 'summary');
+              done();
+            });
+          });
+        });
+
+        suite('Docks', () => {
+          let element;
+          let model;
+          setup((done) => {
+            model = [{
+              id: 'test1',
+              label: 'test1'
+            }, {
+              id: 'test2',
+              label: 'test2'
+            }];
+            element = fixture('Preselected');
+            element._setDocs(model);
+            flush(() => done());
+          });
+
+          test('Docs is rendered', () => {
+            const panel = element.shadowRoot.querySelector('.documentation');
+            assert.ok(panel);
+          });
+
+          test('Preselected has a selection', () => {
+            const selector = '.documentation [data-api-id="test1"]';
+            const panel = element.shadowRoot.querySelector(selector);
+            assert.ok(panel);
+          });
+
+          test('Clicking on summary changes selection', (done) => {
+            flush(() => {
+              const node = element.shadowRoot.querySelectorAll('.documentation .list-item')[1];
+              MockInteractions.tap(node);
+              assert.equal(element.selected, 'test2');
+              assert.equal(element.selectedType, 'documentation');
+              done();
+            });
+          });
+        });
+      });
+
+      a11ySuite('Basic');
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,4051 @@
+[
+  {
+    "@id": "file://demo/api.raml",
+    "@type": [
+      "http://raml.org/vocabularies/document#Document",
+      "http://raml.org/vocabularies/document#Fragment",
+      "http://raml.org/vocabularies/document#Module",
+      "http://raml.org/vocabularies/document#Unit"
+    ],
+    "http://raml.org/vocabularies/document#encodes": [
+      {
+        "@id": "file://demo/api.raml#/web-api",
+        "@type": [
+          "http://schema.org/WebAPI",
+          "http://raml.org/vocabularies/document#RootDomainElement",
+          "http://raml.org/vocabularies/document#DomainElement"
+        ],
+        "http://schema.org/name": [
+          {
+            "@value": "Navigation demo API"
+          }
+        ],
+        "http://raml.org/vocabularies/http#server": [
+          {
+            "@id": "file://demo/api.raml#/web-api/https%3A%2F%2Fapi.mulesoft.com%2F%7Bversion%7D",
+            "@type": [
+              "http://raml.org/vocabularies/http#Server",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#url": [
+              {
+                "@value": "https://api.mulesoft.com/{version}"
+              }
+            ]
+          }
+        ],
+        "http://raml.org/vocabularies/http#accepts": [
+          {
+            "@value": "application/json"
+          }
+        ],
+        "http://raml.org/vocabularies/http#contentType": [
+          {
+            "@value": "application/json"
+          }
+        ],
+        "http://schema.org/version": [
+          {
+            "@value": "v2"
+          }
+        ],
+        "http://schema.org/documentation": [
+          {
+            "@id": "file://demo/api.raml#/web-api/creative-work/How%20to%20begin",
+            "@type": [
+              "http://schema.org/CreativeWork",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://schema.org/title": [
+              {
+                "@value": "How to begin"
+              }
+            ],
+            "http://schema.org/description": [
+              {
+                "@value": "Example content\n"
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/creative-work/Other%20documentation%20entry",
+            "@type": [
+              "http://schema.org/CreativeWork",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://schema.org/title": [
+              {
+                "@value": "Other documentation entry"
+              }
+            ],
+            "http://schema.org/description": [
+              {
+                "@value": "Example content\n"
+              }
+            ]
+          }
+        ],
+        "http://raml.org/vocabularies/http#endpoint": [
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files"
+              }
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "Files"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles/post",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "post"
+                  }
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "Insert"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Insert a new file.\nThis method supports an /upload URI and accepts uploaded media with the following characteristics:\n\n- Maximum file size: 5120GB\n- Accepted Media MIME types: */*\n\nNote: Apps creating shortcuts with files.insert must specify the MIME type `application/vnd.google-apps.drive-sdk`.\n\nApps should specify a file extension in the title property when inserting files with the API. For example, an operation to insert a JPEG file should specify something like `\"title\": \"cat.jpg\"` in the metadata.\n\nSubsequent GET requests include the read-only fileExtension property populated with the extension originally specified in the title property. When a Google Drive user requests to download a file, or when the file is downloaded through the sync client, Drive builds a full filename (with extension) based on the title. In cases where the extension is missing, Google Drive attempts to determine the extension based on the file's MIME type.\n\n### HTTP request\n\nThis method provides media upload functionality through two separate URIs. For more details, see the document on media upload.\n\n- Upload URI, for media upload requests: `POST https://www.googleapis.com/upload/drive/v2/files`\n- Metadata URI, for metadata-only requests: `POST https://www.googleapis.com/drive/v2/files`\n"
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "list"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Lists the user's files. Try it now or see an example.\n\nRequests with `files.list` accept the `q` parameter, which is a search query combining one or more search terms. For more information, see Search for files.\n\nNote: Note: This method returns all files by default. This includes files with trashed=true in the results. Use the trashed=false query parameter to filter these from the results.\n"
+                  }
+                ],
+                "http://raml.org/vocabularies/security#security": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles/get/basic",
+                    "@type": [
+                      "http://raml.org/vocabularies/security#ParametrizedSecurityScheme",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://raml.org/vocabularies/security#name": [
+                      {
+                        "@value": "basic"
+                      }
+                    ],
+                    "http://raml.org/vocabularies/security#scheme": [
+                      {
+                        "@id": "file://demo/api.raml#/declarations/basic",
+                        "@type": [
+                          "http://raml.org/vocabularies/security#SecurityScheme",
+                          "http://raml.org/vocabularies/document#DomainElement"
+                        ],
+                        "http://raml.org/vocabularies/security#name": [
+                          {
+                            "@value": "basic"
+                          }
+                        ],
+                        "http://raml.org/vocabularies/security#type": [
+                          {
+                            "@value": "Basic Authentication"
+                          }
+                        ],
+                        "http://schema.org/description": [
+                          {
+                            "@value": "Test basic auth method\n"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/{fileId}"
+              }
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "Get file"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Gets a file's metadata by ID."
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D/patch",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "patch"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Updates file metadata. This method supports patch semantics."
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D/put",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "put"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Updates file metadata and/or content."
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D/delete",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "delete"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Permanently deletes a file by ID. Skips the trash. The currently authenticated user must own the file."
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D/parameter/fileId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D/parameter/fileId/scalar/fileId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "fileId"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcopy",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/{fileId}/copy"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcopy/post",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "post"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Creates a copy of the specified file."
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcopy/parameter/fileId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcopy/parameter/fileId/scalar/fileId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "fileId"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Ftouch",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/{fileId}/touch"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Ftouch/post",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "post"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Set the file's updated time to the current server time."
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Ftouch/parameter/fileId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Ftouch/parameter/fileId/scalar/fileId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "fileId"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Ftrash",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/{fileId}/trash"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Ftrash/post",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "post"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Moves a file to the trash. The currently authenticated user must own the file."
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Ftrash/parameter/fileId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Ftrash/parameter/fileId/scalar/fileId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "fileId"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Funtrash",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/{fileId}/untrash"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Funtrash/post",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "post"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Restores a file from the trash."
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Funtrash/parameter/fileId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Funtrash/parameter/fileId/scalar/fileId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "fileId"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fparents",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/{fileId}/parents"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fparents/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Lists a file's parents."
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fparents/post",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "post"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Adds a parent folder for a file."
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fparents/parameter/fileId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fparents/parameter/fileId/scalar/fileId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "fileId"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fparents%2F%7BparentId%7D",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/{fileId}/parents/{parentId}"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fparents%2F%7BparentId%7D/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Gets a specific parent reference."
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fparents%2F%7BparentId%7D/delete",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "delete"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Removes a parent from a file."
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fparents%2F%7BparentId%7D/parameter/parentId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "parentId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "parentId"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "The ID of the parent."
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fparents%2F%7BparentId%7D/parameter/parentId/scalar/schema",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "schema"
+                      }
+                    ],
+                    "http://schema.org/description": [
+                      {
+                        "@value": "The ID of the parent."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fparents%2F%7BparentId%7D/parameter/fileId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fparents%2F%7BparentId%7D/parameter/fileId/scalar/fileId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "fileId"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fpermissions",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/{fileId}/permissions"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fpermissions/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Lists a file's permissions."
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fpermissions/post",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "post"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Inserts a permission for a file.\n\nWarning: Concurrent permissions operations on the same file are not supported; only the last update is applied.\n"
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fpermissions/parameter/fileId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fpermissions/parameter/fileId/scalar/fileId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "fileId"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fpermissions%2F%7BpermissionId%7D",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/{fileId}/permissions/{permissionId}"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fpermissions%2F%7BpermissionId%7D/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Gets a permission by ID."
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fpermissions%2F%7BpermissionId%7D/put",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "put"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Updates a permission.\n\n**Warning**: Concurrent permissions operations on the same file are not supported; only the last update is applied.\n"
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fpermissions%2F%7BpermissionId%7D/delete",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "delete"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Deletes a permission from a file.\n\nWarning: Concurrent permissions operations on the same file are not supported; only the last update is applied.\n"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#returns": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fpermissions%2F%7BpermissionId%7D/delete/204",
+                    "@type": [
+                      "http://raml.org/vocabularies/http#Response",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://schema.org/name": [
+                      {
+                        "@value": "204"
+                      }
+                    ],
+                    "http://www.w3.org/ns/hydra/core#statusCode": [
+                      {
+                        "@value": "204"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fpermissions%2F%7BpermissionId%7D/patch",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "patch"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Updates a permission. This method supports patch semantics.\n\n**Warning**: Concurrent permissions operations on the same file are not supported; only the last update is applied.\n"
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fpermissions%2F%7BpermissionId%7D/parameter/permissionId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "permissionId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "permissionId"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "The ID for the permission."
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fpermissions%2F%7BpermissionId%7D/parameter/permissionId/scalar/schema",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "schema"
+                      }
+                    ],
+                    "http://schema.org/description": [
+                      {
+                        "@value": "The ID for the permission."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fpermissions%2F%7BpermissionId%7D/parameter/fileId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fpermissions%2F%7BpermissionId%7D/parameter/fileId/scalar/fileId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "fileId"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Frevisions",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/{fileId}/revisions"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Frevisions/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Frevisions/parameter/fileId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Frevisions/parameter/fileId/scalar/fileId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "fileId"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Frevisions%2F%7BrevisionId%7D",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/{fileId}/revisions/{revisionId}"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Frevisions%2F%7BrevisionId%7D/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Frevisions%2F%7BrevisionId%7D/put",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "put"
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Frevisions%2F%7BrevisionId%7D/delete",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "delete"
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Frevisions%2F%7BrevisionId%7D/patch",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "patch"
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Frevisions%2F%7BrevisionId%7D/parameter/revisionId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "revisionId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "revisionId"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "The ID of the revision."
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Frevisions%2F%7BrevisionId%7D/parameter/revisionId/scalar/schema",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "schema"
+                      }
+                    ],
+                    "http://schema.org/description": [
+                      {
+                        "@value": "The ID of the revision."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Frevisions%2F%7BrevisionId%7D/parameter/fileId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Frevisions%2F%7BrevisionId%7D/parameter/fileId/scalar/fileId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "fileId"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/{fileId}/comments"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments/post",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "post"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Creates a new comment on the given file."
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments/parameter/fileId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments/parameter/fileId/scalar/fileId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "fileId"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/{fileId}/comments/{commentId}"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Gets a comment by ID."
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D/put",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "put"
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D/delete",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "delete"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Deletes a comment."
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D/patch",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "patch"
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D/parameter/fileId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D/parameter/fileId/scalar/fileId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "fileId"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D/parameter/commentId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "commentId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "commentId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D/parameter/commentId/scalar/commentId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "commentId"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D%2Freplies",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/{fileId}/comments/{commentId}/replies"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D%2Freplies/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D%2Freplies/post",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "post"
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D%2Freplies/parameter/fileId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D%2Freplies/parameter/fileId/scalar/fileId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "fileId"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D%2Freplies/parameter/commentId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "commentId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "commentId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D%2Freplies/parameter/commentId/scalar/commentId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "commentId"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D%2Freplies%2F%7BreplyId%7D",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/{fileId}/comments/{commentId}/replies/{replyId}"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D%2Freplies%2F%7BreplyId%7D/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Gets a reply."
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D%2Freplies%2F%7BreplyId%7D/put",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "put"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Updates an existing reply."
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D%2Freplies%2F%7BreplyId%7D/delete",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "delete"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Deletes a reply."
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D%2Freplies%2F%7BreplyId%7D/patch",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "patch"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Updates an existing reply. This method supports patch semantics."
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D%2Freplies%2F%7BreplyId%7D/parameter/replyId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "replyId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "replyId"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "The ID of the reply."
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D%2Freplies%2F%7BreplyId%7D/parameter/replyId/scalar/schema",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "schema"
+                      }
+                    ],
+                    "http://schema.org/description": [
+                      {
+                        "@value": "The ID of the reply."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D%2Freplies%2F%7BreplyId%7D/parameter/fileId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D%2Freplies%2F%7BreplyId%7D/parameter/fileId/scalar/fileId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "fileId"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D%2Freplies%2F%7BreplyId%7D/parameter/commentId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "commentId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "commentId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcomments%2F%7BcommentId%7D%2Freplies%2F%7BreplyId%7D/parameter/commentId/scalar/commentId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "commentId"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Frealtime",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/{fileId}/realtime"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Frealtime/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Exports the contents of the Realtime API data model associated with this file as JSON."
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Frealtime/put",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "put"
+                  }
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "update"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Overwrites the Realtime API data model associated with this file with the provided JSON data model.\n\nThis method supports an /upload URI and accepts uploaded media with the following characteristics:\n\n- **Maximum file size**: 10MB\n- **Accepted Media MIME** types: */*\n"
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Frealtime/parameter/fileId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Frealtime/parameter/fileId/scalar/fileId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "fileId"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fproperties",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/{fileId}/properties"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fproperties/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Lists a file's properties."
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fproperties/post",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "post"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Adds a property to a file."
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fproperties/parameter/fileId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fproperties/parameter/fileId/scalar/fileId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "fileId"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fproperties%2F%7BpropertyKey%7D",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/{fileId}/properties/{propertyKey}"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fproperties%2F%7BpropertyKey%7D/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fproperties%2F%7BpropertyKey%7D/put",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "put"
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fproperties%2F%7BpropertyKey%7D/delete",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "delete"
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fproperties%2F%7BpropertyKey%7D/patch",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "patch"
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fproperties%2F%7BpropertyKey%7D/parameter/propertyKey",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "propertyKey"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "propertyKey"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "The key of the property."
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fproperties%2F%7BpropertyKey%7D/parameter/propertyKey/scalar/schema",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "schema"
+                      }
+                    ],
+                    "http://schema.org/description": [
+                      {
+                        "@value": "The key of the property."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fproperties%2F%7BpropertyKey%7D/parameter/fileId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "fileId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fproperties%2F%7BpropertyKey%7D/parameter/fileId/scalar/fileId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "fileId"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2Ftrash",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/trash"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2Ftrash/delete",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "delete"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Permanently deletes all of the user's trashed files."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfolderId%7D%2Fchildren",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/{folderId}/children"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfolderId%7D%2Fchildren/post",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "post"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Inserts a file into a folder."
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfolderId%7D%2Fchildren/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Lists a folder's children. To list all children of the root folder, use the alias root for the folderId value."
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfolderId%7D%2Fchildren/parameter/folderId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "folderId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "folderId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfolderId%7D%2Fchildren/parameter/folderId/scalar/folderId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "folderId"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfolderId%7D%2Fchildren%2F%7BchildId%7D",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/files/{folderId}/children/{childId}"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfolderId%7D%2Fchildren%2F%7BchildId%7D/delete",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "delete"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Removes a child from a folder."
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfolderId%7D%2Fchildren%2F%7BchildId%7D/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Gets a specific child reference."
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfolderId%7D%2Fchildren%2F%7BchildId%7D/parameter/folderId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "folderId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "folderId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfolderId%7D%2Fchildren%2F%7BchildId%7D/parameter/folderId/scalar/folderId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "folderId"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfolderId%7D%2Fchildren%2F%7BchildId%7D/parameter/childId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "childId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "childId"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfolderId%7D%2Fchildren%2F%7BchildId%7D/parameter/childId/scalar/childId",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "childId"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Fabout",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/about"
+              }
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "About"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Fabout/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Gets the information about the current user along with Drive API settings."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Fchanges",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/changes"
+              }
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "Changes"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Fchanges/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Fchanges%2F%7BchangeId%7D",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/changes/{changeId}"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Fchanges%2F%7BchangeId%7D/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Gets a specific change."
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Fchanges%2F%7BchangeId%7D/parameter/changeId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "changeId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "changeId"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "The ID of the change."
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Fchanges%2F%7BchangeId%7D/parameter/changeId/scalar/schema",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "schema"
+                      }
+                    ],
+                    "http://schema.org/description": [
+                      {
+                        "@value": "The ID of the change."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Fchanges%2Fwatch",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/changes/watch"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Fchanges%2Fwatch/post",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "post"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Watch for all changes to a user's Drive."
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#expects": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Fchanges%2Fwatch/post/request",
+                    "@type": [
+                      "http://raml.org/vocabularies/http#Request",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://raml.org/vocabularies/http#parameter": [
+                      {
+                        "@id": "file://demo/api.raml#/web-api/end-points/%2Fchanges%2Fwatch/post/request/parameter/spaces",
+                        "@type": [
+                          "http://raml.org/vocabularies/http#Parameter",
+                          "http://raml.org/vocabularies/document#DomainElement"
+                        ],
+                        "http://schema.org/name": [
+                          {
+                            "@value": "spaces"
+                          }
+                        ],
+                        "http://raml.org/vocabularies/http#paramName": [
+                          {
+                            "@value": "spaces"
+                          }
+                        ],
+                        "http://schema.org/description": [
+                          {
+                            "@value": "A comma-separated list of spaces to query. Supported values are:\n\n- **drive**\n- **appDataFolder**\n- **photos**\n"
+                          }
+                        ],
+                        "http://www.w3.org/ns/hydra/core#required": [
+                          {
+                            "@value": false
+                          }
+                        ],
+                        "http://raml.org/vocabularies/http#binding": [
+                          {
+                            "@value": "query"
+                          }
+                        ],
+                        "http://raml.org/vocabularies/http#schema": [
+                          {
+                            "@id": "file://demo/api.raml#/web-api/end-points/%2Fchanges%2Fwatch/post/request/parameter/spaces/scalar/schema",
+                            "@type": [
+                              "http://raml.org/vocabularies/shapes#ScalarShape",
+                              "http://www.w3.org/ns/shacl#Shape",
+                              "http://raml.org/vocabularies/shapes#Shape",
+                              "http://raml.org/vocabularies/document#DomainElement"
+                            ],
+                            "http://www.w3.org/ns/shacl#datatype": [
+                              {
+                                "@id": "http://www.w3.org/2001/XMLSchema#string"
+                              }
+                            ],
+                            "http://www.w3.org/ns/shacl#name": [
+                              {
+                                "@value": "schema"
+                              }
+                            ],
+                            "http://schema.org/description": [
+                              {
+                                "@value": "A comma-separated list of spaces to query. Supported values are:\n\n- **drive**\n- **appDataFolder**\n- **photos**\n"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2FpermissionIds%2F%7Bemail%7D",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/permissionIds/{email}"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2FpermissionIds%2F%7Bemail%7D/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Returns the permission ID for an email address."
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2FpermissionIds%2F%7Bemail%7D/parameter/email",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "email"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "email"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "The email address for which to return a permission ID"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2FpermissionIds%2F%7Bemail%7D/parameter/email/scalar/schema",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "schema"
+                      }
+                    ],
+                    "http://schema.org/description": [
+                      {
+                        "@value": "The email address for which to return a permission ID"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Fapps",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/apps"
+              }
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "Apps"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Fapps/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Lists a user's installed apps."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Fapps%2F%7BappId%7D",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/apps/{appId}"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Fapps%2F%7BappId%7D/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Gets a specific app."
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Fapps%2F%7BappId%7D/parameter/appId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "appId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "appId"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "The ID of the app."
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Fapps%2F%7BappId%7D/parameter/appId/scalar/schema",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "schema"
+                      }
+                    ],
+                    "http://schema.org/description": [
+                      {
+                        "@value": "The ID of the app."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Fchannels%2Fstop",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/channels/stop"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Fchannels%2Fstop/post",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "post"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Stop watching for changes to a resource.\nIf successful, this method returns an empty response body.\n"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Fteamdrives",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/teamdrives"
+              }
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "Teamdrives"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Fteamdrives/post",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "post"
+                  }
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "insert"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Creates a new Team Drive."
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Fteamdrives/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "list"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Lists the user's Team Drives."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/web-api/end-points/%2Fteamdrives%2F%7BteamDriveId%7D",
+            "@type": [
+              "http://raml.org/vocabularies/http#EndPoint",
+              "http://raml.org/vocabularies/document#DomainElement"
+            ],
+            "http://raml.org/vocabularies/http#path": [
+              {
+                "@value": "/teamdrives/{teamDriveId}"
+              }
+            ],
+            "http://www.w3.org/ns/hydra/core#supportedOperation": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Fteamdrives%2F%7BteamDriveId%7D/delete",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "delete"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Permanently deletes a Team Drive for which the user is an organizer. The Team Drive cannot contain any untrashed items.\n"
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Fteamdrives%2F%7BteamDriveId%7D/get",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "get"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Gets a Team Drive's metadata by ID."
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Fteamdrives%2F%7BteamDriveId%7D/put",
+                "@type": [
+                  "http://www.w3.org/ns/hydra/core#Operation",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/hydra/core#method": [
+                  {
+                    "@value": "put"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Updates a Team Drive's metadata"
+                  }
+                ]
+              }
+            ],
+            "http://raml.org/vocabularies/http#parameter": [
+              {
+                "@id": "file://demo/api.raml#/web-api/end-points/%2Fteamdrives%2F%7BteamDriveId%7D/parameter/teamDriveId",
+                "@type": [
+                  "http://raml.org/vocabularies/http#Parameter",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://schema.org/name": [
+                  {
+                    "@value": "teamDriveId"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#paramName": [
+                  {
+                    "@value": "teamDriveId"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "The ID of the Team Drive"
+                  }
+                ],
+                "http://www.w3.org/ns/hydra/core#required": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://raml.org/vocabularies/http#binding": [
+                  {
+                    "@value": "path"
+                  }
+                ],
+                "http://raml.org/vocabularies/http#schema": [
+                  {
+                    "@id": "file://demo/api.raml#/web-api/end-points/%2Fteamdrives%2F%7BteamDriveId%7D/parameter/teamDriveId/scalar/schema",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "schema"
+                      }
+                    ],
+                    "http://schema.org/description": [
+                      {
+                        "@value": "The ID of the Team Drive"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "http://raml.org/vocabularies/document#declares": [
+      {
+        "@id": "file://demo/api.raml#/declarations/Picture",
+        "@type": [
+          "http://www.w3.org/ns/shacl#NodeShape",
+          "http://www.w3.org/ns/shacl#Shape",
+          "http://raml.org/vocabularies/shapes#Shape",
+          "http://raml.org/vocabularies/document#DomainElement"
+        ],
+        "http://www.w3.org/ns/shacl#closed": [
+          {
+            "@value": false
+          }
+        ],
+        "http://www.w3.org/ns/shacl#property": [
+          {
+            "@id": "file://demo/api.raml#/declarations/Picture/property/url",
+            "@type": [
+              "http://www.w3.org/ns/shacl#PropertyShape",
+              "http://www.w3.org/ns/shacl#Shape",
+              "http://raml.org/vocabularies/shapes#Shape"
+            ],
+            "http://www.w3.org/ns/shacl#path": [
+              {
+                "@id": "http://raml.org/vocabularies/data#url"
+              }
+            ],
+            "http://raml.org/vocabularies/shapes#range": [
+              {
+                "@id": "file://demo/api.raml#/declarations/Picture/property/url/scalar/url",
+                "@type": [
+                  "http://raml.org/vocabularies/shapes#ScalarShape",
+                  "http://www.w3.org/ns/shacl#Shape",
+                  "http://raml.org/vocabularies/shapes#Shape",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/shacl#datatype": [
+                  {
+                    "@id": "http://www.w3.org/2001/XMLSchema#string"
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#name": [
+                  {
+                    "@value": "url"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "A URL that points to a profile picture of this user."
+                  }
+                ]
+              }
+            ],
+            "http://www.w3.org/ns/shacl#minCount": [
+              {
+                "@value": 0
+              }
+            ],
+            "http://www.w3.org/ns/shacl#name": [
+              {
+                "@value": "url"
+              }
+            ]
+          }
+        ],
+        "http://www.w3.org/ns/shacl#name": [
+          {
+            "@value": "Picture"
+          }
+        ],
+        "http://schema.org/name": [
+          {
+            "@value": "Pic"
+          }
+        ],
+        "http://schema.org/description": [
+          {
+            "@value": "The user's profile picture."
+          }
+        ]
+      },
+      {
+        "@id": "file://demo/api.raml#/declarations/Property",
+        "@type": [
+          "http://www.w3.org/ns/shacl#NodeShape",
+          "http://www.w3.org/ns/shacl#Shape",
+          "http://raml.org/vocabularies/shapes#Shape",
+          "http://raml.org/vocabularies/document#DomainElement"
+        ],
+        "http://www.w3.org/ns/shacl#closed": [
+          {
+            "@value": false
+          }
+        ],
+        "http://www.w3.org/ns/shacl#property": [
+          {
+            "@id": "file://demo/api.raml#/declarations/Property/property/kind",
+            "@type": [
+              "http://www.w3.org/ns/shacl#PropertyShape",
+              "http://www.w3.org/ns/shacl#Shape",
+              "http://raml.org/vocabularies/shapes#Shape"
+            ],
+            "http://www.w3.org/ns/shacl#path": [
+              {
+                "@id": "http://raml.org/vocabularies/data#kind"
+              }
+            ],
+            "http://raml.org/vocabularies/shapes#range": [
+              {
+                "@id": "file://demo/api.raml#/declarations/Property/property/kind/scalar/kind",
+                "@type": [
+                  "http://raml.org/vocabularies/shapes#ScalarShape",
+                  "http://www.w3.org/ns/shacl#Shape",
+                  "http://raml.org/vocabularies/shapes#Shape",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/shacl#datatype": [
+                  {
+                    "@id": "http://www.w3.org/2001/XMLSchema#string"
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#name": [
+                  {
+                    "@value": "kind"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "This is always drive#property."
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#defaultValue": [
+                  {
+                    "@id": "file://demo/api.raml#/declarations/Property/property/kind/scalar/kind/scalar_1",
+                    "@type": [
+                      "http://raml.org/vocabularies/data#Scalar"
+                    ],
+                    "http://raml.org/vocabularies/data#value": [
+                      {
+                        "@value": "drive#property",
+                        "@type": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ]
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#in": [
+                  {
+                    "@id": "file://demo/api.raml#/declarations/Property/property/kind/scalar/kind/list",
+                    "http://www.w3.org/1999/02/22-rdf-syntax-ns#first": [
+                      {
+                        "@value": "drive#property"
+                      }
+                    ],
+                    "http://www.w3.org/1999/02/22-rdf-syntax-ns#rest": [
+                      {
+                        "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "http://www.w3.org/ns/shacl#minCount": [
+              {
+                "@value": 1
+              }
+            ],
+            "http://www.w3.org/ns/shacl#name": [
+              {
+                "@value": "kind"
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/declarations/Property/property/etag",
+            "@type": [
+              "http://www.w3.org/ns/shacl#PropertyShape",
+              "http://www.w3.org/ns/shacl#Shape",
+              "http://raml.org/vocabularies/shapes#Shape"
+            ],
+            "http://www.w3.org/ns/shacl#path": [
+              {
+                "@id": "http://raml.org/vocabularies/data#etag"
+              }
+            ],
+            "http://raml.org/vocabularies/shapes#range": [
+              {
+                "@id": "file://demo/api.raml#/declarations/Property/property/etag/scalar/etag",
+                "@type": [
+                  "http://raml.org/vocabularies/shapes#ScalarShape",
+                  "http://www.w3.org/ns/shacl#Shape",
+                  "http://raml.org/vocabularies/shapes#Shape",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/shacl#datatype": [
+                  {
+                    "@id": "http://www.w3.org/2001/XMLSchema#string"
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#name": [
+                  {
+                    "@value": "etag"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "ETag of the property."
+                  }
+                ]
+              }
+            ],
+            "http://www.w3.org/ns/shacl#minCount": [
+              {
+                "@value": 1
+              }
+            ],
+            "http://www.w3.org/ns/shacl#name": [
+              {
+                "@value": "etag"
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/declarations/Property/property/selfLink",
+            "@type": [
+              "http://www.w3.org/ns/shacl#PropertyShape",
+              "http://www.w3.org/ns/shacl#Shape",
+              "http://raml.org/vocabularies/shapes#Shape"
+            ],
+            "http://www.w3.org/ns/shacl#path": [
+              {
+                "@id": "http://raml.org/vocabularies/data#selfLink"
+              }
+            ],
+            "http://raml.org/vocabularies/shapes#range": [
+              {
+                "@id": "file://demo/api.raml#/declarations/Property/property/selfLink/scalar/selfLink",
+                "@type": [
+                  "http://raml.org/vocabularies/shapes#ScalarShape",
+                  "http://www.w3.org/ns/shacl#Shape",
+                  "http://raml.org/vocabularies/shapes#Shape",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/shacl#datatype": [
+                  {
+                    "@id": "http://www.w3.org/2001/XMLSchema#string"
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#name": [
+                  {
+                    "@value": "selfLink"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "The link back to this property."
+                  }
+                ]
+              }
+            ],
+            "http://www.w3.org/ns/shacl#minCount": [
+              {
+                "@value": 1
+              }
+            ],
+            "http://www.w3.org/ns/shacl#name": [
+              {
+                "@value": "selfLink"
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/declarations/Property/property/key",
+            "@type": [
+              "http://www.w3.org/ns/shacl#PropertyShape",
+              "http://www.w3.org/ns/shacl#Shape",
+              "http://raml.org/vocabularies/shapes#Shape"
+            ],
+            "http://www.w3.org/ns/shacl#path": [
+              {
+                "@id": "http://raml.org/vocabularies/data#key"
+              }
+            ],
+            "http://raml.org/vocabularies/shapes#range": [
+              {
+                "@id": "file://demo/api.raml#/declarations/Property/property/key/scalar/key",
+                "@type": [
+                  "http://raml.org/vocabularies/shapes#ScalarShape",
+                  "http://www.w3.org/ns/shacl#Shape",
+                  "http://raml.org/vocabularies/shapes#Shape",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/shacl#datatype": [
+                  {
+                    "@id": "http://www.w3.org/2001/XMLSchema#string"
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#name": [
+                  {
+                    "@value": "key"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "The key of this property."
+                  }
+                ]
+              }
+            ],
+            "http://www.w3.org/ns/shacl#minCount": [
+              {
+                "@value": 1
+              }
+            ],
+            "http://www.w3.org/ns/shacl#name": [
+              {
+                "@value": "key"
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/declarations/Property/property/visibility",
+            "@type": [
+              "http://www.w3.org/ns/shacl#PropertyShape",
+              "http://www.w3.org/ns/shacl#Shape",
+              "http://raml.org/vocabularies/shapes#Shape"
+            ],
+            "http://www.w3.org/ns/shacl#path": [
+              {
+                "@id": "http://raml.org/vocabularies/data#visibility"
+              }
+            ],
+            "http://raml.org/vocabularies/shapes#range": [
+              {
+                "@id": "file://demo/api.raml#/declarations/Property/property/visibility/scalar/visibility",
+                "@type": [
+                  "http://raml.org/vocabularies/shapes#ScalarShape",
+                  "http://www.w3.org/ns/shacl#Shape",
+                  "http://raml.org/vocabularies/shapes#Shape",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/shacl#datatype": [
+                  {
+                    "@id": "http://www.w3.org/2001/XMLSchema#string"
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#name": [
+                  {
+                    "@value": "visibility"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "The visibility of this property."
+                  }
+                ]
+              }
+            ],
+            "http://www.w3.org/ns/shacl#minCount": [
+              {
+                "@value": 1
+              }
+            ],
+            "http://www.w3.org/ns/shacl#name": [
+              {
+                "@value": "visibility"
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/declarations/Property/property/value",
+            "@type": [
+              "http://www.w3.org/ns/shacl#PropertyShape",
+              "http://www.w3.org/ns/shacl#Shape",
+              "http://raml.org/vocabularies/shapes#Shape"
+            ],
+            "http://www.w3.org/ns/shacl#path": [
+              {
+                "@id": "http://raml.org/vocabularies/data#value"
+              }
+            ],
+            "http://raml.org/vocabularies/shapes#range": [
+              {
+                "@id": "file://demo/api.raml#/declarations/Property/property/value/scalar/value",
+                "@type": [
+                  "http://raml.org/vocabularies/shapes#ScalarShape",
+                  "http://www.w3.org/ns/shacl#Shape",
+                  "http://raml.org/vocabularies/shapes#Shape",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/shacl#datatype": [
+                  {
+                    "@id": "http://www.w3.org/2001/XMLSchema#string"
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#name": [
+                  {
+                    "@value": "value"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "The value of this property."
+                  }
+                ]
+              }
+            ],
+            "http://www.w3.org/ns/shacl#minCount": [
+              {
+                "@value": 1
+              }
+            ],
+            "http://www.w3.org/ns/shacl#name": [
+              {
+                "@value": "value"
+              }
+            ]
+          }
+        ],
+        "http://www.w3.org/ns/shacl#name": [
+          {
+            "@value": "Property"
+          }
+        ]
+      },
+      {
+        "@id": "file://demo/api.raml#/declarations/ImportFormat",
+        "@type": [
+          "http://www.w3.org/ns/shacl#NodeShape",
+          "http://www.w3.org/ns/shacl#Shape",
+          "http://raml.org/vocabularies/shapes#Shape",
+          "http://raml.org/vocabularies/document#DomainElement"
+        ],
+        "http://www.w3.org/ns/shacl#closed": [
+          {
+            "@value": false
+          }
+        ],
+        "http://www.w3.org/ns/shacl#property": [
+          {
+            "@id": "file://demo/api.raml#/declarations/ImportFormat/property/source",
+            "@type": [
+              "http://www.w3.org/ns/shacl#PropertyShape",
+              "http://www.w3.org/ns/shacl#Shape",
+              "http://raml.org/vocabularies/shapes#Shape"
+            ],
+            "http://www.w3.org/ns/shacl#path": [
+              {
+                "@id": "http://raml.org/vocabularies/data#source"
+              }
+            ],
+            "http://raml.org/vocabularies/shapes#range": [
+              {
+                "@id": "file://demo/api.raml#/declarations/ImportFormat/property/source/scalar/source",
+                "@type": [
+                  "http://raml.org/vocabularies/shapes#ScalarShape",
+                  "http://www.w3.org/ns/shacl#Shape",
+                  "http://raml.org/vocabularies/shapes#Shape",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/shacl#datatype": [
+                  {
+                    "@id": "http://www.w3.org/2001/XMLSchema#string"
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#name": [
+                  {
+                    "@value": "source"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "The imported file's content type to convert from."
+                  }
+                ]
+              }
+            ],
+            "http://www.w3.org/ns/shacl#minCount": [
+              {
+                "@value": 1
+              }
+            ],
+            "http://www.w3.org/ns/shacl#name": [
+              {
+                "@value": "source"
+              }
+            ]
+          },
+          {
+            "@id": "file://demo/api.raml#/declarations/ImportFormat/property/targets",
+            "@type": [
+              "http://www.w3.org/ns/shacl#PropertyShape",
+              "http://www.w3.org/ns/shacl#Shape",
+              "http://raml.org/vocabularies/shapes#Shape"
+            ],
+            "http://www.w3.org/ns/shacl#path": [
+              {
+                "@id": "http://raml.org/vocabularies/data#targets"
+              }
+            ],
+            "http://raml.org/vocabularies/shapes#range": [
+              {
+                "@id": "file://demo/api.raml#/declarations/ImportFormat/property/targets/array/targets",
+                "@type": [
+                  "http://raml.org/vocabularies/shapes#ArrayShape",
+                  "http://www.w3.org/ns/shacl#Shape",
+                  "http://raml.org/vocabularies/shapes#Shape",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/shacl#name": [
+                  {
+                    "@value": "targets"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "The possible content types to convert to."
+                  }
+                ],
+                "http://raml.org/vocabularies/shapes#inherits": [
+                  {
+                    "@id": "file://demo/api.raml#/declarations/ImportFormat/property/targets/array/targets/array/null",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ArrayShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://raml.org/vocabularies/shapes#items": [
+                      {
+                        "@id": "file://demo/api.raml#/declarations/ImportFormat/property/targets/array/targets/array/null/scalar/null",
+                        "@type": [
+                          "http://raml.org/vocabularies/shapes#ScalarShape",
+                          "http://www.w3.org/ns/shacl#Shape",
+                          "http://raml.org/vocabularies/shapes#Shape",
+                          "http://raml.org/vocabularies/document#DomainElement"
+                        ],
+                        "http://www.w3.org/ns/shacl#datatype": [
+                          {
+                            "@id": "http://www.w3.org/2001/XMLSchema#string"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "http://www.w3.org/ns/shacl#minCount": [
+              {
+                "@value": 1
+              }
+            ],
+            "http://www.w3.org/ns/shacl#name": [
+              {
+                "@value": "targets"
+              }
+            ]
+          }
+        ],
+        "http://www.w3.org/ns/shacl#name": [
+          {
+            "@value": "ImportFormat"
+          }
+        ]
+      },
+      {
+        "@id": "file://demo/api.raml#/declarations/basic",
+        "@type": [
+          "http://raml.org/vocabularies/security#SecurityScheme",
+          "http://raml.org/vocabularies/document#DomainElement"
+        ],
+        "http://raml.org/vocabularies/security#name": [
+          {
+            "@value": "basic"
+          }
+        ],
+        "http://raml.org/vocabularies/security#type": [
+          {
+            "@value": "Basic Authentication"
+          }
+        ],
+        "http://schema.org/description": [
+          {
+            "@value": "Test basic auth method\n"
+          }
+        ]
+      },
+      {
+        "@id": "file://demo/api.raml#/declarations/other",
+        "@type": [
+          "http://raml.org/vocabularies/security#SecurityScheme",
+          "http://raml.org/vocabularies/document#DomainElement"
+        ],
+        "http://raml.org/vocabularies/security#name": [
+          {
+            "@value": "other"
+          }
+        ],
+        "http://raml.org/vocabularies/security#type": [
+          {
+            "@value": "Digest Authentication"
+          }
+        ],
+        "http://schema.org/displayName": [
+          {
+            "@value": "Digest"
+          }
+        ]
+      }
+    ]
+  }
+]

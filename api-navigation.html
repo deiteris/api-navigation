@@ -1,0 +1,728 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../polymer/lib/elements/dom-if.html">
+<link rel="import" href="../polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="../polymer/lib/utils/render-status.html">
+<link rel="import" href="../raml-aware/raml-aware.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../arc-icons/arc-icons.html">
+<link rel="import" href="../iron-collapse/iron-collapse.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<script src="amf-helper.js"></script>
+
+<dom-module id="api-navigation">
+  <template>
+    <style>
+    :host {
+      display: block;
+      background-color: inherit;
+      color: inherit;
+      overflow: auto;
+      position: relative;
+      @apply --arc-font-body1;
+      @apply --api-navigation;
+    }
+
+    h3,
+    .list-item.summary {
+      @apply --arc-font-common-base;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 24px;
+      color: var(--api-navigation-header-color, rgba(0, 0, 0, 0.84));
+      @apply --layout-flex;
+    }
+
+    .list-item.summary {
+      padding: 12px 16px;
+    }
+
+    *[hidden] {
+      display: none !important;
+    }
+
+    .children {
+      background-color: inherit;
+    }
+
+    .section-title {
+      @apply --layout-horizontal;
+      @apply --layout-center;
+      cursor: pointer;
+      padding: 0 16px;
+      background-color: var(--api-navigation-section-title-background-color, inherit);
+      user-select: none;
+    }
+
+    .list-item {
+      display: block;
+      position: relative;
+      min-height: var(--api-navigation-list-item-min-height, 48px);
+      padding: 0px 16px;
+      border:none;
+      outline: none;
+      background-color: inherit;
+      width: 100%;
+      text-align: left;
+      box-sizing: border-box;
+      cursor: pointer;
+      word-break: break-all;
+      color: var(--api-navigation-list-item-color, #616161);
+      @apply --layout-horizontal;
+      @apply --layout-center;
+      @apply --api-navigation-list-item;
+    }
+
+    .list-item.endpoint {
+      font-weight: 500;
+    }
+
+    .list-item.iron-selected {
+      font-weight: var(--api-navigation-list-item-selected-weight, bold);
+      background-color: var(--api-navigation-list-item-selected-background-color, var(--accent-color));
+      color: var(--api-navigation-list-item-selected-color, #fff);
+      @apply --api-navigation-list-item-selected;
+    }
+
+    .list-item[disabled] {
+      color: var(--api-navigation-list-item-disabled-color, var(--disabled-text-color));
+      @apply --api-navigation-list-item-disabled;
+    }
+
+    .list-item:focus {
+      position: relative;
+      outline: 0;
+      @apply --api-navigation-list-item-focused;
+    }
+
+    .list-item:focus:before {
+      @apply --layout-fit;
+      background: currentColor;
+      content: '';
+      opacity: var(--dark-divider-opacity);
+      pointer-events: none;
+      @apply --api-navigation-list-item-focused-before;
+    }
+
+    .list-item:hover:not(.iron-selected) {
+      @apply --api-navigation-list-item-hovered;
+    }
+
+    .toggle-button {
+      color: var(--api-navigation-toggle-icon-color, rgba(0, 0, 0, 0.74));
+      transform: rotateZ(0deg);
+      transition: color 0.25s ease-in-out, transform 0.3s ease-in-out;
+    }
+
+    .toggle-button:hover {
+      color: var(--api-navigation-toggle-icon-hover-color, var(--secondary-button-color, rgba(0, 0, 0, 0.88)));
+    }
+
+    [data-opened] .toggle-button {
+      transform: rotateZ(-180deg);
+    }
+
+    .method-label {
+      display: inline-block;
+      margin-right: 8px;
+      text-transform: uppercase;
+    }
+
+    .method-label[data-method="get"] {
+      color: var(--method-display-get-color, rgb(0, 128, 0));
+    }
+
+    .method-label[data-method="post"] {
+      color: var(--method-display-post-color, rgb(33, 150, 243));
+    }
+
+    .method-label[data-method="delete"] {
+      color: var(--method-display-delete-color, rgb(244, 67, 54));
+    }
+
+    .method-label[data-method="put"] {
+      color: var(--method-display-put-color, rgb(255, 165, 0));
+    }
+
+    .method-label[data-method="patch"] {
+      color: var(--method-display-patch-color, rgb(156, 39, 176));
+    }
+
+    .list-item.iron-selected .method-label[data-method] {
+      color: var(--method-display-selected-color, #fff);
+    }
+    </style>
+    <template is="dom-if" if="[[aware]]">
+      <raml-aware raml="{{amfModel}}" scope="[[aware]]"></raml-aware>
+    </template>
+    <template is="dom-if" if="[[summary]]">
+      <section class="summary">
+        <div class="list-item summary" role="option" tabindex="0" data-api-id="summary" data-shape="summary">API summary</div>
+      </section>
+    </template>
+    <template is="dom-if" if="[[hasDocs]]">
+      <section class="documentation" data-opened$="[[docsOpened]]">
+        <div class="section-title" data-section="docs">
+          <h3>Documentation</h3>
+          <paper-icon-button class="toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
+        </div>
+        <iron-collapse opened="[[docsOpened]]">
+          <div class="children">
+            <template is="dom-repeat" items="[[docs]]" filter="_labelFilter" observe="label" data-query>
+              <div class="list-item" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="documentation">[[item.label]]</div>
+            </template>
+          </div>
+        </iron-collapse>
+      </section>
+    </template>
+    <template is="dom-if" if="[[hasTypes]]">
+      <section class="types" data-opened$="[[typesOpened]]">
+        <div class="section-title" data-section="types">
+          <h3>Types</h3>
+          <paper-icon-button class="toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
+        </div>
+        <iron-collapse opened="[[typesOpened]]">
+          <div class="children">
+            <template is="dom-repeat" items="[[types]]" filter="_labelFilter" observe="label" data-query>
+              <div class="list-item" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="type">[[item.label]]</div>
+            </template>
+          </div>
+        </iron-collapse>
+      </section>
+    </template>
+    <template is="dom-if" if="[[hasSecurity]]">
+      <section class="security" data-opened$="[[securityOpened]]">
+        <div class="section-title" data-section="security">
+          <h3>Security</h3>
+          <paper-icon-button class="toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
+        </div>
+        <iron-collapse opened="[[securityOpened]]">
+          <div class="children">
+            <template is="dom-repeat" items="[[security]]" filter="_labelFilter" observe="label" data-query>
+              <div class="list-item" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="security">[[item.label]]</div>
+            </template>
+          </div>
+        </iron-collapse>
+      </section>
+    </template>
+    <template is="dom-if" if="[[hasEndpoints]]">
+      <section class="endpoints" data-opened$="[[endpointsOpened]]">
+        <div class="section-title" data-section="endpoints">
+          <h3>API endpoints</h3>
+          <paper-icon-button class="toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
+        </div>
+        <iron-collapse opened="[[endpointsOpened]]">
+          <div class="children">
+            <template is="dom-repeat" items="[[endpoints]]">
+              <div class="list-item endpoint" hidden$="[[hidden]]" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="endpoints">[[item.label]]</div>
+              <template is="dom-repeat" items="[[item.methods]]" filter="_methodFilter" observe="method label" data-query on-rendered-item-count-changed="_methodsCountChanged">
+                <div class="list-item" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="method">
+                  <span class="method-label" data-method$="[[item.method]]">[[item.method]]</span>
+                  [[item.label]]
+                </div>
+              </template>
+            </template>
+          </div>
+        </iron-collapse>
+      </section>
+    </template>
+  </template>
+  <script>
+    /**
+     * `api-navigation`
+     * A navigation for an API spec using AMF model.
+     *
+     * This element is to replace deprecated `raml-path-selector`.
+     * It is lightweight and much less complex in comparision.
+     *
+     * The element works with [AMF](https://github.com/mulesoft/amf)
+     * json/ld model. When the model is set it computes list of documentation
+     * nodes, types, endpoints, mathods and security schemas.
+     * As a result user can select any of the items in the UI and the application
+     * is informed about user choice via custom event.
+     *
+     * The selection is a selected API shape `@id`. The application is responsible
+     * for computing the model selected by the user.
+     *
+     * AMF model can be passed directly by setting `amfModel` property or by
+     * setting `aware` property and by use `raml-aware` element. It allows
+     * to communicate AMF data without having access to the element due to
+     * shadow DOM restrictions.
+     *
+     * ```html
+     * <raml-aware scope="api-console"></raml-aware>
+     * <api-navigation aware="api-console"></api-navigation>
+     * ```
+     *
+     * Once the `raml-aware` element receives some that they are instantly
+     * transfered to `api-navigation`.
+     *
+     * ## Styling
+     *
+     * Custom property | Description | Default
+     * ----------------|-------------|----------
+     * `--api-navigation` | Mixin applied to this element | `{}`
+     * `--arc-font-common-base` | Mixin applied to section headers. Theme mixin | `{}`
+     * `--arc-font-font1` | Mixin applied to the element. Theme mixin | `{}`
+     * `--api-navigation-header-color` | Color of section title | `rgba(0, 0, 0, 0.84)`
+     * `--api-navigation-section-title-background-color` | Background color of the section title | `inherit`
+     * `--api-navigation-list-item-min-height` | Minimum heigtht of menu items | `48px`
+     * `--api-navigation-list-item-color` | Color of the menu items | `#616161`
+     * `--api-navigation-list-item` | Mixin applied to the menu items | `{}`
+     * `--api-navigation-list-item-selected-weight` | Font weight of selected menu item | `bold`
+     * `--api-navigation-list-item-selected-background-color` | Background color of selected menu item | `--accent-color`
+     * `--api-navigation-list-item-selected-color` | Color of selected menu item | `#fff`
+     * `--api-navigation-list-item-selected` | Mixin applied to the selected item | `{}`
+     * `--api-navigation-list-item-disabled-color` | Color of disabled menu item. Currently not in use. | `--disabled-text-color`
+     * `--api-navigation-list-item-disabled` | Mixin applied to disabled menu item. Currently not in use. | `{}`
+     * `--api-navigation-list-item-focused` |  Mixin applied to focused menu item. | `{}`
+     * `--api-navigation-list-item-focused-before` | Mixin applied to the `:before` pseudo-element of focused item | `{}`
+     * `--api-navigation-list-item-hovered` | Mixin applied to menu item when hovering and not focused. Note, you should not rely of hover states | `{}`
+     * `--api-navigation-toggle-icon-color` | Color of the toggle button next to section title | `rgba(0, 0, 0, 0.74)`
+     * `--api-navigation-toggle-icon-hover-color` | Color of the toggle button next to section title when hovering. | `--secondary-button-color` or `rgba(0, 0, 0, 0.88)`
+     * `--method-display-get-color` | Font color of the GET method label box | `rgb(0, 128, 0)`
+     * `--method-display-post-color` | Font color of the POST method label box | `rgb(33, 150, 243)`
+     * `--method-display-put-color` | Font color of the PUT method label box | `rgb(255, 165, 0)`
+     * `--method-display-delete-color` | Font color of the DELETE method label box | `rgb(244, 67, 54)`
+     * `--method-display-patch-color` | Font color of the PATCH method label box | `rgb(156, 39, 176)`
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     * @memberof ApiElements
+     */
+    class ApiNavigation extends Polymer.Element {
+      static get is() { return 'api-navigation'; }
+      static get properties() {
+        return {
+          /**
+           * `raml-aware` scope property to use.
+           */
+          aware: String,
+          /**
+           * Generated AMF json/ld model form the API spec.
+           * The element assumes the object of the first array item to be a
+           * type of `"http://raml.org/vocabularies/document#Document`
+           * on AMF vocabulary.
+           *
+           * @type {Object|Array}
+           */
+          amfModel: Object,
+
+          _helper: {
+            type: Object,
+            computed: '_computeHelper(amfModel)',
+            readOnly: true,
+            observer: '_helperReady'
+          },
+          /**
+           * A model `@id` of selected documentation part.
+           * Special case is for `summary` view. It's not part of an API
+           * but most applications has some kins of summary view for the
+           * API.
+           */
+          selected: {
+            type: String,
+            notify: true,
+            observer: '_selectedChangd'
+          },
+          /**
+           * Type of the selected item.
+           * One of `documentation`, `type`, `security`, `endpoint`, `method`
+           * or `summary`.
+           *
+           * This property is set after `selected` property.
+           */
+          selectedType: {
+            type: String,
+            notify: true
+          },
+          /**
+           * If set it renders `API summary` menu option.
+           * It will allow to set `selected` and `selectedType` to `summary`
+           * when this option is set.
+           */
+          summary: Boolean,
+          /**
+           * Computed list of documentatoin items in the API.
+           *
+           * @type {Array<Object>}
+           */
+          docs: {
+            type: Array,
+            readOnly: true
+          },
+          /**
+           * Computed value, true when `docs` property is set with values
+           *
+           * @type {Object}
+           */
+          hasDocs: {
+            type: Boolean,
+            readOnly: true,
+            computed: '_computeModelHasValues(docs)'
+          },
+          /**
+           * Determines and changes state of documentation panel.
+           */
+          docsOpened: Boolean,
+          /**
+           * Computed list of "type" items in the API.
+           *
+           * @type {Array<Object>}
+           */
+          types: {
+            type: Array,
+            readOnly: true
+          },
+          /**
+           * Computed value, true when `types` property is set with values
+           *
+           * @type {Object}
+           */
+          hasTypes: {
+            type: Boolean,
+            readOnly: true,
+            computed: '_computeModelHasValues(types)'
+          },
+          /**
+           * Determines and changes state of types panel.
+           */
+          typesOpened: Boolean,
+          /**
+           * Computed list of Security schemes items in the API.
+           *
+           * @type {Array<Object>}
+           */
+          security: {
+            type: Array,
+            readOnly: true
+          },
+          /**
+           * Computed value, true when `security` property is set with values
+           *
+           * @type {Object}
+           */
+          hasSecurity: {
+            type: Boolean,
+            readOnly: true,
+            computed: '_computeModelHasValues(security)'
+          },
+          /**
+           * Determines and changes state of security panel.
+           */
+          securityOpened: Boolean,
+          /**
+           * Computed list of endpoint items in the API.
+           *
+           * @type {Array<Object>}
+           */
+          endpoints: {
+            type: Array,
+            readOnly: true
+          },
+          /**
+           * Computed value, true when `endpoints` property is set with values
+           *
+           * @type {Object}
+           */
+          hasEndpoints: {
+            type: Boolean,
+            readOnly: true,
+            computed: '_computeModelHasValues(endpoints)'
+          },
+          /**
+           * Determines and changes state of endpoints panel.
+           */
+          endpointsOpened: Boolean,
+          /**
+           * If true, the element will not produce a ripple effect when interacted with via the pointer.
+           */
+          noink: Boolean,
+          /**
+           * Filters list elements by this value when set.
+           * Clear the value to reset the search.
+           *
+           * This is not currently exposed in element's UI due
+           * to complexity of search and performance.
+           */
+          query: {
+            type: String,
+            observer: '_queryChanged'
+          }
+        };
+      }
+
+      static get observers() {
+        return [
+          '_selectionChnaged(selected, selectedType)'
+        ];
+      }
+      /**
+       * @constructor
+       */
+      constructor() {
+        super();
+        this._clickHandler = this._clickHandler.bind(this);
+      }
+      /**
+       * Ensures aria role atribute is in place.
+       * Attaches element's listeners.
+       */
+      connectedCallback() {
+        super.connectedCallback();
+        if (!this.getAttribute('role')) {
+          this.setAttribute('role', 'navigation');
+        }
+        Polymer.RenderStatus.afterNextRender(this, () => {
+          this.addEventListener('click', this._clickHandler);
+        });
+      }
+      /**
+       * Removes click event listener when removed from DOM.
+       */
+      disconnectedCallback() {
+        super.disconnectedCallback();
+        this.removeEventListener('click', this._clickHandler);
+      }
+
+      /**
+       * Creates instance of `ApiNavigationAmfHelper` with new model.
+       *
+       * @param {Object|Array} model AMF model
+       * @return {ApiNavigationAmfHelper} Helper instance.
+       */
+      _computeHelper(model) {
+        /* global ApiNavigationAmfHelper */
+        if (model) {
+          return new ApiNavigationAmfHelper(model);
+        }
+      }
+      /**
+       * Called when helper instance has been created.
+       * It collects information about `documentation`, `types`, `security schemes`
+       * and `endpoints`. This is set to corresponding properties
+       * and eventually rendered by the navigation view element.
+       *
+       * @param {ApiNavigationAmfHelper} helper Instance of ApiNavigationAmfHelper
+       * with model loaded.
+       */
+      _helperReady(helper) {
+        if (!helper) {
+          return;
+        }
+        const data = helper.collect();
+        this._setDocs(data.documentation);
+        this._setTypes(data.types);
+        this._setSecurity(data.securitySchemes);
+        this._setEndpoints(data.endpoints);
+        Polymer.RenderStatus.afterNextRender(this, () => {
+          this._selectedChangd(this.selected);
+        });
+      }
+      /**
+       * Checks if passed argument is set and has values.
+       *
+       * @param {Array<any>} items
+       * @return {Boolean}
+       */
+      _computeModelHasValues(items) {
+        return !!(items && items.length);
+      }
+      /**
+       * Click handler for the element.
+       * It either toggles panel visibility or selects an item.
+       *
+       * @param {ClickEvent} e
+       */
+      _clickHandler(e) {
+        const path = e.composedPath();
+        let target = path[0];
+        if (target.classList) {
+          if (target.classList.contains('method-label')) {
+            path.shift();
+            target = path.shift();
+          }
+          if (target.classList.contains('list-item')) {
+            this._selectItem(target);
+            return;
+          }
+        }
+        let node;
+        while (true) {
+          node = path.shift();
+          if (!node) {
+            console.warn('Section target not found in the path.');
+            return;
+          }
+          if (node.dataset && node.dataset.section) {
+            break;
+          }
+        }
+        const section = node.dataset.section;
+        const openedKey = section + 'Opened';
+        this[openedKey] = !this[openedKey];
+      }
+      /**
+       * Selectes new item in the menu.
+       *
+       * @param {Node} node
+       */
+      _selectItem(node) {
+        const id = node.dataset.apiId;
+        if (id === this.selected) {
+          return;
+        }
+        this.selectedType = undefined; // cancels event fireing
+        this.selected = id;
+        this.selectedType = node.dataset.shape; // now fire event
+      }
+      /**
+       * Toggles selection state of a node that has `data-api-id` set to
+       * `id`.
+       *
+       * @param {String} id Selected node id.
+       */
+      _toggleSelection(id) {
+        if (!this.shadowRoot) {
+          return;
+        }
+        const selector = `[data-api-id="${id}"]`;
+        const node = this.shadowRoot.querySelector(selector);
+        if (!node) {
+          return;
+        }
+        node.classList.toggle('iron-selected');
+      }
+      /**
+       * Updates the state of selected element when `selected` changes.
+       *
+       * @param {String} current New selection
+       * @param {String} previous Old selection
+       */
+      _selectedChangd(current, previous) {
+        if (previous) {
+          this._toggleSelection(previous);
+        }
+        if (current) {
+          this._toggleSelection(current);
+        }
+      }
+      /**
+       * Label check agains `query` function called by `dom-repeat` element.
+       * This method uses `__effectiveQuery` property set by `_flushQuery()`
+       * method.
+       *
+       * @param {Object} item Model item with `lable` property.
+       * @return {Boolean}
+       */
+      _labelFilter(item) {
+        if (!this.__effectiveQuery) {
+          return true;
+        }
+        return item.label.indexOf(this.__effectiveQuery) !== -1;
+      }
+      /**
+       * Label and method check agains `query` function called by `dom-repeat`
+       * element. This method uses `__effectiveQuery` property set by
+       * `_flushQuery()` method.
+       *
+       * @param {Object} item Model item with `lable` property.
+       * @return {Boolean}
+       */
+      _methodFilter(item) {
+        if (!this.__effectiveQuery) {
+          return true;
+        }
+        return item.label.toLowerCase().indexOf(this.__effectiveQuery) !== -1 ||
+          item.method.indexOf(this.__effectiveQuery) !== -1;
+      }
+      /**
+       * When `query` property change it runs the filter function
+       * in a debouncer set for ~50 ms.
+       */
+      _queryChanged() {
+        if (this.__queryDebouncer) {
+          return;
+        }
+        this.__queryDebouncer = true;
+        setTimeout(() => {
+          this._flushQuery();
+          this.__queryDebouncer = false;
+        }, 50);
+      }
+      /**
+       * Calles `render()` function on each data repeater that have filterable
+       * items.
+       * It set's `__effectiveQuery` property on the element that is beyond
+       * Polymer's data binding system so it skips 2 function calls each time
+       * it is read. In a repeater filter function that can be a lot.
+       *
+       * Also the `__effectiveQuery` is transformed to perform text search.
+       */
+      _flushQuery() {
+        let q = this.query;
+        if (q) {
+          q = q.toLowerCase();
+        }
+        this.__effectiveQuery = q;
+        const repeaters = this.shadowRoot.querySelectorAll('dom-repeat[data-query]');
+        for (let i = 0, len = repeaters.length; i < len; i++) {
+          repeaters[i].render();
+        }
+      }
+      /**
+       * Hides the parent model when number of children is 0 or shows it
+       * otherwise.
+       *
+       * @param {CustomEvent} e
+       */
+      _methodsCountChanged(e) {
+        const state = e.model.get('hidden');
+        if (e.detail.value === 0) {
+          if (!state) {
+            e.model.set('hidden', true);
+          }
+        } else {
+          if (state) {
+            e.model.set('hidden', false);
+          }
+        }
+      }
+      /**
+       * Dispatches `api-navigation-selection-changed` event on selection change.
+       *
+       * @param {String} selected Selected id
+       * @param {String} selectedType Type of AMF shape
+       */
+      _selectionChnaged(selected, selectedType) {
+        if (!selectedType) {
+          return;
+        }
+        const e = new CustomEvent('api-navigation-selection-changed', {
+          bubbles: true,
+          composed: true,
+          detail: {
+            selected: selected,
+            type: selectedType
+          }
+        });
+        this.dispatchEvent(e);
+      }
+
+      /**
+       * Dispatched when navigation occurrs.
+       * It ensures that `type` property is always set when selection changes
+       * (selection type changes later than the selection but within the same
+       * microtask).
+       *
+       * @event api-navigation-selection-changed
+       * @param {String} selected `@id` of selected AMF shape
+       * @param {String} type The type of selected shape. It can be one of
+       * `documentation`, `type`, `security`, `endpoint`, `method` or `summary`.
+       * Summary is a special case not included in AMF model but means that the
+       * user requested API summary view (start screen).
+       */
+    }
+    window.customElements.define(ApiNavigation.is, ApiNavigation);
+  </script>
+</dom-module>

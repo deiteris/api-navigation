@@ -1,0 +1,32 @@
+{
+  "name": "@api-components/api-navigation",
+  "description": "An element to display the response body",
+  "version": "2.0.0-preview",
+  "license": "Apache-2.0",
+  "authors": [
+    "Pawel Psztyc",
+    "The Advanced REST client authors <arc@mulesoft.com>"
+  ],
+  "devDependencies": {
+    "@polymer/gen-typescript-declarations": "^1.1.1",
+    "amf-client-js": "^1.4.0-0",
+    "bower": "^1.8.0",
+    "fs-extra": "^5.0.0"
+  },
+  "private": false,
+  "main": "api-navigation.html",
+  "scripts": {
+    "lint": "polymer lint api-navigation.html",
+    "test-sauce": "polymer test --plugin sauce --job-name \"api-navigation:local-test\"",
+    "test": "polymer test --plugin local",
+    "update-types": "gen-typescript-declarations --deleteExisting --outDir ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/advanced-rest-client/api-navigation.git"
+  },
+  "bugs": {
+    "url": "https://github.com/advanced-rest-client/api-navigation/issues",
+    "email": "arc@mulesoft.com"
+  }
+}
