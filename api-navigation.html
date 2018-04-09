@@ -37,9 +37,9 @@
     }
 
     .list-item.endpoint {
-      font-weight: 700;
-      margin-top: 20px;
+      font-weight: 500;
       font-size: 15px;
+      user-select: none;
     }
 
     .list-item.endpoint:first-of-type {
@@ -219,13 +219,15 @@
         <iron-collapse opened="[[endpointsOpened]]">
           <div class="children">
             <template is="dom-repeat" items="[[endpoints]]">
-              <div class="list-item endpoint" hidden$="[[hidden]]" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="endpoints">[[item.label]]</div>
-              <template is="dom-repeat" items="[[item.methods]]" filter="_methodFilter" observe="method label" data-query on-rendered-item-count-changed="_methodsCountChanged">
-                <div class="list-item" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="method">
-                  <span class="method-label" data-method$="[[item.method]]">[[item.method]]</span>
-                  [[item.label]]
-                </div>
-              </template>
+              <div class="list-item endpoint" hidden$="[[hidden]]" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="endpoint">[[item.label]]</div>
+              <iron-collapse class="operation-collapse" data-api-id$="[[item.id]]">
+                <template is="dom-repeat" items="[[item.methods]]" filter="_methodFilter" observe="method label" data-query on-rendered-item-count-changed="_methodsCountChanged">
+                  <div class="list-item" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="method">
+                    <span class="method-label" data-method$="[[item.method]]">[[item.method]]</span>
+                    [[item.label]]
+                  </div>
+                </template>
+              </iron-collapse>
             </template>
           </div>
         </iron-collapse>
@@ -575,12 +577,16 @@
        */
       _selectItem(node) {
         const id = node.dataset.apiId;
+        const shape = node.dataset.shape;
+        if (shape === 'endpoint') {
+          this.toggleOperations(id);
+        }
         if (id === this.selected) {
           return;
         }
         this.selectedType = undefined; // cancels event fireing
         this.selected = id;
-        this.selectedType = node.dataset.shape; // now fire event
+        this.selectedType = shape; // now fire event
       }
       /**
        * Toggles selection state of a node that has `data-api-id` set to
@@ -598,6 +604,20 @@
           return;
         }
         node.classList.toggle('iron-selected');
+      }
+      /**
+       * Toggles endpoint operations list.
+       *
+       * @param {String} id ID of the endpoint.
+       */
+      toggleOperations(id) {
+        let selector = `.operation-collapse[data-api-id="${id}"]`;
+        let collapse = this.shadowRoot.querySelector(selector);
+        if (!collapse) {
+          console.warn('Expected collapse for ', id);
+          return;
+        }
+        collapse.opened = !collapse.opened;
       }
       /**
        * Updates the state of selected element when `selected` changes.
