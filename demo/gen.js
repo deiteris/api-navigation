@@ -11,8 +11,8 @@ amf.Core.init().then(() => {
   const jsonLdParser = amf.Core.generator('AMF Graph', 'application/ld+json');
   ramlParser.parseFileAsync(`file://${dataPath}`)
   .then((doc) => {
-    // const r = amf.Core.resolver('RAML 1.0');
-    // doc = r.resolve(doc);
+    const r = amf.Core.resolver('RAML 1.0');
+    doc = r.resolve(doc, 'editing');
     return jsonLdParser.generateString(doc);
   })
   .then((data) => fs.writeFile(`./demo/amf-model.json`, data, 'utf8'))

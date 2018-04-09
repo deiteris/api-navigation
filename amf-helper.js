@@ -108,7 +108,7 @@
       if (!model || !model.length) {
         return;
       }
-      model.forEach((item) => this._appednModelItem(item, target));
+      model.forEach((item) => this._appendModelItem(item, target));
     }
     /**
      * Traverses the `http://raml.org/vocabularies/document#encodes`
@@ -128,11 +128,11 @@
       }
       const endpoint = data[RAML_HTTP + 'endpoint'];
       if (endpoint) {
-        endpoint.forEach((item) => this._appednModelItem(item, target));
+        endpoint.forEach((item) => this._appendModelItem(item, target));
       }
       const documentation = data[SCHEMA_ORG + 'documentation'];
       if (documentation) {
-        documentation.forEach((item) => this._appednModelItem(item, target));
+        documentation.forEach((item) => this._appendModelItem(item, target));
       }
     }
     /**
@@ -142,8 +142,8 @@
      * @param {Object} item
      * @param {Object} target
      */
-    _appednModelItem(item, target) {
-      if (this.hasType(item, SHACL + 'NodeShape')) {
+    _appendModelItem(item, target) {
+      if (this.hasType(item, SHACL + 'Shape')) {
         this._appendTypeItem(item, target);
       } else if (this.hasType(item, RAML_SEC + 'SecurityScheme')) {
         this._appendSecurityItem(item, target);

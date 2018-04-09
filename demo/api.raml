@@ -67,6 +67,11 @@ types:
         description: The possible content types to convert to.
         type: string[]
         required: true
+  Unionable:
+    type: ImportFormat | Picture
+  Arrable:
+    type: array
+    items: Picture
 /files:
   displayName: Files
   post:
