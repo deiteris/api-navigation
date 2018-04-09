@@ -58,6 +58,8 @@
         <raml-aware raml="{{amfModel}}" scope="api-demo"></raml-aware>
         <section role="main" class="vertical-section-container centered main">
           <div role="region" class="box" aria-labelledby="regular">
+            <p>Latest selected object: [[latestSelected]]</p>
+            <p>Latest selected type: [[latestType]]</p>
             <h2 id="regular">Regular navigation</h2>
             <api-navigation summary aware="api-demo" selected="file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcopy"></api-navigation>
           </div>
@@ -77,7 +79,12 @@
           app.amfModel = data;
         });
       };
+      app._navChanged = function(e) {
+        app.latestSelected = e.detail.selected;
+        app.latestType = e.detail.type;
+      };
       window.addEventListener('WebComponentsReady', () => app._load());
+      window.addEventListener('api-navigation-selection-changed', app._navChanged);
     })(document.getElementById('demo'));
     </script>
   </body>
