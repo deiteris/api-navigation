@@ -219,7 +219,7 @@
         <iron-collapse opened="[[endpointsOpened]]">
           <div class="children">
             <template is="dom-repeat" items="[[endpoints]]">
-              <div class="list-item endpoint" hidden$="[[hidden]]" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="endpoint">[[item.label]]</div>
+              <div class="list-item endpoint" hidden$="[[item.hidden]]" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="endpoint">[[item.label]]</div>
               <iron-collapse class="operation-collapse" data-api-id$="[[item.id]]">
                 <template is="dom-repeat" items="[[item.methods]]" filter="_methodFilter" observe="method label" data-query on-rendered-item-count-changed="_methodsCountChanged">
                   <div class="list-item" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="method">
@@ -703,14 +703,14 @@
        * @param {CustomEvent} e
        */
       _methodsCountChanged(e) {
-        const state = e.model.get('hidden');
+        const state = e.model.get('item.hidden');
         if (e.detail.value === 0) {
           if (!state) {
-            e.model.set('hidden', true);
+            e.model.set('item.hidden', true);
           }
         } else {
           if (state) {
-            e.model.set('hidden', false);
+            e.model.set('item.hidden', false);
           }
         }
       }
