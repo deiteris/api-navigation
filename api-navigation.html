@@ -131,6 +131,7 @@
       display: inline-block;
       margin-right: 8px;
       text-transform: uppercase;
+      font-weight: var(--method-display-font-weigth, 500);
     }
 
     .method-label[data-method="get"] {
@@ -162,19 +163,19 @@
     </template>
     <template is="dom-if" if="[[summary]]">
       <section class="summary">
-        <div class="list-item summary" role="option" tabindex="0" data-api-id="summary" data-shape="summary">API summary</div>
+        <div class="list-item summary" role="option" tabindex="0" data-api-id="summary" data-shape="summary" on-click="_itemClickHandler">API summary</div>
       </section>
     </template>
     <template is="dom-if" if="[[hasDocs]]">
       <section class="documentation" data-opened$="[[docsOpened]]">
-        <div class="section-title" data-section="docs">
+        <div class="section-title" data-section="docs" on-click="_toggleSection">
           <h3>Documentation</h3>
-          <paper-icon-button class="toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
+          <paper-icon-button class="toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]" on-click="_itemClickHandler"></paper-icon-button>
         </div>
         <iron-collapse opened="[[docsOpened]]">
           <div class="children">
             <template is="dom-repeat" items="[[docs]]" filter="_labelFilter" observe="label" data-query>
-              <div class="list-item" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="documentation">[[item.label]]</div>
+              <div class="list-item" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="documentation" on-click="_itemClickHandler">[[item.label]]</div>
             </template>
           </div>
         </iron-collapse>
@@ -182,14 +183,14 @@
     </template>
     <template is="dom-if" if="[[hasTypes]]">
       <section class="types" data-opened$="[[typesOpened]]">
-        <div class="section-title" data-section="types">
+        <div class="section-title" data-section="types" on-click="_toggleSection">
           <h3>Types</h3>
           <paper-icon-button class="toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
         </div>
         <iron-collapse opened="[[typesOpened]]">
           <div class="children">
             <template is="dom-repeat" items="[[types]]" filter="_labelFilter" observe="label" data-query>
-              <div class="list-item" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="type">[[item.label]]</div>
+              <div class="list-item" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="type" on-click="_itemClickHandler">[[item.label]]</div>
             </template>
           </div>
         </iron-collapse>
@@ -197,14 +198,14 @@
     </template>
     <template is="dom-if" if="[[hasSecurity]]">
       <section class="security" data-opened$="[[securityOpened]]">
-        <div class="section-title" data-section="security">
+        <div class="section-title" data-section="security" on-click="_toggleSection">
           <h3>Security</h3>
           <paper-icon-button class="toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
         </div>
         <iron-collapse opened="[[securityOpened]]">
           <div class="children">
             <template is="dom-repeat" items="[[security]]" filter="_labelFilter" observe="label" data-query>
-              <div class="list-item" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="security">[[item.label]]</div>
+              <div class="list-item" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="security" on-click="_itemClickHandler">[[item.label]]</div>
             </template>
           </div>
         </iron-collapse>
@@ -212,17 +213,17 @@
     </template>
     <template is="dom-if" if="[[hasEndpoints]]">
       <section class="endpoints" data-opened$="[[endpointsOpened]]">
-        <div class="section-title" data-section="endpoints">
+        <div class="section-title" data-section="endpoints" on-click="_toggleSection">
           <h3>API endpoints</h3>
           <paper-icon-button class="toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
         </div>
         <iron-collapse opened="[[endpointsOpened]]">
           <div class="children">
             <template is="dom-repeat" items="[[endpoints]]">
-              <div class="list-item endpoint" hidden$="[[item.hidden]]" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="endpoint">[[item.label]]</div>
+              <div class="list-item endpoint" hidden$="[[item.hidden]]" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="endpoint" on-click="_itemClickHandler">[[item.label]]</div>
               <iron-collapse class="operation-collapse" data-api-id$="[[item.id]]">
                 <template is="dom-repeat" items="[[item.methods]]" filter="_methodFilter" observe="method label" data-query on-rendered-item-count-changed="_methodsCountChanged">
-                  <div class="list-item" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="method">
+                  <div class="list-item" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="method" on-click="_itemClickHandler">
                     <span class="method-label" data-method$="[[item.method]]">[[item.method]]</span>
                     [[item.label]]
                   </div>
@@ -263,6 +264,9 @@
      *
      * Once the `raml-aware` element receives some that they are instantly
      * transfered to `api-navigation`.
+     *
+     * Note, this element does not contain polyfills for Array platform features.
+     * Use `arc-polyfills` to add support for IE and Safari 9.
      *
      * ## Styling
      *
@@ -466,13 +470,6 @@
         ];
       }
       /**
-       * @constructor
-       */
-      constructor() {
-        super();
-        this._clickHandler = this._clickHandler.bind(this);
-      }
-      /**
        * Ensures aria role atribute is in place.
        * Attaches element's listeners.
        */
@@ -481,18 +478,7 @@
         if (!this.getAttribute('role')) {
           this.setAttribute('role', 'navigation');
         }
-        Polymer.RenderStatus.afterNextRender(this, () => {
-          this.addEventListener('click', this._clickHandler);
-        });
       }
-      /**
-       * Removes click event listener when removed from DOM.
-       */
-      disconnectedCallback() {
-        super.disconnectedCallback();
-        this.removeEventListener('click', this._clickHandler);
-      }
-
       /**
        * Creates instance of `ApiNavigationAmfHelper` with new model.
        *
@@ -537,29 +523,17 @@
         return !!(items && items.length);
       }
       /**
-       * Click handler for the element.
-       * It either toggles panel visibility or selects an item.
+       * Click handler for section name item.
+       * Toggles the view.
        *
        * @param {ClickEvent} e
        */
-      _clickHandler(e) {
+      _toggleSection(e) {
         const path = e.composedPath();
-        let target = path[0];
-        if (target.classList) {
-          if (target.classList.contains('method-label')) {
-            path.shift();
-            target = path.shift();
-          }
-          if (target.classList.contains('list-item')) {
-            this._selectItem(target);
-            return;
-          }
-        }
         let node;
         while (true) {
           node = path.shift();
           if (!node) {
-            console.warn('Section target not found in the path.');
             return;
           }
           if (node.dataset && node.dataset.section) {
@@ -594,7 +568,7 @@
        *
        * @param {String} id Selected node id.
        */
-      _toggleSelection(id) {
+      _addSelection(id) {
         if (!this.shadowRoot) {
           return;
         }
@@ -603,7 +577,19 @@
         if (!node) {
           return;
         }
-        node.classList.toggle('iron-selected');
+        node.classList.add('iron-selected');
+      }
+      /**
+       * Removes any current selection that may exist.
+       */
+      _clearSelection() {
+        if (!this.shadowRoot) {
+          return;
+        }
+        const nodes = this.shadowRoot.querySelectorAll('.iron-selected');
+        for (let i = 0, len = nodes.length; i < len; i++) {
+          nodes[i].classList.remove('iron-selected');
+        }
       }
       /**
        * Toggles endpoint operations list.
@@ -623,14 +609,11 @@
        * Updates the state of selected element when `selected` changes.
        *
        * @param {String} current New selection
-       * @param {String} previous Old selection
        */
-      _selectedChangd(current, previous) {
-        if (previous) {
-          this._toggleSelection(previous);
-        }
+      _selectedChangd(current) {
+        this._clearSelection();
         if (current) {
-          this._toggleSelection(current);
+          this._addSelection(current);
         }
       }
       /**
@@ -734,7 +717,26 @@
         });
         this.dispatchEvent(e);
       }
-
+      /**
+       * Navigation item click handler.
+       * It used to be common function for all clicks inside the element
+       * but in tests not all events were handled.
+       *
+       * @param {ClickEvent} e
+       */
+      _itemClickHandler(e) {
+        let target;
+        if (e.currentTarget) {
+          target = e.currentTarget;
+        } else {
+          if (e.target.classList.contains('method-label')) {
+            target = e.target.parentNode;
+          } else {
+            target = e.target;
+          }
+        }
+        this._selectItem(target);
+      }
       /**
        * Dispatched when navigation occurrs.
        * It ensures that `type` property is always set when selection changes
