@@ -6,7 +6,6 @@
     <title>api-navigation test</title>
     <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
     <script src="../../web-component-tester/browser.js"></script>
-    <script src="../../iron-test-helpers/mock-interactions.js"></script>
     <link rel="import" href="../api-navigation.html">
   </head>
   <body>
@@ -30,9 +29,7 @@
     </test-fixture>
 
     <script>
-      /* global MockInteractions */
       suite('api-navigation', () => {
-
         suite('Super basics - without model', () => {
           let element;
 
@@ -79,18 +76,15 @@
             assert.ok(panel);
           });
 
-          test('Clicking on summary changes selection', (done) => {
-            flush(() => {
-              const node = element.shadowRoot.querySelector('.list-item.summary');
-              MockInteractions.tap(node);
-              assert.equal(element.selected, 'summary');
-              assert.equal(element.selectedType, 'summary');
-              done();
-            });
+          test('Clicking on summary changes selection', () => {
+            const node = element.shadowRoot.querySelector('.list-item.summary');
+            node.click();
+            assert.equal(element.selected, 'summary');
+            assert.equal(element.selectedType, 'summary');
           });
         });
 
-        suite('Docks', () => {
+        suite('Docs', () => {
           let element;
           let model;
           setup((done) => {
@@ -106,6 +100,10 @@
             flush(() => done());
           });
 
+          test('hasDocs is computed', () => {
+            assert.isTrue(element.hasDocs);
+          });
+
           test('Docs is rendered', () => {
             const panel = element.shadowRoot.querySelector('.documentation');
             assert.ok(panel);
@@ -117,15 +115,140 @@
             assert.ok(panel);
           });
 
-          test('Clicking on summary changes selection', (done) => {
-            flush(() => {
-              const node = element.shadowRoot.querySelectorAll('.documentation .list-item')[1];
-              MockInteractions.tap(node);
-              assert.equal(element.selected, 'test2');
-              assert.equal(element.selectedType, 'documentation');
-              done();
-            });
+          test('Clicking on an item changes selection', () => {
+            const node = element.shadowRoot.querySelectorAll('.documentation .list-item')[1];
+            node.click();
+            assert.equal(element.selected, 'test2');
+            assert.equal(element.selectedType, 'documentation');
           });
+        });
+      });
+
+      suite('Types', () => {
+        let element;
+        let model;
+        setup((done) => {
+          model = [{
+            id: 'test1',
+            label: 'test1'
+          }, {
+            id: 'test2',
+            label: 'test2'
+          }];
+          element = fixture('Preselected');
+          element._setTypes(model);
+          flush(() => done());
+        });
+
+        test('hasTypes is computed', () => {
+          assert.isTrue(element.hasTypes);
+        });
+
+        test('Types panel is rendered', () => {
+          const panel = element.shadowRoot.querySelector('section.types');
+          assert.ok(panel);
+        });
+
+        test('Preselected has a selection', () => {
+          const selector = '.types [data-api-id="test1"]';
+          const panel = element.shadowRoot.querySelector(selector);
+          assert.ok(panel);
+        });
+
+        test('Clicking on an item changes selection', () => {
+          const node = element.shadowRoot.querySelectorAll('.types .list-item')[1];
+          node.click();
+          assert.equal(element.selected, 'test2');
+          assert.equal(element.selectedType, 'type');
+        });
+      });
+
+      suite('Security', () => {
+        let element;
+        let model;
+        setup((done) => {
+          model = [{
+            id: 'test1',
+            label: 'test1'
+          }, {
+            id: 'test2',
+            label: 'test2'
+          }];
+          element = fixture('Preselected');
+          element._setSecurity(model);
+          flush(() => done());
+        });
+
+        test('hasSecurity is computed', () => {
+          assert.isTrue(element.hasSecurity);
+        });
+
+        test('Types panel is rendered', () => {
+          const panel = element.shadowRoot.querySelector('section.security');
+          assert.ok(panel);
+        });
+
+        test('Preselected has a selection', () => {
+          const selector = '.security [data-api-id="test1"]';
+          const panel = element.shadowRoot.querySelector(selector);
+          assert.ok(panel);
+        });
+
+        test('Clicking on an item changes selection', () => {
+          const node = element.shadowRoot.querySelectorAll('.security .list-item')[1];
+          node.click();
+          assert.equal(element.selected, 'test2');
+          assert.equal(element.selectedType, 'security');
+        });
+      });
+
+      suite('Endpoints', () => {
+        let element;
+        let model;
+        setup((done) => {
+          model = [{
+            id: 'test1',
+            label: 'test1',
+            methods: [{
+              id: 'method1',
+              method: 'GET'
+            }]
+          }, {
+            id: 'test2',
+            label: 'test2',
+            methods: [{
+              id: 'method2',
+              method: 'GET'
+            }, {
+              id: 'method3',
+              method: 'POST'
+            }]
+          }];
+          element = fixture('Preselected');
+          element._setEndpoints(model);
+          flush(() => done());
+        });
+
+        test('hasEndpoints is computed', () => {
+          assert.isTrue(element.hasEndpoints);
+        });
+
+        test('Types panel is rendered', () => {
+          const panel = element.shadowRoot.querySelector('section.endpoints');
+          assert.ok(panel);
+        });
+
+        test('Preselected has a selection', () => {
+          const selector = '.endpoints [data-api-id="test1"]';
+          const panel = element.shadowRoot.querySelector(selector);
+          assert.ok(panel);
+        });
+
+        test('Clicking on an item changes selection', () => {
+          const node = element.shadowRoot.querySelectorAll('.endpoints .list-item.endpoint')[1];
+          node.click();
+          assert.equal(element.selected, 'test2');
+          assert.equal(element.selectedType, 'endpoint');
         });
       });
 
