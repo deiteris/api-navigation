@@ -469,6 +469,12 @@
           '_selectionChnaged(selected, selectedType)'
         ];
       }
+
+      constructor() {
+        super();
+        this._navigationChangeHandler = this._navigationChangeHandler.bind(this);
+      }
+
       /**
        * Ensures aria role atribute is in place.
        * Attaches element's listeners.
@@ -478,6 +484,12 @@
         if (!this.getAttribute('role')) {
           this.setAttribute('role', 'navigation');
         }
+        window.addEventListener('api-navigation-selection-changed', this._navigationChangeHandler);
+      }
+
+      disconnectedCallback() {
+        super.disconnectedCallback();
+        window.removeEventListener('api-navigation-selection-changed', this._navigationChangeHandler);
       }
       /**
        * Creates instance of `ApiNavigationAmfHelper` with new model.
@@ -704,7 +716,7 @@
        * @param {String} selectedType Type of AMF shape
        */
       _selectionChnaged(selected, selectedType) {
-        if (!selectedType) {
+        if (!selectedType || this.__cancelNavigationEvent) {
           return;
         }
         const e = new CustomEvent('api-navigation-selection-changed', {
@@ -736,6 +748,22 @@
           }
         }
         this._selectItem(target);
+      }
+      /**
+       * Handler for `api-navigation-selection-changed`. Updates the selection
+       * if dispatched from other element.
+       * @param {CustomEvent} e
+       */
+      _navigationChangeHandler(e) {
+        if (e.composedPath()[0] === this) {
+          return;
+        }
+        if (this.selected !== e.detail.selected) {
+          this.__cancelNavigationEvent = true;
+          this.selected = e.detail.selected;
+          this.selectedType = e.detail.type;
+          this.__cancelNavigationEvent = false;
+        }
       }
       /**
        * Dispatched when navigation occurrs.

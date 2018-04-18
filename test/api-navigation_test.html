@@ -122,133 +122,223 @@
             assert.equal(element.selectedType, 'documentation');
           });
         });
-      });
 
-      suite('Types', () => {
-        let element;
-        let model;
-        setup((done) => {
-          model = [{
-            id: 'test1',
-            label: 'test1'
-          }, {
-            id: 'test2',
-            label: 'test2'
-          }];
-          element = fixture('Preselected');
-          element._setTypes(model);
-          flush(() => done());
-        });
-
-        test('hasTypes is computed', () => {
-          assert.isTrue(element.hasTypes);
-        });
-
-        test('Types panel is rendered', () => {
-          const panel = element.shadowRoot.querySelector('section.types');
-          assert.ok(panel);
-        });
-
-        test('Preselected has a selection', () => {
-          const selector = '.types [data-api-id="test1"]';
-          const panel = element.shadowRoot.querySelector(selector);
-          assert.ok(panel);
-        });
-
-        test('Clicking on an item changes selection', () => {
-          const node = element.shadowRoot.querySelectorAll('.types .list-item')[1];
-          node.click();
-          assert.equal(element.selected, 'test2');
-          assert.equal(element.selectedType, 'type');
-        });
-      });
-
-      suite('Security', () => {
-        let element;
-        let model;
-        setup((done) => {
-          model = [{
-            id: 'test1',
-            label: 'test1'
-          }, {
-            id: 'test2',
-            label: 'test2'
-          }];
-          element = fixture('Preselected');
-          element._setSecurity(model);
-          flush(() => done());
-        });
-
-        test('hasSecurity is computed', () => {
-          assert.isTrue(element.hasSecurity);
-        });
-
-        test('Types panel is rendered', () => {
-          const panel = element.shadowRoot.querySelector('section.security');
-          assert.ok(panel);
-        });
-
-        test('Preselected has a selection', () => {
-          const selector = '.security [data-api-id="test1"]';
-          const panel = element.shadowRoot.querySelector(selector);
-          assert.ok(panel);
-        });
-
-        test('Clicking on an item changes selection', () => {
-          const node = element.shadowRoot.querySelectorAll('.security .list-item')[1];
-          node.click();
-          assert.equal(element.selected, 'test2');
-          assert.equal(element.selectedType, 'security');
-        });
-      });
-
-      suite('Endpoints', () => {
-        let element;
-        let model;
-        setup((done) => {
-          model = [{
-            id: 'test1',
-            label: 'test1',
-            methods: [{
-              id: 'method1',
-              method: 'GET'
-            }]
-          }, {
-            id: 'test2',
-            label: 'test2',
-            methods: [{
-              id: 'method2',
-              method: 'GET'
+        suite('Types', () => {
+          let element;
+          let model;
+          setup((done) => {
+            model = [{
+              id: 'test1',
+              label: 'test1'
             }, {
-              id: 'method3',
-              method: 'POST'
-            }]
-          }];
-          element = fixture('Preselected');
-          element._setEndpoints(model);
-          flush(() => done());
+              id: 'test2',
+              label: 'test2'
+            }];
+            element = fixture('Preselected');
+            element._setTypes(model);
+            flush(() => done());
+          });
+
+          test('hasTypes is computed', () => {
+            assert.isTrue(element.hasTypes);
+          });
+
+          test('Types panel is rendered', () => {
+            const panel = element.shadowRoot.querySelector('section.types');
+            assert.ok(panel);
+          });
+
+          test('Preselected has a selection', () => {
+            const selector = '.types [data-api-id="test1"]';
+            const panel = element.shadowRoot.querySelector(selector);
+            assert.ok(panel);
+          });
+
+          test('Clicking on an item changes selection', () => {
+            const node = element.shadowRoot.querySelectorAll('.types .list-item')[1];
+            node.click();
+            assert.equal(element.selected, 'test2');
+            assert.equal(element.selectedType, 'type');
+          });
         });
 
-        test('hasEndpoints is computed', () => {
-          assert.isTrue(element.hasEndpoints);
+        suite('Security', () => {
+          let element;
+          let model;
+          setup((done) => {
+            model = [{
+              id: 'test1',
+              label: 'test1'
+            }, {
+              id: 'test2',
+              label: 'test2'
+            }];
+            element = fixture('Preselected');
+            element._setSecurity(model);
+            flush(() => done());
+          });
+
+          test('hasSecurity is computed', () => {
+            assert.isTrue(element.hasSecurity);
+          });
+
+          test('Types panel is rendered', () => {
+            const panel = element.shadowRoot.querySelector('section.security');
+            assert.ok(panel);
+          });
+
+          test('Preselected has a selection', () => {
+            const selector = '.security [data-api-id="test1"]';
+            const panel = element.shadowRoot.querySelector(selector);
+            assert.ok(panel);
+          });
+
+          test('Clicking on an item changes selection', () => {
+            const node = element.shadowRoot.querySelectorAll('.security .list-item')[1];
+            node.click();
+            assert.equal(element.selected, 'test2');
+            assert.equal(element.selectedType, 'security');
+          });
         });
 
-        test('Types panel is rendered', () => {
-          const panel = element.shadowRoot.querySelector('section.endpoints');
-          assert.ok(panel);
+        suite('Endpoints', () => {
+          let element;
+          let model;
+          setup((done) => {
+            model = [{
+              id: 'test1',
+              label: 'test1',
+              methods: [{
+                id: 'method1',
+                method: 'GET'
+              }]
+            }, {
+              id: 'test2',
+              label: 'test2',
+              methods: [{
+                id: 'method2',
+                method: 'GET'
+              }, {
+                id: 'method3',
+                method: 'POST'
+              }]
+            }];
+            element = fixture('Preselected');
+            element._setEndpoints(model);
+            flush(() => done());
+          });
+
+          test('hasEndpoints is computed', () => {
+            assert.isTrue(element.hasEndpoints);
+          });
+
+          test('Types panel is rendered', () => {
+            const panel = element.shadowRoot.querySelector('section.endpoints');
+            assert.ok(panel);
+          });
+
+          test('Preselected has a selection', () => {
+            const selector = '.endpoints [data-api-id="test1"]';
+            const panel = element.shadowRoot.querySelector(selector);
+            assert.ok(panel);
+          });
+
+          test('Clicking on an item changes selection', () => {
+            const node = element.shadowRoot.querySelectorAll('.endpoints .list-item.endpoint')[1];
+            node.click();
+            assert.equal(element.selected, 'test2');
+            assert.equal(element.selectedType, 'endpoint');
+          });
         });
 
-        test('Preselected has a selection', () => {
-          const selector = '.endpoints [data-api-id="test1"]';
-          const panel = element.shadowRoot.querySelector(selector);
-          assert.ok(panel);
-        });
 
-        test('Clicking on an item changes selection', () => {
-          const node = element.shadowRoot.querySelectorAll('.endpoints .list-item.endpoint')[1];
-          node.click();
-          assert.equal(element.selected, 'test2');
-          assert.equal(element.selectedType, 'endpoint');
+        suite('Navigation events`', () => {
+          let element;
+          let model;
+          setup((done) => {
+            model = {
+              docs: [{
+                id: 'test1',
+                label: 'test1'
+              }, {
+                id: 'test2',
+                label: 'test2'
+              }],
+              types: [{
+                id: 'test3',
+                label: 'test3'
+              }, {
+                id: 'test4',
+                label: 'test4'
+              }],
+              security: [{
+                id: 'test5',
+                label: 'test5'
+              }, {
+                id: 'test6',
+                label: 'test6'
+              }],
+              endpoints: [{
+                id: 'test7',
+                label: 'test7',
+                methods: [{
+                  id: 'method8',
+                  method: 'GET'
+                }]
+              }, {
+                id: 'test9',
+                label: 'test9',
+                methods: [{
+                  id: 'method10',
+                  method: 'GET'
+                }, {
+                  id: 'method11',
+                  method: 'POST'
+                }]
+              }]
+            };
+            element = fixture('Basic');
+            element._setDocs(model.doce);
+            element._setTypes(model.types);
+            element._setSecurity(model.security);
+            element._setEndpoints(model.endpoints);
+            flush(() => done());
+          });
+
+          function fire(id, type, node) {
+            const e = new CustomEvent('api-navigation-selection-changed', {
+              bubbles: true,
+              composed: true,
+              detail: {
+                selected: id,
+                type: type
+              }
+            });
+            (node || document.body).dispatchEvent(e);
+          }
+
+          test('Updates selection from the change event', () => {
+            const id = 'test3';
+            fire(id, 'type');
+            assert.equal(element.selected, id);
+            assert.equal(element.selectedType, 'type');
+            const node = element.shadowRoot.querySelector(`[data-api-id="${id}"]`);
+            assert.isTrue(node.classList.contains('iron-selected'));
+          });
+
+          test('Does not update selection if it is the source', () => {
+            const id = 'test3';
+            fire(id, 'type', element);
+            assert.isUndefined(element.selected);
+          });
+
+          test('Does not dispatch selection event', () => {
+            const id = 'test3';
+            const spy = sinon.spy();
+            element.addEventListener('api-navigation-selection-changed', spy);
+            fire(id, 'type');
+            assert.isFalse(spy.called);
+          });
         });
       });
 
