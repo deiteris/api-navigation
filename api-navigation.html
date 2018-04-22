@@ -162,6 +162,14 @@
     .list-item.iron-selected .method-label[data-method] {
       color: var(--method-display-selected-color, #fff);
     }
+
+    .operation {
+      padding-left: var(--api-navigation-operation-item-padding-left, 32px);
+    }
+
+    .operation-collapse {
+      @apply --api-navigation-operation-collapse;
+    }
     </style>
     <template is="dom-if" if="[[aware]]">
       <raml-aware raml="{{amfModel}}" scope="[[aware]]"></raml-aware>
@@ -228,7 +236,7 @@
               <div class="list-item endpoint" hidden$="[[item.hidden]]" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="endpoint" on-click="_itemClickHandler">[[item.label]]</div>
               <iron-collapse class="operation-collapse" data-api-id$="[[item.id]]">
                 <template is="dom-repeat" items="[[item.methods]]" filter="_methodFilter" observe="method label" data-query on-rendered-item-count-changed="_methodsCountChanged">
-                  <div class="list-item" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="method" on-click="_itemClickHandler">
+                  <div class="list-item operation" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="method" on-click="_itemClickHandler">
                     <span class="method-label" data-method$="[[item.method]]">[[item.method]]</span>
                     [[item.label]]
                   </div>
@@ -313,6 +321,8 @@
      * `--method-display-put-color` | Font color of the PUT method label box | `rgb(255, 165, 0)`
      * `--method-display-delete-color` | Font color of the DELETE method label box | `rgb(244, 67, 54)`
      * `--method-display-patch-color` | Font color of the PATCH method label box | `rgb(156, 39, 176)`
+     * `--api-navigation-operation-item-padding-left` | Padding left of operation (method) label under endpoint | `32px`
+     * `--api-navigation-operation-collapse` | Mixin applied to operation list collapsable element | ``
      *
      * @customElement
      * @polymer
