@@ -17,7 +17,7 @@
 /// <reference path="../arc-icons/arc-icons.d.ts" />
 /// <reference path="../iron-collapse/iron-collapse.d.ts" />
 /// <reference path="../iron-flex-layout/iron-flex-layout.d.ts" />
-/// <reference path="amf-helper.d.ts" />
+/// <reference path="../amf-helper-mixin/amf-helper-mixin.d.ts" />
 
 declare namespace ApiElements {
 
@@ -50,6 +50,21 @@ declare namespace ApiElements {
    * Once the `raml-aware` element receives some that they are instantly
    * transfered to `api-navigation`.
    *
+   * Note, this element does not contain polyfills for Array platform features.
+   * Use `arc-polyfills` to add support for IE and Safari 9.
+   *
+   * ## Passive navigation
+   *
+   * Passive navigation means that a navigation event occured but it wasn't
+   * invoked by intentional user interaction. For example
+   * `api-endpoint-documentation` component renders list of documentations for
+   * HTTP methods. While scrolling through the list navigation context
+   * changes (user reads documentation of a method) but the navigation never
+   * was caused by user intentional interaction.
+   * This event, annotated with `passive: true` property in the detail object
+   * prohibits other element from taking a navigation action but some
+   * may reflect the change in the UI.
+   *
    * ## Styling
    *
    * Custom property | Description | Default
@@ -78,22 +93,17 @@ declare namespace ApiElements {
    * `--method-display-put-color` | Font color of the PUT method label box | `rgb(255, 165, 0)`
    * `--method-display-delete-color` | Font color of the DELETE method label box | `rgb(244, 67, 54)`
    * `--method-display-patch-color` | Font color of the PATCH method label box | `rgb(156, 39, 176)`
+   * `--api-navigation-operation-item-padding-left` | Padding left of operation (method) label under endpoint | `32px`
+   * `--api-navigation-operation-collapse` | Mixin applied to operation list collapsable element | ``
    */
-  class ApiNavigation extends Polymer.Element {
+  class ApiNavigation extends
+    ApiElements.AmfHelperMixin(
+    Polymer.Element) {
 
     /**
      * `raml-aware` scope property to use.
      */
     aware: string|null|undefined;
-
-    /**
-     * Generated AMF json/ld model form the API spec.
-     * The element assumes the object of the first array item to be a
-     * type of `"http://raml.org/vocabularies/document#Document`
-     * on AMF vocabulary.
-     */
-    amfModel: object|any[]|null;
-    readonly _helper: object|null|undefined;
 
     /**
      * A model `@id` of selected documentation part.
@@ -198,41 +208,96 @@ declare namespace ApiElements {
      * Attaches element's listeners.
      */
     connectedCallback(): void;
-
-    /**
-     * Removes click event listener when removed from DOM.
-     */
     disconnectedCallback(): void;
+    _amfChanged(model: any): void;
 
     /**
-     * Creates instance of `ApiNavigationAmfHelper` with new model.
+     * Collects the information about the API and creates data model
+     * for the navigation element
      *
-     * @param model AMF model
-     * @returns Helper instance.
+     * @returns Data model for the API navigation:
+     * - documentation `Array` - List of documentation data models:
+     *  - id `String` - Node `@id`
+     *  - label `String` - Node label
+     * - types `Array` - List of types data models:
+     *  - id `String` - Node `@id`
+     *  - label `String` - Node label
+     * - securitySchemes `Array` - List of security schemes data models:
+     *  - id `String` - Node `@id`
+     *  - label `String` - Node label
+     * - endpoints `Array` - List of endpoints data models:
+     *  - id `String` - Node `@id`
+     *  - label `String` - Node label
+     *  - methods `Array` - List of methonds data models in an endpoint:
+     *    - id `String` - Node `@id`
+     *    - label `String` - Node label
      */
-    _computeHelper(model: object|any[]|null): ApiNavigationAmfHelper|null;
+    _collectData(model: any): object|null;
 
     /**
-     * Called when helper instance has been created.
-     * It collects information about `documentation`, `types`, `security schemes`
-     * and `endpoints`. This is set to corresponding properties
-     * and eventually rendered by the navigation view element.
+     * Traverses the `http://raml.org/vocabularies/document#declares`
+     * node to find types and security schemes.
      *
-     * @param helper Instance of ApiNavigationAmfHelper
-     * with model loaded.
+     * @param target Target object where to put data.
      */
-    _helperReady(helper: ApiNavigationAmfHelper|null): void;
+    _traverseDeclarations(model: any, target: object|null): void;
 
     /**
-     * Checks if passed argument is set and has values.
+     * Traverses the `http://raml.org/vocabularies/document#encodes`
+     * node to find documentation and endpoints.
+     *
+     * @param target Target object where to put data.
      */
-    _computeModelHasValues(items: Array<any|null>|null): Boolean|null;
+    _traverseEncodes(model: any, target: object|null): void;
 
     /**
-     * Click handler for the element.
-     * It either toggles panel visibility or selects an item.
+     * Appends declaration of navigation data model to the target if
+     * it matches documentation or security types.
      */
-    _clickHandler(e: ClickEvent|null): void;
+    _appendModelItem(item: object|null, target: object|null): void;
+
+    /**
+     * Appends "type" item to the results.
+     *
+     * @param item Type item declaration
+     */
+    _appendTypeItem(item: object|null, target: object|null): void;
+
+    /**
+     * Appends "security" item to the results.
+     *
+     * @param item Type item declaration
+     */
+    _appendSecurityItem(item: object|null, target: object|null): void;
+
+    /**
+     * Appends "documentation" item to the results.
+     *
+     * @param item Type item declaration
+     */
+    _appendDocumentationItem(item: object|null, target: object|null): void;
+
+    /**
+     * Appends "endpoint" item to the results.
+     * This also iterates over methods to extract method data.
+     *
+     * @param item Type item declaration
+     */
+    _appendEndpointItem(item: object|null, target: object|null): void;
+
+    /**
+     * Creates the view model for an opration.
+     *
+     * @param item Operation AMF model
+     * @returns Method view model
+     */
+    _createOperationModel(item: object|null): object|null;
+
+    /**
+     * Click handler for section name item.
+     * Toggles the view.
+     */
+    _toggleSection(e: ClickEvent|null): void;
 
     /**
      * Selectes new item in the menu.
@@ -245,15 +310,26 @@ declare namespace ApiElements {
      *
      * @param id Selected node id.
      */
-    _toggleSelection(id: String|null): void;
+    _addSelection(id: String|null): void;
+
+    /**
+     * Removes any current selection that may exist.
+     */
+    _clearSelection(): void;
+
+    /**
+     * Toggles endpoint operations list.
+     *
+     * @param id ID of the endpoint.
+     */
+    toggleOperations(id: String|null): void;
 
     /**
      * Updates the state of selected element when `selected` changes.
      *
      * @param current New selection
-     * @param previous Old selection
      */
-    _selectedChangd(current: String|null, previous: String|null): void;
+    _selectedChangd(current: String|null): void;
 
     /**
      * Label check agains `query` function called by `dom-repeat` element.
@@ -303,6 +379,22 @@ declare namespace ApiElements {
      * @param selectedType Type of AMF shape
      */
     _selectionChnaged(selected: String|null, selectedType: String|null): void;
+
+    /**
+     * Navigation item click handler.
+     * It used to be common function for all clicks inside the element
+     * but in tests not all events were handled.
+     */
+    _itemClickHandler(e: ClickEvent|null): void;
+
+    /**
+     * Handler for `api-navigation-selection-changed`. Updates the selection
+     * if dispatched from other element.
+     */
+    _navigationChangeHandler(e: CustomEvent|null): void;
+    _handlePassiveNavigation(detail: any): void;
+    _cleanPassiveSelection(): void;
+    _selectMethodPassive(id: any): void;
   }
 }
 
