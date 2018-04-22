@@ -89,6 +89,11 @@
       @apply --api-navigation-list-item-selected;
     }
 
+    .list-item.passive-selected {
+      font-weight: var(--api-navigation-list-item-selected-weight, bold);
+      @apply --api-navigation-list-item-selected-passive;
+    }
+
     .list-item[disabled] {
       color: var(--api-navigation-list-item-disabled-color, var(--disabled-text-color));
       @apply --api-navigation-list-item-disabled;
@@ -267,6 +272,18 @@
      *
      * Note, this element does not contain polyfills for Array platform features.
      * Use `arc-polyfills` to add support for IE and Safari 9.
+     *
+     * ## Passive navigation
+     *
+     * Passive navigation means that a navigation event occured but it wasn't
+     * invoked by intentional user interaction. For example
+     * `api-endpoint-documentation` component renders list of documentations for
+     * HTTP methods. While scrolling through the list navigation context
+     * changes (user reads documentation of a method) but the navigation never
+     * was caused by user intentional interaction.
+     * This event, annotated with `passive: true` property in the detail object
+     * prohibits other element from taking a navigation action but some
+     * may reflect the change in the UI.
      *
      * ## Styling
      *
@@ -756,6 +773,7 @@
        */
       _selectedChangd(current) {
         this._clearSelection();
+        this._cleanPassiveSelection();
         if (current) {
           this._addSelection(current);
         }
@@ -890,11 +908,50 @@
         if (e.composedPath()[0] === this) {
           return;
         }
+        this._cleanPassiveSelection();
+        if (e.detail.passive === true) {
+          this._handlePassiveNavigation(e.detail);
+          return;
+        }
         if (this.selected !== e.detail.selected) {
           this.__cancelNavigationEvent = true;
           this.selected = e.detail.selected;
           this.selectedType = e.detail.type;
           this.__cancelNavigationEvent = false;
+        }
+      }
+
+      _handlePassiveNavigation(detail) {
+        switch (detail.type) {
+          case 'method':
+            this._selectMethodPassive(detail.selected);
+            break;
+        }
+      }
+
+      _cleanPassiveSelection() {
+        // Very simpole optymisation to not query local DOM if we are sure
+        // that there's no selection.
+        if (!this.__hasPassiveSelection) {
+          return;
+        }
+        const nodes = this.shadowRoot.querySelectorAll('.passive-selected');
+        for (let i = 0, len = nodes.length; i < len; i++) {
+          nodes[i].classList.remove('passive-selected');
+        }
+        this.__hasPassiveSelection = false;
+      }
+
+      _selectMethodPassive(id) {
+        const selector = `[data-api-id="${id}"]`;
+        const node = this.shadowRoot.querySelector(selector);
+        if (!node) {
+          return;
+        }
+        node.classList.add('passive-selected');
+        this.__hasPassiveSelection = true;
+        if (!node.parentElement.opened) {
+          node.parentElement.opened = true;
         }
       }
       /**
@@ -909,6 +966,8 @@
        * `documentation`, `type`, `security`, `endpoint`, `method` or `summary`.
        * Summary is a special case not included in AMF model but means that the
        * user requested API summary view (start screen).
+       * @param {Boolean} passive If true then the event wasn't caused by user
+       * intentional interaction and regular navigation action should not occurr.
        */
     }
     window.customElements.define(ApiNavigation.is, ApiNavigation);

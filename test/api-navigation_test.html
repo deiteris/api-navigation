@@ -393,6 +393,47 @@
         });
       });
 
+      suite('Passive selection', () => {
+        let element;
+        let amf;
+        suiteSetup(() => {
+          return AmfLoader.load()
+          .then((model) => amf = model);
+        });
+
+        setup((done) => {
+          element = fixture('Basic');
+          element.amfModel = amf;
+          flush(() => done());
+        });
+
+        function dispatch(selected, type) {
+          const e = new CustomEvent('api-navigation-selection-changed', {
+            bubbles: true,
+            composed: true,
+            detail: {
+              selected,
+              type,
+              passive: true
+            }
+          });
+          this.dispatchEvent(e);
+        }
+
+        test('Selectes a method', () => {
+          dispatch('file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcopy/post', 'method');
+          const node = element.shadowRoot.querySelector('.passive-selected');
+          assert.ok(node);
+        });
+
+        test('Opens iron-collapse', () => {
+          dispatch('file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcopy/post', 'method');
+          const id = 'file://demo/api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcopy';
+          const node = element.shadowRoot.querySelector(`.endpoint[data-api-id="${id}"]`);
+          assert.isTrue(node.nextElementSibling.opened);
+        });
+      });
+
       a11ySuite('Basic');
     </script>
 
