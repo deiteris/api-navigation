@@ -7,7 +7,7 @@
 <link rel="import" href="../arc-icons/arc-icons.html">
 <link rel="import" href="../iron-collapse/iron-collapse.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
-<script src="amf-helper.js"></script>
+<link rel="import" href="../amf-helper-mixin/amf-helper-mixin.html">
 
 <dom-module id="api-navigation">
   <template>
@@ -301,8 +301,9 @@
      * @polymer
      * @demo demo/index.html
      * @memberof ApiElements
+     * @appliesMixin ApiElements.AmfHelperMixin
      */
-    class ApiNavigation extends Polymer.Element {
+    class ApiNavigation extends ApiElements.AmfHelperMixin(Polymer.Element) {
       static get is() { return 'api-navigation'; }
       static get properties() {
         return {
@@ -310,22 +311,6 @@
            * `raml-aware` scope property to use.
            */
           aware: String,
-          /**
-           * Generated AMF json/ld model form the API spec.
-           * The element assumes the object of the first array item to be a
-           * type of `"http://raml.org/vocabularies/document#Document`
-           * on AMF vocabulary.
-           *
-           * @type {Object|Array}
-           */
-          amfModel: Object,
-
-          _helper: {
-            type: Object,
-            computed: '_computeHelper(amfModel)',
-            readOnly: true,
-            observer: '_helperReady'
-          },
           /**
            * A model `@id` of selected documentation part.
            * Special case is for `summary` view. It's not part of an API
@@ -371,7 +356,7 @@
           hasDocs: {
             type: Boolean,
             readOnly: true,
-            computed: '_computeModelHasValues(docs)'
+            computed: '_computeHasArrayValue(docs)'
           },
           /**
            * Determines and changes state of documentation panel.
@@ -394,7 +379,7 @@
           hasTypes: {
             type: Boolean,
             readOnly: true,
-            computed: '_computeModelHasValues(types)'
+            computed: '_computeHasArrayValue(types)'
           },
           /**
            * Determines and changes state of types panel.
@@ -417,7 +402,7 @@
           hasSecurity: {
             type: Boolean,
             readOnly: true,
-            computed: '_computeModelHasValues(security)'
+            computed: '_computeHasArrayValue(security)'
           },
           /**
            * Determines and changes state of security panel.
@@ -440,7 +425,7 @@
           hasEndpoints: {
             type: Boolean,
             readOnly: true,
-            computed: '_computeModelHasValues(endpoints)'
+            computed: '_computeHasArrayValue(endpoints)'
           },
           /**
            * Determines and changes state of endpoints panel.
@@ -466,6 +451,7 @@
 
       static get observers() {
         return [
+          '_amfChanged(amfModel)',
           '_selectionChnaged(selected, selectedType)'
         ];
       }
@@ -491,32 +477,14 @@
         super.disconnectedCallback();
         window.removeEventListener('api-navigation-selection-changed', this._navigationChangeHandler);
       }
-      /**
-       * Creates instance of `ApiNavigationAmfHelper` with new model.
-       *
-       * @param {Object|Array} model AMF model
-       * @return {ApiNavigationAmfHelper} Helper instance.
-       */
-      _computeHelper(model) {
-        /* global ApiNavigationAmfHelper */
-        if (model) {
-          return new ApiNavigationAmfHelper(model);
-        }
-      }
-      /**
-       * Called when helper instance has been created.
-       * It collects information about `documentation`, `types`, `security schemes`
-       * and `endpoints`. This is set to corresponding properties
-       * and eventually rendered by the navigation view element.
-       *
-       * @param {ApiNavigationAmfHelper} helper Instance of ApiNavigationAmfHelper
-       * with model loaded.
-       */
-      _helperReady(helper) {
-        if (!helper) {
+
+      _amfChanged(model) {
+        if (!model) {
           return;
         }
-        const data = helper.collect();
+        model = this._ensureAmfModel(model);
+        const data = this._collectData(model);
+
         this._setDocs(data.documentation);
         this._setTypes(data.types);
         this._setSecurity(data.securitySchemes);
@@ -525,14 +493,178 @@
           this._selectedChangd(this.selected);
         });
       }
+
       /**
-       * Checks if passed argument is set and has values.
+       * Collects the information about the API and creates data model
+       * for the navigation element
        *
-       * @param {Array<any>} items
-       * @return {Boolean}
+       * @return {Object} Data model for the API navigation:
+       * - documentation `Array` - List of documentation data models:
+       *  - id `String` - Node `@id`
+       *  - label `String` - Node label
+       * - types `Array` - List of types data models:
+       *  - id `String` - Node `@id`
+       *  - label `String` - Node label
+       * - securitySchemes `Array` - List of security schemes data models:
+       *  - id `String` - Node `@id`
+       *  - label `String` - Node label
+       * - endpoints `Array` - List of endpoints data models:
+       *  - id `String` - Node `@id`
+       *  - label `String` - Node label
+       *  - methods `Array` - List of methonds data models in an endpoint:
+       *    - id `String` - Node `@id`
+       *    - label `String` - Node label
        */
-      _computeModelHasValues(items) {
-        return !!(items && items.length);
+      _collectData(model) {
+        const result = {
+          documentation: [],
+          types: [],
+          securitySchemes: [],
+          endpoints: []
+        };
+        this._traverseDeclarations(model, result);
+        this._traverseEncodes(model, result);
+        return result;
+      }
+      /**
+       * Traverses the `http://raml.org/vocabularies/document#declares`
+       * node to find types and security schemes.
+       *
+       * @param {Object} target Target object where to put data.
+       */
+      _traverseDeclarations(model, target) {
+        const declares = this._computeDeclares(model);
+        if (!declares) {
+          return;
+        }
+        declares.forEach((item) => this._appendModelItem(item, target));
+      }
+      /**
+       * Traverses the `http://raml.org/vocabularies/document#encodes`
+       * node to find documentation and endpoints.
+       *
+       * @param {Object} target Target object where to put data.
+       */
+      _traverseEncodes(model, target) {
+        const data = this._computeWebApi(model);
+        if (!data) {
+          return;
+        }
+
+        const endpoint = data['http://raml.org/vocabularies/http#endpoint'];
+        if (endpoint) {
+          endpoint.forEach((item) => this._appendModelItem(item, target));
+        }
+        const documentation = data['http://schema.org/documentation'];
+        if (documentation) {
+          documentation.forEach((item) => this._appendModelItem(item, target));
+        }
+      }
+      /**
+       * Appends declaration of navigation data model to the target if
+       * it matches documentation or security types.
+       *
+       * @param {Object} item
+       * @param {Object} target
+       */
+      _appendModelItem(item, target) {
+        if (this._hasType(item, 'http://www.w3.org/ns/shacl#Shape')) {
+          this._appendTypeItem(item, target);
+        } else if (this._hasType(item, 'http://raml.org/vocabularies/security#SecurityScheme')) {
+          this._appendSecurityItem(item, target);
+        } else if (this._hasType(item, 'http://schema.org/CreativeWork')) {
+          this._appendDocumentationItem(item, target);
+        } else if (this._hasType(item, 'http://raml.org/vocabularies/http#EndPoint')) {
+          this._appendEndpointItem(item, target);
+        }
+      }
+      /**
+       * Appends "type" item to the results.
+       *
+       * @param {Object} item Type item declaration
+       * @param {Object} target
+       */
+      _appendTypeItem(item, target) {
+        let name = this._getValue(item, 'http://schema.org/name');
+        if (!name) {
+          name = this._getValue(item, 'http://www.w3.org/ns/shacl#name');
+        }
+        const id = item['@id'];
+        target.types.push({
+          label: name,
+          id: id
+        });
+      }
+      /**
+       * Appends "security" item to the results.
+       *
+       * @param {Object} item Type item declaration
+       * @param {Object} target
+       */
+      _appendSecurityItem(item, target) {
+        let name = this._getValue(item, 'http://schema.org/displayName');
+        if (!name) {
+          name = this._getValue(item, 'http://raml.org/vocabularies/security#name');
+        }
+        const id = item['@id'];
+        target.securitySchemes.push({
+          label: name,
+          id: id
+        });
+      }
+      /**
+       * Appends "documentation" item to the results.
+       *
+       * @param {Object} item Type item declaration
+       * @param {Object} target
+       */
+      _appendDocumentationItem(item, target) {
+        const name = this._getValue(item, 'http://schema.org/title');
+        const id = item['@id'];
+        target.documentation.push({
+          label: name,
+          id: id
+        });
+      }
+      /**
+       * Appends "endpoint" item to the results.
+       * This also iterates over methods to extract method data.
+       *
+       * @param {Object} item Type item declaration
+       * @param {Object} target
+       */
+      _appendEndpointItem(item, target) {
+        let name = this._getValue(item, 'http://schema.org/name');
+        if (!name) {
+          name = this._getValue(item, 'http://raml.org/vocabularies/http#path');
+        }
+        const id = item['@id'];
+        const operations = item['http://www.w3.org/ns/hydra/core#supportedOperation'] || [];
+        let methods = operations.map((op) => this._createOperationModel(op));
+        target.endpoints.push({
+          label: name,
+          id: id,
+          methods: methods
+        });
+      }
+      /**
+       * Creates the view model for an opration.
+       *
+       * @param {Object} item Operation AMF model
+       * @return {Object} Method view model
+       */
+      _createOperationModel(item) {
+        let name = this._getValue(item, 'http://schema.org/name');
+        if (!name) {
+          name = this._getValue(item, 'http://www.w3.org/ns/hydra/core#method');
+        }
+        const id = item['@id'];
+        const method = this._getValue(item, 'http://www.w3.org/ns/hydra/core#method');
+        return {
+          label: name,
+          id: id,
+          method: method
+        };
       }
       /**
        * Click handler for section name item.
