@@ -74,7 +74,7 @@ declare namespace ApiElements {
    * `--arc-font-font1` | Mixin applied to the element. Theme mixin | `{}`
    * `--api-navigation-header-color` | Color of section title | `rgba(0, 0, 0, 0.84)`
    * `--api-navigation-section-title-background-color` | Background color of the section title | `inherit`
-   * `--api-navigation-list-item-min-height` | Minimum heigtht of menu items | `48px`
+   * `--api-navigation-list-item-min-height` | Minimum heigtht of menu items. Note that each item has top and bottom padding set to 4px which cobines to default 48px. | `40px`
    * `--api-navigation-list-item-color` | Color of the menu items | `#616161`
    * `--api-navigation-list-item` | Mixin applied to the menu items | `{}`
    * `--api-navigation-list-item-selected-weight` | Font weight of selected menu item | `bold`
