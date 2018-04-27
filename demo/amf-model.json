@@ -3526,6 +3526,186 @@
         ],
         "http://www.w3.org/ns/shacl#property": [
           {
+            "@id": "file://demo/types/app-person.raml/type/property/gender",
+            "@type": [
+              "http://www.w3.org/ns/shacl#PropertyShape",
+              "http://www.w3.org/ns/shacl#Shape",
+              "http://raml.org/vocabularies/shapes#Shape"
+            ],
+            "http://www.w3.org/ns/shacl#path": [
+              {
+                "@id": "http://raml.org/vocabularies/data#gender"
+              }
+            ],
+            "http://raml.org/vocabularies/shapes#range": [
+              {
+                "@id": "file://demo/types/app-person.raml/type/property/gender/scalar/gender?",
+                "@type": [
+                  "http://raml.org/vocabularies/shapes#ScalarShape",
+                  "http://www.w3.org/ns/shacl#Shape",
+                  "http://raml.org/vocabularies/shapes#Shape",
+                  "http://raml.org/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/shacl#datatype": [
+                  {
+                    "@id": "http://www.w3.org/2001/XMLSchema#string"
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#name": [
+                  {
+                    "@value": "gender?"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "The person's gender. Possible values includes, but are not limited to, the following values:\n* \"male\" - Male gender.\n* \"female\" - Female gender.\n* \"other\" - Other.\n"
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#in": [
+                  {
+                    "@id": "file://demo/types/app-person.raml/type/property/gender/scalar/gender?/list",
+                    "@type": "http://www.w3.org/2000/01/rdf-schema#Seq",
+                    "http://www.w3.org/2000/01/rdf-schema#_1": [
+                      {
+                        "@value": "male"
+                      }
+                    ],
+                    "http://www.w3.org/2000/01/rdf-schema#_2": [
+                      {
+                        "@value": "female"
+                      }
+                    ],
+                    "http://www.w3.org/2000/01/rdf-schema#_3": [
+                      {
+                        "@value": "other"
+                      }
+                    ]
+                  }
+                ],
+                "http://raml.org/vocabularies/document#examples": [
+                  {
+                    "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Women",
+                    "@type": [
+                      "http://raml.org/vocabularies/document#Example",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://schema.org/name": [
+                      {
+                        "@value": "Women"
+                      }
+                    ],
+                    "http://raml.org/vocabularies/document#strict": [
+                      {
+                        "@value": true
+                      }
+                    ],
+                    "http://raml.org/vocabularies/document#structuredValue": [
+                      {
+                        "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Women/scalar_1",
+                        "@type": [
+                          "http://raml.org/vocabularies/data#Scalar"
+                        ],
+                        "http://raml.org/vocabularies/data#value": [
+                          {
+                            "@value": "female",
+                            "@type": "http://www.w3.org/2001/XMLSchema#string"
+                          }
+                        ]
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#raw": [
+                      {
+                        "@value": "female"
+                      }
+                    ]
+                  },
+                  {
+                    "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Man",
+                    "@type": [
+                      "http://raml.org/vocabularies/document#Example",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://schema.org/name": [
+                      {
+                        "@value": "Man"
+                      }
+                    ],
+                    "http://raml.org/vocabularies/document#strict": [
+                      {
+                        "@value": true
+                      }
+                    ],
+                    "http://raml.org/vocabularies/document#structuredValue": [
+                      {
+                        "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Man/scalar_1",
+                        "@type": [
+                          "http://raml.org/vocabularies/data#Scalar"
+                        ],
+                        "http://raml.org/vocabularies/data#value": [
+                          {
+                            "@value": "male",
+                            "@type": "http://www.w3.org/2001/XMLSchema#string"
+                          }
+                        ]
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#raw": [
+                      {
+                        "@value": "male"
+                      }
+                    ]
+                  },
+                  {
+                    "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Elmo",
+                    "@type": [
+                      "http://raml.org/vocabularies/document#Example",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://schema.org/name": [
+                      {
+                        "@value": "Elmo"
+                      }
+                    ],
+                    "http://raml.org/vocabularies/document#strict": [
+                      {
+                        "@value": true
+                      }
+                    ],
+                    "http://raml.org/vocabularies/document#structuredValue": [
+                      {
+                        "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Elmo/scalar_1",
+                        "@type": [
+                          "http://raml.org/vocabularies/data#Scalar"
+                        ],
+                        "http://raml.org/vocabularies/data#value": [
+                          {
+                            "@value": "other",
+                            "@type": "http://www.w3.org/2001/XMLSchema#string"
+                          }
+                        ]
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#raw": [
+                      {
+                        "@value": "other"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "http://www.w3.org/ns/shacl#minCount": [
+              {
+                "@value": 0
+              }
+            ],
+            "http://www.w3.org/ns/shacl#name": [
+              {
+                "@value": "gender"
+              }
+            ]
+          },
+          {
             "@id": "file://demo/types/app-person.raml/type/property/name",
             "@type": [
               "http://www.w3.org/ns/shacl#PropertyShape",
@@ -3573,11 +3753,6 @@
                       "http://raml.org/vocabularies/document#Example",
                       "http://raml.org/vocabularies/document#DomainElement"
                     ],
-                    "http://raml.org/vocabularies/document#value": [
-                      {
-                        "@value": "John Smith"
-                      }
-                    ],
                     "http://raml.org/vocabularies/document#strict": [
                       {
                         "@value": true
@@ -3595,6 +3770,11 @@
                             "@type": "http://www.w3.org/2001/XMLSchema#string"
                           }
                         ]
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#raw": [
+                      {
+                        "@value": "John Smith"
                       }
                     ]
                   }
@@ -3650,11 +3830,6 @@
                       "http://raml.org/vocabularies/document#Example",
                       "http://raml.org/vocabularies/document#DomainElement"
                     ],
-                    "http://raml.org/vocabularies/document#value": [
-                      {
-                        "@value": "2018-04-09T19:10:15"
-                      }
-                    ],
                     "http://raml.org/vocabularies/document#strict": [
                       {
                         "@value": true
@@ -3669,9 +3844,14 @@
                         "http://raml.org/vocabularies/data#value": [
                           {
                             "@value": "2018-04-09T19:10:15",
-                            "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+                            "@type": "http://raml.org/vocabularies/shapes#dateTimeOnly"
                           }
                         ]
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#raw": [
+                      {
+                        "@value": "2018-04-09T19:10:15"
                       }
                     ]
                   }
@@ -4124,11 +4304,6 @@
                       "http://raml.org/vocabularies/document#Example",
                       "http://raml.org/vocabularies/document#DomainElement"
                     ],
-                    "http://raml.org/vocabularies/document#value": [
-                      {
-                        "@value": "  url: https://domain.com/profile/pawel.psztyc/image\n  thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n"
-                      }
-                    ],
                     "http://raml.org/vocabularies/document#strict": [
                       {
                         "@value": true
@@ -4168,6 +4343,11 @@
                             ]
                           }
                         ]
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#raw": [
+                      {
+                        "@value": "  url: https://domain.com/profile/pawel.psztyc/image\n  thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n"
                       }
                     ]
                   }
@@ -4510,11 +4690,6 @@
                       "http://raml.org/vocabularies/document#Example",
                       "http://raml.org/vocabularies/document#DomainElement"
                     ],
-                    "http://raml.org/vocabularies/document#value": [
-                      {
-                        "@value": "25"
-                      }
-                    ],
                     "http://raml.org/vocabularies/document#strict": [
                       {
                         "@value": true
@@ -4532,6 +4707,11 @@
                             "@type": "http://www.w3.org/2001/XMLSchema#integer"
                           }
                         ]
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#raw": [
+                      {
+                        "@value": "25"
                       }
                     ]
                   }
@@ -4597,200 +4777,6 @@
                 "@value": "etag"
               }
             ]
-          },
-          {
-            "@id": "file://demo/types/app-person.raml/type/property/gender",
-            "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
-              "http://www.w3.org/ns/shacl#Shape",
-              "http://raml.org/vocabularies/shapes#Shape"
-            ],
-            "http://www.w3.org/ns/shacl#path": [
-              {
-                "@id": "http://raml.org/vocabularies/data#gender?"
-              }
-            ],
-            "http://raml.org/vocabularies/shapes#range": [
-              {
-                "@id": "file://demo/types/app-person.raml/type/property/gender/scalar/gender?",
-                "@type": [
-                  "http://raml.org/vocabularies/shapes#ScalarShape",
-                  "http://www.w3.org/ns/shacl#Shape",
-                  "http://raml.org/vocabularies/shapes#Shape",
-                  "http://raml.org/vocabularies/document#DomainElement"
-                ],
-                "http://www.w3.org/ns/shacl#datatype": [
-                  {
-                    "@id": "http://www.w3.org/2001/XMLSchema#string"
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#name": [
-                  {
-                    "@value": "gender?"
-                  }
-                ],
-                "http://schema.org/description": [
-                  {
-                    "@value": "The person's gender. Possible values includes, but are not limited to, the following values:\n* \"male\" - Male gender.\n* \"female\" - Female gender.\n* \"other\" - Other.\n"
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#in": [
-                  {
-                    "@id": "file://demo/types/app-person.raml/type/property/gender/scalar/gender?/list",
-                    "http://www.w3.org/1999/02/22-rdf-syntax-ns#first": [
-                      {
-                        "@value": "male"
-                      }
-                    ],
-                    "http://www.w3.org/1999/02/22-rdf-syntax-ns#rest": [
-                      {
-                        "@id": "file://demo/types/app-person.raml/type/property/gender/scalar/gender?/list/list",
-                        "http://www.w3.org/1999/02/22-rdf-syntax-ns#first": [
-                          {
-                            "@value": "female"
-                          }
-                        ],
-                        "http://www.w3.org/1999/02/22-rdf-syntax-ns#rest": [
-                          {
-                            "@id": "file://demo/types/app-person.raml/type/property/gender/scalar/gender?/list/list/list",
-                            "http://www.w3.org/1999/02/22-rdf-syntax-ns#first": [
-                              {
-                                "@value": "other"
-                              }
-                            ],
-                            "http://www.w3.org/1999/02/22-rdf-syntax-ns#rest": [
-                              {
-                                "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ],
-                "http://raml.org/vocabularies/document#examples": [
-                  {
-                    "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Women",
-                    "@type": [
-                      "http://raml.org/vocabularies/document#Example",
-                      "http://raml.org/vocabularies/document#DomainElement"
-                    ],
-                    "http://schema.org/name": [
-                      {
-                        "@value": "Women"
-                      }
-                    ],
-                    "http://raml.org/vocabularies/document#value": [
-                      {
-                        "@value": "female"
-                      }
-                    ],
-                    "http://raml.org/vocabularies/document#strict": [
-                      {
-                        "@value": true
-                      }
-                    ],
-                    "http://raml.org/vocabularies/document#structuredValue": [
-                      {
-                        "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Women/scalar_1",
-                        "@type": [
-                          "http://raml.org/vocabularies/data#Scalar"
-                        ],
-                        "http://raml.org/vocabularies/data#value": [
-                          {
-                            "@value": "female",
-                            "@type": "http://www.w3.org/2001/XMLSchema#string"
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Man",
-                    "@type": [
-                      "http://raml.org/vocabularies/document#Example",
-                      "http://raml.org/vocabularies/document#DomainElement"
-                    ],
-                    "http://schema.org/name": [
-                      {
-                        "@value": "Man"
-                      }
-                    ],
-                    "http://raml.org/vocabularies/document#value": [
-                      {
-                        "@value": "male"
-                      }
-                    ],
-                    "http://raml.org/vocabularies/document#strict": [
-                      {
-                        "@value": true
-                      }
-                    ],
-                    "http://raml.org/vocabularies/document#structuredValue": [
-                      {
-                        "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Man/scalar_1",
-                        "@type": [
-                          "http://raml.org/vocabularies/data#Scalar"
-                        ],
-                        "http://raml.org/vocabularies/data#value": [
-                          {
-                            "@value": "male",
-                            "@type": "http://www.w3.org/2001/XMLSchema#string"
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Elmo",
-                    "@type": [
-                      "http://raml.org/vocabularies/document#Example",
-                      "http://raml.org/vocabularies/document#DomainElement"
-                    ],
-                    "http://schema.org/name": [
-                      {
-                        "@value": "Elmo"
-                      }
-                    ],
-                    "http://raml.org/vocabularies/document#value": [
-                      {
-                        "@value": "other"
-                      }
-                    ],
-                    "http://raml.org/vocabularies/document#strict": [
-                      {
-                        "@value": true
-                      }
-                    ],
-                    "http://raml.org/vocabularies/document#structuredValue": [
-                      {
-                        "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Elmo/scalar_1",
-                        "@type": [
-                          "http://raml.org/vocabularies/data#Scalar"
-                        ],
-                        "http://raml.org/vocabularies/data#value": [
-                          {
-                            "@value": "other",
-                            "@type": "http://www.w3.org/2001/XMLSchema#string"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ],
-            "http://www.w3.org/ns/shacl#minCount": [
-              {
-                "@value": 0
-              }
-            ],
-            "http://www.w3.org/ns/shacl#name": [
-              {
-                "@value": "gender"
-              }
-            ]
           }
         ],
         "http://www.w3.org/ns/shacl#name": [
@@ -4814,11 +4800,6 @@
             "@type": [
               "http://raml.org/vocabularies/document#Example",
               "http://raml.org/vocabularies/document#DomainElement"
-            ],
-            "http://raml.org/vocabularies/document#value": [
-              {
-                "@value": "  id: \"R34fg663H9KW9MMSKISIhTs1dR7Hss7e\"\n  name: \"Pawel Psztyc\"\n  birthday: \"1983-10-20\"\n  gender: male\n  url: \"https://domain.com/profile/pawel.psztyc\"\n  image:\n    url: https://domain.com/profile/pawel.psztyc/image\n    thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n  tagline: Some text about me.\n  language: en_GB\n  etag: \"W\\\\244m4n5kj3gbn2nj4k4n4\"\n  favouriteNumber: 10\n  favouriteTime: 10:29:52\n  nillable: null\n\n"
-              }
             ],
             "http://raml.org/vocabularies/document#strict": [
               {
@@ -5021,6 +5002,11 @@
                     ]
                   }
                 ]
+              }
+            ],
+            "http://www.w3.org/ns/shacl#raw": [
+              {
+                "@value": "  id: \"R34fg663H9KW9MMSKISIhTs1dR7Hss7e\"\n  name: \"Pawel Psztyc\"\n  birthday: \"1983-10-20\"\n  gender: male\n  url: \"https://domain.com/profile/pawel.psztyc\"\n  image:\n    url: https://domain.com/profile/pawel.psztyc/image\n    thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n  tagline: Some text about me.\n  language: en_GB\n  etag: \"W\\\\244m4n5kj3gbn2nj4k4n4\"\n  favouriteNumber: 10\n  favouriteTime: 10:29:52\n  nillable: null\n\n"
               }
             ]
           }
@@ -5513,11 +5499,6 @@
                       "http://raml.org/vocabularies/document#Example",
                       "http://raml.org/vocabularies/document#DomainElement"
                     ],
-                    "http://raml.org/vocabularies/document#value": [
-                      {
-                        "@value": "Acme product - mentol flavor, 500 ml."
-                      }
-                    ],
                     "http://raml.org/vocabularies/document#strict": [
                       {
                         "@value": true
@@ -5535,6 +5516,11 @@
                             "@type": "http://www.w3.org/2001/XMLSchema#string"
                           }
                         ]
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#raw": [
+                      {
+                        "@value": "Acme product - mentol flavor, 500 ml."
                       }
                     ]
                   }
@@ -5654,11 +5640,6 @@
                       "http://raml.org/vocabularies/document#Example",
                       "http://raml.org/vocabularies/document#DomainElement"
                     ],
-                    "http://raml.org/vocabularies/document#value": [
-                      {
-                        "@value": "042100005264"
-                      }
-                    ],
                     "http://raml.org/vocabularies/document#strict": [
                       {
                         "@value": true
@@ -5676,6 +5657,11 @@
                             "@type": "http://www.w3.org/2001/XMLSchema#string"
                           }
                         ]
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#raw": [
+                      {
+                        "@value": "042100005264"
                       }
                     ]
                   }
@@ -5736,11 +5722,6 @@
                       "http://raml.org/vocabularies/document#Example",
                       "http://raml.org/vocabularies/document#DomainElement"
                     ],
-                    "http://raml.org/vocabularies/document#value": [
-                      {
-                        "@value": "ml"
-                      }
-                    ],
                     "http://raml.org/vocabularies/document#strict": [
                       {
                         "@value": true
@@ -5758,6 +5739,11 @@
                             "@type": "http://www.w3.org/2001/XMLSchema#string"
                           }
                         ]
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#raw": [
+                      {
+                        "@value": "ml"
                       }
                     ]
                   }
@@ -5818,11 +5804,6 @@
                       "http://raml.org/vocabularies/document#Example",
                       "http://raml.org/vocabularies/document#DomainElement"
                     ],
-                    "http://raml.org/vocabularies/document#value": [
-                      {
-                        "@value": "true"
-                      }
-                    ],
                     "http://raml.org/vocabularies/document#strict": [
                       {
                         "@value": true
@@ -5840,6 +5821,11 @@
                             "@type": "http://www.w3.org/2001/XMLSchema#boolean"
                           }
                         ]
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#raw": [
+                      {
+                        "@value": "true"
                       }
                     ]
                   }
@@ -5900,11 +5886,6 @@
                       "http://raml.org/vocabularies/document#Example",
                       "http://raml.org/vocabularies/document#DomainElement"
                     ],
-                    "http://raml.org/vocabularies/document#value": [
-                      {
-                        "@value": "500"
-                      }
-                    ],
                     "http://raml.org/vocabularies/document#strict": [
                       {
                         "@value": true
@@ -5922,6 +5903,11 @@
                             "@type": "http://www.w3.org/2001/XMLSchema#integer"
                           }
                         ]
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#raw": [
+                      {
+                        "@value": "500"
                       }
                     ]
                   }
@@ -6010,11 +5996,6 @@
             "@type": [
               "http://raml.org/vocabularies/document#Example",
               "http://raml.org/vocabularies/document#DomainElement"
-            ],
-            "http://raml.org/vocabularies/document#value": [
-              {
-                "@value": "  id: we2322-4f4f4f-f4f4ff-f4f4ff4\n  name: Acme Product\n  quantity: 200\n  unit: ml\n  upc: \"123456789101\"\n  available: true\n  etag: \"W\\\\sd3deef3rgrgf4r\"\n"
-              }
             ],
             "http://raml.org/vocabularies/document#strict": [
               {
@@ -6125,6 +6106,11 @@
                     ]
                   }
                 ]
+              }
+            ],
+            "http://www.w3.org/ns/shacl#raw": [
+              {
+                "@value": "  id: we2322-4f4f4f-f4f4ff-f4f4ff4\n  name: Acme Product\n  quantity: 200\n  unit: ml\n  upc: \"123456789101\"\n  available: true\n  etag: \"W\\\\sd3deef3rgrgf4r\"\n"
               }
             ]
           }
@@ -6265,11 +6251,6 @@
               "http://raml.org/vocabularies/document#Example",
               "http://raml.org/vocabularies/document#DomainElement"
             ],
-            "http://raml.org/vocabularies/document#value": [
-              {
-                "@value": "  url: https://domain.com/profile/pawel.psztyc/image\n  thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n"
-              }
-            ],
             "http://raml.org/vocabularies/document#strict": [
               {
                 "@value": true
@@ -6309,6 +6290,11 @@
                     ]
                   }
                 ]
+              }
+            ],
+            "http://www.w3.org/ns/shacl#raw": [
+              {
+                "@value": "  url: https://domain.com/profile/pawel.psztyc/image\n  thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n"
               }
             ]
           }
@@ -6461,14 +6447,10 @@
                 "http://www.w3.org/ns/shacl#in": [
                   {
                     "@id": "file://demo/api.raml#/declarations/Property/property/kind/scalar/kind/list",
-                    "http://www.w3.org/1999/02/22-rdf-syntax-ns#first": [
+                    "@type": "http://www.w3.org/2000/01/rdf-schema#Seq",
+                    "http://www.w3.org/2000/01/rdf-schema#_1": [
                       {
                         "@value": "drive#property"
-                      }
-                    ],
-                    "http://www.w3.org/1999/02/22-rdf-syntax-ns#rest": [
-                      {
-                        "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"
                       }
                     ]
                   }
@@ -6812,6 +6794,186 @@
             ],
             "http://www.w3.org/ns/shacl#property": [
               {
+                "@id": "file://demo/types/app-person.raml/type/property/gender",
+                "@type": [
+                  "http://www.w3.org/ns/shacl#PropertyShape",
+                  "http://www.w3.org/ns/shacl#Shape",
+                  "http://raml.org/vocabularies/shapes#Shape"
+                ],
+                "http://www.w3.org/ns/shacl#path": [
+                  {
+                    "@id": "http://raml.org/vocabularies/data#gender"
+                  }
+                ],
+                "http://raml.org/vocabularies/shapes#range": [
+                  {
+                    "@id": "file://demo/types/app-person.raml/type/property/gender/scalar/gender?",
+                    "@type": [
+                      "http://raml.org/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://raml.org/vocabularies/shapes#Shape",
+                      "http://raml.org/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "gender?"
+                      }
+                    ],
+                    "http://schema.org/description": [
+                      {
+                        "@value": "The person's gender. Possible values includes, but are not limited to, the following values:\n* \"male\" - Male gender.\n* \"female\" - Female gender.\n* \"other\" - Other.\n"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#in": [
+                      {
+                        "@id": "file://demo/types/app-person.raml/type/property/gender/scalar/gender?/list",
+                        "@type": "http://www.w3.org/2000/01/rdf-schema#Seq",
+                        "http://www.w3.org/2000/01/rdf-schema#_1": [
+                          {
+                            "@value": "male"
+                          }
+                        ],
+                        "http://www.w3.org/2000/01/rdf-schema#_2": [
+                          {
+                            "@value": "female"
+                          }
+                        ],
+                        "http://www.w3.org/2000/01/rdf-schema#_3": [
+                          {
+                            "@value": "other"
+                          }
+                        ]
+                      }
+                    ],
+                    "http://raml.org/vocabularies/document#examples": [
+                      {
+                        "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Women",
+                        "@type": [
+                          "http://raml.org/vocabularies/document#Example",
+                          "http://raml.org/vocabularies/document#DomainElement"
+                        ],
+                        "http://schema.org/name": [
+                          {
+                            "@value": "Women"
+                          }
+                        ],
+                        "http://raml.org/vocabularies/document#strict": [
+                          {
+                            "@value": true
+                          }
+                        ],
+                        "http://raml.org/vocabularies/document#structuredValue": [
+                          {
+                            "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Women/scalar_1",
+                            "@type": [
+                              "http://raml.org/vocabularies/data#Scalar"
+                            ],
+                            "http://raml.org/vocabularies/data#value": [
+                              {
+                                "@value": "female",
+                                "@type": "http://www.w3.org/2001/XMLSchema#string"
+                              }
+                            ]
+                          }
+                        ],
+                        "http://www.w3.org/ns/shacl#raw": [
+                          {
+                            "@value": "female"
+                          }
+                        ]
+                      },
+                      {
+                        "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Man",
+                        "@type": [
+                          "http://raml.org/vocabularies/document#Example",
+                          "http://raml.org/vocabularies/document#DomainElement"
+                        ],
+                        "http://schema.org/name": [
+                          {
+                            "@value": "Man"
+                          }
+                        ],
+                        "http://raml.org/vocabularies/document#strict": [
+                          {
+                            "@value": true
+                          }
+                        ],
+                        "http://raml.org/vocabularies/document#structuredValue": [
+                          {
+                            "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Man/scalar_1",
+                            "@type": [
+                              "http://raml.org/vocabularies/data#Scalar"
+                            ],
+                            "http://raml.org/vocabularies/data#value": [
+                              {
+                                "@value": "male",
+                                "@type": "http://www.w3.org/2001/XMLSchema#string"
+                              }
+                            ]
+                          }
+                        ],
+                        "http://www.w3.org/ns/shacl#raw": [
+                          {
+                            "@value": "male"
+                          }
+                        ]
+                      },
+                      {
+                        "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Elmo",
+                        "@type": [
+                          "http://raml.org/vocabularies/document#Example",
+                          "http://raml.org/vocabularies/document#DomainElement"
+                        ],
+                        "http://schema.org/name": [
+                          {
+                            "@value": "Elmo"
+                          }
+                        ],
+                        "http://raml.org/vocabularies/document#strict": [
+                          {
+                            "@value": true
+                          }
+                        ],
+                        "http://raml.org/vocabularies/document#structuredValue": [
+                          {
+                            "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Elmo/scalar_1",
+                            "@type": [
+                              "http://raml.org/vocabularies/data#Scalar"
+                            ],
+                            "http://raml.org/vocabularies/data#value": [
+                              {
+                                "@value": "other",
+                                "@type": "http://www.w3.org/2001/XMLSchema#string"
+                              }
+                            ]
+                          }
+                        ],
+                        "http://www.w3.org/ns/shacl#raw": [
+                          {
+                            "@value": "other"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#minCount": [
+                  {
+                    "@value": 0
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#name": [
+                  {
+                    "@value": "gender"
+                  }
+                ]
+              },
+              {
                 "@id": "file://demo/types/app-person.raml/type/property/name",
                 "@type": [
                   "http://www.w3.org/ns/shacl#PropertyShape",
@@ -6859,11 +7021,6 @@
                           "http://raml.org/vocabularies/document#Example",
                           "http://raml.org/vocabularies/document#DomainElement"
                         ],
-                        "http://raml.org/vocabularies/document#value": [
-                          {
-                            "@value": "John Smith"
-                          }
-                        ],
                         "http://raml.org/vocabularies/document#strict": [
                           {
                             "@value": true
@@ -6881,6 +7038,11 @@
                                 "@type": "http://www.w3.org/2001/XMLSchema#string"
                               }
                             ]
+                          }
+                        ],
+                        "http://www.w3.org/ns/shacl#raw": [
+                          {
+                            "@value": "John Smith"
                           }
                         ]
                       }
@@ -6936,11 +7098,6 @@
                           "http://raml.org/vocabularies/document#Example",
                           "http://raml.org/vocabularies/document#DomainElement"
                         ],
-                        "http://raml.org/vocabularies/document#value": [
-                          {
-                            "@value": "2018-04-09T19:10:15"
-                          }
-                        ],
                         "http://raml.org/vocabularies/document#strict": [
                           {
                             "@value": true
@@ -6955,9 +7112,14 @@
                             "http://raml.org/vocabularies/data#value": [
                               {
                                 "@value": "2018-04-09T19:10:15",
-                                "@type": "http://www.w3.org/2001/XMLSchema#dateTime"
+                                "@type": "http://raml.org/vocabularies/shapes#dateTimeOnly"
                               }
                             ]
+                          }
+                        ],
+                        "http://www.w3.org/ns/shacl#raw": [
+                          {
+                            "@value": "2018-04-09T19:10:15"
                           }
                         ]
                       }
@@ -7410,11 +7572,6 @@
                           "http://raml.org/vocabularies/document#Example",
                           "http://raml.org/vocabularies/document#DomainElement"
                         ],
-                        "http://raml.org/vocabularies/document#value": [
-                          {
-                            "@value": "  url: https://domain.com/profile/pawel.psztyc/image\n  thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n"
-                          }
-                        ],
                         "http://raml.org/vocabularies/document#strict": [
                           {
                             "@value": true
@@ -7454,6 +7611,11 @@
                                 ]
                               }
                             ]
+                          }
+                        ],
+                        "http://www.w3.org/ns/shacl#raw": [
+                          {
+                            "@value": "  url: https://domain.com/profile/pawel.psztyc/image\n  thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n"
                           }
                         ]
                       }
@@ -7796,11 +7958,6 @@
                           "http://raml.org/vocabularies/document#Example",
                           "http://raml.org/vocabularies/document#DomainElement"
                         ],
-                        "http://raml.org/vocabularies/document#value": [
-                          {
-                            "@value": "25"
-                          }
-                        ],
                         "http://raml.org/vocabularies/document#strict": [
                           {
                             "@value": true
@@ -7818,6 +7975,11 @@
                                 "@type": "http://www.w3.org/2001/XMLSchema#integer"
                               }
                             ]
+                          }
+                        ],
+                        "http://www.w3.org/ns/shacl#raw": [
+                          {
+                            "@value": "25"
                           }
                         ]
                       }
@@ -7883,200 +8045,6 @@
                     "@value": "etag"
                   }
                 ]
-              },
-              {
-                "@id": "file://demo/types/app-person.raml/type/property/gender",
-                "@type": [
-                  "http://www.w3.org/ns/shacl#PropertyShape",
-                  "http://www.w3.org/ns/shacl#Shape",
-                  "http://raml.org/vocabularies/shapes#Shape"
-                ],
-                "http://www.w3.org/ns/shacl#path": [
-                  {
-                    "@id": "http://raml.org/vocabularies/data#gender?"
-                  }
-                ],
-                "http://raml.org/vocabularies/shapes#range": [
-                  {
-                    "@id": "file://demo/types/app-person.raml/type/property/gender/scalar/gender?",
-                    "@type": [
-                      "http://raml.org/vocabularies/shapes#ScalarShape",
-                      "http://www.w3.org/ns/shacl#Shape",
-                      "http://raml.org/vocabularies/shapes#Shape",
-                      "http://raml.org/vocabularies/document#DomainElement"
-                    ],
-                    "http://www.w3.org/ns/shacl#datatype": [
-                      {
-                        "@id": "http://www.w3.org/2001/XMLSchema#string"
-                      }
-                    ],
-                    "http://www.w3.org/ns/shacl#name": [
-                      {
-                        "@value": "gender?"
-                      }
-                    ],
-                    "http://schema.org/description": [
-                      {
-                        "@value": "The person's gender. Possible values includes, but are not limited to, the following values:\n* \"male\" - Male gender.\n* \"female\" - Female gender.\n* \"other\" - Other.\n"
-                      }
-                    ],
-                    "http://www.w3.org/ns/shacl#in": [
-                      {
-                        "@id": "file://demo/types/app-person.raml/type/property/gender/scalar/gender?/list",
-                        "http://www.w3.org/1999/02/22-rdf-syntax-ns#first": [
-                          {
-                            "@value": "male"
-                          }
-                        ],
-                        "http://www.w3.org/1999/02/22-rdf-syntax-ns#rest": [
-                          {
-                            "@id": "file://demo/types/app-person.raml/type/property/gender/scalar/gender?/list/list",
-                            "http://www.w3.org/1999/02/22-rdf-syntax-ns#first": [
-                              {
-                                "@value": "female"
-                              }
-                            ],
-                            "http://www.w3.org/1999/02/22-rdf-syntax-ns#rest": [
-                              {
-                                "@id": "file://demo/types/app-person.raml/type/property/gender/scalar/gender?/list/list/list",
-                                "http://www.w3.org/1999/02/22-rdf-syntax-ns#first": [
-                                  {
-                                    "@value": "other"
-                                  }
-                                ],
-                                "http://www.w3.org/1999/02/22-rdf-syntax-ns#rest": [
-                                  {
-                                    "@id": "http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"
-                                  }
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ],
-                    "http://raml.org/vocabularies/document#examples": [
-                      {
-                        "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Women",
-                        "@type": [
-                          "http://raml.org/vocabularies/document#Example",
-                          "http://raml.org/vocabularies/document#DomainElement"
-                        ],
-                        "http://schema.org/name": [
-                          {
-                            "@value": "Women"
-                          }
-                        ],
-                        "http://raml.org/vocabularies/document#value": [
-                          {
-                            "@value": "female"
-                          }
-                        ],
-                        "http://raml.org/vocabularies/document#strict": [
-                          {
-                            "@value": true
-                          }
-                        ],
-                        "http://raml.org/vocabularies/document#structuredValue": [
-                          {
-                            "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Women/scalar_1",
-                            "@type": [
-                              "http://raml.org/vocabularies/data#Scalar"
-                            ],
-                            "http://raml.org/vocabularies/data#value": [
-                              {
-                                "@value": "female",
-                                "@type": "http://www.w3.org/2001/XMLSchema#string"
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Man",
-                        "@type": [
-                          "http://raml.org/vocabularies/document#Example",
-                          "http://raml.org/vocabularies/document#DomainElement"
-                        ],
-                        "http://schema.org/name": [
-                          {
-                            "@value": "Man"
-                          }
-                        ],
-                        "http://raml.org/vocabularies/document#value": [
-                          {
-                            "@value": "male"
-                          }
-                        ],
-                        "http://raml.org/vocabularies/document#strict": [
-                          {
-                            "@value": true
-                          }
-                        ],
-                        "http://raml.org/vocabularies/document#structuredValue": [
-                          {
-                            "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Man/scalar_1",
-                            "@type": [
-                              "http://raml.org/vocabularies/data#Scalar"
-                            ],
-                            "http://raml.org/vocabularies/data#value": [
-                              {
-                                "@value": "male",
-                                "@type": "http://www.w3.org/2001/XMLSchema#string"
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Elmo",
-                        "@type": [
-                          "http://raml.org/vocabularies/document#Example",
-                          "http://raml.org/vocabularies/document#DomainElement"
-                        ],
-                        "http://schema.org/name": [
-                          {
-                            "@value": "Elmo"
-                          }
-                        ],
-                        "http://raml.org/vocabularies/document#value": [
-                          {
-                            "@value": "other"
-                          }
-                        ],
-                        "http://raml.org/vocabularies/document#strict": [
-                          {
-                            "@value": true
-                          }
-                        ],
-                        "http://raml.org/vocabularies/document#structuredValue": [
-                          {
-                            "@id": "file://demo/types/app-person.raml#shape/property/gender?/scalar/gender?/example/Elmo/scalar_1",
-                            "@type": [
-                              "http://raml.org/vocabularies/data#Scalar"
-                            ],
-                            "http://raml.org/vocabularies/data#value": [
-                              {
-                                "@value": "other",
-                                "@type": "http://www.w3.org/2001/XMLSchema#string"
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#minCount": [
-                  {
-                    "@value": 0
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#name": [
-                  {
-                    "@value": "gender"
-                  }
-                ]
               }
             ],
             "http://www.w3.org/ns/shacl#name": [
@@ -8100,11 +8068,6 @@
                 "@type": [
                   "http://raml.org/vocabularies/document#Example",
                   "http://raml.org/vocabularies/document#DomainElement"
-                ],
-                "http://raml.org/vocabularies/document#value": [
-                  {
-                    "@value": "  id: \"R34fg663H9KW9MMSKISIhTs1dR7Hss7e\"\n  name: \"Pawel Psztyc\"\n  birthday: \"1983-10-20\"\n  gender: male\n  url: \"https://domain.com/profile/pawel.psztyc\"\n  image:\n    url: https://domain.com/profile/pawel.psztyc/image\n    thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n  tagline: Some text about me.\n  language: en_GB\n  etag: \"W\\\\244m4n5kj3gbn2nj4k4n4\"\n  favouriteNumber: 10\n  favouriteTime: 10:29:52\n  nillable: null\n\n"
-                  }
                 ],
                 "http://raml.org/vocabularies/document#strict": [
                   {
@@ -8308,6 +8271,11 @@
                       }
                     ]
                   }
+                ],
+                "http://www.w3.org/ns/shacl#raw": [
+                  {
+                    "@value": "  id: \"R34fg663H9KW9MMSKISIhTs1dR7Hss7e\"\n  name: \"Pawel Psztyc\"\n  birthday: \"1983-10-20\"\n  gender: male\n  url: \"https://domain.com/profile/pawel.psztyc\"\n  image:\n    url: https://domain.com/profile/pawel.psztyc/image\n    thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n  tagline: Some text about me.\n  language: en_GB\n  etag: \"W\\\\244m4n5kj3gbn2nj4k4n4\"\n  favouriteNumber: 10\n  favouriteTime: 10:29:52\n  nillable: null\n\n"
+                  }
                 ]
               }
             ]
@@ -8457,11 +8425,6 @@
                       "http://raml.org/vocabularies/document#Example",
                       "http://raml.org/vocabularies/document#DomainElement"
                     ],
-                    "http://raml.org/vocabularies/document#value": [
-                      {
-                        "@value": "  url: https://domain.com/profile/pawel.psztyc/image\n  thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n"
-                      }
-                    ],
                     "http://raml.org/vocabularies/document#strict": [
                       {
                         "@value": true
@@ -8501,6 +8464,11 @@
                             ]
                           }
                         ]
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#raw": [
+                      {
+                        "@value": "  url: https://domain.com/profile/pawel.psztyc/image\n  thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n"
                       }
                     ]
                   }
@@ -8582,7 +8550,7 @@
                 ],
                 "http://www.w3.org/ns/shacl#name": [
                   {
-                    "@value": "Resource"
+                    "@value": "type"
                   }
                 ],
                 "http://schema.org/description": [
@@ -8738,11 +8706,6 @@
                   "http://raml.org/vocabularies/document#Example",
                   "http://raml.org/vocabularies/document#DomainElement"
                 ],
-                "http://raml.org/vocabularies/document#value": [
-                  {
-                    "@value": "  url: https://domain.com/profile/pawel.psztyc/image\n  thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n"
-                  }
-                ],
                 "http://raml.org/vocabularies/document#strict": [
                   {
                     "@value": true
@@ -8782,6 +8745,11 @@
                         ]
                       }
                     ]
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#raw": [
+                  {
+                    "@value": "  url: https://domain.com/profile/pawel.psztyc/image\n  thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n"
                   }
                 ]
               }
@@ -8939,11 +8907,6 @@
                           "http://raml.org/vocabularies/document#Example",
                           "http://raml.org/vocabularies/document#DomainElement"
                         ],
-                        "http://raml.org/vocabularies/document#value": [
-                          {
-                            "@value": "Acme product - mentol flavor, 500 ml."
-                          }
-                        ],
                         "http://raml.org/vocabularies/document#strict": [
                           {
                             "@value": true
@@ -8961,6 +8924,11 @@
                                 "@type": "http://www.w3.org/2001/XMLSchema#string"
                               }
                             ]
+                          }
+                        ],
+                        "http://www.w3.org/ns/shacl#raw": [
+                          {
+                            "@value": "Acme product - mentol flavor, 500 ml."
                           }
                         ]
                       }
@@ -9080,11 +9048,6 @@
                           "http://raml.org/vocabularies/document#Example",
                           "http://raml.org/vocabularies/document#DomainElement"
                         ],
-                        "http://raml.org/vocabularies/document#value": [
-                          {
-                            "@value": "042100005264"
-                          }
-                        ],
                         "http://raml.org/vocabularies/document#strict": [
                           {
                             "@value": true
@@ -9102,6 +9065,11 @@
                                 "@type": "http://www.w3.org/2001/XMLSchema#string"
                               }
                             ]
+                          }
+                        ],
+                        "http://www.w3.org/ns/shacl#raw": [
+                          {
+                            "@value": "042100005264"
                           }
                         ]
                       }
@@ -9162,11 +9130,6 @@
                           "http://raml.org/vocabularies/document#Example",
                           "http://raml.org/vocabularies/document#DomainElement"
                         ],
-                        "http://raml.org/vocabularies/document#value": [
-                          {
-                            "@value": "ml"
-                          }
-                        ],
                         "http://raml.org/vocabularies/document#strict": [
                           {
                             "@value": true
@@ -9184,6 +9147,11 @@
                                 "@type": "http://www.w3.org/2001/XMLSchema#string"
                               }
                             ]
+                          }
+                        ],
+                        "http://www.w3.org/ns/shacl#raw": [
+                          {
+                            "@value": "ml"
                           }
                         ]
                       }
@@ -9244,11 +9212,6 @@
                           "http://raml.org/vocabularies/document#Example",
                           "http://raml.org/vocabularies/document#DomainElement"
                         ],
-                        "http://raml.org/vocabularies/document#value": [
-                          {
-                            "@value": "true"
-                          }
-                        ],
                         "http://raml.org/vocabularies/document#strict": [
                           {
                             "@value": true
@@ -9266,6 +9229,11 @@
                                 "@type": "http://www.w3.org/2001/XMLSchema#boolean"
                               }
                             ]
+                          }
+                        ],
+                        "http://www.w3.org/ns/shacl#raw": [
+                          {
+                            "@value": "true"
                           }
                         ]
                       }
@@ -9326,11 +9294,6 @@
                           "http://raml.org/vocabularies/document#Example",
                           "http://raml.org/vocabularies/document#DomainElement"
                         ],
-                        "http://raml.org/vocabularies/document#value": [
-                          {
-                            "@value": "500"
-                          }
-                        ],
                         "http://raml.org/vocabularies/document#strict": [
                           {
                             "@value": true
@@ -9348,6 +9311,11 @@
                                 "@type": "http://www.w3.org/2001/XMLSchema#integer"
                               }
                             ]
+                          }
+                        ],
+                        "http://www.w3.org/ns/shacl#raw": [
+                          {
+                            "@value": "500"
                           }
                         ]
                       }
@@ -9436,11 +9404,6 @@
                 "@type": [
                   "http://raml.org/vocabularies/document#Example",
                   "http://raml.org/vocabularies/document#DomainElement"
-                ],
-                "http://raml.org/vocabularies/document#value": [
-                  {
-                    "@value": "  id: we2322-4f4f4f-f4f4ff-f4f4ff4\n  name: Acme Product\n  quantity: 200\n  unit: ml\n  upc: \"123456789101\"\n  available: true\n  etag: \"W\\\\sd3deef3rgrgf4r\"\n"
-                  }
                 ],
                 "http://raml.org/vocabularies/document#strict": [
                   {
@@ -9552,6 +9515,11 @@
                       }
                     ]
                   }
+                ],
+                "http://www.w3.org/ns/shacl#raw": [
+                  {
+                    "@value": "  id: we2322-4f4f4f-f4f4ff-f4f4ff4\n  name: Acme Product\n  quantity: 200\n  unit: ml\n  upc: \"123456789101\"\n  available: true\n  etag: \"W\\\\sd3deef3rgrgf4r\"\n"
+                  }
                 ]
               }
             ]
@@ -9632,7 +9600,7 @@
                 ],
                 "http://www.w3.org/ns/shacl#name": [
                   {
-                    "@value": "Resource"
+                    "@value": "type"
                   }
                 ],
                 "http://schema.org/description": [
