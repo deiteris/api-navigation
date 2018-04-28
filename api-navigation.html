@@ -727,9 +727,6 @@
         if (shape === 'endpoint') {
           this.toggleOperations(id);
         }
-        if (id === this.selected) {
-          return;
-        }
         this.selectedType = undefined; // cancels event fireing
         this.selected = id;
         this.selectedType = shape; // now fire event
