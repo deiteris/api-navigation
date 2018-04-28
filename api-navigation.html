@@ -750,6 +750,20 @@
           return;
         }
         node.classList.add('iron-selected');
+        let collapse;
+        switch (node.dataset.shape) {
+          case 'method':
+            collapse = node.parentElement;
+            break;
+          case 'type':
+          case 'documentation':
+          case 'security':
+            collapse = node.parentElement.parentElement;
+            break;
+        }
+        if (collapse && !collapse.opened) {
+          collapse.opened = true;
+        }
       }
       /**
        * Removes any current selection that may exist.
