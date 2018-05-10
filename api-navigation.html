@@ -551,6 +551,7 @@
           endpoints: []
         };
         this._traverseDeclarations(model, result);
+        this._traverseReferences(model, result);
         this._traverseEncodes(model, result);
         return result;
       }
@@ -566,6 +567,24 @@
           return;
         }
         declares.forEach((item) => this._appendModelItem(item, target));
+      }
+      /**
+       * Traverses the `http://raml.org/vocabularies/document#references`
+       *
+       * @param {Array|Object} model AMF model
+       * @param {Object} target Target object where to put data.
+       */
+      _traverseReferences(model, target) {
+        const refs = this._computeReferences(model);
+        if (!refs) {
+          return;
+        }
+        refs.forEach((item) => {
+          if (!this._hasType(item, 'http://raml.org/vocabularies/document#Module')) {
+            return;
+          }
+          this._traverseDeclarations(item, target);
+        });
       }
       /**
        * Traverses the `http://raml.org/vocabularies/document#encodes`
