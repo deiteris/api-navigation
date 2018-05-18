@@ -243,6 +243,14 @@ declare namespace ApiElements {
     _traverseDeclarations(model: any, target: object|null): void;
 
     /**
+     * Traverses the `http://raml.org/vocabularies/document#references`
+     *
+     * @param model AMF model
+     * @param target Target object where to put data.
+     */
+    _traverseReferences(model: any[]|object|null, target: object|null): void;
+
+    /**
      * Traverses the `http://raml.org/vocabularies/document#encodes`
      * node to find documentation and endpoints.
      *
