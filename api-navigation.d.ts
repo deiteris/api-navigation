@@ -75,7 +75,7 @@ declare namespace ApiElements {
    * `--api-navigation-header-color` | Color of section title | `rgba(0, 0, 0, 0.84)`
    * `--api-navigation-section-title-background-color` | Background color of the section title | `inherit`
    * `--api-navigation-list-item-min-height` | Minimum heigtht of menu items. Note that each item has top and bottom padding set to 4px which cobines to default 48px. | `40px`
-   * `--api-navigation-list-item-color` | Color of the menu items | `#616161`
+   * `--api-navigation-list-item-color` | Color of the menu items | `rgba(0, 0, 0, 0.84)`
    * `--api-navigation-list-item` | Mixin applied to the menu items | `{}`
    * `--api-navigation-list-item-selected-weight` | Font weight of selected menu item | `bold`
    * `--api-navigation-list-item-selected-background-color` | Background color of selected menu item | `--accent-color`
@@ -95,6 +95,12 @@ declare namespace ApiElements {
    * `--method-display-patch-color` | Font color of the PATCH method label box | `rgb(156, 39, 176)`
    * `--api-navigation-operation-item-padding-left` | Padding left of operation (method) label under endpoint | `32px`
    * `--api-navigation-operation-collapse` | Mixin applied to operation list collapsable element | ``
+   * `--api-navigation-list-section-font-size` | Font size of toggable section label | `16px`
+   * `--api-navigation-endpoint-font-size` | Font size applied to endpoint label | `15px`
+   * `--api-navigation-operation-font-size` | Font size of operation (HTTP method) label | `14px`
+   * `--api-navigation-summary-label` | Mixin applied top the summary label | `{}`
+   * `--api-navigation-list-item-padding` | Padding of list a item | `4px 16px`
+   * `--api-navigation-toggle-icon` | Mixin applied to toggle icon | `{}`
    */
   class ApiNavigation extends
     ApiElements.AmfHelperMixin(
