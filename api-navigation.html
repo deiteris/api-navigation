@@ -25,20 +25,23 @@
     h3,
     .list-item.summary {
       @apply --arc-font-common-base;
-      font-size: 16px;
+      font-size: var(--api-navigation-list-section-font-size, 16px);
       font-weight: 500;
       line-height: 24px;
       color: var(--api-navigation-header-color, rgba(0, 0, 0, 0.84));
       @apply --layout-flex;
+      padding: 0;
+      margin: 0;
     }
 
     .list-item.summary {
       padding: 12px 16px;
+      @apply --api-navigation-summary-label;
     }
 
     .list-item.endpoint {
       font-weight: 500;
-      font-size: 15px;
+      font-size: var(--api-navigation-endpoint-font-size, 15px);
       user-select: none;
     }
 
@@ -61,13 +64,14 @@
       padding: 0 16px;
       background-color: var(--api-navigation-section-title-background-color, inherit);
       user-select: none;
+      min-height: 40px;
     }
 
     .list-item {
       display: block;
       position: relative;
       min-height: var(--api-navigation-list-item-min-height, 40px);
-      padding: 4px 16px;
+      padding: var(--api-navigation-list-item-padding, 4px 16px);
       border:none;
       outline: none;
       background-color: inherit;
@@ -76,7 +80,7 @@
       box-sizing: border-box;
       cursor: pointer;
       word-break: break-all;
-      color: var(--api-navigation-list-item-color, #616161);
+      color: var(--api-navigation-list-item-color, rgba(0, 0, 0, 0.84));
       @apply --layout-horizontal;
       @apply --layout-center;
       @apply --api-navigation-list-item;
@@ -122,6 +126,7 @@
       color: var(--api-navigation-toggle-icon-color, rgba(0, 0, 0, 0.74));
       transform: rotateZ(0deg);
       transition: color 0.25s ease-in-out, transform 0.3s ease-in-out;
+      @apply --api-navigation-toggle-icon;
     }
 
     .toggle-button:hover {
@@ -166,6 +171,7 @@
 
     .operation {
       padding-left: var(--api-navigation-operation-item-padding-left, 32px);
+      font-size: var(--api-navigation-operation-font-size, 14px);
     }
 
     .operation-collapse {
@@ -304,7 +310,7 @@
      * `--api-navigation-header-color` | Color of section title | `rgba(0, 0, 0, 0.84)`
      * `--api-navigation-section-title-background-color` | Background color of the section title | `inherit`
      * `--api-navigation-list-item-min-height` | Minimum heigtht of menu items. Note that each item has top and bottom padding set to 4px which cobines to default 48px. | `40px`
-     * `--api-navigation-list-item-color` | Color of the menu items | `#616161`
+     * `--api-navigation-list-item-color` | Color of the menu items | `rgba(0, 0, 0, 0.84)`
      * `--api-navigation-list-item` | Mixin applied to the menu items | `{}`
      * `--api-navigation-list-item-selected-weight` | Font weight of selected menu item | `bold`
      * `--api-navigation-list-item-selected-background-color` | Background color of selected menu item | `--accent-color`
@@ -324,6 +330,12 @@
      * `--method-display-patch-color` | Font color of the PATCH method label box | `rgb(156, 39, 176)`
      * `--api-navigation-operation-item-padding-left` | Padding left of operation (method) label under endpoint | `32px`
      * `--api-navigation-operation-collapse` | Mixin applied to operation list collapsable element | ``
+     * `--api-navigation-list-section-font-size` | Font size of toggable section label | `16px`
+     * `--api-navigation-endpoint-font-size` | Font size applied to endpoint label | `15px`
+     * `--api-navigation-operation-font-size` | Font size of operation (HTTP method) label | `14px`
+     * `--api-navigation-summary-label` | Mixin applied top the summary label | `{}`
+     * `--api-navigation-list-item-padding` | Padding of list a item | `4px 16px`
+     * `--api-navigation-toggle-icon` | Mixin applied to toggle icon | `{}`
      *
      * @customElement
      * @polymer
