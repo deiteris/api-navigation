@@ -592,7 +592,7 @@
           return;
         }
         refs.forEach((item) => {
-          if (!this._hasType(item, 'http://raml.org/vocabularies/document#Module')) {
+          if (!this._hasType(item, this.ns.ramlVocDoc + 'Module')) {
             return;
           }
           this._traverseDeclarations(item, target);
@@ -610,11 +610,11 @@
           return;
         }
 
-        const endpoint = data['http://raml.org/vocabularies/http#endpoint'];
+        const endpoint = data[this.ns.ramlVocHttp + 'endpoint'];
         if (endpoint) {
           endpoint.forEach((item) => this._appendModelItem(item, target));
         }
-        const documentation = data['http://schema.org/documentation'];
+        const documentation = data[this.ns.schemaDoc];
         if (documentation) {
           documentation.forEach((item) => this._appendModelItem(item, target));
         }
@@ -627,13 +627,13 @@
        * @param {Object} target
        */
       _appendModelItem(item, target) {
-        if (this._hasType(item, 'http://www.w3.org/ns/shacl#Shape')) {
+        if (this._hasType(item, this.ns.shacl + 'Shape')) {
           this._appendTypeItem(item, target);
-        } else if (this._hasType(item, 'http://raml.org/vocabularies/security#SecurityScheme')) {
+        } else if (this._hasType(item, this.ns.ramlVocSec + 'SecurityScheme')) {
           this._appendSecurityItem(item, target);
-        } else if (this._hasType(item, 'http://schema.org/CreativeWork')) {
+        } else if (this._hasType(item, this.ns.schemaCreative)) {
           this._appendDocumentationItem(item, target);
-        } else if (this._hasType(item, 'http://raml.org/vocabularies/http#EndPoint')) {
+        } else if (this._hasType(item, this.ns.ramlVocHttp + 'EndPoint')) {
           this._appendEndpointItem(item, target);
         }
       }
@@ -644,9 +644,9 @@
        * @param {Object} target
        */
       _appendTypeItem(item, target) {
-        let name = this._getValue(item, 'http://schema.org/name');
+        let name = this._getValue(item, this.schemaName);
         if (!name) {
-          name = this._getValue(item, 'http://www.w3.org/ns/shacl#name');
+          name = this._getValue(item, this.ns.shacl + 'name');
         }
         const id = item['@id'];
         target.types.push({
@@ -661,9 +661,9 @@
        * @param {Object} target
        */
       _appendSecurityItem(item, target) {
-        let name = this._getValue(item, 'http://schema.org/displayName');
+        let name = this._getValue(item, this.ns.schemaDisplayName);
         if (!name) {
-          name = this._getValue(item, 'http://raml.org/vocabularies/security#name');
+          name = this._getValue(item, this.ns.ramlVocSec + 'name');
         }
         const id = item['@id'];
         target.securitySchemes.push({
@@ -678,7 +678,7 @@
        * @param {Object} target
        */
       _appendDocumentationItem(item, target) {
-        const name = this._getValue(item, 'http://schema.org/title');
+        const name = this._getValue(item, this.ns.schemaTitle);
         const id = item['@id'];
         target.documentation.push({
           label: name,
@@ -693,12 +693,12 @@
        * @param {Object} target
        */
       _appendEndpointItem(item, target) {
-        let name = this._getValue(item, 'http://schema.org/name');
+        let name = this._getValue(item, this.ns.schemaName);
         if (!name) {
-          name = this._getValue(item, 'http://raml.org/vocabularies/http#path');
+          name = this._getValue(item, this.ns.ramlVocHttp + 'path');
         }
         const id = item['@id'];
-        const operations = item['http://www.w3.org/ns/hydra/core#supportedOperation'] || [];
+        const operations = item[this.ns.supportedOp] || [];
         let methods = operations.map((op) => this._createOperationModel(op));
         target.endpoints.push({
           label: name,
@@ -713,12 +713,13 @@
        * @return {Object} Method view model
        */
       _createOperationModel(item) {
-        let name = this._getValue(item, 'http://schema.org/name');
+        let name = this._getValue(item, this.ns.schemaName);
+        const methodKey = this.ns.hydraCore + 'method';
         if (!name) {
-          name = this._getValue(item, 'http://www.w3.org/ns/hydra/core#method');
+          name = this._getValue(item, methodKey);
         }
         const id = item['@id'];
-        const method = this._getValue(item, 'http://www.w3.org/ns/hydra/core#method');
+        const method = this._getValue(item, methodKey);
         return {
           label: name,
           id: id,
