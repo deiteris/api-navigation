@@ -153,6 +153,7 @@
       margin-right: 8px;
       padding: 2px 8px;
       background-color: var(--api-navigation-method-label-background-color, transparent);
+      color: var(--api-navigation-method-label-color, #000);
       text-transform: uppercase;
       border-radius: var(--api-navigation-method-label-border-radius, 3px);
       font-weight: var(--method-display-font-weigth, 400);
@@ -365,6 +366,14 @@
      * `--api-navigation-summary-label` | Mixin applied top the summary label | `{}`
      * `--api-navigation-list-item-padding` | Padding of list a item | `4px 16px`
      * `--api-navigation-toggle-icon` | Mixin applied to toggle icon | `{}`
+     * `--api-navigation-list-item-selected-passive` | Mixin applied to an item selected via "passive" navigation event" | `{}`
+     * `--api-navigation-method-label-color` | Color of the HTTP method label | `#000`
+     * `--api-navigation-method-label-background-color` | Background color of the HTTP method label | `transparent`
+     * `--api-navigation-method-label-border-radius` | Border radius of HTTP method label | `3px`
+     * `--method-display-font-weigth` | Font weight of HTTP label | `400`
+     * `--method-label-VERB-background-color` | Background color of HTTP method label. Possible verbs are: `get`, `post`, `put`, `delete`, `patch` | `vary`
+     * `--method-label-VERB-color` | Color of HTTP method label. Possible verbs are: `get`, `post`, `put`, `delete`, `patch` | `vary`
+     * `--api-navigation-operation-endpoint-opened-background-color` | Background color of opened methods list | `inherit`
      *
      * @customElement
      * @polymer
