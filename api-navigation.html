@@ -206,7 +206,7 @@
     </template>
     <template is="dom-if" if="[[summary]]">
       <section class="summary">
-        <div class="list-item summary" role="option" tabindex="0" data-api-id="summary" data-shape="summary" on-click="_itemClickHandler">Summary</div>
+        <div class="list-item summary" role="option" tabindex="0" data-api-id="summary" data-shape="summary" on-click="_itemClickHandler">[[summaryLabel]]</div>
       </section>
     </template>
     <template is="dom-if" if="[[hasDocs]]">
@@ -408,6 +408,13 @@
            * when this option is set.
            */
           summary: Boolean,
+          /**
+           * A label for the `summary` section.
+           */
+          summaryLabel: {
+            type: String,
+            value: 'Summary'
+          },
           /**
            * Computed list of documentatoin items in the API.
            *
