@@ -101,6 +101,14 @@ declare namespace ApiElements {
    * `--api-navigation-summary-label` | Mixin applied top the summary label | `{}`
    * `--api-navigation-list-item-padding` | Padding of list a item | `4px 16px`
    * `--api-navigation-toggle-icon` | Mixin applied to toggle icon | `{}`
+   * `--api-navigation-list-item-selected-passive` | Mixin applied to an item selected via "passive" navigation event" | `{}`
+   * `--api-navigation-method-label-color` | Color of the HTTP method label | `#000`
+   * `--api-navigation-method-label-background-color` | Background color of the HTTP method label | `transparent`
+   * `--api-navigation-method-label-border-radius` | Border radius of HTTP method label | `3px`
+   * `--method-display-font-weigth` | Font weight of HTTP label | `400`
+   * `--method-label-VERB-background-color` | Background color of HTTP method label. Possible verbs are: `get`, `post`, `put`, `delete`, `patch` | `vary`
+   * `--method-label-VERB-color` | Color of HTTP method label. Possible verbs are: `get`, `post`, `put`, `delete`, `patch` | `vary`
+   * `--api-navigation-operation-endpoint-opened-background-color` | Background color of opened methods list | `inherit`
    */
   class ApiNavigation extends
     ApiElements.AmfHelperMixin(
@@ -134,6 +142,11 @@ declare namespace ApiElements {
      * when this option is set.
      */
     summary: boolean|null|undefined;
+
+    /**
+     * A label for the `summary` section.
+     */
+    summaryLabel: string|null|undefined;
 
     /**
      * Computed list of documentatoin items in the API.
@@ -323,8 +336,9 @@ declare namespace ApiElements {
      * `id`.
      *
      * @param id Selected node id.
+     * @returns Type of selected node.
      */
-    _addSelection(id: String|null): void;
+    _addSelection(id: String|null): String|null;
 
     /**
      * Removes any current selection that may exist.
@@ -343,7 +357,7 @@ declare namespace ApiElements {
      *
      * @param current New selection
      */
-    _selectedChangd(current: String|null): void;
+    _selectedChangd(current: String|null, old: any): void;
 
     /**
      * Label check agains `query` function called by `dom-repeat` element.
@@ -409,6 +423,12 @@ declare namespace ApiElements {
     _handlePassiveNavigation(detail: any): void;
     _cleanPassiveSelection(): void;
     _selectMethodPassive(id: any): void;
+
+    /**
+     * Endpoint label click handler.
+     * Toggles endpoint's methods list.
+     */
+    _toggleEndpoint(e: any): void;
   }
 }
 
