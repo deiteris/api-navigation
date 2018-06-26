@@ -245,8 +245,15 @@
             assert.ok(panel);
           });
 
-          test('Clicking on an item changes selection', () => {
+          test('Clicking on endpoint toggles operation', () => {
             const node = element.shadowRoot.querySelectorAll('.endpoints .list-item.endpoint')[1];
+            node.click();
+            const collapsable = node.nextElementSibling;
+            assert.isTrue(collapsable.opened);
+          });
+
+          test('Clicking on the overview changes selection', () => {
+            const node = element.shadowRoot.querySelectorAll('.list-item.operation[data-shape="endpoint"]')[1];
             node.click();
             assert.equal(element.selected, 'test2');
             assert.equal(element.selectedType, 'endpoint');
@@ -398,7 +405,9 @@
         let amf;
         suiteSetup(() => {
           return AmfLoader.load()
-          .then((model) => amf = model);
+          .then((model) => {
+            amf = model;
+          });
         });
 
         setup((done) => {
@@ -429,7 +438,7 @@
         test('Opens iron-collapse', () => {
           dispatch('file://demo/demo-api/demo-api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcopy/post', 'method');
           const id = 'file://demo/demo-api/demo-api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcopy';
-          const node = element.shadowRoot.querySelector(`.endpoint[data-api-id="${id}"]`);
+          const node = element.shadowRoot.querySelector(`.endpoint[data-endpoint-id="${id}"]`);
           assert.isTrue(node.nextElementSibling.opened);
         });
       });
