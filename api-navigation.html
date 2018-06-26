@@ -43,10 +43,18 @@
       font-weight: 500;
       font-size: var(--api-navigation-endpoint-font-size, 15px);
       user-select: none;
+      font-weight: normal;
+      @apply --layout-horizontal;
     }
 
     .list-item.endpoint:first-of-type {
       margin-top: 0px;
+    }
+
+    .endpoint-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      @apply --layout-flex;
     }
 
     *[hidden] {
@@ -122,47 +130,59 @@
       @apply --api-navigation-list-item-hovered;
     }
 
-    .toggle-button {
+    .toggle-button,
+    .endpoint-toggle-button {
       color: var(--api-navigation-toggle-icon-color, rgba(0, 0, 0, 0.74));
       transform: rotateZ(0deg);
       transition: color 0.25s ease-in-out, transform 0.3s ease-in-out;
       @apply --api-navigation-toggle-icon;
     }
 
-    .toggle-button:hover {
+    .toggle-button:hover,
+    .endpoint-toggle-button:hover {
       color: var(--api-navigation-toggle-icon-hover-color, var(--secondary-button-color, rgba(0, 0, 0, 0.88)));
     }
 
-    [data-opened] .toggle-button {
+    [data-opened] .toggle-button,
+    [endpoint-opened] .endpoint-toggle-button {
       transform: rotateZ(-180deg);
     }
 
     .method-label {
       display: inline-block;
       margin-right: 8px;
+      padding: 2px 8px;
+      background-color: var(--api-navigation-method-label-background-color, transparent);
+      color: var(--api-navigation-method-label-color, #000);
       text-transform: uppercase;
+      border-radius: var(--api-navigation-method-label-border-radius, 3px);
+      font-weight: var(--method-display-font-weigth, 400);
       white-space: nowrap;
-      font-weight: var(--method-display-font-weigth, 500);
     }
 
     .method-label[data-method="get"] {
-      color: var(--method-display-get-color, rgb(0, 128, 0));
+      background-color: var(--method-label-get-background-color, rgb(0, 128, 0));
+      color: var(--method-label-get-color, #fff);
     }
 
     .method-label[data-method="post"] {
-      color: var(--method-display-post-color, rgb(33, 150, 243));
+      background-color: var(--method-label-post-background-color, rgb(33, 150, 243));
+      color: var(--method-label-post-color, #fff);
     }
 
     .method-label[data-method="delete"] {
-      color: var(--method-display-delete-color, rgb(244, 67, 54));
+      background-color: var(--method-label-delete-background-color, rgb(244, 67, 54));
+      color: var(--method-label-delete-color, #fff);
     }
 
     .method-label[data-method="put"] {
-      color: var(--method-display-put-color, rgb(255, 165, 0));
+      background-color: var(--method-label-put-background-color, rgb(255, 165, 0));
+      color: var(--method-label-put-color, #fff);
     }
 
     .method-label[data-method="patch"] {
-      color: var(--method-display-patch-color, rgb(156, 39, 176));
+      background-color: var(--method-label-patch-background-color, rgb(156, 39, 176));
+      color: var(--method-label-patch-color, #fff);
     }
 
     .list-item.iron-selected .method-label[data-method] {
@@ -177,13 +197,17 @@
     .operation-collapse {
       @apply --api-navigation-operation-collapse;
     }
+
+    [endpoint-opened] {
+      background-color: var(--api-navigation-operation-endpoint-opened-background-color, inherit);
+    }
     </style>
     <template is="dom-if" if="[[aware]]">
       <raml-aware raml="{{amfModel}}" scope="[[aware]]"></raml-aware>
     </template>
     <template is="dom-if" if="[[summary]]">
       <section class="summary">
-        <div class="list-item summary" role="option" tabindex="0" data-api-id="summary" data-shape="summary" on-click="_itemClickHandler">API summary</div>
+        <div class="list-item summary" role="option" tabindex="0" data-api-id="summary" data-shape="summary" on-click="_itemClickHandler">[[summaryLabel]]</div>
       </section>
     </template>
     <template is="dom-if" if="[[hasDocs]]">
@@ -234,14 +258,20 @@
     <template is="dom-if" if="[[hasEndpoints]]">
       <section class="endpoints" data-opened$="[[endpointsOpened]]">
         <div class="section-title" data-section="endpoints" on-click="_toggleSection">
-          <h3>API endpoints</h3>
+          <h3>Endpoints</h3>
           <paper-icon-button class="toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
         </div>
         <iron-collapse opened="[[endpointsOpened]]">
           <div class="children">
             <template is="dom-repeat" items="[[endpoints]]">
-              <div class="list-item endpoint" hidden$="[[item.hidden]]" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="endpoint" on-click="_itemClickHandler">[[item.label]]</div>
-              <iron-collapse class="operation-collapse" data-api-id$="[[item.id]]">
+              <div class="list-item endpoint" hidden$="[[item.hidden]]" data-endpoint-id$="[[item.id]]" on-click="_toggleEndpoint">
+                <span class="endpoint-name">[[item.label]]</span>
+                <paper-icon-button class="endpoint-toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
+              </div>
+              <iron-collapse class="operation-collapse" hidden$="[[item.hidden]]" data-api-id$="[[item.id]]">
+                <div class="list-item operation" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="endpoint" on-click="_itemClickHandler">
+                  Overview
+                </div>
                 <template is="dom-repeat" items="[[item.methods]]" filter="_methodFilter" observe="method label" data-query on-rendered-item-count-changed="_methodsCountChanged">
                   <div class="list-item operation" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="method" on-click="_itemClickHandler">
                     <span class="method-label" data-method$="[[item.method]]">[[item.method]]</span>
@@ -336,6 +366,14 @@
      * `--api-navigation-summary-label` | Mixin applied top the summary label | `{}`
      * `--api-navigation-list-item-padding` | Padding of list a item | `4px 16px`
      * `--api-navigation-toggle-icon` | Mixin applied to toggle icon | `{}`
+     * `--api-navigation-list-item-selected-passive` | Mixin applied to an item selected via "passive" navigation event" | `{}`
+     * `--api-navigation-method-label-color` | Color of the HTTP method label | `#000`
+     * `--api-navigation-method-label-background-color` | Background color of the HTTP method label | `transparent`
+     * `--api-navigation-method-label-border-radius` | Border radius of HTTP method label | `3px`
+     * `--method-display-font-weigth` | Font weight of HTTP label | `400`
+     * `--method-label-VERB-background-color` | Background color of HTTP method label. Possible verbs are: `get`, `post`, `put`, `delete`, `patch` | `vary`
+     * `--method-label-VERB-color` | Color of HTTP method label. Possible verbs are: `get`, `post`, `put`, `delete`, `patch` | `vary`
+     * `--api-navigation-operation-endpoint-opened-background-color` | Background color of opened methods list | `inherit`
      *
      * @customElement
      * @polymer
@@ -379,6 +417,13 @@
            * when this option is set.
            */
           summary: Boolean,
+          /**
+           * A label for the `summary` section.
+           */
+          summaryLabel: {
+            type: String,
+            value: 'Summary'
+          },
           /**
            * Computed list of documentatoin items in the API.
            *
@@ -592,7 +637,7 @@
           return;
         }
         refs.forEach((item) => {
-          if (!this._hasType(item, 'http://raml.org/vocabularies/document#Module')) {
+          if (!this._hasType(item, this.ns.raml.vocabularies.document + 'Module')) {
             return;
           }
           this._traverseDeclarations(item, target);
@@ -609,12 +654,11 @@
         if (!data) {
           return;
         }
-
-        const endpoint = data['http://raml.org/vocabularies/http#endpoint'];
+        const endpoint = data[this.ns.raml.vocabularies.http + 'endpoint'];
         if (endpoint) {
           endpoint.forEach((item) => this._appendModelItem(item, target));
         }
-        const documentation = data['http://schema.org/documentation'];
+        const documentation = data[this.ns.schema.doc];
         if (documentation) {
           documentation.forEach((item) => this._appendModelItem(item, target));
         }
@@ -627,13 +671,13 @@
        * @param {Object} target
        */
       _appendModelItem(item, target) {
-        if (this._hasType(item, 'http://www.w3.org/ns/shacl#Shape')) {
+        if (this._hasType(item, this.ns.w3.shacl.shape)) {
           this._appendTypeItem(item, target);
-        } else if (this._hasType(item, 'http://raml.org/vocabularies/security#SecurityScheme')) {
+        } else if (this._hasType(item, this.ns.raml.vocabularies.security + 'SecurityScheme')) {
           this._appendSecurityItem(item, target);
-        } else if (this._hasType(item, 'http://schema.org/CreativeWork')) {
+        } else if (this._hasType(item, this.ns.schema.creativeWork)) {
           this._appendDocumentationItem(item, target);
-        } else if (this._hasType(item, 'http://raml.org/vocabularies/http#EndPoint')) {
+        } else if (this._hasType(item, this.ns.raml.vocabularies.http + 'EndPoint')) {
           this._appendEndpointItem(item, target);
         }
       }
@@ -644,9 +688,9 @@
        * @param {Object} target
        */
       _appendTypeItem(item, target) {
-        let name = this._getValue(item, 'http://schema.org/name');
+        let name = this._getValue(item, this.schemaName);
         if (!name) {
-          name = this._getValue(item, 'http://www.w3.org/ns/shacl#name');
+          name = this._getValue(item, this.ns.w3.shacl.name + 'name');
         }
         const id = item['@id'];
         target.types.push({
@@ -661,9 +705,9 @@
        * @param {Object} target
        */
       _appendSecurityItem(item, target) {
-        let name = this._getValue(item, 'http://schema.org/displayName');
+        let name = this._getValue(item, this.ns.schema.displayName);
         if (!name) {
-          name = this._getValue(item, 'http://raml.org/vocabularies/security#name');
+          name = this._getValue(item, this.ns.raml.vocabularies.security + 'name');
         }
         const id = item['@id'];
         target.securitySchemes.push({
@@ -678,7 +722,7 @@
        * @param {Object} target
        */
       _appendDocumentationItem(item, target) {
-        const name = this._getValue(item, 'http://schema.org/title');
+        const name = this._getValue(item, this.ns.schema.title);
         const id = item['@id'];
         target.documentation.push({
           label: name,
@@ -693,12 +737,12 @@
        * @param {Object} target
        */
       _appendEndpointItem(item, target) {
-        let name = this._getValue(item, 'http://schema.org/name');
+        let name = this._getValue(item, this.ns.schema.schemaName);
         if (!name) {
-          name = this._getValue(item, 'http://raml.org/vocabularies/http#path');
+          name = this._getValue(item, this.ns.raml.vocabularies.http + 'path');
         }
         const id = item['@id'];
-        const operations = item['http://www.w3.org/ns/hydra/core#supportedOperation'] || [];
+        const operations = item[this.ns.w3.hydra.supportedOperation] || [];
         let methods = operations.map((op) => this._createOperationModel(op));
         target.endpoints.push({
           label: name,
@@ -713,12 +757,13 @@
        * @return {Object} Method view model
        */
       _createOperationModel(item) {
-        let name = this._getValue(item, 'http://schema.org/name');
-        if (!name) {
-          name = this._getValue(item, 'http://www.w3.org/ns/hydra/core#method');
-        }
+        let name = this._getValue(item, this.ns.schema.schemaName);
+        const methodKey = this.ns.w3.hydra.core + 'method';
+        // if (!name) {
+        //   name = this._getValue(item, methodKey);
+        // }
         const id = item['@id'];
-        const method = this._getValue(item, 'http://www.w3.org/ns/hydra/core#method');
+        const method = this._getValue(item, methodKey);
         return {
           label: name,
           id: id,
@@ -755,9 +800,6 @@
       _selectItem(node) {
         const id = node.dataset.apiId;
         const shape = node.dataset.shape;
-        if (shape === 'endpoint') {
-          this.toggleOperations(id);
-        }
         this.selectedType = undefined; // cancels event fireing
         this.selected = id;
         this.selectedType = shape; // now fire event
@@ -767,13 +809,19 @@
        * `id`.
        *
        * @param {String} id Selected node id.
+       * @return {String} Type of selected node.
        */
       _addSelection(id) {
         if (!this.shadowRoot) {
           return;
         }
-        const selector = `[data-api-id="${id}"]`;
-        const node = this.shadowRoot.querySelector(selector);
+        let node = this.shadowRoot.querySelector(`[data-api-id="${id}"]`);
+        if (!node) {
+          return;
+        }
+        if (node.nodeName === 'IRON-COLLAPSE') {
+          node = this.shadowRoot.querySelector(`.operation[data-api-id="${id}"]`);
+        }
         if (!node) {
           return;
         }
@@ -781,6 +829,7 @@
         let collapse;
         switch (node.dataset.shape) {
           case 'method':
+          case 'endpoint':
             collapse = node.parentElement;
             break;
           case 'type':
@@ -791,7 +840,9 @@
         }
         if (collapse && !collapse.opened) {
           collapse.opened = true;
+          collapse.setAttribute('endpoint-opened', true);
         }
+        return node.dataset.shape;
       }
       /**
        * Removes any current selection that may exist.
@@ -812,23 +863,43 @@
        */
       toggleOperations(id) {
         let selector = `.operation-collapse[data-api-id="${id}"]`;
-        let collapse = this.shadowRoot.querySelector(selector);
+        const collapse = this.shadowRoot.querySelector(selector);
         if (!collapse) {
-          console.warn('Expected collapse for ', id);
           return;
         }
         collapse.opened = !collapse.opened;
+        selector = `.list-item.endpoint[data-endpoint-id="${id}"]`;
+        const label = this.shadowRoot.querySelector(selector);
+        if (!label) {
+          console.warn('Expected label for ', id);
+          return;
+        }
+        if (collapse.opened) {
+          label.setAttribute('endpoint-opened', true);
+          collapse.setAttribute('endpoint-opened', true);
+        } else {
+          label.removeAttribute('endpoint-opened');
+          collapse.removeAttribute('endpoint-opened');
+        }
       }
       /**
        * Updates the state of selected element when `selected` changes.
        *
        * @param {String} current New selection
        */
-      _selectedChangd(current) {
+      _selectedChangd(current, old) {
         this._clearSelection();
         this._cleanPassiveSelection();
         if (current) {
           this._addSelection(current);
+          // const type = this._addSelection(current);
+          // if (old && type && ['endpoint', 'method'].indexOf(type) !== -1) {
+          //   const oldEndpointId = old.substr(old.lastIndexOf('/'), 4) === '/%2F' ? old : old.substr(0, old.lastIndexOf('/'));
+          //   const newEndpointId = current.substr(current.lastIndexOf('/'), 4) === '/%2F' ? current : current.substr(0, current.lastIndexOf('/'));
+          //   if (newEndpointId !== oldEndpointId) {
+          //     this.toggleOperations(oldEndpointId);
+          //   }
+          // }
         }
       }
       /**
@@ -1005,6 +1076,24 @@
         this.__hasPassiveSelection = true;
         if (!node.parentElement.opened) {
           node.parentElement.opened = true;
+        }
+      }
+      /**
+       * Endpoint label click handler.
+       * Toggles endpoint's methods list.
+       */
+      _toggleEndpoint(e) {
+        const path = e.composedPath();
+        while (true) {
+          const node = path.shift();
+          if (!node || node.nodeType !== 1) {
+            continue;
+          }
+          if (!node.dataset.endpointId) {
+            continue;
+          }
+          this.toggleOperations(node.dataset.endpointId);
+          break;
         }
       }
       /**
