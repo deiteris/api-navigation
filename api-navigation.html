@@ -212,7 +212,7 @@
     </template>
     <template is="dom-if" if="[[hasDocs]]">
       <section class="documentation" data-opened$="[[docsOpened]]">
-        <div class="section-title" data-section="docs" on-click="_toggleSection">
+        <div class="section-title" data-section="docs" on-click="_toggleSection" title="Toggle documentation list">
           <h3>Documentation</h3>
           <paper-icon-button class="toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]" on-click="_itemClickHandler"></paper-icon-button>
         </div>
@@ -227,7 +227,7 @@
     </template>
     <template is="dom-if" if="[[hasTypes]]">
       <section class="types" data-opened$="[[typesOpened]]">
-        <div class="section-title" data-section="types" on-click="_toggleSection">
+        <div class="section-title" data-section="types" on-click="_toggleSection" title="Toggle types list">
           <h3>Types</h3>
           <paper-icon-button class="toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
         </div>
@@ -242,7 +242,7 @@
     </template>
     <template is="dom-if" if="[[hasSecurity]]">
       <section class="security" data-opened$="[[securityOpened]]">
-        <div class="section-title" data-section="security" on-click="_toggleSection">
+        <div class="section-title" data-section="security" on-click="_toggleSection" title="Toggle security list">
           <h3>Security</h3>
           <paper-icon-button class="toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
         </div>
@@ -257,14 +257,14 @@
     </template>
     <template is="dom-if" if="[[hasEndpoints]]">
       <section class="endpoints" data-opened$="[[endpointsOpened]]">
-        <div class="section-title" data-section="endpoints" on-click="_toggleSection">
+        <div class="section-title" data-section="endpoints" on-click="_toggleSection"  title="Toggle endpoints list">
           <h3>Endpoints</h3>
           <paper-icon-button class="toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
         </div>
         <iron-collapse opened="[[endpointsOpened]]">
           <div class="children">
             <template is="dom-repeat" items="[[endpoints]]">
-              <div class="list-item endpoint" hidden$="[[item.hidden]]" data-endpoint-id$="[[item.id]]" on-click="_toggleEndpoint">
+              <div class="list-item endpoint" hidden$="[[item.hidden]]" data-endpoint-id$="[[item.id]]" on-click="_toggleEndpoint" title="Toggle endpoint documentation">
                 <span class="endpoint-name">[[item.label]]</span>
                 <paper-icon-button class="endpoint-toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
               </div>
