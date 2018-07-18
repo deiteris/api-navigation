@@ -88,6 +88,8 @@ declare namespace ApiElements {
    * `--api-navigation-list-item-hovered` | Mixin applied to menu item when hovering and not focused. Note, you should not rely of hover states | `{}`
    * `--api-navigation-toggle-icon-color` | Color of the toggle button next to section title | `rgba(0, 0, 0, 0.74)`
    * `--api-navigation-toggle-icon-hover-color` | Color of the toggle button next to section title when hovering. | `--secondary-button-color` or `rgba(0, 0, 0, 0.88)`
+   * `--api-navigation-endpoint-toggle-icon-color` | Colot of endpoint toggle button | `--api-navigation-toggle-icon-color` or `rgba(0, 0, 0, 0.74)`
+   * `--api-navigation-endpoint-toggle-icon` | Mixin applied to endpoint toggle icon | `{}`
    * `--method-display-get-color` | Font color of the GET method label box | `rgb(0, 128, 0)`
    * `--method-display-post-color` | Font color of the POST method label box | `rgb(33, 150, 243)`
    * `--method-display-put-color` | Font color of the PUT method label box | `rgb(255, 165, 0)`

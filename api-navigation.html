@@ -132,15 +132,29 @@
 
     .toggle-button,
     .endpoint-toggle-button {
-      color: var(--api-navigation-toggle-icon-color, rgba(0, 0, 0, 0.74));
       transform: rotateZ(0deg);
       transition: color 0.25s ease-in-out, transform 0.3s ease-in-out;
+    }
+
+    .toggle-button {
+      color: var(--api-navigation-toggle-icon-color, rgba(0, 0, 0, 0.74));
       @apply --api-navigation-toggle-icon;
     }
 
-    .toggle-button:hover,
-    .endpoint-toggle-button:hover {
+    .endpoint-toggle-button {
+      color: var(--api-navigation-endpoint-toggle-icon-color, var(--api-navigation-toggle-icon-color, rgba(0, 0, 0, 0.74)));
+      transform: rotateZ(0deg);
+      transition: color 0.25s ease-in-out, transform 0.3s ease-in-out;
+      @apply --api-navigation-toggle-icon;
+      @apply --api-navigation-endpoint-toggle-icon;
+    }
+
+    .toggle-button:hover {
       color: var(--api-navigation-toggle-icon-hover-color, var(--secondary-button-color, rgba(0, 0, 0, 0.88)));
+    }
+
+    .endpoint-toggle-button:hover {
+      color: var(--api-navigation-endpoint-toggle-icon-hover-color, var(--api-navigation-toggle-icon-hover-color, var(--secondary-button-color, rgba(0, 0, 0, 0.88))));
     }
 
     [data-opened] .toggle-button,
@@ -353,6 +367,8 @@
      * `--api-navigation-list-item-hovered` | Mixin applied to menu item when hovering and not focused. Note, you should not rely of hover states | `{}`
      * `--api-navigation-toggle-icon-color` | Color of the toggle button next to section title | `rgba(0, 0, 0, 0.74)`
      * `--api-navigation-toggle-icon-hover-color` | Color of the toggle button next to section title when hovering. | `--secondary-button-color` or `rgba(0, 0, 0, 0.88)`
+     * `--api-navigation-endpoint-toggle-icon-color` | Colot of endpoint toggle button | `--api-navigation-toggle-icon-color` or `rgba(0, 0, 0, 0.74)`
+     * `--api-navigation-endpoint-toggle-icon` | Mixin applied to endpoint toggle icon | `{}`
      * `--method-display-get-color` | Font color of the GET method label box | `rgb(0, 128, 0)`
      * `--method-display-post-color` | Font color of the POST method label box | `rgb(33, 150, 243)`
      * `--method-display-put-color` | Font color of the PUT method label box | `rgb(255, 165, 0)`
