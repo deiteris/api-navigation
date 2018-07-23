@@ -398,6 +398,20 @@
           assert.typeOf(methods[0].label, 'string');
           assert.typeOf(methods[0].method, 'string');
         });
+
+        test('Collects types from a library', () => {
+          const result = element.types;
+          assert.lengthOf(result, 10);
+          assert.equal(result[9].id, 'file://demo/demo-api/library.raml#/declarations/types/LibraryType');
+          assert.equal(result[9].label, 'LibraryType');
+        });
+
+        test('Types does not include inline declarations', () => {
+          const result = element.types;
+          for (let i = 0, len = result.length; i < len; i++) {
+            assert.equal(result[i].label.indexOf('amf_inline_type'), -1);
+          }
+        });
       });
 
       suite('Passive selection', () => {

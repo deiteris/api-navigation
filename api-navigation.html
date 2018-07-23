@@ -708,7 +708,20 @@
         if (!name) {
           name = this._getValue(item, this.ns.w3.shacl.name + 'name');
         }
+        if (!name) {
+          return;
+        }
+        if (name.indexOf('amf_inline_type') === 0) {
+          // https://www.mulesoft.org/jira/browse/APIMF-972
+          return;
+        }
         const id = item['@id'];
+        for (let i = 0, len = target.types.length; i < len; i++) {
+          if (target.types[i].id === id) {
+            // Avoids duplicates from references.
+            return;
+          }
+        }
         target.types.push({
           label: name,
           id: id
@@ -903,7 +916,7 @@
        *
        * @param {String} current New selection
        */
-      _selectedChangd(current, old) {
+      _selectedChangd(current/*, old*/) {
         this._clearSelection();
         this._cleanPassiveSelection();
         if (current) {

@@ -5,6 +5,9 @@ version: v2
 baseUri: https://api.mulesoft.com/{version}
 mediaType: application/json
 
+uses:
+  lib: library.raml
+
 securitySchemes:
   basic:
     type: Basic Authentication
