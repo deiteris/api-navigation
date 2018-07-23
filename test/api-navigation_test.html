@@ -388,6 +388,7 @@
           assert.typeOf(result[0].id, 'string');
           assert.typeOf(result[0].label, 'string');
           assert.typeOf(result[0].methods, 'array');
+          assert.typeOf(result[0].renderPath, 'boolean');
         });
 
         test('Collects methods information', () => {
@@ -411,6 +412,26 @@
           for (let i = 0, len = result.length; i < len; i++) {
             assert.equal(result[i].label.indexOf('amf_inline_type'), -1);
           }
+        });
+
+        test('renderPath is set on endpoints', () => {
+          const result = element.endpoints;
+          let endpoint = result[0];
+          assert.isTrue(endpoint.renderPath);
+          endpoint = result[2];
+          assert.isFalse(endpoint.renderPath);
+        });
+
+        test('Truncates the path to the last part', () => {
+          const result = element.endpoints;
+          const endpoint = result[1];
+          assert.equal(endpoint.path, '/{fileId}');
+        });
+
+        test('Sets missing name as the last part', () => {
+          const result = element.endpoints;
+          const endpoint = result[2];
+          assert.equal(endpoint.label, '/copy');
         });
       });
 
@@ -454,6 +475,89 @@
           const id = 'file://demo/demo-api/demo-api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcopy';
           const node = element.shadowRoot.querySelector(`.endpoint[data-endpoint-id="${id}"]`);
           assert.isTrue(node.nextElementSibling.opened);
+        });
+      });
+
+      suite('_computeLastPathName()', () => {
+        let element;
+        suiteSetup(() => {
+          element = fixture('Basic');
+        });
+
+        test('Computes short path', () => {
+          const result = element._computeLastPathName(['a', 'b', 'c']);
+          assert.equal(result, '/c');
+        });
+
+        test('Computes short path when first item is empty', () => {
+          const result = element._computeLastPathName(['', 'b', 'c']);
+          assert.equal(result, '/c');
+        });
+      });
+
+      suite('_computeEndpointPaddingLeft()', () => {
+        let element;
+        setup((done) => {
+          element = fixture('Basic');
+          flush(() => done());
+        });
+
+        test('Computes default padding', () => {
+          const result = element._computeEndpointPaddingLeft();
+          assert.equal(result, 16);
+        });
+
+        test('Computes value for single value padding', () => {
+          element.updateStyles({
+            '--api-navigation-list-item-padding': '5px'
+          });
+          const result = element._computeEndpointPaddingLeft();
+          assert.equal(result, 5);
+        });
+
+        test('Computes value for double padding value', () => {
+          element.updateStyles({
+            '--api-navigation-list-item-padding': '5px 10px'
+          });
+          const result = element._computeEndpointPaddingLeft();
+          assert.equal(result, 10);
+        });
+
+        test('Computes value for tripple padding value', () => {
+          element.updateStyles({
+            '--api-navigation-list-item-padding': '5px 10px 15px'
+          });
+          const result = element._computeEndpointPaddingLeft();
+          assert.equal(result, 15);
+        });
+
+        test('Computes value for full padding value', () => {
+          element.updateStyles({
+            '--api-navigation-list-item-padding': '5px 10px 15px 20px'
+          });
+          const result = element._computeEndpointPaddingLeft();
+          assert.equal(result, 15);
+        });
+      });
+
+      suite('_computeOperationPaddingLeft()', () => {
+        let element;
+        setup((done) => {
+          element = fixture('Basic');
+          flush(() => done());
+        });
+
+        test('Computes default padding', () => {
+          const result = element._computeOperationPaddingLeft();
+          assert.equal(result, 24);
+        });
+
+        test('Computes padding from css property', () => {
+          element.updateStyles({
+            '--api-navigation-operation-item-padding-left': '5px'
+          });
+          const result = element._computeOperationPaddingLeft();
+          assert.equal(result, 5);
         });
       });
 
