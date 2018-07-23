@@ -55,6 +55,7 @@
 
       .themed {
         background-color: #E1F5FE;
+        --api-navigation-operation-endpoint-opened-background-color: #B3E5FC;
         --api-navigation-list-item-selected-background-color: #FFCC80;
         --method-display-selected-color: #000;
         --api-navigation-list-item-selected-color: #000;
@@ -67,7 +68,6 @@
         --api-navigation-list-item-hovered: {
           border-left: 4px #90CAF9 solid;
         };
-        --api-navigation-operation-endpoint-opened-background-color: #B3E5FC;
       }
       </style>
     </custom-style>
@@ -82,6 +82,7 @@
             <paper-listbox slot="dropdown-content" id="apiList" on-selected-changed="_apiChanged">
               <paper-item data-file="demo-api.json">Demo API</paper-item>
               <paper-item data-file="types-list.json">Types list issue demo</paper-item>
+              <paper-item data-file="exchange-experience-api.json">Exchange API</paper-item>
             </paper-listbox>
           </paper-dropdown-menu>
         </header>
