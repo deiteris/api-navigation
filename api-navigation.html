@@ -51,10 +51,19 @@
       margin-top: 0px;
     }
 
+    .path-details {
+      @apply --layout-flex;
+    }
+
+    .path-name,
     .endpoint-name {
       overflow: hidden;
       text-overflow: ellipsis;
-      @apply --layout-flex;
+    }
+
+    .path-name {
+      font-size: 13px;
+      color: #616161;
     }
 
     *[hidden] {
@@ -69,7 +78,7 @@
       @apply --layout-horizontal;
       @apply --layout-center;
       cursor: pointer;
-      padding: 0 16px;
+      padding: var(--api-navigation-section-title-padding, 4px 16px);
       background-color: var(--api-navigation-section-title-background-color, inherit);
       user-select: none;
       min-height: 40px;
@@ -204,7 +213,7 @@
     }
 
     .operation {
-      padding-left: var(--api-navigation-operation-item-padding-left, 32px);
+      padding-left: var(--api-navigation-operation-item-padding-left, 24px);
       font-size: var(--api-navigation-operation-font-size, 14px);
     }
 
@@ -224,6 +233,42 @@
         <div class="list-item summary" role="option" tabindex="0" data-api-id="summary" data-shape="summary" on-click="_itemClickHandler">[[summaryLabel]]</div>
       </section>
     </template>
+
+    <template is="dom-if" if="[[hasEndpoints]]">
+      <section class="endpoints" data-opened$="[[endpointsOpened]]">
+        <div class="section-title" data-section="endpoints" on-click="_toggleSection"  title="Toggle endpoints list">
+          <h3>Endpoints</h3>
+          <paper-icon-button class="toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
+        </div>
+        <iron-collapse opened="[[endpointsOpened]]">
+          <div class="children">
+            <template is="dom-repeat" items="[[endpoints]]">
+              <div class="list-item endpoint" hidden$="[[item.hidden]]" data-endpoint-id$="[[item.id]]" on-click="_toggleEndpoint" title="Toggle endpoint documentation" style$="[[_computeEndpointPadding(item.indent, indentSize)]]">
+                <div class="path-details">
+                  <div class="endpoint-name">[[item.label]]</div>
+                  <template is="dom-if" if="[[item.renderPath]]">
+                    <div class="path-name">[[item.path]]</div>
+                  </template>
+                </div>
+                <paper-icon-button class="endpoint-toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
+              </div>
+              <iron-collapse class="operation-collapse" hidden$="[[item.hidden]]" data-api-id$="[[item.id]]">
+                <div class="list-item operation" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="endpoint" on-click="_itemClickHandler" on-keyup="_spaceUpHandler" on-keydown="_spaceDownHandler"  style$="[[_computeMethodPadding(item.indent, indentSize)]]">
+                  Overview
+                </div>
+                <template is="dom-repeat" items="[[item.methods]]" filter="_methodFilter" observe="method label" data-query on-rendered-item-count-changed="_methodsCountChanged" as="methodItem">
+                  <div class="list-item operation" role="option" tabindex="0" data-api-id$="[[methodItem.id]]" data-shape="method" on-click="_itemClickHandler" on-keyup="_spaceUpHandler" on-keydown="_spaceDownHandler"  style$="[[_computeMethodPadding(item.indent, indentSize)]]">
+                    <span class="method-label" data-method$="[[methodItem.method]]">[[methodItem.method]]</span>
+                    [[methodItem.label]]
+                  </div>
+                </template>
+              </iron-collapse>
+            </template>
+          </div>
+        </iron-collapse>
+      </section>
+    </template>
+
     <template is="dom-if" if="[[hasDocs]]">
       <section class="documentation" data-opened$="[[docsOpened]]">
         <div class="section-title" data-section="docs" on-click="_toggleSection" title="Toggle documentation list">
@@ -264,35 +309,6 @@
           <div class="children">
             <template is="dom-repeat" items="[[security]]" filter="_labelFilter" observe="label" data-query>
               <div class="list-item" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="security" on-click="_itemClickHandler">[[item.label]]</div>
-            </template>
-          </div>
-        </iron-collapse>
-      </section>
-    </template>
-    <template is="dom-if" if="[[hasEndpoints]]">
-      <section class="endpoints" data-opened$="[[endpointsOpened]]">
-        <div class="section-title" data-section="endpoints" on-click="_toggleSection"  title="Toggle endpoints list">
-          <h3>Endpoints</h3>
-          <paper-icon-button class="toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
-        </div>
-        <iron-collapse opened="[[endpointsOpened]]">
-          <div class="children">
-            <template is="dom-repeat" items="[[endpoints]]">
-              <div class="list-item endpoint" hidden$="[[item.hidden]]" data-endpoint-id$="[[item.id]]" on-click="_toggleEndpoint" title="Toggle endpoint documentation">
-                <span class="endpoint-name">[[item.label]]</span>
-                <paper-icon-button class="endpoint-toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
-              </div>
-              <iron-collapse class="operation-collapse" hidden$="[[item.hidden]]" data-api-id$="[[item.id]]">
-                <div class="list-item operation" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="endpoint" on-click="_itemClickHandler">
-                  Overview
-                </div>
-                <template is="dom-repeat" items="[[item.methods]]" filter="_methodFilter" observe="method label" data-query on-rendered-item-count-changed="_methodsCountChanged">
-                  <div class="list-item operation" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="method" on-click="_itemClickHandler">
-                    <span class="method-label" data-method$="[[item.method]]">[[item.method]]</span>
-                    [[item.label]]
-                  </div>
-                </template>
-              </iron-collapse>
             </template>
           </div>
         </iron-collapse>
@@ -374,7 +390,7 @@
      * `--method-display-put-color` | Font color of the PUT method label box | `rgb(255, 165, 0)`
      * `--method-display-delete-color` | Font color of the DELETE method label box | `rgb(244, 67, 54)`
      * `--method-display-patch-color` | Font color of the PATCH method label box | `rgb(156, 39, 176)`
-     * `--api-navigation-operation-item-padding-left` | Padding left of operation (method) label under endpoint | `32px`
+     * `--api-navigation-operation-item-padding-left` | Padding left of operation (method) label under endpoint | `20px`
      * `--api-navigation-operation-collapse` | Mixin applied to operation list collapsable element | ``
      * `--api-navigation-list-section-font-size` | Font size of toggable section label | `16px`
      * `--api-navigation-endpoint-font-size` | Font size applied to endpoint label | `15px`
@@ -546,6 +562,14 @@
           query: {
             type: String,
             observer: '_queryChanged'
+          },
+          /**
+           * Size of endpoint indentation for nested resources.
+           * In pixels.
+           */
+          indentSize: {
+            type: Number,
+            value: 8
           }
         };
       }
@@ -708,7 +732,20 @@
         if (!name) {
           name = this._getValue(item, this.ns.w3.shacl.name + 'name');
         }
+        if (!name) {
+          return;
+        }
+        if (name.indexOf('amf_inline_type') === 0) {
+          // https://www.mulesoft.org/jira/browse/APIMF-972
+          return;
+        }
         const id = item['@id'];
+        for (let i = 0, len = target.types.length; i < len; i++) {
+          if (target.types[i].id === id) {
+            // Avoids duplicates from references.
+            return;
+          }
+        }
         target.types.push({
           label: name,
           id: id
@@ -753,18 +790,37 @@
        * @param {Object} target
        */
       _appendEndpointItem(item, target) {
+        const result = {};
+
         let name = this._getValue(item, this.ns.schema.schemaName);
+        const path = this._getValue(item, this.ns.raml.vocabularies.http + 'path');
+        const paths = path.split('/');
+        const lastPath = this._computeLastPathName(paths);
+
         if (!name) {
-          name = this._getValue(item, this.ns.raml.vocabularies.http + 'path');
+          result.renderPath = false;
+          name = lastPath;
+        } else {
+          result.renderPath = true;
+          result.path = lastPath;
         }
         const id = item['@id'];
+        const indent = paths[0] ? paths.length - 1 : paths.length - 2;
         const operations = item[this.ns.w3.hydra.supportedOperation] || [];
-        let methods = operations.map((op) => this._createOperationModel(op));
-        target.endpoints.push({
-          label: name,
-          id: id,
-          methods: methods
-        });
+        const methods = operations.map((op) => this._createOperationModel(op));
+        result.label = name;
+        result.id = id;
+        result.indent = indent;
+        result.methods = methods;
+        target.endpoints.push(result);
+      }
+      /**
+       * Computes a label for the last part of the path.
+       * @param {Array<String>} paths List of path names
+       * @return {String}
+       */
+      _computeLastPathName(paths) {
+        return '/' + paths[paths.length - 1];
       }
       /**
        * Creates the view model for an opration.
@@ -903,7 +959,7 @@
        *
        * @param {String} current New selection
        */
-      _selectedChangd(current, old) {
+      _selectedChangd(current/*, old*/) {
         this._clearSelection();
         this._cleanPassiveSelection();
         if (current) {
@@ -944,7 +1000,7 @@
         if (!this.__effectiveQuery) {
           return true;
         }
-        return item.label.toLowerCase().indexOf(this.__effectiveQuery) !== -1 ||
+        return (item.label || '').toLowerCase().indexOf(this.__effectiveQuery) !== -1 ||
           item.method.indexOf(this.__effectiveQuery) !== -1;
       }
       /**
@@ -989,7 +1045,7 @@
        */
       _methodsCountChanged(e) {
         const state = e.model.get('item.hidden');
-        if (e.detail.value === 0) {
+        if (e.detail.value === 0 && this.__effectiveQuery) {
           if (!state) {
             e.model.set('item.hidden', true);
           }
@@ -1111,6 +1167,109 @@
           this.toggleOperations(node.dataset.endpointId);
           break;
         }
+      }
+      /**
+       * Computes `style` attribute value for endpoint item.
+       * It sets padding-left property to indent resources.
+       * See https://github.com/mulesoft/api-console/issues/571.
+       *
+       * @param {Number} factor Computed indent factor for the resource
+       * @param {Number} size The size of indentation in pixels.
+       * @return {String} Style attribute value for the item.
+       */
+      _computeEndpointPadding(factor, size) {
+        const padding = this._computeEndpointPaddingLeft();
+        if (factor < 1) {
+          return `padding-left: ${padding}px`;
+        }
+        const result = (factor * size) + padding;
+        return `padding-left: ${result}px`;
+      }
+
+      _computeMethodPadding(factor, size) {
+        const padding = this._computeOperationPaddingLeft();
+        if (factor < 1) {
+          return `padding-left: ${padding}px`;
+        }
+        const result = (factor * size) + padding;
+        return `padding-left: ${result}px`;
+      }
+      /**
+       * Computes operation list item left padding from CSS veriables.
+       * @return {Number}
+       */
+      _computeOperationPaddingLeft() {
+        let paddingLeft;
+        const prop = '--api-navigation-operation-item-padding-left';
+        const defaultPadding = 24;
+        if (window.ShadyCSS) {
+          paddingLeft = window.ShadyCSS.getComputedStyleValue(this, prop);
+        } else {
+          paddingLeft = getComputedStyle(this).getPropertyValue(prop);
+        }
+        if (!paddingLeft) {
+          return defaultPadding;
+        }
+        paddingLeft = paddingLeft.replace('px', '').trim();
+        if (isNaN(paddingLeft)) {
+          return defaultPadding;
+        }
+        return Number(paddingLeft);
+      }
+      /**
+       * Computes endpoint list item left padding from CSS veriables.
+       * @return {Number}
+       */
+      _computeEndpointPaddingLeft() {
+        let padding;
+        const prop = '--api-navigation-list-item-padding';
+        const defaultPadding = 16;
+        if (window.ShadyCSS) {
+          padding = window.ShadyCSS.getComputedStyleValue(this, prop);
+        } else {
+          padding = getComputedStyle(this).getPropertyValue(prop);
+        }
+        if (!padding) {
+          return defaultPadding;
+        }
+        const parts = padding.split(' ');
+        let paddingLeftValue;
+        switch (parts.length) {
+          case 1: paddingLeftValue = parts[0]; break;
+          case 2: paddingLeftValue = parts[1]; break;
+          case 3: paddingLeftValue = parts[2]; break;
+          case 4: paddingLeftValue = parts[2]; break;
+        }
+        if (!paddingLeftValue) {
+          return defaultPadding;
+        }
+        paddingLeftValue = paddingLeftValue.replace('px', '').trim();
+        if (isNaN(paddingLeftValue)) {
+          return defaultPadding;
+        }
+        return Number(paddingLeftValue);
+      }
+      /**
+       * Cancels space key down event when selecting a method with keyboard.
+       * Without it the page would scroll down.
+       * @param {KeyboardEvent} e
+       */
+      _spaceDownHandler(e) {
+        if (!(e.code === 'Space' || e.keyCode === 32)) {
+          return;
+        }
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+      /**
+       * Selectes an item when space up event is detected.
+       * @param {KeyboardEvent} e
+       */
+      _spaceUpHandler(e) {
+        if (!(e.code === 'Space' || e.keyCode === 32)) {
+          return;
+        }
+        e.target.click();
       }
       /**
        * Dispatched when navigation occurrs.
