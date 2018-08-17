@@ -316,6 +316,7 @@
     </template>
   </template>
   <script>
+    /* eslint-disable max-len */
     /**
      * `api-navigation`
      * A navigation for an API spec using AMF model.
@@ -414,7 +415,7 @@
      * @appliesMixin ApiElements.AmfHelperMixin
      */
     class ApiNavigation extends ApiElements.AmfHelperMixin(Polymer.Element) {
-      static get is() { return 'api-navigation'; }
+      static get is() {return 'api-navigation';}
       static get properties() {
         return {
           /**
@@ -623,6 +624,7 @@
        * Collects the information about the API and creates data model
        * for the navigation element
        *
+       * @param {Object} model
        * @return {Object} Data model for the API navigation:
        * - documentation `Array` - List of documentation data models:
        *  - id `String` - Node `@id`
@@ -656,6 +658,7 @@
        * Traverses the `http://raml.org/vocabularies/document#declares`
        * node to find types and security schemes.
        *
+       * @param {Object} model
        * @param {Object} target Target object where to put data.
        */
       _traverseDeclarations(model, target) {
@@ -687,6 +690,7 @@
        * Traverses the `http://raml.org/vocabularies/document#encodes`
        * node to find documentation and endpoints.
        *
+       * @param {Object} model
        * @param {Object} target Target object where to put data.
        */
       _traverseEncodes(model, target) {
@@ -959,19 +963,11 @@
        *
        * @param {String} current New selection
        */
-      _selectedChangd(current/*, old*/) {
+      _selectedChangd(current) {
         this._clearSelection();
         this._cleanPassiveSelection();
         if (current) {
           this._addSelection(current);
-          // const type = this._addSelection(current);
-          // if (old && type && ['endpoint', 'method'].indexOf(type) !== -1) {
-          //   const oldEndpointId = old.substr(old.lastIndexOf('/'), 4) === '/%2F' ? old : old.substr(0, old.lastIndexOf('/'));
-          //   const newEndpointId = current.substr(current.lastIndexOf('/'), 4) === '/%2F' ? current : current.substr(0, current.lastIndexOf('/'));
-          //   if (newEndpointId !== oldEndpointId) {
-          //     this.toggleOperations(oldEndpointId);
-          //   }
-          // }
         }
       }
       /**
@@ -1153,6 +1149,8 @@
       /**
        * Endpoint label click handler.
        * Toggles endpoint's methods list.
+       *
+       * @param {ClickEvent} e
        */
       _toggleEndpoint(e) {
         const path = e.composedPath();
