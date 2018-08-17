@@ -185,7 +185,7 @@
                   {
                     "@id": "file://demo/demo-api/demo-api.raml#/web-api/end-points/%2Ffiles/get/basic",
                     "@type": [
-                      "http://a.ml/vocabularies/security#SecurityScheme",
+                      "http://a.ml/vocabularies/security#ParametrizedSecurityScheme",
                       "http://a.ml/vocabularies/document#DomainElement"
                     ],
                     "http://a.ml/vocabularies/security#name": [
@@ -193,14 +193,28 @@
                         "@value": "basic"
                       }
                     ],
-                    "http://a.ml/vocabularies/security#type": [
+                    "http://a.ml/vocabularies/security#scheme": [
                       {
-                        "@value": "Basic Authentication"
-                      }
-                    ],
-                    "http://schema.org/description": [
-                      {
-                        "@value": "Test basic auth method\n"
+                        "@id": "file://demo/demo-api/demo-api.raml#/declarations/securitySchemes/basic",
+                        "@type": [
+                          "http://a.ml/vocabularies/security#SecurityScheme",
+                          "http://a.ml/vocabularies/document#DomainElement"
+                        ],
+                        "http://a.ml/vocabularies/security#name": [
+                          {
+                            "@value": "basic"
+                          }
+                        ],
+                        "http://a.ml/vocabularies/security#type": [
+                          {
+                            "@value": "Basic Authentication"
+                          }
+                        ],
+                        "http://schema.org/description": [
+                          {
+                            "@value": "Test basic auth method\n"
+                          }
+                        ]
                       }
                     ]
                   }
