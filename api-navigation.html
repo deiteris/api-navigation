@@ -747,7 +747,7 @@
         let name = this._getValue(item, this.ns.schema.schemaName);
         if (!name && w3name) {
           name = w3name;
-        } else {
+        } else if (!name) {
           return;
         }
         const id = item['@id'];
