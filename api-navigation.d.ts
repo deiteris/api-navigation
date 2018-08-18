@@ -95,7 +95,7 @@ declare namespace ApiElements {
    * `--method-display-put-color` | Font color of the PUT method label box | `rgb(255, 165, 0)`
    * `--method-display-delete-color` | Font color of the DELETE method label box | `rgb(244, 67, 54)`
    * `--method-display-patch-color` | Font color of the PATCH method label box | `rgb(156, 39, 176)`
-   * `--api-navigation-operation-item-padding-left` | Padding left of operation (method) label under endpoint | `32px`
+   * `--api-navigation-operation-item-padding-left` | Padding left of operation (method) label under endpoint | `20px`
    * `--api-navigation-operation-collapse` | Mixin applied to operation list collapsable element | ``
    * `--api-navigation-list-section-font-size` | Font size of toggable section label | `16px`
    * `--api-navigation-endpoint-font-size` | Font size applied to endpoint label | `15px`
@@ -225,12 +225,24 @@ declare namespace ApiElements {
     query: string|null|undefined;
 
     /**
+     * Size of endpoint indentation for nested resources.
+     * In pixels.
+     */
+    indentSize: number|null|undefined;
+
+    /**
      * Ensures aria role atribute is in place.
      * Attaches element's listeners.
      */
     connectedCallback(): void;
     disconnectedCallback(): void;
-    _amfChanged(model: any): void;
+
+    /**
+     * Called by the Polymer change observer when `amfModel` property change.
+     *
+     * @param model AMF model
+     */
+    _amfChanged(model: any[]|object|null): void;
 
     /**
      * Collects the information about the API and creates data model
@@ -253,7 +265,7 @@ declare namespace ApiElements {
      *    - id `String` - Node `@id`
      *    - label `String` - Node label
      */
-    _collectData(model: any): object|null;
+    _collectData(model: object|null): object|null;
 
     /**
      * Traverses the `http://raml.org/vocabularies/document#declares`
@@ -261,7 +273,7 @@ declare namespace ApiElements {
      *
      * @param target Target object where to put data.
      */
-    _traverseDeclarations(model: any, target: object|null): void;
+    _traverseDeclarations(model: object|null, target: object|null): void;
 
     /**
      * Traverses the `http://raml.org/vocabularies/document#references`
@@ -277,7 +289,7 @@ declare namespace ApiElements {
      *
      * @param target Target object where to put data.
      */
-    _traverseEncodes(model: any, target: object|null): void;
+    _traverseEncodes(model: object|null, target: object|null): void;
 
     /**
      * Appends declaration of navigation data model to the target if
@@ -313,6 +325,13 @@ declare namespace ApiElements {
      * @param item Type item declaration
      */
     _appendEndpointItem(item: object|null, target: object|null): void;
+
+    /**
+     * Computes a label for the last part of the path.
+     *
+     * @param paths List of path names
+     */
+    _computeLastPathName(paths: Array<String|null>|null): String|null;
 
     /**
      * Creates the view model for an opration.
@@ -359,7 +378,7 @@ declare namespace ApiElements {
      *
      * @param current New selection
      */
-    _selectedChangd(current: String|null, old: any): void;
+    _selectedChangd(current: String|null): void;
 
     /**
      * Label check agains `query` function called by `dom-repeat` element.
@@ -430,7 +449,40 @@ declare namespace ApiElements {
      * Endpoint label click handler.
      * Toggles endpoint's methods list.
      */
-    _toggleEndpoint(e: any): void;
+    _toggleEndpoint(e: ClickEvent|null): void;
+
+    /**
+     * Computes `style` attribute value for endpoint item.
+     * It sets padding-left property to indent resources.
+     * See https://github.com/mulesoft/api-console/issues/571.
+     *
+     * @param factor Computed indent factor for the resource
+     * @param size The size of indentation in pixels.
+     * @returns Style attribute value for the item.
+     */
+    _computeEndpointPadding(factor: Number|null, size: Number|null): String|null;
+    _computeMethodPadding(factor: any, size: any): any;
+
+    /**
+     * Computes operation list item left padding from CSS veriables.
+     */
+    _computeOperationPaddingLeft(): Number|null;
+
+    /**
+     * Computes endpoint list item left padding from CSS veriables.
+     */
+    _computeEndpointPaddingLeft(): Number|null;
+
+    /**
+     * Cancels space key down event when selecting a method with keyboard.
+     * Without it the page would scroll down.
+     */
+    _spaceDownHandler(e: KeyboardEvent|null): void;
+
+    /**
+     * Selectes an item when space up event is detected.
+     */
+    _spaceUpHandler(e: KeyboardEvent|null): void;
   }
 }
 

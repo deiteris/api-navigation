@@ -257,7 +257,7 @@
                   Overview
                 </div>
                 <template is="dom-repeat" items="[[item.methods]]" filter="_methodFilter" observe="method label" data-query on-rendered-item-count-changed="_methodsCountChanged" as="methodItem">
-                  <div class="list-item operation" role="option" tabindex="0" data-api-id$="[[methodItem.id]]" data-shape="method" on-click="_itemClickHandler" on-keyup="_spaceUpHandler" on-keydown="_spaceDownHandler"  style$="[[_computeMethodPadding(item.indent, indentSize)]]">
+                  <div class="list-item operation" role="option" tabindex="0" data-api-id$="[[methodItem.id]]" data-parent-id$="[[item.id]]" data-shape="method" on-click="_itemClickHandler" on-keyup="_spaceUpHandler" on-keydown="_spaceDownHandler"  style$="[[_computeMethodPadding(item.indent, indentSize)]]">
                     <span class="method-label" data-method$="[[methodItem.method]]">[[methodItem.method]]</span>
                     [[methodItem.label]]
                   </div>
@@ -316,6 +316,7 @@
     </template>
   </template>
   <script>
+    /* eslint-disable max-len */
     /**
      * `api-navigation`
      * A navigation for an API spec using AMF model.
@@ -414,7 +415,7 @@
      * @appliesMixin ApiElements.AmfHelperMixin
      */
     class ApiNavigation extends ApiElements.AmfHelperMixin(Polymer.Element) {
-      static get is() { return 'api-navigation'; }
+      static get is() {return 'api-navigation';}
       static get properties() {
         return {
           /**
@@ -602,7 +603,10 @@
         super.disconnectedCallback();
         window.removeEventListener('api-navigation-selection-changed', this._navigationChangeHandler);
       }
-
+      /**
+       * Called by the Polymer change observer when `amfModel` property change.
+       * @param {Array|Object} model AMF model
+       */
       _amfChanged(model) {
         if (!model) {
           return;
@@ -623,6 +627,7 @@
        * Collects the information about the API and creates data model
        * for the navigation element
        *
+       * @param {Object} model
        * @return {Object} Data model for the API navigation:
        * - documentation `Array` - List of documentation data models:
        *  - id `String` - Node `@id`
@@ -656,6 +661,7 @@
        * Traverses the `http://raml.org/vocabularies/document#declares`
        * node to find types and security schemes.
        *
+       * @param {Object} model
        * @param {Object} target Target object where to put data.
        */
       _traverseDeclarations(model, target) {
@@ -687,6 +693,7 @@
        * Traverses the `http://raml.org/vocabularies/document#encodes`
        * node to find documentation and endpoints.
        *
+       * @param {Object} model
        * @param {Object} target Target object where to put data.
        */
       _traverseEncodes(model, target) {
@@ -694,11 +701,13 @@
         if (!data) {
           return;
         }
-        const endpoint = data[this.ns.raml.vocabularies.http + 'endpoint'];
+        const ekey = this._getAmfKey(this.ns.raml.vocabularies.http + 'endpoint');
+        const endpoint = this._ensureArray(data[ekey]);
         if (endpoint) {
           endpoint.forEach((item) => this._appendModelItem(item, target));
         }
-        const documentation = data[this.ns.schema.doc];
+        const dkey = this._getAmfKey(this.ns.schema.doc);
+        const documentation = this._ensureArray(data[dkey]);
         if (documentation) {
           documentation.forEach((item) => this._appendModelItem(item, target));
         }
@@ -728,15 +737,15 @@
        * @param {Object} target
        */
       _appendTypeItem(item, target) {
-        let name = this._getValue(item, this.schemaName);
-        if (!name) {
-          name = this._getValue(item, this.ns.w3.shacl.name + 'name');
-        }
-        if (!name) {
+        const w3name = this._getValue(item, this.ns.w3.shacl.name + 'name');
+        if (w3name && w3name.indexOf('amf_inline_type') === 0) {
+          // https://www.mulesoft.org/jira/browse/APIMF-972
           return;
         }
-        if (name.indexOf('amf_inline_type') === 0) {
-          // https://www.mulesoft.org/jira/browse/APIMF-972
+        let name = this._getValue(item, this.ns.schema.schemaName);
+        if (!name && w3name) {
+          name = w3name;
+        } else if (!name) {
           return;
         }
         const id = item['@id'];
@@ -806,7 +815,8 @@
         }
         const id = item['@id'];
         const indent = paths[0] ? paths.length - 1 : paths.length - 2;
-        const operations = item[this.ns.w3.hydra.supportedOperation] || [];
+        const key = this._getAmfKey(this.ns.w3.hydra.supportedOperation);
+        const operations = this._ensureArray(item[key]) || [];
         const methods = operations.map((op) => this._createOperationModel(op));
         result.label = name;
         result.id = id;
@@ -831,9 +841,6 @@
       _createOperationModel(item) {
         let name = this._getValue(item, this.ns.schema.schemaName);
         const methodKey = this.ns.w3.hydra.core + 'method';
-        // if (!name) {
-        //   name = this._getValue(item, methodKey);
-        // }
         const id = item['@id'];
         const method = this._getValue(item, methodKey);
         return {
@@ -959,19 +966,11 @@
        *
        * @param {String} current New selection
        */
-      _selectedChangd(current/*, old*/) {
+      _selectedChangd(current) {
         this._clearSelection();
         this._cleanPassiveSelection();
         if (current) {
           this._addSelection(current);
-          // const type = this._addSelection(current);
-          // if (old && type && ['endpoint', 'method'].indexOf(type) !== -1) {
-          //   const oldEndpointId = old.substr(old.lastIndexOf('/'), 4) === '/%2F' ? old : old.substr(0, old.lastIndexOf('/'));
-          //   const newEndpointId = current.substr(current.lastIndexOf('/'), 4) === '/%2F' ? current : current.substr(0, current.lastIndexOf('/'));
-          //   if (newEndpointId !== oldEndpointId) {
-          //     this.toggleOperations(oldEndpointId);
-          //   }
-          // }
         }
       }
       /**
@@ -1065,12 +1064,23 @@
         if (!selectedType || this.__cancelNavigationEvent) {
           return;
         }
+        let endpointId;
+        if (selectedType === 'method' && selected) {
+          const node = this.shadowRoot.querySelector(`.operation[data-api-id="${selected}"]`);
+          if (node) {
+            endpointId = node.dataset.parentId;
+          }
+          if (!endpointId) {
+            console.warn(`Expecting endpointId to be set on the event.`);
+          }
+        }
         const e = new CustomEvent('api-navigation-selection-changed', {
           bubbles: true,
           composed: true,
           detail: {
             selected: selected,
-            type: selectedType
+            type: selectedType,
+            endpointId
           }
         });
         this.dispatchEvent(e);
@@ -1126,7 +1136,7 @@
       }
 
       _cleanPassiveSelection() {
-        // Very simpole optymisation to not query local DOM if we are sure
+        // Very simpole optimization to not query local DOM if we are sure
         // that there's no selection.
         if (!this.__hasPassiveSelection) {
           return;
@@ -1153,6 +1163,8 @@
       /**
        * Endpoint label click handler.
        * Toggles endpoint's methods list.
+       *
+       * @param {ClickEvent} e
        */
       _toggleEndpoint(e) {
         const path = e.composedPath();
@@ -1279,6 +1291,8 @@
        *
        * @event api-navigation-selection-changed
        * @param {String} selected `@id` of selected AMF shape
+       * @param {?String} endpointId Available only if `type` is `method`.
+       * It is parent endpoint ID.
        * @param {String} type The type of selected shape. It can be one of
        * `documentation`, `type`, `security`, `endpoint`, `method` or `summary`.
        * Summary is a special case not included in AMF model but means that the

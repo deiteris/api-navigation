@@ -8,6 +8,7 @@
     <script src="../../web-component-tester/browser.js"></script>
     <link rel="import" href="../api-navigation.html">
     <link rel="import" href="../../arc-polyfills/arc-polyfills.html">
+    <link rel="import" href="../../iron-test-helpers/mock-interactions.html">
     <script src="amf-loader.js"></script>
   </head>
   <body>
@@ -253,7 +254,8 @@
           });
 
           test('Clicking on the overview changes selection', () => {
-            const node = element.shadowRoot.querySelectorAll('.list-item.operation[data-shape="endpoint"]')[1];
+            const node = element.shadowRoot.querySelectorAll(
+              '.list-item.operation[data-shape="endpoint"]')[1];
             node.click();
             assert.equal(element.selected, 'test2');
             assert.equal(element.selectedType, 'endpoint');
@@ -307,7 +309,7 @@
               }]
             };
             element = fixture('Basic');
-            element._setDocs(model.doce);
+            element._setDocs(model.docs);
             element._setTypes(model.types);
             element._setSecurity(model.security);
             element._setEndpoints(model.endpoints);
@@ -347,6 +349,42 @@
             element.addEventListener('api-navigation-selection-changed', spy);
             fire(id, 'type');
             assert.isFalse(spy.called);
+          });
+
+          [
+            ['type', 'test3', '.list-item'],
+            ['security', 'test5', '.list-item'],
+            ['documentation', 'test1', '.list-item'],
+            ['endpoint', 'test7', '.operation']
+          ].forEach((item) => {
+            const [type, id, selector] = item;
+            test(`Dispatches event when clicking on ${type}`, function() {
+              const s = `${selector}[data-api-id="${id}"]`;
+              const node = element.shadowRoot.querySelector(s);
+              let called = false;
+              element.addEventListener('api-navigation-selection-changed', (e) => {
+                called = true;
+                assert.equal(e.detail.selected, id);
+                assert.equal(e.detail.type, type);
+                assert.isUndefined(e.detail.endpointId);
+              });
+              MockInteractions.tap(node);
+              assert.isTrue(called);
+            });
+          });
+
+          test('Dispatches event when clicking on method', function() {
+            const selector = '.operation[data-api-id="method10"]';
+            const node = element.shadowRoot.querySelector(selector);
+            let called = false;
+            element.addEventListener('api-navigation-selection-changed', (e) => {
+              called = true;
+              assert.equal(e.detail.selected, 'method10');
+              assert.equal(e.detail.type, 'method');
+              assert.equal(e.detail.endpointId, 'test9');
+            });
+            MockInteractions.tap(node);
+            assert.isTrue(called);
           });
         });
       });
@@ -404,7 +442,7 @@
           const result = element.types;
           assert.lengthOf(result, 10);
           assert.equal(result[9].id, 'file://demo/demo-api/library.raml#/declarations/types/LibraryType');
-          assert.equal(result[9].label, 'LibraryType');
+          assert.equal(result[9].label, 'Type from library');
         });
 
         test('Types does not include inline declarations', () => {
@@ -461,7 +499,7 @@
               passive: true
             }
           });
-          this.dispatchEvent(e);
+          document.body.dispatchEvent(e);
         }
 
         test('Selectes a method', () => {
