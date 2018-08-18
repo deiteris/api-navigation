@@ -257,7 +257,7 @@
                   Overview
                 </div>
                 <template is="dom-repeat" items="[[item.methods]]" filter="_methodFilter" observe="method label" data-query on-rendered-item-count-changed="_methodsCountChanged" as="methodItem">
-                  <div class="list-item operation" role="option" tabindex="0" data-api-id$="[[methodItem.id]]" data-shape="method" on-click="_itemClickHandler" on-keyup="_spaceUpHandler" on-keydown="_spaceDownHandler"  style$="[[_computeMethodPadding(item.indent, indentSize)]]">
+                  <div class="list-item operation" role="option" tabindex="0" data-api-id$="[[methodItem.id]]" data-parent-id$="[[item.id]]" data-shape="method" on-click="_itemClickHandler" on-keyup="_spaceUpHandler" on-keydown="_spaceDownHandler"  style$="[[_computeMethodPadding(item.indent, indentSize)]]">
                     <span class="method-label" data-method$="[[methodItem.method]]">[[methodItem.method]]</span>
                     [[methodItem.label]]
                   </div>
@@ -728,8 +728,6 @@
           this._appendDocumentationItem(item, target);
         } else if (this._hasType(item, this.ns.raml.vocabularies.http + 'EndPoint')) {
           this._appendEndpointItem(item, target);
-        } else {
-          console.warn('Ignored model item', item);
         }
       }
       /**
@@ -1066,12 +1064,23 @@
         if (!selectedType || this.__cancelNavigationEvent) {
           return;
         }
+        let endpointId;
+        if (selectedType === 'method' && selected) {
+          const node = this.shadowRoot.querySelector(`.operation[data-api-id="${selected}"]`);
+          if (node) {
+            endpointId = node.dataset.parentId;
+          }
+          if (!endpointId) {
+            console.warn(`Expecting endpointId to be set on the event.`);
+          }
+        }
         const e = new CustomEvent('api-navigation-selection-changed', {
           bubbles: true,
           composed: true,
           detail: {
             selected: selected,
-            type: selectedType
+            type: selectedType,
+            endpointId
           }
         });
         this.dispatchEvent(e);
@@ -1282,6 +1291,8 @@
        *
        * @event api-navigation-selection-changed
        * @param {String} selected `@id` of selected AMF shape
+       * @param {?String} endpointId Available only if `type` is `method`.
+       * It is parent endpoint ID.
        * @param {String} type The type of selected shape. It can be one of
        * `documentation`, `type`, `security`, `endpoint`, `method` or `summary`.
        * Summary is a special case not included in AMF model but means that the
