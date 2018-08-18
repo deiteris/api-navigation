@@ -12,6 +12,10 @@ files.set('types-list/types-list.raml', 'RAML 1.0');
 files.set('exchange-experience-api/exchange-experience-api.raml', 'RAML 0.8');
 
 const ldContext = {
+  docType: 'http://a.ml/vocabularies/document#Document',
+  fragType: 'http://a.ml/vocabularies/document#Fragment',
+  modType: 'http://a.ml/vocabularies/document#Module',
+  unitType: 'http://a.ml/vocabularies/document#Unit',
   declares: 'http://a.ml/vocabularies/document#declares',
   encodes: 'http://a.ml/vocabularies/document#encodes',
   references: 'http://a.ml/vocabularies/document#references',
@@ -41,7 +45,8 @@ const ldContext = {
   exp: 'http://www.w3.org/ns/hydra/core#expect',
   par: 'http://a.ml/vocabularies/http#parameter',
   items: 'http://a.ml/vocabularies/shapes#items',
-  ex: 'http://a.ml/vocabularies/document#examples',
+  exs: 'http://a.ml/vocabularies/document#examples',
+  ex: 'http://a.ml/vocabularies/document#example',
   strict: 'http://a.ml/vocabularies/document#strict',
   svalue: 'http://a.ml/vocabularies/document#structuredValue',
   rdfNumber: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#member',
@@ -58,7 +63,11 @@ const ldContext = {
   range: 'http://a.ml/vocabularies/shapes#range',
   mc: 'http://www.w3.org/ns/shacl#minCount',
   mac: 'http://www.w3.org/ns/shacl#maxCount',
-  node: 'http://www.w3.org/ns/shacl#NodeShape'
+  node: 'http://www.w3.org/ns/shacl#NodeShape',
+  arrShape: 'http://a.ml/vocabularies/shapes#ArrayShape',
+  propShape: 'http://www.w3.org/ns/shacl#PropertyShape',
+  shaclPath: 'http://www.w3.org/ns/shacl#path',
+  closed: 'http://www.w3.org/ns/shacl#closed'
 };
 
 /**

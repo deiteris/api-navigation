@@ -3475,91 +3475,6 @@
     ],
     "http://a.ml/vocabularies/document#references": [
       {
-        "@id": "file://demo/demo-api/types/resource.raml",
-        "@type": [
-          "http://a.ml/vocabularies/document#DataType",
-          "http://a.ml/vocabularies/document#Fragment",
-          "http://a.ml/vocabularies/document#Unit"
-        ],
-        "http://a.ml/vocabularies/document#encodes": [
-          {
-            "@id": "file://demo/demo-api/types/resource.raml#/type",
-            "@type": [
-              "http://www.w3.org/ns/shacl#NodeShape",
-              "http://www.w3.org/ns/shacl#Shape",
-              "http://a.ml/vocabularies/shapes#Shape",
-              "http://a.ml/vocabularies/document#DomainElement"
-            ],
-            "http://www.w3.org/ns/shacl#closed": [
-              {
-                "@value": false
-              }
-            ],
-            "http://www.w3.org/ns/shacl#property": [
-              {
-                "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag",
-                "@type": [
-                  "http://www.w3.org/ns/shacl#PropertyShape",
-                  "http://www.w3.org/ns/shacl#Shape",
-                  "http://a.ml/vocabularies/shapes#Shape"
-                ],
-                "http://www.w3.org/ns/shacl#path": [
-                  {
-                    "@id": "http://a.ml/vocabularies/data#etag"
-                  }
-                ],
-                "http://a.ml/vocabularies/shapes#range": [
-                  {
-                    "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag/scalar/etag",
-                    "@type": [
-                      "http://a.ml/vocabularies/shapes#ScalarShape",
-                      "http://www.w3.org/ns/shacl#Shape",
-                      "http://a.ml/vocabularies/shapes#Shape",
-                      "http://a.ml/vocabularies/document#DomainElement"
-                    ],
-                    "http://www.w3.org/ns/shacl#datatype": [
-                      {
-                        "@id": "http://www.w3.org/2001/XMLSchema#string"
-                      }
-                    ],
-                    "http://www.w3.org/ns/shacl#name": [
-                      {
-                        "@value": "etag"
-                      }
-                    ],
-                    "http://schema.org/description": [
-                      {
-                        "@value": "ETag of this resource for caching purposes.\n__This property will be ignored when creating an object.__\n"
-                      }
-                    ]
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#minCount": [
-                  {
-                    "@value": 1
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#name": [
-                  {
-                    "@value": "etag"
-                  }
-                ]
-              }
-            ],
-            "http://www.w3.org/ns/shacl#name": [
-              {
-                "@value": "Resource"
-              }
-            ],
-            "http://schema.org/description": [
-              {
-                "@value": "Common properties for all resources returned by the API.\n"
-              }
-            ]
-          }
-        ]
-      },
-      {
         "@id": "file://demo/demo-api/types/image.raml",
         "@type": [
           "http://a.ml/vocabularies/document#DataType",
@@ -3746,6 +3661,777 @@
                 "http://www.w3.org/ns/shacl#raw": [
                   {
                     "@value": "  url: https://domain.com/profile/pawel.psztyc/image\n  thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "@id": "file://demo/demo-api/types/product.raml",
+        "@type": [
+          "http://a.ml/vocabularies/document#DataType",
+          "http://a.ml/vocabularies/document#Fragment",
+          "http://a.ml/vocabularies/document#Unit"
+        ],
+        "http://a.ml/vocabularies/document#encodes": [
+          {
+            "@id": "file://demo/demo-api/types/product.raml#/type",
+            "@type": [
+              "http://www.w3.org/ns/shacl#NodeShape",
+              "http://www.w3.org/ns/shacl#Shape",
+              "http://a.ml/vocabularies/shapes#Shape",
+              "http://a.ml/vocabularies/document#DomainElement"
+            ],
+            "http://www.w3.org/ns/shacl#closed": [
+              {
+                "@value": false
+              }
+            ],
+            "http://www.w3.org/ns/shacl#property": [
+              {
+                "@id": "file://demo/demo-api/types/product.raml#/type/property/upc",
+                "@type": [
+                  "http://www.w3.org/ns/shacl#PropertyShape",
+                  "http://www.w3.org/ns/shacl#Shape",
+                  "http://a.ml/vocabularies/shapes#Shape"
+                ],
+                "http://www.w3.org/ns/shacl#path": [
+                  {
+                    "@id": "http://a.ml/vocabularies/data#upc"
+                  }
+                ],
+                "http://a.ml/vocabularies/shapes#range": [
+                  {
+                    "@id": "file://demo/demo-api/types/product.raml#/type/property/upc/scalar/upc",
+                    "@type": [
+                      "http://a.ml/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://a.ml/vocabularies/shapes#Shape",
+                      "http://a.ml/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#pattern": [
+                      {
+                        "@value": "^[0-9]{12,12}$"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "upc"
+                      }
+                    ],
+                    "http://schema.org/description": [
+                      {
+                        "@value": "The Universal Produc Code. It consists of 12 numerical digits. However, because of the\ninteger precision limitation in JavaScript it is represented as a string.\n"
+                      }
+                    ],
+                    "http://a.ml/vocabularies/document#examples": [
+                      {
+                        "@id": "file://demo/demo-api/types/product.raml#/shape/property/upc/scalar/upc/example/default-example",
+                        "@type": [
+                          "http://a.ml/vocabularies/document#Example",
+                          "http://a.ml/vocabularies/document#DomainElement"
+                        ],
+                        "http://a.ml/vocabularies/document#strict": [
+                          {
+                            "@value": true
+                          }
+                        ],
+                        "http://a.ml/vocabularies/document#structuredValue": [
+                          {
+                            "@id": "file://demo/demo-api/types/product.raml#/shape/property/upc/scalar/upc/example/default-example/scalar_1",
+                            "@type": [
+                              "http://a.ml/vocabularies/data#Scalar"
+                            ],
+                            "http://a.ml/vocabularies/data#value": [
+                              {
+                                "@value": "042100005264",
+                                "@type": "http://www.w3.org/2001/XMLSchema#string"
+                              }
+                            ]
+                          }
+                        ],
+                        "http://www.w3.org/ns/shacl#raw": [
+                          {
+                            "@value": "042100005264"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#minCount": [
+                  {
+                    "@value": 1
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#name": [
+                  {
+                    "@value": "upc"
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag",
+                "@type": [
+                  "http://www.w3.org/ns/shacl#PropertyShape",
+                  "http://www.w3.org/ns/shacl#Shape",
+                  "http://a.ml/vocabularies/shapes#Shape"
+                ],
+                "http://www.w3.org/ns/shacl#path": [
+                  {
+                    "@id": "http://a.ml/vocabularies/data#etag"
+                  }
+                ],
+                "http://a.ml/vocabularies/shapes#range": [
+                  {
+                    "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag/scalar/etag",
+                    "@type": [
+                      "http://a.ml/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://a.ml/vocabularies/shapes#Shape",
+                      "http://a.ml/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "etag"
+                      }
+                    ],
+                    "http://schema.org/description": [
+                      {
+                        "@value": "ETag of this resource for caching purposes.\n__This property will be ignored when creating an object.__\n"
+                      }
+                    ]
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#minCount": [
+                  {
+                    "@value": 1
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#name": [
+                  {
+                    "@value": "etag"
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/demo-api/types/product.raml#/type/property/name",
+                "@type": [
+                  "http://www.w3.org/ns/shacl#PropertyShape",
+                  "http://www.w3.org/ns/shacl#Shape",
+                  "http://a.ml/vocabularies/shapes#Shape"
+                ],
+                "http://www.w3.org/ns/shacl#path": [
+                  {
+                    "@id": "http://a.ml/vocabularies/data#name"
+                  }
+                ],
+                "http://a.ml/vocabularies/shapes#range": [
+                  {
+                    "@id": "file://demo/demo-api/types/product.raml#/type/property/name/scalar/name",
+                    "@type": [
+                      "http://a.ml/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://a.ml/vocabularies/shapes#Shape",
+                      "http://a.ml/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "name"
+                      }
+                    ],
+                    "http://schema.org/description": [
+                      {
+                        "@value": "Product name"
+                      }
+                    ],
+                    "http://a.ml/vocabularies/document#examples": [
+                      {
+                        "@id": "file://demo/demo-api/types/product.raml#/shape/property/name/scalar/name/example/default-example",
+                        "@type": [
+                          "http://a.ml/vocabularies/document#Example",
+                          "http://a.ml/vocabularies/document#DomainElement"
+                        ],
+                        "http://a.ml/vocabularies/document#strict": [
+                          {
+                            "@value": true
+                          }
+                        ],
+                        "http://a.ml/vocabularies/document#structuredValue": [
+                          {
+                            "@id": "file://demo/demo-api/types/product.raml#/shape/property/name/scalar/name/example/default-example/scalar_1",
+                            "@type": [
+                              "http://a.ml/vocabularies/data#Scalar"
+                            ],
+                            "http://a.ml/vocabularies/data#value": [
+                              {
+                                "@value": "Acme product - mentol flavor, 500 ml.",
+                                "@type": "http://www.w3.org/2001/XMLSchema#string"
+                              }
+                            ]
+                          }
+                        ],
+                        "http://www.w3.org/ns/shacl#raw": [
+                          {
+                            "@value": "Acme product - mentol flavor, 500 ml."
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#minCount": [
+                  {
+                    "@value": 1
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#name": [
+                  {
+                    "@value": "name"
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/demo-api/types/product.raml#/type/property/id",
+                "@type": [
+                  "http://www.w3.org/ns/shacl#PropertyShape",
+                  "http://www.w3.org/ns/shacl#Shape",
+                  "http://a.ml/vocabularies/shapes#Shape"
+                ],
+                "http://www.w3.org/ns/shacl#path": [
+                  {
+                    "@id": "http://a.ml/vocabularies/data#id"
+                  }
+                ],
+                "http://a.ml/vocabularies/shapes#range": [
+                  {
+                    "@id": "file://demo/demo-api/types/product.raml#/type/property/id/scalar/id",
+                    "@type": [
+                      "http://a.ml/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://a.ml/vocabularies/shapes#Shape",
+                      "http://a.ml/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#pattern": [
+                      {
+                        "@value": "^[0-9a-zA-Z-]+$"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "id"
+                      }
+                    ],
+                    "http://schema.org/description": [
+                      {
+                        "@value": "Product id. It is a UUID of the database record.\n__This property will be ignored when creating an object.__\nIt will be available when the product is stored in the datastore.\n"
+                      }
+                    ]
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#minCount": [
+                  {
+                    "@value": 1
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#name": [
+                  {
+                    "@value": "id"
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/demo-api/types/product.raml#/type/property/unit",
+                "@type": [
+                  "http://www.w3.org/ns/shacl#PropertyShape",
+                  "http://www.w3.org/ns/shacl#Shape",
+                  "http://a.ml/vocabularies/shapes#Shape"
+                ],
+                "http://www.w3.org/ns/shacl#path": [
+                  {
+                    "@id": "http://a.ml/vocabularies/data#unit"
+                  }
+                ],
+                "http://a.ml/vocabularies/shapes#range": [
+                  {
+                    "@id": "file://demo/demo-api/types/product.raml#/type/property/unit/scalar/unit",
+                    "@type": [
+                      "http://a.ml/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://a.ml/vocabularies/shapes#Shape",
+                      "http://a.ml/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "unit"
+                      }
+                    ],
+                    "http://schema.org/description": [
+                      {
+                        "@value": "The unit of measuremet for the quantity property."
+                      }
+                    ],
+                    "http://a.ml/vocabularies/document#examples": [
+                      {
+                        "@id": "file://demo/demo-api/types/product.raml#/shape/property/unit/scalar/unit/example/default-example",
+                        "@type": [
+                          "http://a.ml/vocabularies/document#Example",
+                          "http://a.ml/vocabularies/document#DomainElement"
+                        ],
+                        "http://a.ml/vocabularies/document#strict": [
+                          {
+                            "@value": true
+                          }
+                        ],
+                        "http://a.ml/vocabularies/document#structuredValue": [
+                          {
+                            "@id": "file://demo/demo-api/types/product.raml#/shape/property/unit/scalar/unit/example/default-example/scalar_1",
+                            "@type": [
+                              "http://a.ml/vocabularies/data#Scalar"
+                            ],
+                            "http://a.ml/vocabularies/data#value": [
+                              {
+                                "@value": "ml",
+                                "@type": "http://www.w3.org/2001/XMLSchema#string"
+                              }
+                            ]
+                          }
+                        ],
+                        "http://www.w3.org/ns/shacl#raw": [
+                          {
+                            "@value": "ml"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#minCount": [
+                  {
+                    "@value": 1
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#name": [
+                  {
+                    "@value": "unit"
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/demo-api/types/product.raml#/type/property/available",
+                "@type": [
+                  "http://www.w3.org/ns/shacl#PropertyShape",
+                  "http://www.w3.org/ns/shacl#Shape",
+                  "http://a.ml/vocabularies/shapes#Shape"
+                ],
+                "http://www.w3.org/ns/shacl#path": [
+                  {
+                    "@id": "http://a.ml/vocabularies/data#available"
+                  }
+                ],
+                "http://a.ml/vocabularies/shapes#range": [
+                  {
+                    "@id": "file://demo/demo-api/types/product.raml#/type/property/available/scalar/available",
+                    "@type": [
+                      "http://a.ml/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://a.ml/vocabularies/shapes#Shape",
+                      "http://a.ml/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#boolean"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "available"
+                      }
+                    ],
+                    "http://schema.org/description": [
+                      {
+                        "@value": "Product current availability in the store.\nProduct may be not available but the users still can order it with later delivery date.\n"
+                      }
+                    ],
+                    "http://a.ml/vocabularies/document#examples": [
+                      {
+                        "@id": "file://demo/demo-api/types/product.raml#/shape/property/available/scalar/available/example/default-example",
+                        "@type": [
+                          "http://a.ml/vocabularies/document#Example",
+                          "http://a.ml/vocabularies/document#DomainElement"
+                        ],
+                        "http://a.ml/vocabularies/document#strict": [
+                          {
+                            "@value": true
+                          }
+                        ],
+                        "http://a.ml/vocabularies/document#structuredValue": [
+                          {
+                            "@id": "file://demo/demo-api/types/product.raml#/shape/property/available/scalar/available/example/default-example/scalar_1",
+                            "@type": [
+                              "http://a.ml/vocabularies/data#Scalar"
+                            ],
+                            "http://a.ml/vocabularies/data#value": [
+                              {
+                                "@value": "true",
+                                "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+                              }
+                            ]
+                          }
+                        ],
+                        "http://www.w3.org/ns/shacl#raw": [
+                          {
+                            "@value": "true"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#minCount": [
+                  {
+                    "@value": 1
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#name": [
+                  {
+                    "@value": "available"
+                  }
+                ]
+              },
+              {
+                "@id": "file://demo/demo-api/types/product.raml#/type/property/quantity",
+                "@type": [
+                  "http://www.w3.org/ns/shacl#PropertyShape",
+                  "http://www.w3.org/ns/shacl#Shape",
+                  "http://a.ml/vocabularies/shapes#Shape"
+                ],
+                "http://www.w3.org/ns/shacl#path": [
+                  {
+                    "@id": "http://a.ml/vocabularies/data#quantity"
+                  }
+                ],
+                "http://a.ml/vocabularies/shapes#range": [
+                  {
+                    "@id": "file://demo/demo-api/types/product.raml#/type/property/quantity/scalar/quantity",
+                    "@type": [
+                      "http://a.ml/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://a.ml/vocabularies/shapes#Shape",
+                      "http://a.ml/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://a.ml/vocabularies/shapes#number"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "quantity"
+                      }
+                    ],
+                    "http://schema.org/description": [
+                      {
+                        "@value": "The quantity of the product in the one unit of measurement.\nSee `unit` property for more information.\n"
+                      }
+                    ],
+                    "http://a.ml/vocabularies/document#examples": [
+                      {
+                        "@id": "file://demo/demo-api/types/product.raml#/shape/property/quantity/scalar/quantity/example/default-example",
+                        "@type": [
+                          "http://a.ml/vocabularies/document#Example",
+                          "http://a.ml/vocabularies/document#DomainElement"
+                        ],
+                        "http://a.ml/vocabularies/document#strict": [
+                          {
+                            "@value": true
+                          }
+                        ],
+                        "http://a.ml/vocabularies/document#structuredValue": [
+                          {
+                            "@id": "file://demo/demo-api/types/product.raml#/shape/property/quantity/scalar/quantity/example/default-example/scalar_1",
+                            "@type": [
+                              "http://a.ml/vocabularies/data#Scalar"
+                            ],
+                            "http://a.ml/vocabularies/data#value": [
+                              {
+                                "@value": "500",
+                                "@type": "http://www.w3.org/2001/XMLSchema#integer"
+                              }
+                            ]
+                          }
+                        ],
+                        "http://www.w3.org/ns/shacl#raw": [
+                          {
+                            "@value": "500"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#minCount": [
+                  {
+                    "@value": 1
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#name": [
+                  {
+                    "@value": "quantity"
+                  }
+                ]
+              }
+            ],
+            "http://www.w3.org/ns/shacl#name": [
+              {
+                "@value": "Product"
+              }
+            ],
+            "http://schema.org/name": [
+              {
+                "@value": "A product resource"
+              }
+            ],
+            "http://schema.org/description": [
+              {
+                "@value": "A single product representing an item in the store."
+              }
+            ],
+            "http://a.ml/vocabularies/document#examples": [
+              {
+                "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example",
+                "@type": [
+                  "http://a.ml/vocabularies/document#Example",
+                  "http://a.ml/vocabularies/document#DomainElement"
+                ],
+                "http://a.ml/vocabularies/document#strict": [
+                  {
+                    "@value": true
+                  }
+                ],
+                "http://a.ml/vocabularies/document#structuredValue": [
+                  {
+                    "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1",
+                    "@type": [
+                      "http://a.ml/vocabularies/data#Object"
+                    ],
+                    "http://a.ml/vocabularies/data#available": [
+                      {
+                        "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_7",
+                        "@type": [
+                          "http://a.ml/vocabularies/data#Scalar"
+                        ],
+                        "http://a.ml/vocabularies/data#value": [
+                          {
+                            "@value": "true",
+                            "@type": "http://www.w3.org/2001/XMLSchema#boolean"
+                          }
+                        ]
+                      }
+                    ],
+                    "http://a.ml/vocabularies/data#etag": [
+                      {
+                        "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_8",
+                        "@type": [
+                          "http://a.ml/vocabularies/data#Scalar"
+                        ],
+                        "http://a.ml/vocabularies/data#value": [
+                          {
+                            "@value": "W\\sd3deef3rgrgf4r",
+                            "@type": "http://www.w3.org/2001/XMLSchema#string"
+                          }
+                        ]
+                      }
+                    ],
+                    "http://a.ml/vocabularies/data#id": [
+                      {
+                        "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_2",
+                        "@type": [
+                          "http://a.ml/vocabularies/data#Scalar"
+                        ],
+                        "http://a.ml/vocabularies/data#value": [
+                          {
+                            "@value": "we2322-4f4f4f-f4f4ff-f4f4ff4",
+                            "@type": "http://www.w3.org/2001/XMLSchema#string"
+                          }
+                        ]
+                      }
+                    ],
+                    "http://a.ml/vocabularies/data#name": [
+                      {
+                        "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_3",
+                        "@type": [
+                          "http://a.ml/vocabularies/data#Scalar"
+                        ],
+                        "http://a.ml/vocabularies/data#value": [
+                          {
+                            "@value": "Acme Product",
+                            "@type": "http://www.w3.org/2001/XMLSchema#string"
+                          }
+                        ]
+                      }
+                    ],
+                    "http://a.ml/vocabularies/data#quantity": [
+                      {
+                        "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_4",
+                        "@type": [
+                          "http://a.ml/vocabularies/data#Scalar"
+                        ],
+                        "http://a.ml/vocabularies/data#value": [
+                          {
+                            "@value": "200",
+                            "@type": "http://www.w3.org/2001/XMLSchema#integer"
+                          }
+                        ]
+                      }
+                    ],
+                    "http://a.ml/vocabularies/data#unit": [
+                      {
+                        "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_5",
+                        "@type": [
+                          "http://a.ml/vocabularies/data#Scalar"
+                        ],
+                        "http://a.ml/vocabularies/data#value": [
+                          {
+                            "@value": "ml",
+                            "@type": "http://www.w3.org/2001/XMLSchema#string"
+                          }
+                        ]
+                      }
+                    ],
+                    "http://a.ml/vocabularies/data#upc": [
+                      {
+                        "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_6",
+                        "@type": [
+                          "http://a.ml/vocabularies/data#Scalar"
+                        ],
+                        "http://a.ml/vocabularies/data#value": [
+                          {
+                            "@value": "123456789101",
+                            "@type": "http://www.w3.org/2001/XMLSchema#string"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#raw": [
+                  {
+                    "@value": "  id: we2322-4f4f4f-f4f4ff-f4f4ff4\n  name: Acme Product\n  quantity: 200\n  unit: ml\n  upc: \"123456789101\"\n  available: true\n  etag: \"W\\\\sd3deef3rgrgf4r\"\n"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "http://a.ml/vocabularies/document#references": [
+          {
+            "@id": "file://demo/demo-api/types/resource.raml",
+            "@type": [
+              "http://a.ml/vocabularies/document#DataType",
+              "http://a.ml/vocabularies/document#Fragment",
+              "http://a.ml/vocabularies/document#Unit"
+            ],
+            "http://a.ml/vocabularies/document#encodes": [
+              {
+                "@id": "file://demo/demo-api/types/resource.raml#/type",
+                "@type": [
+                  "http://www.w3.org/ns/shacl#NodeShape",
+                  "http://www.w3.org/ns/shacl#Shape",
+                  "http://a.ml/vocabularies/shapes#Shape",
+                  "http://a.ml/vocabularies/document#DomainElement"
+                ],
+                "http://www.w3.org/ns/shacl#closed": [
+                  {
+                    "@value": false
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#property": [
+                  {
+                    "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag",
+                    "@type": [
+                      "http://www.w3.org/ns/shacl#PropertyShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://a.ml/vocabularies/shapes#Shape"
+                    ],
+                    "http://www.w3.org/ns/shacl#path": [
+                      {
+                        "@id": "http://a.ml/vocabularies/data#etag"
+                      }
+                    ],
+                    "http://a.ml/vocabularies/shapes#range": [
+                      {
+                        "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag/scalar/etag",
+                        "@type": [
+                          "http://a.ml/vocabularies/shapes#ScalarShape",
+                          "http://www.w3.org/ns/shacl#Shape",
+                          "http://a.ml/vocabularies/shapes#Shape",
+                          "http://a.ml/vocabularies/document#DomainElement"
+                        ],
+                        "http://www.w3.org/ns/shacl#datatype": [
+                          {
+                            "@id": "http://www.w3.org/2001/XMLSchema#string"
+                          }
+                        ],
+                        "http://www.w3.org/ns/shacl#name": [
+                          {
+                            "@value": "etag"
+                          }
+                        ],
+                        "http://schema.org/description": [
+                          {
+                            "@value": "ETag of this resource for caching purposes.\n__This property will be ignored when creating an object.__\n"
+                          }
+                        ]
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#minCount": [
+                      {
+                        "@value": 1
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "etag"
+                      }
+                    ]
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#name": [
+                  {
+                    "@value": "Resource"
+                  }
+                ],
+                "http://schema.org/description": [
+                  {
+                    "@value": "Common properties for all resources returned by the API.\n"
                   }
                 ]
               }
@@ -5348,6 +6034,91 @@
         ]
       },
       {
+        "@id": "file://demo/demo-api/types/resource.raml",
+        "@type": [
+          "http://a.ml/vocabularies/document#DataType",
+          "http://a.ml/vocabularies/document#Fragment",
+          "http://a.ml/vocabularies/document#Unit"
+        ],
+        "http://a.ml/vocabularies/document#encodes": [
+          {
+            "@id": "file://demo/demo-api/types/resource.raml#/type",
+            "@type": [
+              "http://www.w3.org/ns/shacl#NodeShape",
+              "http://www.w3.org/ns/shacl#Shape",
+              "http://a.ml/vocabularies/shapes#Shape",
+              "http://a.ml/vocabularies/document#DomainElement"
+            ],
+            "http://www.w3.org/ns/shacl#closed": [
+              {
+                "@value": false
+              }
+            ],
+            "http://www.w3.org/ns/shacl#property": [
+              {
+                "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag",
+                "@type": [
+                  "http://www.w3.org/ns/shacl#PropertyShape",
+                  "http://www.w3.org/ns/shacl#Shape",
+                  "http://a.ml/vocabularies/shapes#Shape"
+                ],
+                "http://www.w3.org/ns/shacl#path": [
+                  {
+                    "@id": "http://a.ml/vocabularies/data#etag"
+                  }
+                ],
+                "http://a.ml/vocabularies/shapes#range": [
+                  {
+                    "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag/scalar/etag",
+                    "@type": [
+                      "http://a.ml/vocabularies/shapes#ScalarShape",
+                      "http://www.w3.org/ns/shacl#Shape",
+                      "http://a.ml/vocabularies/shapes#Shape",
+                      "http://a.ml/vocabularies/document#DomainElement"
+                    ],
+                    "http://www.w3.org/ns/shacl#datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "http://www.w3.org/ns/shacl#name": [
+                      {
+                        "@value": "etag"
+                      }
+                    ],
+                    "http://schema.org/description": [
+                      {
+                        "@value": "ETag of this resource for caching purposes.\n__This property will be ignored when creating an object.__\n"
+                      }
+                    ]
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#minCount": [
+                  {
+                    "@value": 1
+                  }
+                ],
+                "http://www.w3.org/ns/shacl#name": [
+                  {
+                    "@value": "etag"
+                  }
+                ]
+              }
+            ],
+            "http://www.w3.org/ns/shacl#name": [
+              {
+                "@value": "Resource"
+              }
+            ],
+            "http://schema.org/description": [
+              {
+                "@value": "Common properties for all resources returned by the API.\n"
+              }
+            ]
+          }
+        ]
+      },
+      {
         "@id": "file://demo/demo-api/library.raml",
         "@type": [
           "http://a.ml/vocabularies/document#Module",
@@ -5421,777 +6192,6 @@
             "http://schema.org/name": [
               {
                 "@value": "Type from library"
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "@id": "file://demo/demo-api/types/product.raml",
-        "@type": [
-          "http://a.ml/vocabularies/document#DataType",
-          "http://a.ml/vocabularies/document#Fragment",
-          "http://a.ml/vocabularies/document#Unit"
-        ],
-        "http://a.ml/vocabularies/document#encodes": [
-          {
-            "@id": "file://demo/demo-api/types/product.raml#/type",
-            "@type": [
-              "http://www.w3.org/ns/shacl#NodeShape",
-              "http://www.w3.org/ns/shacl#Shape",
-              "http://a.ml/vocabularies/shapes#Shape",
-              "http://a.ml/vocabularies/document#DomainElement"
-            ],
-            "http://www.w3.org/ns/shacl#closed": [
-              {
-                "@value": false
-              }
-            ],
-            "http://www.w3.org/ns/shacl#property": [
-              {
-                "@id": "file://demo/demo-api/types/product.raml#/type/property/upc",
-                "@type": [
-                  "http://www.w3.org/ns/shacl#PropertyShape",
-                  "http://www.w3.org/ns/shacl#Shape",
-                  "http://a.ml/vocabularies/shapes#Shape"
-                ],
-                "http://www.w3.org/ns/shacl#path": [
-                  {
-                    "@id": "http://a.ml/vocabularies/data#upc"
-                  }
-                ],
-                "http://a.ml/vocabularies/shapes#range": [
-                  {
-                    "@id": "file://demo/demo-api/types/product.raml#/type/property/upc/scalar/upc",
-                    "@type": [
-                      "http://a.ml/vocabularies/shapes#ScalarShape",
-                      "http://www.w3.org/ns/shacl#Shape",
-                      "http://a.ml/vocabularies/shapes#Shape",
-                      "http://a.ml/vocabularies/document#DomainElement"
-                    ],
-                    "http://www.w3.org/ns/shacl#datatype": [
-                      {
-                        "@id": "http://www.w3.org/2001/XMLSchema#string"
-                      }
-                    ],
-                    "http://www.w3.org/ns/shacl#pattern": [
-                      {
-                        "@value": "^[0-9]{12,12}$"
-                      }
-                    ],
-                    "http://www.w3.org/ns/shacl#name": [
-                      {
-                        "@value": "upc"
-                      }
-                    ],
-                    "http://schema.org/description": [
-                      {
-                        "@value": "The Universal Produc Code. It consists of 12 numerical digits. However, because of the\ninteger precision limitation in JavaScript it is represented as a string.\n"
-                      }
-                    ],
-                    "http://a.ml/vocabularies/document#examples": [
-                      {
-                        "@id": "file://demo/demo-api/types/product.raml#/shape/property/upc/scalar/upc/example/default-example",
-                        "@type": [
-                          "http://a.ml/vocabularies/document#Example",
-                          "http://a.ml/vocabularies/document#DomainElement"
-                        ],
-                        "http://a.ml/vocabularies/document#strict": [
-                          {
-                            "@value": true
-                          }
-                        ],
-                        "http://a.ml/vocabularies/document#structuredValue": [
-                          {
-                            "@id": "file://demo/demo-api/types/product.raml#/shape/property/upc/scalar/upc/example/default-example/scalar_1",
-                            "@type": [
-                              "http://a.ml/vocabularies/data#Scalar"
-                            ],
-                            "http://a.ml/vocabularies/data#value": [
-                              {
-                                "@value": "042100005264",
-                                "@type": "http://www.w3.org/2001/XMLSchema#string"
-                              }
-                            ]
-                          }
-                        ],
-                        "http://www.w3.org/ns/shacl#raw": [
-                          {
-                            "@value": "042100005264"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#minCount": [
-                  {
-                    "@value": 1
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#name": [
-                  {
-                    "@value": "upc"
-                  }
-                ]
-              },
-              {
-                "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag",
-                "@type": [
-                  "http://www.w3.org/ns/shacl#PropertyShape",
-                  "http://www.w3.org/ns/shacl#Shape",
-                  "http://a.ml/vocabularies/shapes#Shape"
-                ],
-                "http://www.w3.org/ns/shacl#path": [
-                  {
-                    "@id": "http://a.ml/vocabularies/data#etag"
-                  }
-                ],
-                "http://a.ml/vocabularies/shapes#range": [
-                  {
-                    "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag/scalar/etag",
-                    "@type": [
-                      "http://a.ml/vocabularies/shapes#ScalarShape",
-                      "http://www.w3.org/ns/shacl#Shape",
-                      "http://a.ml/vocabularies/shapes#Shape",
-                      "http://a.ml/vocabularies/document#DomainElement"
-                    ],
-                    "http://www.w3.org/ns/shacl#datatype": [
-                      {
-                        "@id": "http://www.w3.org/2001/XMLSchema#string"
-                      }
-                    ],
-                    "http://www.w3.org/ns/shacl#name": [
-                      {
-                        "@value": "etag"
-                      }
-                    ],
-                    "http://schema.org/description": [
-                      {
-                        "@value": "ETag of this resource for caching purposes.\n__This property will be ignored when creating an object.__\n"
-                      }
-                    ]
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#minCount": [
-                  {
-                    "@value": 1
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#name": [
-                  {
-                    "@value": "etag"
-                  }
-                ]
-              },
-              {
-                "@id": "file://demo/demo-api/types/product.raml#/type/property/name",
-                "@type": [
-                  "http://www.w3.org/ns/shacl#PropertyShape",
-                  "http://www.w3.org/ns/shacl#Shape",
-                  "http://a.ml/vocabularies/shapes#Shape"
-                ],
-                "http://www.w3.org/ns/shacl#path": [
-                  {
-                    "@id": "http://a.ml/vocabularies/data#name"
-                  }
-                ],
-                "http://a.ml/vocabularies/shapes#range": [
-                  {
-                    "@id": "file://demo/demo-api/types/product.raml#/type/property/name/scalar/name",
-                    "@type": [
-                      "http://a.ml/vocabularies/shapes#ScalarShape",
-                      "http://www.w3.org/ns/shacl#Shape",
-                      "http://a.ml/vocabularies/shapes#Shape",
-                      "http://a.ml/vocabularies/document#DomainElement"
-                    ],
-                    "http://www.w3.org/ns/shacl#datatype": [
-                      {
-                        "@id": "http://www.w3.org/2001/XMLSchema#string"
-                      }
-                    ],
-                    "http://www.w3.org/ns/shacl#name": [
-                      {
-                        "@value": "name"
-                      }
-                    ],
-                    "http://schema.org/description": [
-                      {
-                        "@value": "Product name"
-                      }
-                    ],
-                    "http://a.ml/vocabularies/document#examples": [
-                      {
-                        "@id": "file://demo/demo-api/types/product.raml#/shape/property/name/scalar/name/example/default-example",
-                        "@type": [
-                          "http://a.ml/vocabularies/document#Example",
-                          "http://a.ml/vocabularies/document#DomainElement"
-                        ],
-                        "http://a.ml/vocabularies/document#strict": [
-                          {
-                            "@value": true
-                          }
-                        ],
-                        "http://a.ml/vocabularies/document#structuredValue": [
-                          {
-                            "@id": "file://demo/demo-api/types/product.raml#/shape/property/name/scalar/name/example/default-example/scalar_1",
-                            "@type": [
-                              "http://a.ml/vocabularies/data#Scalar"
-                            ],
-                            "http://a.ml/vocabularies/data#value": [
-                              {
-                                "@value": "Acme product - mentol flavor, 500 ml.",
-                                "@type": "http://www.w3.org/2001/XMLSchema#string"
-                              }
-                            ]
-                          }
-                        ],
-                        "http://www.w3.org/ns/shacl#raw": [
-                          {
-                            "@value": "Acme product - mentol flavor, 500 ml."
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#minCount": [
-                  {
-                    "@value": 1
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#name": [
-                  {
-                    "@value": "name"
-                  }
-                ]
-              },
-              {
-                "@id": "file://demo/demo-api/types/product.raml#/type/property/id",
-                "@type": [
-                  "http://www.w3.org/ns/shacl#PropertyShape",
-                  "http://www.w3.org/ns/shacl#Shape",
-                  "http://a.ml/vocabularies/shapes#Shape"
-                ],
-                "http://www.w3.org/ns/shacl#path": [
-                  {
-                    "@id": "http://a.ml/vocabularies/data#id"
-                  }
-                ],
-                "http://a.ml/vocabularies/shapes#range": [
-                  {
-                    "@id": "file://demo/demo-api/types/product.raml#/type/property/id/scalar/id",
-                    "@type": [
-                      "http://a.ml/vocabularies/shapes#ScalarShape",
-                      "http://www.w3.org/ns/shacl#Shape",
-                      "http://a.ml/vocabularies/shapes#Shape",
-                      "http://a.ml/vocabularies/document#DomainElement"
-                    ],
-                    "http://www.w3.org/ns/shacl#datatype": [
-                      {
-                        "@id": "http://www.w3.org/2001/XMLSchema#string"
-                      }
-                    ],
-                    "http://www.w3.org/ns/shacl#pattern": [
-                      {
-                        "@value": "^[0-9a-zA-Z-]+$"
-                      }
-                    ],
-                    "http://www.w3.org/ns/shacl#name": [
-                      {
-                        "@value": "id"
-                      }
-                    ],
-                    "http://schema.org/description": [
-                      {
-                        "@value": "Product id. It is a UUID of the database record.\n__This property will be ignored when creating an object.__\nIt will be available when the product is stored in the datastore.\n"
-                      }
-                    ]
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#minCount": [
-                  {
-                    "@value": 1
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#name": [
-                  {
-                    "@value": "id"
-                  }
-                ]
-              },
-              {
-                "@id": "file://demo/demo-api/types/product.raml#/type/property/unit",
-                "@type": [
-                  "http://www.w3.org/ns/shacl#PropertyShape",
-                  "http://www.w3.org/ns/shacl#Shape",
-                  "http://a.ml/vocabularies/shapes#Shape"
-                ],
-                "http://www.w3.org/ns/shacl#path": [
-                  {
-                    "@id": "http://a.ml/vocabularies/data#unit"
-                  }
-                ],
-                "http://a.ml/vocabularies/shapes#range": [
-                  {
-                    "@id": "file://demo/demo-api/types/product.raml#/type/property/unit/scalar/unit",
-                    "@type": [
-                      "http://a.ml/vocabularies/shapes#ScalarShape",
-                      "http://www.w3.org/ns/shacl#Shape",
-                      "http://a.ml/vocabularies/shapes#Shape",
-                      "http://a.ml/vocabularies/document#DomainElement"
-                    ],
-                    "http://www.w3.org/ns/shacl#datatype": [
-                      {
-                        "@id": "http://www.w3.org/2001/XMLSchema#string"
-                      }
-                    ],
-                    "http://www.w3.org/ns/shacl#name": [
-                      {
-                        "@value": "unit"
-                      }
-                    ],
-                    "http://schema.org/description": [
-                      {
-                        "@value": "The unit of measuremet for the quantity property."
-                      }
-                    ],
-                    "http://a.ml/vocabularies/document#examples": [
-                      {
-                        "@id": "file://demo/demo-api/types/product.raml#/shape/property/unit/scalar/unit/example/default-example",
-                        "@type": [
-                          "http://a.ml/vocabularies/document#Example",
-                          "http://a.ml/vocabularies/document#DomainElement"
-                        ],
-                        "http://a.ml/vocabularies/document#strict": [
-                          {
-                            "@value": true
-                          }
-                        ],
-                        "http://a.ml/vocabularies/document#structuredValue": [
-                          {
-                            "@id": "file://demo/demo-api/types/product.raml#/shape/property/unit/scalar/unit/example/default-example/scalar_1",
-                            "@type": [
-                              "http://a.ml/vocabularies/data#Scalar"
-                            ],
-                            "http://a.ml/vocabularies/data#value": [
-                              {
-                                "@value": "ml",
-                                "@type": "http://www.w3.org/2001/XMLSchema#string"
-                              }
-                            ]
-                          }
-                        ],
-                        "http://www.w3.org/ns/shacl#raw": [
-                          {
-                            "@value": "ml"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#minCount": [
-                  {
-                    "@value": 1
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#name": [
-                  {
-                    "@value": "unit"
-                  }
-                ]
-              },
-              {
-                "@id": "file://demo/demo-api/types/product.raml#/type/property/available",
-                "@type": [
-                  "http://www.w3.org/ns/shacl#PropertyShape",
-                  "http://www.w3.org/ns/shacl#Shape",
-                  "http://a.ml/vocabularies/shapes#Shape"
-                ],
-                "http://www.w3.org/ns/shacl#path": [
-                  {
-                    "@id": "http://a.ml/vocabularies/data#available"
-                  }
-                ],
-                "http://a.ml/vocabularies/shapes#range": [
-                  {
-                    "@id": "file://demo/demo-api/types/product.raml#/type/property/available/scalar/available",
-                    "@type": [
-                      "http://a.ml/vocabularies/shapes#ScalarShape",
-                      "http://www.w3.org/ns/shacl#Shape",
-                      "http://a.ml/vocabularies/shapes#Shape",
-                      "http://a.ml/vocabularies/document#DomainElement"
-                    ],
-                    "http://www.w3.org/ns/shacl#datatype": [
-                      {
-                        "@id": "http://www.w3.org/2001/XMLSchema#boolean"
-                      }
-                    ],
-                    "http://www.w3.org/ns/shacl#name": [
-                      {
-                        "@value": "available"
-                      }
-                    ],
-                    "http://schema.org/description": [
-                      {
-                        "@value": "Product current availability in the store.\nProduct may be not available but the users still can order it with later delivery date.\n"
-                      }
-                    ],
-                    "http://a.ml/vocabularies/document#examples": [
-                      {
-                        "@id": "file://demo/demo-api/types/product.raml#/shape/property/available/scalar/available/example/default-example",
-                        "@type": [
-                          "http://a.ml/vocabularies/document#Example",
-                          "http://a.ml/vocabularies/document#DomainElement"
-                        ],
-                        "http://a.ml/vocabularies/document#strict": [
-                          {
-                            "@value": true
-                          }
-                        ],
-                        "http://a.ml/vocabularies/document#structuredValue": [
-                          {
-                            "@id": "file://demo/demo-api/types/product.raml#/shape/property/available/scalar/available/example/default-example/scalar_1",
-                            "@type": [
-                              "http://a.ml/vocabularies/data#Scalar"
-                            ],
-                            "http://a.ml/vocabularies/data#value": [
-                              {
-                                "@value": "true",
-                                "@type": "http://www.w3.org/2001/XMLSchema#boolean"
-                              }
-                            ]
-                          }
-                        ],
-                        "http://www.w3.org/ns/shacl#raw": [
-                          {
-                            "@value": "true"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#minCount": [
-                  {
-                    "@value": 1
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#name": [
-                  {
-                    "@value": "available"
-                  }
-                ]
-              },
-              {
-                "@id": "file://demo/demo-api/types/product.raml#/type/property/quantity",
-                "@type": [
-                  "http://www.w3.org/ns/shacl#PropertyShape",
-                  "http://www.w3.org/ns/shacl#Shape",
-                  "http://a.ml/vocabularies/shapes#Shape"
-                ],
-                "http://www.w3.org/ns/shacl#path": [
-                  {
-                    "@id": "http://a.ml/vocabularies/data#quantity"
-                  }
-                ],
-                "http://a.ml/vocabularies/shapes#range": [
-                  {
-                    "@id": "file://demo/demo-api/types/product.raml#/type/property/quantity/scalar/quantity",
-                    "@type": [
-                      "http://a.ml/vocabularies/shapes#ScalarShape",
-                      "http://www.w3.org/ns/shacl#Shape",
-                      "http://a.ml/vocabularies/shapes#Shape",
-                      "http://a.ml/vocabularies/document#DomainElement"
-                    ],
-                    "http://www.w3.org/ns/shacl#datatype": [
-                      {
-                        "@id": "http://a.ml/vocabularies/shapes#number"
-                      }
-                    ],
-                    "http://www.w3.org/ns/shacl#name": [
-                      {
-                        "@value": "quantity"
-                      }
-                    ],
-                    "http://schema.org/description": [
-                      {
-                        "@value": "The quantity of the product in the one unit of measurement.\nSee `unit` property for more information.\n"
-                      }
-                    ],
-                    "http://a.ml/vocabularies/document#examples": [
-                      {
-                        "@id": "file://demo/demo-api/types/product.raml#/shape/property/quantity/scalar/quantity/example/default-example",
-                        "@type": [
-                          "http://a.ml/vocabularies/document#Example",
-                          "http://a.ml/vocabularies/document#DomainElement"
-                        ],
-                        "http://a.ml/vocabularies/document#strict": [
-                          {
-                            "@value": true
-                          }
-                        ],
-                        "http://a.ml/vocabularies/document#structuredValue": [
-                          {
-                            "@id": "file://demo/demo-api/types/product.raml#/shape/property/quantity/scalar/quantity/example/default-example/scalar_1",
-                            "@type": [
-                              "http://a.ml/vocabularies/data#Scalar"
-                            ],
-                            "http://a.ml/vocabularies/data#value": [
-                              {
-                                "@value": "500",
-                                "@type": "http://www.w3.org/2001/XMLSchema#integer"
-                              }
-                            ]
-                          }
-                        ],
-                        "http://www.w3.org/ns/shacl#raw": [
-                          {
-                            "@value": "500"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#minCount": [
-                  {
-                    "@value": 1
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#name": [
-                  {
-                    "@value": "quantity"
-                  }
-                ]
-              }
-            ],
-            "http://www.w3.org/ns/shacl#name": [
-              {
-                "@value": "Product"
-              }
-            ],
-            "http://schema.org/name": [
-              {
-                "@value": "A product resource"
-              }
-            ],
-            "http://schema.org/description": [
-              {
-                "@value": "A single product representing an item in the store."
-              }
-            ],
-            "http://a.ml/vocabularies/document#examples": [
-              {
-                "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example",
-                "@type": [
-                  "http://a.ml/vocabularies/document#Example",
-                  "http://a.ml/vocabularies/document#DomainElement"
-                ],
-                "http://a.ml/vocabularies/document#strict": [
-                  {
-                    "@value": true
-                  }
-                ],
-                "http://a.ml/vocabularies/document#structuredValue": [
-                  {
-                    "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1",
-                    "@type": [
-                      "http://a.ml/vocabularies/data#Object"
-                    ],
-                    "http://a.ml/vocabularies/data#available": [
-                      {
-                        "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_7",
-                        "@type": [
-                          "http://a.ml/vocabularies/data#Scalar"
-                        ],
-                        "http://a.ml/vocabularies/data#value": [
-                          {
-                            "@value": "true",
-                            "@type": "http://www.w3.org/2001/XMLSchema#boolean"
-                          }
-                        ]
-                      }
-                    ],
-                    "http://a.ml/vocabularies/data#etag": [
-                      {
-                        "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_8",
-                        "@type": [
-                          "http://a.ml/vocabularies/data#Scalar"
-                        ],
-                        "http://a.ml/vocabularies/data#value": [
-                          {
-                            "@value": "W\\sd3deef3rgrgf4r",
-                            "@type": "http://www.w3.org/2001/XMLSchema#string"
-                          }
-                        ]
-                      }
-                    ],
-                    "http://a.ml/vocabularies/data#id": [
-                      {
-                        "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_2",
-                        "@type": [
-                          "http://a.ml/vocabularies/data#Scalar"
-                        ],
-                        "http://a.ml/vocabularies/data#value": [
-                          {
-                            "@value": "we2322-4f4f4f-f4f4ff-f4f4ff4",
-                            "@type": "http://www.w3.org/2001/XMLSchema#string"
-                          }
-                        ]
-                      }
-                    ],
-                    "http://a.ml/vocabularies/data#name": [
-                      {
-                        "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_3",
-                        "@type": [
-                          "http://a.ml/vocabularies/data#Scalar"
-                        ],
-                        "http://a.ml/vocabularies/data#value": [
-                          {
-                            "@value": "Acme Product",
-                            "@type": "http://www.w3.org/2001/XMLSchema#string"
-                          }
-                        ]
-                      }
-                    ],
-                    "http://a.ml/vocabularies/data#quantity": [
-                      {
-                        "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_4",
-                        "@type": [
-                          "http://a.ml/vocabularies/data#Scalar"
-                        ],
-                        "http://a.ml/vocabularies/data#value": [
-                          {
-                            "@value": "200",
-                            "@type": "http://www.w3.org/2001/XMLSchema#integer"
-                          }
-                        ]
-                      }
-                    ],
-                    "http://a.ml/vocabularies/data#unit": [
-                      {
-                        "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_5",
-                        "@type": [
-                          "http://a.ml/vocabularies/data#Scalar"
-                        ],
-                        "http://a.ml/vocabularies/data#value": [
-                          {
-                            "@value": "ml",
-                            "@type": "http://www.w3.org/2001/XMLSchema#string"
-                          }
-                        ]
-                      }
-                    ],
-                    "http://a.ml/vocabularies/data#upc": [
-                      {
-                        "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_6",
-                        "@type": [
-                          "http://a.ml/vocabularies/data#Scalar"
-                        ],
-                        "http://a.ml/vocabularies/data#value": [
-                          {
-                            "@value": "123456789101",
-                            "@type": "http://www.w3.org/2001/XMLSchema#string"
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#raw": [
-                  {
-                    "@value": "  id: we2322-4f4f4f-f4f4ff-f4f4ff4\n  name: Acme Product\n  quantity: 200\n  unit: ml\n  upc: \"123456789101\"\n  available: true\n  etag: \"W\\\\sd3deef3rgrgf4r\"\n"
-                  }
-                ]
-              }
-            ]
-          }
-        ],
-        "http://a.ml/vocabularies/document#references": [
-          {
-            "@id": "file://demo/demo-api/types/resource.raml",
-            "@type": [
-              "http://a.ml/vocabularies/document#DataType",
-              "http://a.ml/vocabularies/document#Fragment",
-              "http://a.ml/vocabularies/document#Unit"
-            ],
-            "http://a.ml/vocabularies/document#encodes": [
-              {
-                "@id": "file://demo/demo-api/types/resource.raml#/type",
-                "@type": [
-                  "http://www.w3.org/ns/shacl#NodeShape",
-                  "http://www.w3.org/ns/shacl#Shape",
-                  "http://a.ml/vocabularies/shapes#Shape",
-                  "http://a.ml/vocabularies/document#DomainElement"
-                ],
-                "http://www.w3.org/ns/shacl#closed": [
-                  {
-                    "@value": false
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#property": [
-                  {
-                    "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag",
-                    "@type": [
-                      "http://www.w3.org/ns/shacl#PropertyShape",
-                      "http://www.w3.org/ns/shacl#Shape",
-                      "http://a.ml/vocabularies/shapes#Shape"
-                    ],
-                    "http://www.w3.org/ns/shacl#path": [
-                      {
-                        "@id": "http://a.ml/vocabularies/data#etag"
-                      }
-                    ],
-                    "http://a.ml/vocabularies/shapes#range": [
-                      {
-                        "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag/scalar/etag",
-                        "@type": [
-                          "http://a.ml/vocabularies/shapes#ScalarShape",
-                          "http://www.w3.org/ns/shacl#Shape",
-                          "http://a.ml/vocabularies/shapes#Shape",
-                          "http://a.ml/vocabularies/document#DomainElement"
-                        ],
-                        "http://www.w3.org/ns/shacl#datatype": [
-                          {
-                            "@id": "http://www.w3.org/2001/XMLSchema#string"
-                          }
-                        ],
-                        "http://www.w3.org/ns/shacl#name": [
-                          {
-                            "@value": "etag"
-                          }
-                        ],
-                        "http://schema.org/description": [
-                          {
-                            "@value": "ETag of this resource for caching purposes.\n__This property will be ignored when creating an object.__\n"
-                          }
-                        ]
-                      }
-                    ],
-                    "http://www.w3.org/ns/shacl#minCount": [
-                      {
-                        "@value": 1
-                      }
-                    ],
-                    "http://www.w3.org/ns/shacl#name": [
-                      {
-                        "@value": "etag"
-                      }
-                    ]
-                  }
-                ],
-                "http://www.w3.org/ns/shacl#name": [
-                  {
-                    "@value": "Resource"
-                  }
-                ],
-                "http://schema.org/description": [
-                  {
-                    "@value": "Common properties for all resources returned by the API.\n"
-                  }
-                ]
               }
             ]
           }

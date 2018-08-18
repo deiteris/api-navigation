@@ -603,7 +603,10 @@
         super.disconnectedCallback();
         window.removeEventListener('api-navigation-selection-changed', this._navigationChangeHandler);
       }
-
+      /**
+       * Called by the Polymer change observer when `amfModel` property change.
+       * @param {Array|Object} model AMF model
+       */
       _amfChanged(model) {
         if (!model) {
           return;
@@ -698,11 +701,13 @@
         if (!data) {
           return;
         }
-        const endpoint = data[this.ns.raml.vocabularies.http + 'endpoint'];
+        const ekey = this._getAmfKey(this.ns.raml.vocabularies.http + 'endpoint');
+        const endpoint = this._ensureArray(data[ekey]);
         if (endpoint) {
           endpoint.forEach((item) => this._appendModelItem(item, target));
         }
-        const documentation = data[this.ns.schema.doc];
+        const dkey = this._getAmfKey(this.ns.schema.doc);
+        const documentation = this._ensureArray(data[dkey]);
         if (documentation) {
           documentation.forEach((item) => this._appendModelItem(item, target));
         }
@@ -723,6 +728,8 @@
           this._appendDocumentationItem(item, target);
         } else if (this._hasType(item, this.ns.raml.vocabularies.http + 'EndPoint')) {
           this._appendEndpointItem(item, target);
+        } else {
+          console.warn('Ignored model item', item);
         }
       }
       /**
@@ -732,15 +739,15 @@
        * @param {Object} target
        */
       _appendTypeItem(item, target) {
-        let name = this._getValue(item, this.schemaName);
-        if (!name) {
-          name = this._getValue(item, this.ns.w3.shacl.name + 'name');
-        }
-        if (!name) {
+        const w3name = this._getValue(item, this.ns.w3.shacl.name + 'name');
+        if (w3name && w3name.indexOf('amf_inline_type') === 0) {
+          // https://www.mulesoft.org/jira/browse/APIMF-972
           return;
         }
-        if (name.indexOf('amf_inline_type') === 0) {
-          // https://www.mulesoft.org/jira/browse/APIMF-972
+        let name = this._getValue(item, this.ns.schema.schemaName);
+        if (!name && w3name) {
+          name = w3name;
+        } else {
           return;
         }
         const id = item['@id'];
@@ -810,7 +817,8 @@
         }
         const id = item['@id'];
         const indent = paths[0] ? paths.length - 1 : paths.length - 2;
-        const operations = item[this.ns.w3.hydra.supportedOperation] || [];
+        const key = this._getAmfKey(this.ns.w3.hydra.supportedOperation);
+        const operations = this._ensureArray(item[key]) || [];
         const methods = operations.map((op) => this._createOperationModel(op));
         result.label = name;
         result.id = id;
@@ -835,9 +843,6 @@
       _createOperationModel(item) {
         let name = this._getValue(item, this.ns.schema.schemaName);
         const methodKey = this.ns.w3.hydra.core + 'method';
-        // if (!name) {
-        //   name = this._getValue(item, methodKey);
-        // }
         const id = item['@id'];
         const method = this._getValue(item, methodKey);
         return {
@@ -1122,7 +1127,7 @@
       }
 
       _cleanPassiveSelection() {
-        // Very simpole optymisation to not query local DOM if we are sure
+        // Very simpole optimization to not query local DOM if we are sure
         // that there's no selection.
         if (!this.__hasPassiveSelection) {
           return;

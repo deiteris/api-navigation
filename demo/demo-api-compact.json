@@ -1,5 +1,9 @@
 {
   "@context": {
+    "docType": "http://a.ml/vocabularies/document#Document",
+    "fragType": "http://a.ml/vocabularies/document#Fragment",
+    "modType": "http://a.ml/vocabularies/document#Module",
+    "unitType": "http://a.ml/vocabularies/document#Unit",
     "declares": "http://a.ml/vocabularies/document#declares",
     "encodes": "http://a.ml/vocabularies/document#encodes",
     "references": "http://a.ml/vocabularies/document#references",
@@ -29,7 +33,8 @@
     "exp": "http://www.w3.org/ns/hydra/core#expect",
     "par": "http://a.ml/vocabularies/http#parameter",
     "items": "http://a.ml/vocabularies/shapes#items",
-    "ex": "http://a.ml/vocabularies/document#examples",
+    "exs": "http://a.ml/vocabularies/document#examples",
+    "ex": "http://a.ml/vocabularies/document#example",
     "strict": "http://a.ml/vocabularies/document#strict",
     "svalue": "http://a.ml/vocabularies/document#structuredValue",
     "rdfNumber": "http://www.w3.org/1999/02/22-rdf-syntax-ns#member",
@@ -46,20 +51,24 @@
     "range": "http://a.ml/vocabularies/shapes#range",
     "mc": "http://www.w3.org/ns/shacl#minCount",
     "mac": "http://www.w3.org/ns/shacl#maxCount",
-    "node": "http://www.w3.org/ns/shacl#NodeShape"
+    "node": "http://www.w3.org/ns/shacl#NodeShape",
+    "arrShape": "http://a.ml/vocabularies/shapes#ArrayShape",
+    "propShape": "http://www.w3.org/ns/shacl#PropertyShape",
+    "shaclPath": "http://www.w3.org/ns/shacl#path",
+    "closed": "http://www.w3.org/ns/shacl#closed"
   },
   "@id": "file://demo/demo-api/demo-api.raml",
   "@type": [
-    "http://a.ml/vocabularies/document#Document",
-    "http://a.ml/vocabularies/document#Fragment",
-    "http://a.ml/vocabularies/document#Module",
-    "http://a.ml/vocabularies/document#Unit"
+    "docType",
+    "fragType",
+    "modType",
+    "unitType"
   ],
   "declares": [
     {
       "@id": "file://demo/demo-api/demo-api.raml#/declarations/types/array/Arrable",
       "@type": [
-        "http://a.ml/vocabularies/shapes#ArrayShape",
+        "arrShape",
         "shape",
         "shapesShape",
         "de"
@@ -74,12 +83,12 @@
         ],
         "desc": "The user's profile picture.",
         "name": "Pic",
-        "http://www.w3.org/ns/shacl#closed": false,
+        "closed": false,
         "w3name": "Picture",
         "prop": {
           "@id": "file://demo/demo-api/demo-api.raml#/declarations/types/Picture/property/url",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -99,7 +108,7 @@
           },
           "mc": 0,
           "w3name": "url",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#url"
           }
         }
@@ -114,7 +123,7 @@
         "shapesShape",
         "de"
       ],
-      "ex": {
+      "exs": {
         "@id": "file://demo/demo-api/types/app-person.raml#/shape/example/default-example",
         "@type": [
           "http://a.ml/vocabularies/document#Example",
@@ -237,13 +246,13 @@
       },
       "desc": "An object representing a person in the API.\nThis object will be used in all methods returning a Person or list of people.\n",
       "name": "A person resource",
-      "http://www.w3.org/ns/shacl#closed": false,
+      "closed": false,
       "w3name": "AppPerson",
       "prop": [
         {
           "@id": "file://demo/demo-api/types/app-person.raml#/type/property/favouriteTime",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -263,14 +272,14 @@
           },
           "mc": 1,
           "w3name": "favouriteTime",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#favouriteTime"
           }
         },
         {
           "@id": "file://demo/demo-api/types/app-person.raml#/type/property/favouriteNumber",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -282,7 +291,7 @@
               "shapesShape",
               "de"
             ],
-            "ex": {
+            "exs": {
               "@id": "file://demo/demo-api/types/app-person.raml#/shape/property/favouriteNumber/scalar/favouriteNumber/example/default-example",
               "@type": [
                 "http://a.ml/vocabularies/document#Example",
@@ -310,14 +319,14 @@
           },
           "mc": 1,
           "w3name": "favouriteNumber",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#favouriteNumber"
           }
         },
         {
           "@id": "file://demo/demo-api/types/app-person.raml#/type/property/newsletter",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -345,14 +354,14 @@
           },
           "mc": 0,
           "w3name": "newsletter",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#newsletter"
           }
         },
         {
           "@id": "file://demo/demo-api/types/app-person.raml#/type/property/fietype",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -374,14 +383,14 @@
           },
           "mc": 0,
           "w3name": "fietype",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#fietype"
           }
         },
         {
           "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -401,14 +410,14 @@
           },
           "mc": 1,
           "w3name": "etag",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#etag"
           }
         },
         {
           "@id": "file://demo/demo-api/types/app-person.raml#/type/property/tagline",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -428,14 +437,14 @@
           },
           "mc": 1,
           "w3name": "tagline",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#tagline"
           }
         },
         {
           "@id": "file://demo/demo-api/types/app-person.raml#/type/property/name",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -447,7 +456,7 @@
               "shapesShape",
               "de"
             ],
-            "ex": {
+            "exs": {
               "@id": "file://demo/demo-api/types/app-person.raml#/shape/property/name/scalar/name/example/default-example",
               "@type": [
                 "http://a.ml/vocabularies/document#Example",
@@ -473,14 +482,14 @@
           },
           "mc": 1,
           "w3name": "name",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#name"
           }
         },
         {
           "@id": "file://demo/demo-api/types/app-person.raml#/type/property/created",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -492,7 +501,7 @@
               "shapesShape",
               "de"
             ],
-            "ex": {
+            "exs": {
               "@id": "file://demo/demo-api/types/app-person.raml#/shape/property/created/scalar/created/example/default-example",
               "@type": [
                 "http://a.ml/vocabularies/document#Example",
@@ -516,14 +525,14 @@
           },
           "mc": 0,
           "w3name": "created",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#created"
           }
         },
         {
           "@id": "file://demo/demo-api/types/app-person.raml#/type/property/url",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -543,14 +552,14 @@
           },
           "mc": 1,
           "w3name": "url",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#url"
           }
         },
         {
           "@id": "file://demo/demo-api/types/app-person.raml#/type/property/id",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -573,14 +582,14 @@
           },
           "mc": 1,
           "w3name": "id",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#id"
           }
         },
         {
           "@id": "file://demo/demo-api/types/app-person.raml#/type/property/language",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -600,14 +609,14 @@
           },
           "mc": 1,
           "w3name": "language",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#language"
           }
         },
         {
           "@id": "file://demo/demo-api/types/app-person.raml#/type/property/age",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -627,14 +636,14 @@
           },
           "mc": 0,
           "w3name": "age",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#age"
           }
         },
         {
           "@id": "file://demo/demo-api/types/app-person.raml#/type/property/nillable",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -671,14 +680,14 @@
           },
           "mc": 1,
           "w3name": "nillable",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#nillable"
           }
         },
         {
           "@id": "file://demo/demo-api/types/app-person.raml#/type/property/birthday",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -698,14 +707,14 @@
           },
           "mc": 1,
           "w3name": "birthday",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#birthday"
           }
         },
         {
           "@id": "file://demo/demo-api/types/app-person.raml#/type/property/image",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -717,7 +726,7 @@
               "shapesShape",
               "de"
             ],
-            "ex": {
+            "exs": {
               "@id": "file://demo/demo-api/types/image.raml#/shape/example/default-example",
               "@type": [
                 "http://a.ml/vocabularies/document#Example",
@@ -747,13 +756,13 @@
               "raw": "  url: https://domain.com/profile/pawel.psztyc/image\n  thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n"
             },
             "desc": "An image object representing an image object strored in the file store.\nThe image can be only included in the response. It has no effect if the Image appear in the\nrequest. Endpoint handles image creation on it's own and clients can't process images\nexcept of sending image data.\n",
-            "http://www.w3.org/ns/shacl#closed": false,
+            "closed": false,
             "w3name": "image",
             "prop": [
               {
                 "@id": "file://demo/demo-api/types/image.raml#/type/property/url",
                 "@type": [
-                  "http://www.w3.org/ns/shacl#PropertyShape",
+                  "propShape",
                   "shape",
                   "shapesShape"
                 ],
@@ -773,14 +782,14 @@
                 },
                 "mc": 1,
                 "w3name": "url",
-                "http://www.w3.org/ns/shacl#path": {
+                "shaclPath": {
                   "@id": "http://a.ml/vocabularies/data#url"
                 }
               },
               {
                 "@id": "file://demo/demo-api/types/image.raml#/type/property/thumb",
                 "@type": [
-                  "http://www.w3.org/ns/shacl#PropertyShape",
+                  "propShape",
                   "shape",
                   "shapesShape"
                 ],
@@ -801,7 +810,7 @@
                 },
                 "mc": 1,
                 "w3name": "thumb",
-                "http://www.w3.org/ns/shacl#path": {
+                "shaclPath": {
                   "@id": "http://a.ml/vocabularies/data#thumb"
                 }
               }
@@ -809,14 +818,14 @@
           },
           "mc": 1,
           "w3name": "image",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#image"
           }
         },
         {
           "@id": "file://demo/demo-api/types/app-person.raml#/type/property/gender",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -828,7 +837,7 @@
               "shapesShape",
               "de"
             ],
-            "ex": [
+            "exs": [
               {
                 "@id": "file://demo/demo-api/types/app-person.raml#/shape/property/gender%3F/scalar/gender%3F/example/Women",
                 "@type": [
@@ -899,7 +908,7 @@
           },
           "mc": 0,
           "w3name": "gender",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#gender"
           }
         }
@@ -921,20 +930,20 @@
             "shapesShape",
             "de"
           ],
-          "http://www.w3.org/ns/shacl#closed": false,
+          "closed": false,
           "w3name": "Unionable",
           "prop": [
             {
               "@id": "file://demo/demo-api/demo-api.raml#/declarations/types/ImportFormat/property/targets",
               "@type": [
-                "http://www.w3.org/ns/shacl#PropertyShape",
+                "propShape",
                 "shape",
                 "shapesShape"
               ],
               "range": {
                 "@id": "file://demo/demo-api/demo-api.raml#/declarations/types/ImportFormat/property/targets/array/targets",
                 "@type": [
-                  "http://a.ml/vocabularies/shapes#ArrayShape",
+                  "arrShape",
                   "shape",
                   "shapesShape",
                   "de"
@@ -956,14 +965,14 @@
               },
               "mc": 1,
               "w3name": "targets",
-              "http://www.w3.org/ns/shacl#path": {
+              "shaclPath": {
                 "@id": "http://a.ml/vocabularies/data#targets"
               }
             },
             {
               "@id": "file://demo/demo-api/demo-api.raml#/declarations/types/ImportFormat/property/source",
               "@type": [
-                "http://www.w3.org/ns/shacl#PropertyShape",
+                "propShape",
                 "shape",
                 "shapesShape"
               ],
@@ -983,7 +992,7 @@
               },
               "mc": 1,
               "w3name": "source",
-              "http://www.w3.org/ns/shacl#path": {
+              "shaclPath": {
                 "@id": "http://a.ml/vocabularies/data#source"
               }
             }
@@ -999,12 +1008,12 @@
           ],
           "desc": "The user's profile picture.",
           "name": "Pic",
-          "http://www.w3.org/ns/shacl#closed": false,
+          "closed": false,
           "w3name": "Unionable",
           "prop": {
             "@id": "file://demo/demo-api/demo-api.raml#/declarations/types/Picture/property/url",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -1024,7 +1033,7 @@
             },
             "mc": 0,
             "w3name": "url",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#url"
             }
           }
@@ -1040,13 +1049,13 @@
         "shapesShape",
         "de"
       ],
-      "http://www.w3.org/ns/shacl#closed": false,
+      "closed": false,
       "w3name": "ImportFormat",
       "prop": [
         {
           "@id": "file://demo/demo-api/demo-api.raml#/declarations/types/ImportFormat/property/source",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -1066,21 +1075,21 @@
           },
           "mc": 1,
           "w3name": "source",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#source"
           }
         },
         {
           "@id": "file://demo/demo-api/demo-api.raml#/declarations/types/ImportFormat/property/targets",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
           "range": {
             "@id": "file://demo/demo-api/demo-api.raml#/declarations/types/ImportFormat/property/targets/array/targets",
             "@type": [
-              "http://a.ml/vocabularies/shapes#ArrayShape",
+              "arrShape",
               "shape",
               "shapesShape",
               "de"
@@ -1102,7 +1111,7 @@
           },
           "mc": 1,
           "w3name": "targets",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#targets"
           }
         }
@@ -1117,12 +1126,12 @@
         "de"
       ],
       "desc": "Common properties for all resources returned by the API.\n",
-      "http://www.w3.org/ns/shacl#closed": false,
+      "closed": false,
       "w3name": "Resource",
       "prop": {
         "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag",
         "@type": [
-          "http://www.w3.org/ns/shacl#PropertyShape",
+          "propShape",
           "shape",
           "shapesShape"
         ],
@@ -1142,7 +1151,7 @@
         },
         "mc": 1,
         "w3name": "etag",
-        "http://www.w3.org/ns/shacl#path": {
+        "shaclPath": {
           "@id": "http://a.ml/vocabularies/data#etag"
         }
       }
@@ -1155,7 +1164,7 @@
         "shapesShape",
         "de"
       ],
-      "ex": {
+      "exs": {
         "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example",
         "@type": [
           "http://a.ml/vocabularies/document#Example",
@@ -1226,13 +1235,13 @@
       },
       "desc": "A single product representing an item in the store.",
       "name": "A product resource",
-      "http://www.w3.org/ns/shacl#closed": false,
+      "closed": false,
       "w3name": "Product",
       "prop": [
         {
           "@id": "file://demo/demo-api/types/product.raml#/type/property/upc",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -1244,7 +1253,7 @@
               "shapesShape",
               "de"
             ],
-            "ex": {
+            "exs": {
               "@id": "file://demo/demo-api/types/product.raml#/shape/property/upc/scalar/upc/example/default-example",
               "@type": [
                 "http://a.ml/vocabularies/document#Example",
@@ -1270,14 +1279,14 @@
           },
           "mc": 1,
           "w3name": "upc",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#upc"
           }
         },
         {
           "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -1297,14 +1306,14 @@
           },
           "mc": 1,
           "w3name": "etag",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#etag"
           }
         },
         {
           "@id": "file://demo/demo-api/types/product.raml#/type/property/name",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -1316,7 +1325,7 @@
               "shapesShape",
               "de"
             ],
-            "ex": {
+            "exs": {
               "@id": "file://demo/demo-api/types/product.raml#/shape/property/name/scalar/name/example/default-example",
               "@type": [
                 "http://a.ml/vocabularies/document#Example",
@@ -1341,14 +1350,14 @@
           },
           "mc": 1,
           "w3name": "name",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#name"
           }
         },
         {
           "@id": "file://demo/demo-api/types/product.raml#/type/property/id",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -1369,14 +1378,14 @@
           },
           "mc": 1,
           "w3name": "id",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#id"
           }
         },
         {
           "@id": "file://demo/demo-api/types/product.raml#/type/property/unit",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -1388,7 +1397,7 @@
               "shapesShape",
               "de"
             ],
-            "ex": {
+            "exs": {
               "@id": "file://demo/demo-api/types/product.raml#/shape/property/unit/scalar/unit/example/default-example",
               "@type": [
                 "http://a.ml/vocabularies/document#Example",
@@ -1413,14 +1422,14 @@
           },
           "mc": 1,
           "w3name": "unit",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#unit"
           }
         },
         {
           "@id": "file://demo/demo-api/types/product.raml#/type/property/available",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -1432,7 +1441,7 @@
               "shapesShape",
               "de"
             ],
-            "ex": {
+            "exs": {
               "@id": "file://demo/demo-api/types/product.raml#/shape/property/available/scalar/available/example/default-example",
               "@type": [
                 "http://a.ml/vocabularies/document#Example",
@@ -1457,14 +1466,14 @@
           },
           "mc": 1,
           "w3name": "available",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#available"
           }
         },
         {
           "@id": "file://demo/demo-api/types/product.raml#/type/property/quantity",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -1476,7 +1485,7 @@
               "shapesShape",
               "de"
             ],
-            "ex": {
+            "exs": {
               "@id": "file://demo/demo-api/types/product.raml#/shape/property/quantity/scalar/quantity/example/default-example",
               "@type": [
                 "http://a.ml/vocabularies/document#Example",
@@ -1501,7 +1510,7 @@
           },
           "mc": 1,
           "w3name": "quantity",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#quantity"
           }
         }
@@ -1515,7 +1524,7 @@
         "shapesShape",
         "de"
       ],
-      "ex": {
+      "exs": {
         "@id": "file://demo/demo-api/types/image.raml#/shape/example/default-example",
         "@type": [
           "http://a.ml/vocabularies/document#Example",
@@ -1545,13 +1554,13 @@
         "raw": "  url: https://domain.com/profile/pawel.psztyc/image\n  thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n"
       },
       "desc": "An image object representing an image object strored in the file store.\nThe image can be only included in the response. It has no effect if the Image appear in the\nrequest. Endpoint handles image creation on it's own and clients can't process images\nexcept of sending image data.\n",
-      "http://www.w3.org/ns/shacl#closed": false,
+      "closed": false,
       "w3name": "image",
       "prop": [
         {
           "@id": "file://demo/demo-api/types/image.raml#/type/property/url",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -1571,14 +1580,14 @@
           },
           "mc": 1,
           "w3name": "url",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#url"
           }
         },
         {
           "@id": "file://demo/demo-api/types/image.raml#/type/property/thumb",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -1599,7 +1608,7 @@
           },
           "mc": 1,
           "w3name": "thumb",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#thumb"
           }
         }
@@ -1615,12 +1624,12 @@
       ],
       "desc": "The user's profile picture.",
       "name": "Pic",
-      "http://www.w3.org/ns/shacl#closed": false,
+      "closed": false,
       "w3name": "Picture",
       "prop": {
         "@id": "file://demo/demo-api/demo-api.raml#/declarations/types/Picture/property/url",
         "@type": [
-          "http://www.w3.org/ns/shacl#PropertyShape",
+          "propShape",
           "shape",
           "shapesShape"
         ],
@@ -1640,7 +1649,7 @@
         },
         "mc": 0,
         "w3name": "url",
-        "http://www.w3.org/ns/shacl#path": {
+        "shaclPath": {
           "@id": "http://a.ml/vocabularies/data#url"
         }
       }
@@ -1653,13 +1662,13 @@
         "shapesShape",
         "de"
       ],
-      "http://www.w3.org/ns/shacl#closed": false,
+      "closed": false,
       "w3name": "Property",
       "prop": [
         {
           "@id": "file://demo/demo-api/demo-api.raml#/declarations/types/Property/property/kind",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -1693,14 +1702,14 @@
           },
           "mc": 1,
           "w3name": "kind",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#kind"
           }
         },
         {
           "@id": "file://demo/demo-api/demo-api.raml#/declarations/types/Property/property/etag",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -1720,14 +1729,14 @@
           },
           "mc": 1,
           "w3name": "etag",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#etag"
           }
         },
         {
           "@id": "file://demo/demo-api/demo-api.raml#/declarations/types/Property/property/selfLink",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -1747,14 +1756,14 @@
           },
           "mc": 1,
           "w3name": "selfLink",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#selfLink"
           }
         },
         {
           "@id": "file://demo/demo-api/demo-api.raml#/declarations/types/Property/property/key",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -1774,14 +1783,14 @@
           },
           "mc": 1,
           "w3name": "key",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#key"
           }
         },
         {
           "@id": "file://demo/demo-api/demo-api.raml#/declarations/types/Property/property/visibility",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -1801,14 +1810,14 @@
           },
           "mc": 1,
           "w3name": "visibility",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#visibility"
           }
         },
         {
           "@id": "file://demo/demo-api/demo-api.raml#/declarations/types/Property/property/value",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -1828,7 +1837,7 @@
           },
           "mc": 1,
           "w3name": "value",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#value"
           }
         }
@@ -1893,7 +1902,7 @@
         "shapesShape",
         "de"
       ],
-      "ex": {
+      "exs": {
         "@id": "file://demo/demo-api/types/image.raml#/shape/example/default-example",
         "@type": [
           "http://a.ml/vocabularies/document#Example",
@@ -1923,13 +1932,13 @@
         "raw": "  url: https://domain.com/profile/pawel.psztyc/image\n  thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n"
       },
       "desc": "An image object representing an image object strored in the file store.\nThe image can be only included in the response. It has no effect if the Image appear in the\nrequest. Endpoint handles image creation on it's own and clients can't process images\nexcept of sending image data.\n",
-      "http://www.w3.org/ns/shacl#closed": false,
+      "closed": false,
       "w3name": "image",
       "prop": [
         {
           "@id": "file://demo/demo-api/types/image.raml#/type/property/url",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -1949,14 +1958,14 @@
           },
           "mc": 1,
           "w3name": "url",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#url"
           }
         },
         {
           "@id": "file://demo/demo-api/types/image.raml#/type/property/thumb",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -1977,7 +1986,7 @@
           },
           "mc": 1,
           "w3name": "thumb",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#thumb"
           }
         }
@@ -3792,58 +3801,11 @@
   },
   "references": [
     {
-      "@id": "file://demo/demo-api/types/resource.raml",
-      "@type": [
-        "http://a.ml/vocabularies/document#DataType",
-        "http://a.ml/vocabularies/document#Fragment",
-        "http://a.ml/vocabularies/document#Unit"
-      ],
-      "encodes": {
-        "@id": "file://demo/demo-api/types/resource.raml#/type",
-        "@type": [
-          "node",
-          "shape",
-          "shapesShape",
-          "de"
-        ],
-        "desc": "Common properties for all resources returned by the API.\n",
-        "http://www.w3.org/ns/shacl#closed": false,
-        "w3name": "Resource",
-        "prop": {
-          "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag",
-          "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
-            "shape",
-            "shapesShape"
-          ],
-          "range": {
-            "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag/scalar/etag",
-            "@type": [
-              "scalar",
-              "shape",
-              "shapesShape",
-              "de"
-            ],
-            "desc": "ETag of this resource for caching purposes.\n__This property will be ignored when creating an object.__\n",
-            "dt": {
-              "@id": "http://www.w3.org/2001/XMLSchema#string"
-            },
-            "w3name": "etag"
-          },
-          "mc": 1,
-          "w3name": "etag",
-          "http://www.w3.org/ns/shacl#path": {
-            "@id": "http://a.ml/vocabularies/data#etag"
-          }
-        }
-      }
-    },
-    {
       "@id": "file://demo/demo-api/types/image.raml",
       "@type": [
         "http://a.ml/vocabularies/document#DataType",
-        "http://a.ml/vocabularies/document#Fragment",
-        "http://a.ml/vocabularies/document#Unit"
+        "fragType",
+        "unitType"
       ],
       "encodes": {
         "@id": "file://demo/demo-api/types/image.raml#/type",
@@ -3853,7 +3815,7 @@
           "shapesShape",
           "de"
         ],
-        "ex": {
+        "exs": {
           "@id": "file://demo/demo-api/types/image.raml#/shape/example/default-example",
           "@type": [
             "http://a.ml/vocabularies/document#Example",
@@ -3883,13 +3845,13 @@
           "raw": "  url: https://domain.com/profile/pawel.psztyc/image\n  thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n"
         },
         "desc": "An image object representing an image object strored in the file store.\nThe image can be only included in the response. It has no effect if the Image appear in the\nrequest. Endpoint handles image creation on it's own and clients can't process images\nexcept of sending image data.\n",
-        "http://www.w3.org/ns/shacl#closed": false,
+        "closed": false,
         "w3name": "image",
         "prop": [
           {
             "@id": "file://demo/demo-api/types/image.raml#/type/property/url",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -3909,14 +3871,14 @@
             },
             "mc": 1,
             "w3name": "url",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#url"
             }
           },
           {
             "@id": "file://demo/demo-api/types/image.raml#/type/property/thumb",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -3937,7 +3899,7 @@
             },
             "mc": 1,
             "w3name": "thumb",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#thumb"
             }
           }
@@ -3945,11 +3907,426 @@
       }
     },
     {
+      "@id": "file://demo/demo-api/types/product.raml",
+      "@type": [
+        "http://a.ml/vocabularies/document#DataType",
+        "fragType",
+        "unitType"
+      ],
+      "encodes": {
+        "@id": "file://demo/demo-api/types/product.raml#/type",
+        "@type": [
+          "node",
+          "shape",
+          "shapesShape",
+          "de"
+        ],
+        "exs": {
+          "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example",
+          "@type": [
+            "http://a.ml/vocabularies/document#Example",
+            "de"
+          ],
+          "strict": true,
+          "svalue": {
+            "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1",
+            "@type": "http://a.ml/vocabularies/data#Object",
+            "http://a.ml/vocabularies/data#available": {
+              "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_7",
+              "@type": "http://a.ml/vocabularies/data#Scalar",
+              "dvalue": {
+                "@type": "http://www.w3.org/2001/XMLSchema#boolean",
+                "@value": "true"
+              }
+            },
+            "http://a.ml/vocabularies/data#etag": {
+              "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_8",
+              "@type": "http://a.ml/vocabularies/data#Scalar",
+              "dvalue": {
+                "@type": "http://www.w3.org/2001/XMLSchema#string",
+                "@value": "W\\sd3deef3rgrgf4r"
+              }
+            },
+            "http://a.ml/vocabularies/data#id": {
+              "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_2",
+              "@type": "http://a.ml/vocabularies/data#Scalar",
+              "dvalue": {
+                "@type": "http://www.w3.org/2001/XMLSchema#string",
+                "@value": "we2322-4f4f4f-f4f4ff-f4f4ff4"
+              }
+            },
+            "http://a.ml/vocabularies/data#name": {
+              "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_3",
+              "@type": "http://a.ml/vocabularies/data#Scalar",
+              "dvalue": {
+                "@type": "http://www.w3.org/2001/XMLSchema#string",
+                "@value": "Acme Product"
+              }
+            },
+            "http://a.ml/vocabularies/data#quantity": {
+              "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_4",
+              "@type": "http://a.ml/vocabularies/data#Scalar",
+              "dvalue": {
+                "@type": "http://www.w3.org/2001/XMLSchema#integer",
+                "@value": "200"
+              }
+            },
+            "http://a.ml/vocabularies/data#unit": {
+              "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_5",
+              "@type": "http://a.ml/vocabularies/data#Scalar",
+              "dvalue": {
+                "@type": "http://www.w3.org/2001/XMLSchema#string",
+                "@value": "ml"
+              }
+            },
+            "http://a.ml/vocabularies/data#upc": {
+              "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_6",
+              "@type": "http://a.ml/vocabularies/data#Scalar",
+              "dvalue": {
+                "@type": "http://www.w3.org/2001/XMLSchema#string",
+                "@value": "123456789101"
+              }
+            }
+          },
+          "raw": "  id: we2322-4f4f4f-f4f4ff-f4f4ff4\n  name: Acme Product\n  quantity: 200\n  unit: ml\n  upc: \"123456789101\"\n  available: true\n  etag: \"W\\\\sd3deef3rgrgf4r\"\n"
+        },
+        "desc": "A single product representing an item in the store.",
+        "name": "A product resource",
+        "closed": false,
+        "w3name": "Product",
+        "prop": [
+          {
+            "@id": "file://demo/demo-api/types/product.raml#/type/property/upc",
+            "@type": [
+              "propShape",
+              "shape",
+              "shapesShape"
+            ],
+            "range": {
+              "@id": "file://demo/demo-api/types/product.raml#/type/property/upc/scalar/upc",
+              "@type": [
+                "scalar",
+                "shape",
+                "shapesShape",
+                "de"
+              ],
+              "exs": {
+                "@id": "file://demo/demo-api/types/product.raml#/shape/property/upc/scalar/upc/example/default-example",
+                "@type": [
+                  "http://a.ml/vocabularies/document#Example",
+                  "de"
+                ],
+                "strict": true,
+                "svalue": {
+                  "@id": "file://demo/demo-api/types/product.raml#/shape/property/upc/scalar/upc/example/default-example/scalar_1",
+                  "@type": "http://a.ml/vocabularies/data#Scalar",
+                  "dvalue": {
+                    "@type": "http://www.w3.org/2001/XMLSchema#string",
+                    "@value": "042100005264"
+                  }
+                },
+                "raw": "042100005264"
+              },
+              "desc": "The Universal Produc Code. It consists of 12 numerical digits. However, because of the\ninteger precision limitation in JavaScript it is represented as a string.\n",
+              "dt": {
+                "@id": "http://www.w3.org/2001/XMLSchema#string"
+              },
+              "w3name": "upc",
+              "pattern": "^[0-9]{12,12}$"
+            },
+            "mc": 1,
+            "w3name": "upc",
+            "shaclPath": {
+              "@id": "http://a.ml/vocabularies/data#upc"
+            }
+          },
+          {
+            "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag",
+            "@type": [
+              "propShape",
+              "shape",
+              "shapesShape"
+            ],
+            "range": {
+              "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag/scalar/etag",
+              "@type": [
+                "scalar",
+                "shape",
+                "shapesShape",
+                "de"
+              ],
+              "desc": "ETag of this resource for caching purposes.\n__This property will be ignored when creating an object.__\n",
+              "dt": {
+                "@id": "http://www.w3.org/2001/XMLSchema#string"
+              },
+              "w3name": "etag"
+            },
+            "mc": 1,
+            "w3name": "etag",
+            "shaclPath": {
+              "@id": "http://a.ml/vocabularies/data#etag"
+            }
+          },
+          {
+            "@id": "file://demo/demo-api/types/product.raml#/type/property/name",
+            "@type": [
+              "propShape",
+              "shape",
+              "shapesShape"
+            ],
+            "range": {
+              "@id": "file://demo/demo-api/types/product.raml#/type/property/name/scalar/name",
+              "@type": [
+                "scalar",
+                "shape",
+                "shapesShape",
+                "de"
+              ],
+              "exs": {
+                "@id": "file://demo/demo-api/types/product.raml#/shape/property/name/scalar/name/example/default-example",
+                "@type": [
+                  "http://a.ml/vocabularies/document#Example",
+                  "de"
+                ],
+                "strict": true,
+                "svalue": {
+                  "@id": "file://demo/demo-api/types/product.raml#/shape/property/name/scalar/name/example/default-example/scalar_1",
+                  "@type": "http://a.ml/vocabularies/data#Scalar",
+                  "dvalue": {
+                    "@type": "http://www.w3.org/2001/XMLSchema#string",
+                    "@value": "Acme product - mentol flavor, 500 ml."
+                  }
+                },
+                "raw": "Acme product - mentol flavor, 500 ml."
+              },
+              "desc": "Product name",
+              "dt": {
+                "@id": "http://www.w3.org/2001/XMLSchema#string"
+              },
+              "w3name": "name"
+            },
+            "mc": 1,
+            "w3name": "name",
+            "shaclPath": {
+              "@id": "http://a.ml/vocabularies/data#name"
+            }
+          },
+          {
+            "@id": "file://demo/demo-api/types/product.raml#/type/property/id",
+            "@type": [
+              "propShape",
+              "shape",
+              "shapesShape"
+            ],
+            "range": {
+              "@id": "file://demo/demo-api/types/product.raml#/type/property/id/scalar/id",
+              "@type": [
+                "scalar",
+                "shape",
+                "shapesShape",
+                "de"
+              ],
+              "desc": "Product id. It is a UUID of the database record.\n__This property will be ignored when creating an object.__\nIt will be available when the product is stored in the datastore.\n",
+              "dt": {
+                "@id": "http://www.w3.org/2001/XMLSchema#string"
+              },
+              "w3name": "id",
+              "pattern": "^[0-9a-zA-Z-]+$"
+            },
+            "mc": 1,
+            "w3name": "id",
+            "shaclPath": {
+              "@id": "http://a.ml/vocabularies/data#id"
+            }
+          },
+          {
+            "@id": "file://demo/demo-api/types/product.raml#/type/property/unit",
+            "@type": [
+              "propShape",
+              "shape",
+              "shapesShape"
+            ],
+            "range": {
+              "@id": "file://demo/demo-api/types/product.raml#/type/property/unit/scalar/unit",
+              "@type": [
+                "scalar",
+                "shape",
+                "shapesShape",
+                "de"
+              ],
+              "exs": {
+                "@id": "file://demo/demo-api/types/product.raml#/shape/property/unit/scalar/unit/example/default-example",
+                "@type": [
+                  "http://a.ml/vocabularies/document#Example",
+                  "de"
+                ],
+                "strict": true,
+                "svalue": {
+                  "@id": "file://demo/demo-api/types/product.raml#/shape/property/unit/scalar/unit/example/default-example/scalar_1",
+                  "@type": "http://a.ml/vocabularies/data#Scalar",
+                  "dvalue": {
+                    "@type": "http://www.w3.org/2001/XMLSchema#string",
+                    "@value": "ml"
+                  }
+                },
+                "raw": "ml"
+              },
+              "desc": "The unit of measuremet for the quantity property.",
+              "dt": {
+                "@id": "http://www.w3.org/2001/XMLSchema#string"
+              },
+              "w3name": "unit"
+            },
+            "mc": 1,
+            "w3name": "unit",
+            "shaclPath": {
+              "@id": "http://a.ml/vocabularies/data#unit"
+            }
+          },
+          {
+            "@id": "file://demo/demo-api/types/product.raml#/type/property/available",
+            "@type": [
+              "propShape",
+              "shape",
+              "shapesShape"
+            ],
+            "range": {
+              "@id": "file://demo/demo-api/types/product.raml#/type/property/available/scalar/available",
+              "@type": [
+                "scalar",
+                "shape",
+                "shapesShape",
+                "de"
+              ],
+              "exs": {
+                "@id": "file://demo/demo-api/types/product.raml#/shape/property/available/scalar/available/example/default-example",
+                "@type": [
+                  "http://a.ml/vocabularies/document#Example",
+                  "de"
+                ],
+                "strict": true,
+                "svalue": {
+                  "@id": "file://demo/demo-api/types/product.raml#/shape/property/available/scalar/available/example/default-example/scalar_1",
+                  "@type": "http://a.ml/vocabularies/data#Scalar",
+                  "dvalue": {
+                    "@type": "http://www.w3.org/2001/XMLSchema#boolean",
+                    "@value": "true"
+                  }
+                },
+                "raw": "true"
+              },
+              "desc": "Product current availability in the store.\nProduct may be not available but the users still can order it with later delivery date.\n",
+              "dt": {
+                "@id": "http://www.w3.org/2001/XMLSchema#boolean"
+              },
+              "w3name": "available"
+            },
+            "mc": 1,
+            "w3name": "available",
+            "shaclPath": {
+              "@id": "http://a.ml/vocabularies/data#available"
+            }
+          },
+          {
+            "@id": "file://demo/demo-api/types/product.raml#/type/property/quantity",
+            "@type": [
+              "propShape",
+              "shape",
+              "shapesShape"
+            ],
+            "range": {
+              "@id": "file://demo/demo-api/types/product.raml#/type/property/quantity/scalar/quantity",
+              "@type": [
+                "scalar",
+                "shape",
+                "shapesShape",
+                "de"
+              ],
+              "exs": {
+                "@id": "file://demo/demo-api/types/product.raml#/shape/property/quantity/scalar/quantity/example/default-example",
+                "@type": [
+                  "http://a.ml/vocabularies/document#Example",
+                  "de"
+                ],
+                "strict": true,
+                "svalue": {
+                  "@id": "file://demo/demo-api/types/product.raml#/shape/property/quantity/scalar/quantity/example/default-example/scalar_1",
+                  "@type": "http://a.ml/vocabularies/data#Scalar",
+                  "dvalue": {
+                    "@type": "http://www.w3.org/2001/XMLSchema#integer",
+                    "@value": "500"
+                  }
+                },
+                "raw": "500"
+              },
+              "desc": "The quantity of the product in the one unit of measurement.\nSee `unit` property for more information.\n",
+              "dt": {
+                "@id": "http://a.ml/vocabularies/shapes#number"
+              },
+              "w3name": "quantity"
+            },
+            "mc": 1,
+            "w3name": "quantity",
+            "shaclPath": {
+              "@id": "http://a.ml/vocabularies/data#quantity"
+            }
+          }
+        ]
+      },
+      "references": {
+        "@id": "file://demo/demo-api/types/resource.raml",
+        "@type": [
+          "http://a.ml/vocabularies/document#DataType",
+          "fragType",
+          "unitType"
+        ],
+        "encodes": {
+          "@id": "file://demo/demo-api/types/resource.raml#/type",
+          "@type": [
+            "node",
+            "shape",
+            "shapesShape",
+            "de"
+          ],
+          "desc": "Common properties for all resources returned by the API.\n",
+          "closed": false,
+          "w3name": "Resource",
+          "prop": {
+            "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag",
+            "@type": [
+              "propShape",
+              "shape",
+              "shapesShape"
+            ],
+            "range": {
+              "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag/scalar/etag",
+              "@type": [
+                "scalar",
+                "shape",
+                "shapesShape",
+                "de"
+              ],
+              "desc": "ETag of this resource for caching purposes.\n__This property will be ignored when creating an object.__\n",
+              "dt": {
+                "@id": "http://www.w3.org/2001/XMLSchema#string"
+              },
+              "w3name": "etag"
+            },
+            "mc": 1,
+            "w3name": "etag",
+            "shaclPath": {
+              "@id": "http://a.ml/vocabularies/data#etag"
+            }
+          }
+        }
+      }
+    },
+    {
       "@id": "file://demo/demo-api/types/app-person.raml",
       "@type": [
         "http://a.ml/vocabularies/document#DataType",
-        "http://a.ml/vocabularies/document#Fragment",
-        "http://a.ml/vocabularies/document#Unit"
+        "fragType",
+        "unitType"
       ],
       "encodes": {
         "@id": "file://demo/demo-api/types/app-person.raml#/type",
@@ -3959,7 +4336,7 @@
           "shapesShape",
           "de"
         ],
-        "ex": {
+        "exs": {
           "@id": "file://demo/demo-api/types/app-person.raml#/shape/example/default-example",
           "@type": [
             "http://a.ml/vocabularies/document#Example",
@@ -4082,13 +4459,13 @@
         },
         "desc": "An object representing a person in the API.\nThis object will be used in all methods returning a Person or list of people.\n",
         "name": "A person resource",
-        "http://www.w3.org/ns/shacl#closed": false,
+        "closed": false,
         "w3name": "AppPerson",
         "prop": [
           {
             "@id": "file://demo/demo-api/types/app-person.raml#/type/property/favouriteTime",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -4108,14 +4485,14 @@
             },
             "mc": 1,
             "w3name": "favouriteTime",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#favouriteTime"
             }
           },
           {
             "@id": "file://demo/demo-api/types/app-person.raml#/type/property/favouriteNumber",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -4127,7 +4504,7 @@
                 "shapesShape",
                 "de"
               ],
-              "ex": {
+              "exs": {
                 "@id": "file://demo/demo-api/types/app-person.raml#/shape/property/favouriteNumber/scalar/favouriteNumber/example/default-example",
                 "@type": [
                   "http://a.ml/vocabularies/document#Example",
@@ -4155,14 +4532,14 @@
             },
             "mc": 1,
             "w3name": "favouriteNumber",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#favouriteNumber"
             }
           },
           {
             "@id": "file://demo/demo-api/types/app-person.raml#/type/property/newsletter",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -4190,14 +4567,14 @@
             },
             "mc": 0,
             "w3name": "newsletter",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#newsletter"
             }
           },
           {
             "@id": "file://demo/demo-api/types/app-person.raml#/type/property/fietype",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -4219,14 +4596,14 @@
             },
             "mc": 0,
             "w3name": "fietype",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#fietype"
             }
           },
           {
             "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -4246,14 +4623,14 @@
             },
             "mc": 1,
             "w3name": "etag",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#etag"
             }
           },
           {
             "@id": "file://demo/demo-api/types/app-person.raml#/type/property/tagline",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -4273,14 +4650,14 @@
             },
             "mc": 1,
             "w3name": "tagline",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#tagline"
             }
           },
           {
             "@id": "file://demo/demo-api/types/app-person.raml#/type/property/name",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -4292,7 +4669,7 @@
                 "shapesShape",
                 "de"
               ],
-              "ex": {
+              "exs": {
                 "@id": "file://demo/demo-api/types/app-person.raml#/shape/property/name/scalar/name/example/default-example",
                 "@type": [
                   "http://a.ml/vocabularies/document#Example",
@@ -4318,14 +4695,14 @@
             },
             "mc": 1,
             "w3name": "name",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#name"
             }
           },
           {
             "@id": "file://demo/demo-api/types/app-person.raml#/type/property/created",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -4337,7 +4714,7 @@
                 "shapesShape",
                 "de"
               ],
-              "ex": {
+              "exs": {
                 "@id": "file://demo/demo-api/types/app-person.raml#/shape/property/created/scalar/created/example/default-example",
                 "@type": [
                   "http://a.ml/vocabularies/document#Example",
@@ -4361,14 +4738,14 @@
             },
             "mc": 0,
             "w3name": "created",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#created"
             }
           },
           {
             "@id": "file://demo/demo-api/types/app-person.raml#/type/property/url",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -4388,14 +4765,14 @@
             },
             "mc": 1,
             "w3name": "url",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#url"
             }
           },
           {
             "@id": "file://demo/demo-api/types/app-person.raml#/type/property/id",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -4418,14 +4795,14 @@
             },
             "mc": 1,
             "w3name": "id",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#id"
             }
           },
           {
             "@id": "file://demo/demo-api/types/app-person.raml#/type/property/language",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -4445,14 +4822,14 @@
             },
             "mc": 1,
             "w3name": "language",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#language"
             }
           },
           {
             "@id": "file://demo/demo-api/types/app-person.raml#/type/property/age",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -4472,14 +4849,14 @@
             },
             "mc": 0,
             "w3name": "age",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#age"
             }
           },
           {
             "@id": "file://demo/demo-api/types/app-person.raml#/type/property/nillable",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -4497,14 +4874,14 @@
             },
             "mc": 1,
             "w3name": "nillable",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#nillable"
             }
           },
           {
             "@id": "file://demo/demo-api/types/app-person.raml#/type/property/birthday",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -4524,14 +4901,14 @@
             },
             "mc": 1,
             "w3name": "birthday",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#birthday"
             }
           },
           {
             "@id": "file://demo/demo-api/types/app-person.raml#/type/property/image",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -4550,14 +4927,14 @@
             },
             "mc": 1,
             "w3name": "image",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#image"
             }
           },
           {
             "@id": "file://demo/demo-api/types/app-person.raml#/type/property/gender",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -4569,7 +4946,7 @@
                 "shapesShape",
                 "de"
               ],
-              "ex": [
+              "exs": [
                 {
                   "@id": "file://demo/demo-api/types/app-person.raml#/shape/property/gender%3F/scalar/gender%3F/example/Women",
                   "@type": [
@@ -4640,7 +5017,7 @@
             },
             "mc": 0,
             "w3name": "gender",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#gender"
             }
           }
@@ -4651,8 +5028,8 @@
           "@id": "file://demo/demo-api/types/image.raml",
           "@type": [
             "http://a.ml/vocabularies/document#DataType",
-            "http://a.ml/vocabularies/document#Fragment",
-            "http://a.ml/vocabularies/document#Unit"
+            "fragType",
+            "unitType"
           ],
           "encodes": {
             "@id": "file://demo/demo-api/types/image.raml#/type",
@@ -4662,7 +5039,7 @@
               "shapesShape",
               "de"
             ],
-            "ex": {
+            "exs": {
               "@id": "file://demo/demo-api/types/image.raml#/shape/example/default-example",
               "@type": [
                 "http://a.ml/vocabularies/document#Example",
@@ -4692,13 +5069,13 @@
               "raw": "  url: https://domain.com/profile/pawel.psztyc/image\n  thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n"
             },
             "desc": "An image object representing an image object strored in the file store.\nThe image can be only included in the response. It has no effect if the Image appear in the\nrequest. Endpoint handles image creation on it's own and clients can't process images\nexcept of sending image data.\n",
-            "http://www.w3.org/ns/shacl#closed": false,
+            "closed": false,
             "w3name": "image",
             "prop": [
               {
                 "@id": "file://demo/demo-api/types/image.raml#/type/property/url",
                 "@type": [
-                  "http://www.w3.org/ns/shacl#PropertyShape",
+                  "propShape",
                   "shape",
                   "shapesShape"
                 ],
@@ -4718,14 +5095,14 @@
                 },
                 "mc": 1,
                 "w3name": "url",
-                "http://www.w3.org/ns/shacl#path": {
+                "shaclPath": {
                   "@id": "http://a.ml/vocabularies/data#url"
                 }
               },
               {
                 "@id": "file://demo/demo-api/types/image.raml#/type/property/thumb",
                 "@type": [
-                  "http://www.w3.org/ns/shacl#PropertyShape",
+                  "propShape",
                   "shape",
                   "shapesShape"
                 ],
@@ -4746,7 +5123,7 @@
                 },
                 "mc": 1,
                 "w3name": "thumb",
-                "http://www.w3.org/ns/shacl#path": {
+                "shaclPath": {
                   "@id": "http://a.ml/vocabularies/data#thumb"
                 }
               }
@@ -4757,8 +5134,8 @@
           "@id": "file://demo/demo-api/types/resource.raml",
           "@type": [
             "http://a.ml/vocabularies/document#DataType",
-            "http://a.ml/vocabularies/document#Fragment",
-            "http://a.ml/vocabularies/document#Unit"
+            "fragType",
+            "unitType"
           ],
           "encodes": {
             "@id": "file://demo/demo-api/types/resource.raml#/type",
@@ -4769,12 +5146,12 @@
               "de"
             ],
             "desc": "Common properties for all resources returned by the API.\n",
-            "http://www.w3.org/ns/shacl#closed": false,
+            "closed": false,
             "w3name": "Resource",
             "prop": {
               "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag",
               "@type": [
-                "http://www.w3.org/ns/shacl#PropertyShape",
+                "propShape",
                 "shape",
                 "shapesShape"
               ],
@@ -4794,7 +5171,7 @@
               },
               "mc": 1,
               "w3name": "etag",
-              "http://www.w3.org/ns/shacl#path": {
+              "shaclPath": {
                 "@id": "http://a.ml/vocabularies/data#etag"
               }
             }
@@ -4803,10 +5180,57 @@
       ]
     },
     {
+      "@id": "file://demo/demo-api/types/resource.raml",
+      "@type": [
+        "http://a.ml/vocabularies/document#DataType",
+        "fragType",
+        "unitType"
+      ],
+      "encodes": {
+        "@id": "file://demo/demo-api/types/resource.raml#/type",
+        "@type": [
+          "node",
+          "shape",
+          "shapesShape",
+          "de"
+        ],
+        "desc": "Common properties for all resources returned by the API.\n",
+        "closed": false,
+        "w3name": "Resource",
+        "prop": {
+          "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag",
+          "@type": [
+            "propShape",
+            "shape",
+            "shapesShape"
+          ],
+          "range": {
+            "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag/scalar/etag",
+            "@type": [
+              "scalar",
+              "shape",
+              "shapesShape",
+              "de"
+            ],
+            "desc": "ETag of this resource for caching purposes.\n__This property will be ignored when creating an object.__\n",
+            "dt": {
+              "@id": "http://www.w3.org/2001/XMLSchema#string"
+            },
+            "w3name": "etag"
+          },
+          "mc": 1,
+          "w3name": "etag",
+          "shaclPath": {
+            "@id": "http://a.ml/vocabularies/data#etag"
+          }
+        }
+      }
+    },
+    {
       "@id": "file://demo/demo-api/library.raml",
       "@type": [
-        "http://a.ml/vocabularies/document#Module",
-        "http://a.ml/vocabularies/document#Unit"
+        "modType",
+        "unitType"
       ],
       "declares": {
         "@id": "file://demo/demo-api/library.raml#/declarations/types/LibraryType",
@@ -4817,12 +5241,12 @@
           "de"
         ],
         "name": "Type from library",
-        "http://www.w3.org/ns/shacl#closed": false,
+        "closed": false,
         "w3name": "LibraryType",
         "prop": {
           "@id": "file://demo/demo-api/library.raml#/declarations/types/LibraryType/property/prop",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -4841,423 +5265,8 @@
           },
           "mc": 1,
           "w3name": "prop",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#prop"
-          }
-        }
-      }
-    },
-    {
-      "@id": "file://demo/demo-api/types/product.raml",
-      "@type": [
-        "http://a.ml/vocabularies/document#DataType",
-        "http://a.ml/vocabularies/document#Fragment",
-        "http://a.ml/vocabularies/document#Unit"
-      ],
-      "encodes": {
-        "@id": "file://demo/demo-api/types/product.raml#/type",
-        "@type": [
-          "node",
-          "shape",
-          "shapesShape",
-          "de"
-        ],
-        "ex": {
-          "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example",
-          "@type": [
-            "http://a.ml/vocabularies/document#Example",
-            "de"
-          ],
-          "strict": true,
-          "svalue": {
-            "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1",
-            "@type": "http://a.ml/vocabularies/data#Object",
-            "http://a.ml/vocabularies/data#available": {
-              "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_7",
-              "@type": "http://a.ml/vocabularies/data#Scalar",
-              "dvalue": {
-                "@type": "http://www.w3.org/2001/XMLSchema#boolean",
-                "@value": "true"
-              }
-            },
-            "http://a.ml/vocabularies/data#etag": {
-              "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_8",
-              "@type": "http://a.ml/vocabularies/data#Scalar",
-              "dvalue": {
-                "@type": "http://www.w3.org/2001/XMLSchema#string",
-                "@value": "W\\sd3deef3rgrgf4r"
-              }
-            },
-            "http://a.ml/vocabularies/data#id": {
-              "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_2",
-              "@type": "http://a.ml/vocabularies/data#Scalar",
-              "dvalue": {
-                "@type": "http://www.w3.org/2001/XMLSchema#string",
-                "@value": "we2322-4f4f4f-f4f4ff-f4f4ff4"
-              }
-            },
-            "http://a.ml/vocabularies/data#name": {
-              "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_3",
-              "@type": "http://a.ml/vocabularies/data#Scalar",
-              "dvalue": {
-                "@type": "http://www.w3.org/2001/XMLSchema#string",
-                "@value": "Acme Product"
-              }
-            },
-            "http://a.ml/vocabularies/data#quantity": {
-              "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_4",
-              "@type": "http://a.ml/vocabularies/data#Scalar",
-              "dvalue": {
-                "@type": "http://www.w3.org/2001/XMLSchema#integer",
-                "@value": "200"
-              }
-            },
-            "http://a.ml/vocabularies/data#unit": {
-              "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_5",
-              "@type": "http://a.ml/vocabularies/data#Scalar",
-              "dvalue": {
-                "@type": "http://www.w3.org/2001/XMLSchema#string",
-                "@value": "ml"
-              }
-            },
-            "http://a.ml/vocabularies/data#upc": {
-              "@id": "file://demo/demo-api/types/product.raml#/shape/example/default-example/object_1/scalar_6",
-              "@type": "http://a.ml/vocabularies/data#Scalar",
-              "dvalue": {
-                "@type": "http://www.w3.org/2001/XMLSchema#string",
-                "@value": "123456789101"
-              }
-            }
-          },
-          "raw": "  id: we2322-4f4f4f-f4f4ff-f4f4ff4\n  name: Acme Product\n  quantity: 200\n  unit: ml\n  upc: \"123456789101\"\n  available: true\n  etag: \"W\\\\sd3deef3rgrgf4r\"\n"
-        },
-        "desc": "A single product representing an item in the store.",
-        "name": "A product resource",
-        "http://www.w3.org/ns/shacl#closed": false,
-        "w3name": "Product",
-        "prop": [
-          {
-            "@id": "file://demo/demo-api/types/product.raml#/type/property/upc",
-            "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
-              "shape",
-              "shapesShape"
-            ],
-            "range": {
-              "@id": "file://demo/demo-api/types/product.raml#/type/property/upc/scalar/upc",
-              "@type": [
-                "scalar",
-                "shape",
-                "shapesShape",
-                "de"
-              ],
-              "ex": {
-                "@id": "file://demo/demo-api/types/product.raml#/shape/property/upc/scalar/upc/example/default-example",
-                "@type": [
-                  "http://a.ml/vocabularies/document#Example",
-                  "de"
-                ],
-                "strict": true,
-                "svalue": {
-                  "@id": "file://demo/demo-api/types/product.raml#/shape/property/upc/scalar/upc/example/default-example/scalar_1",
-                  "@type": "http://a.ml/vocabularies/data#Scalar",
-                  "dvalue": {
-                    "@type": "http://www.w3.org/2001/XMLSchema#string",
-                    "@value": "042100005264"
-                  }
-                },
-                "raw": "042100005264"
-              },
-              "desc": "The Universal Produc Code. It consists of 12 numerical digits. However, because of the\ninteger precision limitation in JavaScript it is represented as a string.\n",
-              "dt": {
-                "@id": "http://www.w3.org/2001/XMLSchema#string"
-              },
-              "w3name": "upc",
-              "pattern": "^[0-9]{12,12}$"
-            },
-            "mc": 1,
-            "w3name": "upc",
-            "http://www.w3.org/ns/shacl#path": {
-              "@id": "http://a.ml/vocabularies/data#upc"
-            }
-          },
-          {
-            "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag",
-            "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
-              "shape",
-              "shapesShape"
-            ],
-            "range": {
-              "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag/scalar/etag",
-              "@type": [
-                "scalar",
-                "shape",
-                "shapesShape",
-                "de"
-              ],
-              "desc": "ETag of this resource for caching purposes.\n__This property will be ignored when creating an object.__\n",
-              "dt": {
-                "@id": "http://www.w3.org/2001/XMLSchema#string"
-              },
-              "w3name": "etag"
-            },
-            "mc": 1,
-            "w3name": "etag",
-            "http://www.w3.org/ns/shacl#path": {
-              "@id": "http://a.ml/vocabularies/data#etag"
-            }
-          },
-          {
-            "@id": "file://demo/demo-api/types/product.raml#/type/property/name",
-            "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
-              "shape",
-              "shapesShape"
-            ],
-            "range": {
-              "@id": "file://demo/demo-api/types/product.raml#/type/property/name/scalar/name",
-              "@type": [
-                "scalar",
-                "shape",
-                "shapesShape",
-                "de"
-              ],
-              "ex": {
-                "@id": "file://demo/demo-api/types/product.raml#/shape/property/name/scalar/name/example/default-example",
-                "@type": [
-                  "http://a.ml/vocabularies/document#Example",
-                  "de"
-                ],
-                "strict": true,
-                "svalue": {
-                  "@id": "file://demo/demo-api/types/product.raml#/shape/property/name/scalar/name/example/default-example/scalar_1",
-                  "@type": "http://a.ml/vocabularies/data#Scalar",
-                  "dvalue": {
-                    "@type": "http://www.w3.org/2001/XMLSchema#string",
-                    "@value": "Acme product - mentol flavor, 500 ml."
-                  }
-                },
-                "raw": "Acme product - mentol flavor, 500 ml."
-              },
-              "desc": "Product name",
-              "dt": {
-                "@id": "http://www.w3.org/2001/XMLSchema#string"
-              },
-              "w3name": "name"
-            },
-            "mc": 1,
-            "w3name": "name",
-            "http://www.w3.org/ns/shacl#path": {
-              "@id": "http://a.ml/vocabularies/data#name"
-            }
-          },
-          {
-            "@id": "file://demo/demo-api/types/product.raml#/type/property/id",
-            "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
-              "shape",
-              "shapesShape"
-            ],
-            "range": {
-              "@id": "file://demo/demo-api/types/product.raml#/type/property/id/scalar/id",
-              "@type": [
-                "scalar",
-                "shape",
-                "shapesShape",
-                "de"
-              ],
-              "desc": "Product id. It is a UUID of the database record.\n__This property will be ignored when creating an object.__\nIt will be available when the product is stored in the datastore.\n",
-              "dt": {
-                "@id": "http://www.w3.org/2001/XMLSchema#string"
-              },
-              "w3name": "id",
-              "pattern": "^[0-9a-zA-Z-]+$"
-            },
-            "mc": 1,
-            "w3name": "id",
-            "http://www.w3.org/ns/shacl#path": {
-              "@id": "http://a.ml/vocabularies/data#id"
-            }
-          },
-          {
-            "@id": "file://demo/demo-api/types/product.raml#/type/property/unit",
-            "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
-              "shape",
-              "shapesShape"
-            ],
-            "range": {
-              "@id": "file://demo/demo-api/types/product.raml#/type/property/unit/scalar/unit",
-              "@type": [
-                "scalar",
-                "shape",
-                "shapesShape",
-                "de"
-              ],
-              "ex": {
-                "@id": "file://demo/demo-api/types/product.raml#/shape/property/unit/scalar/unit/example/default-example",
-                "@type": [
-                  "http://a.ml/vocabularies/document#Example",
-                  "de"
-                ],
-                "strict": true,
-                "svalue": {
-                  "@id": "file://demo/demo-api/types/product.raml#/shape/property/unit/scalar/unit/example/default-example/scalar_1",
-                  "@type": "http://a.ml/vocabularies/data#Scalar",
-                  "dvalue": {
-                    "@type": "http://www.w3.org/2001/XMLSchema#string",
-                    "@value": "ml"
-                  }
-                },
-                "raw": "ml"
-              },
-              "desc": "The unit of measuremet for the quantity property.",
-              "dt": {
-                "@id": "http://www.w3.org/2001/XMLSchema#string"
-              },
-              "w3name": "unit"
-            },
-            "mc": 1,
-            "w3name": "unit",
-            "http://www.w3.org/ns/shacl#path": {
-              "@id": "http://a.ml/vocabularies/data#unit"
-            }
-          },
-          {
-            "@id": "file://demo/demo-api/types/product.raml#/type/property/available",
-            "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
-              "shape",
-              "shapesShape"
-            ],
-            "range": {
-              "@id": "file://demo/demo-api/types/product.raml#/type/property/available/scalar/available",
-              "@type": [
-                "scalar",
-                "shape",
-                "shapesShape",
-                "de"
-              ],
-              "ex": {
-                "@id": "file://demo/demo-api/types/product.raml#/shape/property/available/scalar/available/example/default-example",
-                "@type": [
-                  "http://a.ml/vocabularies/document#Example",
-                  "de"
-                ],
-                "strict": true,
-                "svalue": {
-                  "@id": "file://demo/demo-api/types/product.raml#/shape/property/available/scalar/available/example/default-example/scalar_1",
-                  "@type": "http://a.ml/vocabularies/data#Scalar",
-                  "dvalue": {
-                    "@type": "http://www.w3.org/2001/XMLSchema#boolean",
-                    "@value": "true"
-                  }
-                },
-                "raw": "true"
-              },
-              "desc": "Product current availability in the store.\nProduct may be not available but the users still can order it with later delivery date.\n",
-              "dt": {
-                "@id": "http://www.w3.org/2001/XMLSchema#boolean"
-              },
-              "w3name": "available"
-            },
-            "mc": 1,
-            "w3name": "available",
-            "http://www.w3.org/ns/shacl#path": {
-              "@id": "http://a.ml/vocabularies/data#available"
-            }
-          },
-          {
-            "@id": "file://demo/demo-api/types/product.raml#/type/property/quantity",
-            "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
-              "shape",
-              "shapesShape"
-            ],
-            "range": {
-              "@id": "file://demo/demo-api/types/product.raml#/type/property/quantity/scalar/quantity",
-              "@type": [
-                "scalar",
-                "shape",
-                "shapesShape",
-                "de"
-              ],
-              "ex": {
-                "@id": "file://demo/demo-api/types/product.raml#/shape/property/quantity/scalar/quantity/example/default-example",
-                "@type": [
-                  "http://a.ml/vocabularies/document#Example",
-                  "de"
-                ],
-                "strict": true,
-                "svalue": {
-                  "@id": "file://demo/demo-api/types/product.raml#/shape/property/quantity/scalar/quantity/example/default-example/scalar_1",
-                  "@type": "http://a.ml/vocabularies/data#Scalar",
-                  "dvalue": {
-                    "@type": "http://www.w3.org/2001/XMLSchema#integer",
-                    "@value": "500"
-                  }
-                },
-                "raw": "500"
-              },
-              "desc": "The quantity of the product in the one unit of measurement.\nSee `unit` property for more information.\n",
-              "dt": {
-                "@id": "http://a.ml/vocabularies/shapes#number"
-              },
-              "w3name": "quantity"
-            },
-            "mc": 1,
-            "w3name": "quantity",
-            "http://www.w3.org/ns/shacl#path": {
-              "@id": "http://a.ml/vocabularies/data#quantity"
-            }
-          }
-        ]
-      },
-      "references": {
-        "@id": "file://demo/demo-api/types/resource.raml",
-        "@type": [
-          "http://a.ml/vocabularies/document#DataType",
-          "http://a.ml/vocabularies/document#Fragment",
-          "http://a.ml/vocabularies/document#Unit"
-        ],
-        "encodes": {
-          "@id": "file://demo/demo-api/types/resource.raml#/type",
-          "@type": [
-            "node",
-            "shape",
-            "shapesShape",
-            "de"
-          ],
-          "desc": "Common properties for all resources returned by the API.\n",
-          "http://www.w3.org/ns/shacl#closed": false,
-          "w3name": "Resource",
-          "prop": {
-            "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag",
-            "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
-              "shape",
-              "shapesShape"
-            ],
-            "range": {
-              "@id": "file://demo/demo-api/types/resource.raml#/type/property/etag/scalar/etag",
-              "@type": [
-                "scalar",
-                "shape",
-                "shapesShape",
-                "de"
-              ],
-              "desc": "ETag of this resource for caching purposes.\n__This property will be ignored when creating an object.__\n",
-              "dt": {
-                "@id": "http://www.w3.org/2001/XMLSchema#string"
-              },
-              "w3name": "etag"
-            },
-            "mc": 1,
-            "w3name": "etag",
-            "http://www.w3.org/ns/shacl#path": {
-              "@id": "http://a.ml/vocabularies/data#etag"
-            }
           }
         }
       }

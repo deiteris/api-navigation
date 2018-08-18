@@ -1,5 +1,9 @@
 {
   "@context": {
+    "docType": "http://a.ml/vocabularies/document#Document",
+    "fragType": "http://a.ml/vocabularies/document#Fragment",
+    "modType": "http://a.ml/vocabularies/document#Module",
+    "unitType": "http://a.ml/vocabularies/document#Unit",
     "declares": "http://a.ml/vocabularies/document#declares",
     "encodes": "http://a.ml/vocabularies/document#encodes",
     "references": "http://a.ml/vocabularies/document#references",
@@ -29,7 +33,8 @@
     "exp": "http://www.w3.org/ns/hydra/core#expect",
     "par": "http://a.ml/vocabularies/http#parameter",
     "items": "http://a.ml/vocabularies/shapes#items",
-    "ex": "http://a.ml/vocabularies/document#examples",
+    "exs": "http://a.ml/vocabularies/document#examples",
+    "ex": "http://a.ml/vocabularies/document#example",
     "strict": "http://a.ml/vocabularies/document#strict",
     "svalue": "http://a.ml/vocabularies/document#structuredValue",
     "rdfNumber": "http://www.w3.org/1999/02/22-rdf-syntax-ns#member",
@@ -46,14 +51,18 @@
     "range": "http://a.ml/vocabularies/shapes#range",
     "mc": "http://www.w3.org/ns/shacl#minCount",
     "mac": "http://www.w3.org/ns/shacl#maxCount",
-    "node": "http://www.w3.org/ns/shacl#NodeShape"
+    "node": "http://www.w3.org/ns/shacl#NodeShape",
+    "arrShape": "http://a.ml/vocabularies/shapes#ArrayShape",
+    "propShape": "http://www.w3.org/ns/shacl#PropertyShape",
+    "shaclPath": "http://www.w3.org/ns/shacl#path",
+    "closed": "http://www.w3.org/ns/shacl#closed"
   },
   "@id": "file://demo/types-list/types-list.raml",
   "@type": [
-    "http://a.ml/vocabularies/document#Document",
-    "http://a.ml/vocabularies/document#Fragment",
-    "http://a.ml/vocabularies/document#Module",
-    "http://a.ml/vocabularies/document#Unit"
+    "docType",
+    "fragType",
+    "modType",
+    "unitType"
   ],
   "declares": [
     {
@@ -65,13 +74,13 @@
         "de"
       ],
       "desc": "Type contained inside the main raml file",
-      "http://www.w3.org/ns/shacl#closed": false,
+      "closed": false,
       "w3name": "MainFileType",
       "prop": [
         {
           "@id": "file://demo/types-list/types-list.raml#/declarations/types/MainFileType/property/foo",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -90,14 +99,14 @@
           },
           "mc": 1,
           "w3name": "foo",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#foo"
           }
         },
         {
           "@id": "file://demo/types-list/types-list.raml#/declarations/types/MainFileType/property/bar",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -116,7 +125,7 @@
           },
           "mc": 1,
           "w3name": "bar",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#bar"
           }
         }
@@ -131,13 +140,13 @@
         "de"
       ],
       "desc": "This is a type from a DataType raml",
-      "http://www.w3.org/ns/shacl#closed": false,
+      "closed": false,
       "w3name": "TypeFromDataTypeFile",
       "prop": [
         {
           "@id": "file://demo/types-list/typeFromDataTypeFile.raml#/type/property/title",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -156,14 +165,14 @@
           },
           "mc": 1,
           "w3name": "title",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#title"
           }
         },
         {
           "@id": "file://demo/types-list/typeFromDataTypeFile.raml#/type/property/price",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -182,7 +191,7 @@
           },
           "mc": 1,
           "w3name": "price",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#price"
           }
         }
@@ -197,13 +206,13 @@
         "de"
       ],
       "desc": "Type contained inside the main raml file",
-      "http://www.w3.org/ns/shacl#closed": false,
+      "closed": false,
       "w3name": "MainFileType",
       "prop": [
         {
           "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromMainFileEndpoint/post/request/application%2Fjson/MainFileType/property/foo",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -222,14 +231,14 @@
           },
           "mc": 1,
           "w3name": "foo",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#foo"
           }
         },
         {
           "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromMainFileEndpoint/post/request/application%2Fjson/MainFileType/property/bar",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -248,7 +257,7 @@
           },
           "mc": 1,
           "w3name": "bar",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#bar"
           }
         }
@@ -263,13 +272,13 @@
         "de"
       ],
       "desc": "This is a type from a DataType raml",
-      "http://www.w3.org/ns/shacl#closed": false,
+      "closed": false,
       "w3name": "TypeFromDataTypeFile",
       "prop": [
         {
           "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromDataTypeEndpoint/post/request/application%2Fjson/TypeFromDataTypeFile/property/title",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -288,14 +297,14 @@
           },
           "mc": 1,
           "w3name": "title",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#title"
           }
         },
         {
           "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromDataTypeEndpoint/post/request/application%2Fjson/TypeFromDataTypeFile/property/price",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -314,7 +323,7 @@
           },
           "mc": 1,
           "w3name": "price",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#price"
           }
         }
@@ -328,12 +337,12 @@
         "shapesShape",
         "de"
       ],
-      "http://www.w3.org/ns/shacl#closed": false,
+      "closed": false,
       "w3name": "TypeFromLibray",
       "prop": {
         "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromLibraryEndpoint/post/request/application%2Fjson/TypeFromLibray/property/age",
         "@type": [
-          "http://www.w3.org/ns/shacl#PropertyShape",
+          "propShape",
           "shape",
           "shapesShape"
         ],
@@ -352,7 +361,7 @@
         },
         "mc": 1,
         "w3name": "age",
-        "http://www.w3.org/ns/shacl#path": {
+        "shaclPath": {
           "@id": "http://a.ml/vocabularies/data#age"
         }
       }
@@ -536,8 +545,8 @@
     {
       "@id": "file://demo/types-list/library.raml",
       "@type": [
-        "http://a.ml/vocabularies/document#Module",
-        "http://a.ml/vocabularies/document#Unit"
+        "modType",
+        "unitType"
       ],
       "declares": {
         "@id": "file://demo/types-list/library.raml#/declarations/types/TypeFromLibray",
@@ -547,12 +556,12 @@
           "shapesShape",
           "de"
         ],
-        "http://www.w3.org/ns/shacl#closed": false,
+        "closed": false,
         "w3name": "TypeFromLibray",
         "prop": {
           "@id": "file://demo/types-list/library.raml#/declarations/types/TypeFromLibray/property/age",
           "@type": [
-            "http://www.w3.org/ns/shacl#PropertyShape",
+            "propShape",
             "shape",
             "shapesShape"
           ],
@@ -571,7 +580,7 @@
           },
           "mc": 1,
           "w3name": "age",
-          "http://www.w3.org/ns/shacl#path": {
+          "shaclPath": {
             "@id": "http://a.ml/vocabularies/data#age"
           }
         }
@@ -582,8 +591,8 @@
       "@id": "file://demo/types-list/typeFromDataTypeFile.raml",
       "@type": [
         "http://a.ml/vocabularies/document#DataType",
-        "http://a.ml/vocabularies/document#Fragment",
-        "http://a.ml/vocabularies/document#Unit"
+        "fragType",
+        "unitType"
       ],
       "encodes": {
         "@id": "file://demo/types-list/typeFromDataTypeFile.raml#/type",
@@ -594,13 +603,13 @@
           "de"
         ],
         "desc": "This is a type from a DataType raml",
-        "http://www.w3.org/ns/shacl#closed": false,
+        "closed": false,
         "w3name": "TypeFromDataTypeFile",
         "prop": [
           {
             "@id": "file://demo/types-list/typeFromDataTypeFile.raml#/type/property/title",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -619,14 +628,14 @@
             },
             "mc": 1,
             "w3name": "title",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#title"
             }
           },
           {
             "@id": "file://demo/types-list/typeFromDataTypeFile.raml#/type/property/price",
             "@type": [
-              "http://www.w3.org/ns/shacl#PropertyShape",
+              "propShape",
               "shape",
               "shapesShape"
             ],
@@ -645,7 +654,7 @@
             },
             "mc": 1,
             "w3name": "price",
-            "http://www.w3.org/ns/shacl#path": {
+            "shaclPath": {
               "@id": "http://a.ml/vocabularies/data#price"
             }
           }
