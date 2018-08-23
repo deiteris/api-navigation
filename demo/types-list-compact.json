@@ -1,665 +1,812 @@
-{
-  "@context": {
-    "docType": "http://a.ml/vocabularies/document#Document",
-    "fragType": "http://a.ml/vocabularies/document#Fragment",
-    "modType": "http://a.ml/vocabularies/document#Module",
-    "unitType": "http://a.ml/vocabularies/document#Unit",
-    "declares": "http://a.ml/vocabularies/document#declares",
-    "encodes": "http://a.ml/vocabularies/document#encodes",
-    "references": "http://a.ml/vocabularies/document#references",
-    "name": "http://schema.org/name",
-    "desc": "http://schema.org/description",
-    "srv": "http://a.ml/vocabularies/http#server",
-    "url": "http://a.ml/vocabularies/http#url",
-    "var": "http://a.ml/vocabularies/http#variable",
-    "pname": "http://a.ml/vocabularies/http#paramName",
-    "required": "http://www.w3.org/ns/hydra/core#required",
-    "binding": "http://a.ml/vocabularies/http#binding",
-    "schema": "http://a.ml/vocabularies/http#schema",
-    "scheme": "http://a.ml/vocabularies/http#scheme",
-    "dt": "http://www.w3.org/ns/shacl#datatype",
-    "pattern": "http://www.w3.org/ns/shacl#pattern",
-    "w3name": "http://www.w3.org/ns/shacl#name",
-    "def": "http://www.w3.org/ns/shacl#defaultValue",
-    "dvalue": "http://a.ml/vocabularies/data#value",
-    "in": "http://www.w3.org/ns/shacl#in",
-    "v": "http://schema.org/version",
-    "doc": "http://schema.org/documentation",
-    "title": "http://schema.org/title",
-    "ep": "http://a.ml/vocabularies/http#endpoint",
-    "path": "http://a.ml/vocabularies/http#path",
-    "op": "http://www.w3.org/ns/hydra/core#supportedOperation",
-    "method": "http://www.w3.org/ns/hydra/core#method",
-    "exp": "http://www.w3.org/ns/hydra/core#expect",
-    "par": "http://a.ml/vocabularies/http#parameter",
-    "items": "http://a.ml/vocabularies/shapes#items",
-    "exs": "http://a.ml/vocabularies/document#examples",
-    "ex": "http://a.ml/vocabularies/document#example",
-    "strict": "http://a.ml/vocabularies/document#strict",
-    "svalue": "http://a.ml/vocabularies/document#structuredValue",
-    "rdfNumber": "http://www.w3.org/1999/02/22-rdf-syntax-ns#member",
-    "raw": "http://www.w3.org/ns/shacl#raw",
-    "vdocname": "http://a.ml/vocabularies/document#name",
-    "cdip": "http://a.ml/vocabularies/document#customDomainProperties",
-    "dp": "http://a.ml/vocabularies/document#DomainProperty",
-    "de": "http://a.ml/vocabularies/document#DomainElement",
-    "shapesShape": "http://a.ml/vocabularies/shapes#Shape",
-    "shape": "http://www.w3.org/ns/shacl#Shape",
-    "scalar": "http://a.ml/vocabularies/shapes#ScalarShape",
-    "shapesSchema": "http://a.ml/vocabularies/shapes#schema",
-    "prop": "http://www.w3.org/ns/shacl#property",
-    "range": "http://a.ml/vocabularies/shapes#range",
-    "mc": "http://www.w3.org/ns/shacl#minCount",
-    "mac": "http://www.w3.org/ns/shacl#maxCount",
-    "node": "http://www.w3.org/ns/shacl#NodeShape",
-    "arrShape": "http://a.ml/vocabularies/shapes#ArrayShape",
-    "propShape": "http://www.w3.org/ns/shacl#PropertyShape",
-    "shaclPath": "http://www.w3.org/ns/shacl#path",
-    "closed": "http://www.w3.org/ns/shacl#closed"
-  },
-  "@id": "file://demo/types-list/types-list.raml",
-  "@type": [
-    "docType",
-    "fragType",
-    "modType",
-    "unitType"
-  ],
-  "declares": [
-    {
-      "@id": "file://demo/types-list/types-list.raml#/declarations/types/MainFileType",
-      "@type": [
-        "node",
-        "shape",
-        "shapesShape",
-        "de"
-      ],
-      "desc": "Type contained inside the main raml file",
-      "closed": false,
-      "w3name": "MainFileType",
-      "prop": [
-        {
-          "@id": "file://demo/types-list/types-list.raml#/declarations/types/MainFileType/property/foo",
-          "@type": [
-            "propShape",
-            "shape",
-            "shapesShape"
-          ],
-          "range": {
-            "@id": "file://demo/types-list/types-list.raml#/declarations/types/MainFileType/property/foo/scalar/foo",
-            "@type": [
-              "scalar",
-              "shape",
-              "shapesShape",
-              "de"
-            ],
-            "dt": {
-              "@id": "http://www.w3.org/2001/XMLSchema#string"
-            },
-            "w3name": "foo"
-          },
-          "mc": 1,
-          "w3name": "foo",
-          "shaclPath": {
-            "@id": "http://a.ml/vocabularies/data#foo"
-          }
-        },
-        {
-          "@id": "file://demo/types-list/types-list.raml#/declarations/types/MainFileType/property/bar",
-          "@type": [
-            "propShape",
-            "shape",
-            "shapesShape"
-          ],
-          "range": {
-            "@id": "file://demo/types-list/types-list.raml#/declarations/types/MainFileType/property/bar/scalar/bar",
-            "@type": [
-              "scalar",
-              "shape",
-              "shapesShape",
-              "de"
-            ],
-            "dt": {
-              "@id": "http://www.w3.org/2001/XMLSchema#string"
-            },
-            "w3name": "bar"
-          },
-          "mc": 1,
-          "w3name": "bar",
-          "shaclPath": {
-            "@id": "http://a.ml/vocabularies/data#bar"
-          }
-        }
-      ]
-    },
-    {
-      "@id": "file://demo/types-list/typeFromDataTypeFile.raml#/type",
-      "@type": [
-        "node",
-        "shape",
-        "shapesShape",
-        "de"
-      ],
-      "desc": "This is a type from a DataType raml",
-      "closed": false,
-      "w3name": "TypeFromDataTypeFile",
-      "prop": [
-        {
-          "@id": "file://demo/types-list/typeFromDataTypeFile.raml#/type/property/title",
-          "@type": [
-            "propShape",
-            "shape",
-            "shapesShape"
-          ],
-          "range": {
-            "@id": "file://demo/types-list/typeFromDataTypeFile.raml#/type/property/title/scalar/title",
-            "@type": [
-              "scalar",
-              "shape",
-              "shapesShape",
-              "de"
-            ],
-            "dt": {
-              "@id": "http://www.w3.org/2001/XMLSchema#string"
-            },
-            "w3name": "title"
-          },
-          "mc": 1,
-          "w3name": "title",
-          "shaclPath": {
-            "@id": "http://a.ml/vocabularies/data#title"
-          }
-        },
-        {
-          "@id": "file://demo/types-list/typeFromDataTypeFile.raml#/type/property/price",
-          "@type": [
-            "propShape",
-            "shape",
-            "shapesShape"
-          ],
-          "range": {
-            "@id": "file://demo/types-list/typeFromDataTypeFile.raml#/type/property/price/scalar/price",
-            "@type": [
-              "scalar",
-              "shape",
-              "shapesShape",
-              "de"
-            ],
-            "dt": {
-              "@id": "http://a.ml/vocabularies/shapes#number"
-            },
-            "w3name": "price"
-          },
-          "mc": 1,
-          "w3name": "price",
-          "shaclPath": {
-            "@id": "http://a.ml/vocabularies/data#price"
-          }
-        }
-      ]
-    },
-    {
-      "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromMainFileEndpoint/post/request/application%2Fjson/MainFileType",
-      "@type": [
-        "node",
-        "shape",
-        "shapesShape",
-        "de"
-      ],
-      "desc": "Type contained inside the main raml file",
-      "closed": false,
-      "w3name": "MainFileType",
-      "prop": [
-        {
-          "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromMainFileEndpoint/post/request/application%2Fjson/MainFileType/property/foo",
-          "@type": [
-            "propShape",
-            "shape",
-            "shapesShape"
-          ],
-          "range": {
-            "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromMainFileEndpoint/post/request/application%2Fjson/MainFileType/property/foo/scalar/foo",
-            "@type": [
-              "scalar",
-              "shape",
-              "shapesShape",
-              "de"
-            ],
-            "dt": {
-              "@id": "http://www.w3.org/2001/XMLSchema#string"
-            },
-            "w3name": "foo"
-          },
-          "mc": 1,
-          "w3name": "foo",
-          "shaclPath": {
-            "@id": "http://a.ml/vocabularies/data#foo"
-          }
-        },
-        {
-          "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromMainFileEndpoint/post/request/application%2Fjson/MainFileType/property/bar",
-          "@type": [
-            "propShape",
-            "shape",
-            "shapesShape"
-          ],
-          "range": {
-            "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromMainFileEndpoint/post/request/application%2Fjson/MainFileType/property/bar/scalar/bar",
-            "@type": [
-              "scalar",
-              "shape",
-              "shapesShape",
-              "de"
-            ],
-            "dt": {
-              "@id": "http://www.w3.org/2001/XMLSchema#string"
-            },
-            "w3name": "bar"
-          },
-          "mc": 1,
-          "w3name": "bar",
-          "shaclPath": {
-            "@id": "http://a.ml/vocabularies/data#bar"
-          }
-        }
-      ]
-    },
-    {
-      "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromDataTypeEndpoint/post/request/application%2Fjson/TypeFromDataTypeFile",
-      "@type": [
-        "node",
-        "shape",
-        "shapesShape",
-        "de"
-      ],
-      "desc": "This is a type from a DataType raml",
-      "closed": false,
-      "w3name": "TypeFromDataTypeFile",
-      "prop": [
-        {
-          "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromDataTypeEndpoint/post/request/application%2Fjson/TypeFromDataTypeFile/property/title",
-          "@type": [
-            "propShape",
-            "shape",
-            "shapesShape"
-          ],
-          "range": {
-            "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromDataTypeEndpoint/post/request/application%2Fjson/TypeFromDataTypeFile/property/title/scalar/title",
-            "@type": [
-              "scalar",
-              "shape",
-              "shapesShape",
-              "de"
-            ],
-            "dt": {
-              "@id": "http://www.w3.org/2001/XMLSchema#string"
-            },
-            "w3name": "title"
-          },
-          "mc": 1,
-          "w3name": "title",
-          "shaclPath": {
-            "@id": "http://a.ml/vocabularies/data#title"
-          }
-        },
-        {
-          "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromDataTypeEndpoint/post/request/application%2Fjson/TypeFromDataTypeFile/property/price",
-          "@type": [
-            "propShape",
-            "shape",
-            "shapesShape"
-          ],
-          "range": {
-            "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromDataTypeEndpoint/post/request/application%2Fjson/TypeFromDataTypeFile/property/price/scalar/price",
-            "@type": [
-              "scalar",
-              "shape",
-              "shapesShape",
-              "de"
-            ],
-            "dt": {
-              "@id": "http://a.ml/vocabularies/shapes#number"
-            },
-            "w3name": "price"
-          },
-          "mc": 1,
-          "w3name": "price",
-          "shaclPath": {
-            "@id": "http://a.ml/vocabularies/data#price"
-          }
-        }
-      ]
-    },
-    {
-      "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromLibraryEndpoint/post/request/application%2Fjson/TypeFromLibray",
-      "@type": [
-        "node",
-        "shape",
-        "shapesShape",
-        "de"
-      ],
-      "closed": false,
-      "w3name": "TypeFromLibray",
-      "prop": {
-        "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromLibraryEndpoint/post/request/application%2Fjson/TypeFromLibray/property/age",
-        "@type": [
-          "propShape",
-          "shape",
-          "shapesShape"
-        ],
-        "range": {
-          "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromLibraryEndpoint/post/request/application%2Fjson/TypeFromLibray/property/age/scalar/age",
-          "@type": [
-            "scalar",
-            "shape",
-            "shapesShape",
-            "de"
-          ],
-          "dt": {
-            "@id": "http://a.ml/vocabularies/shapes#number"
-          },
-          "w3name": "age"
-        },
-        "mc": 1,
-        "w3name": "age",
-        "shaclPath": {
-          "@id": "http://a.ml/vocabularies/data#age"
-        }
-      }
-    }
-  ],
-  "encodes": {
-    "@id": "file://demo/types-list/types-list.raml#/web-api",
+[
+  {
+    "@id": "",
     "@type": [
-      "http://schema.org/WebAPI",
-      "http://a.ml/vocabularies/document#RootDomainElement",
-      "de"
+      "doc:Document",
+      "doc:Fragment",
+      "doc:Module",
+      "doc:Unit"
     ],
-    "ep": [
+    "doc:encodes": [
       {
-        "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromMainFileEndpoint",
+        "@id": "#20",
         "@type": [
-          "http://a.ml/vocabularies/http#EndPoint",
-          "de"
+          "schema-org:WebAPI",
+          "doc:RootDomainElement",
+          "doc:DomainElement"
         ],
-        "path": "/typeFromMainFileEndpoint",
-        "op": {
-          "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromMainFileEndpoint/post",
-          "@type": [
-            "http://www.w3.org/ns/hydra/core#Operation",
-            "de"
-          ],
-          "http://www.w3.org/ns/hydra/core#expects": {
-            "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromMainFileEndpoint/post/request",
-            "@type": [
-              "http://a.ml/vocabularies/http#Request",
-              "de"
-            ],
-            "http://a.ml/vocabularies/http#payload": {
-              "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromMainFileEndpoint/post/request/application%2Fjson",
-              "@type": [
-                "http://a.ml/vocabularies/http#Payload",
-                "de"
-              ],
-              "http://a.ml/vocabularies/http#mediaType": "application/json",
-              "schema": {
-                "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromMainFileEndpoint/post/request/application%2Fjson/MainFileType/linked_1",
-                "@type": [
-                  "node",
-                  "shape",
-                  "shapesShape",
-                  "de"
-                ],
-                "http://a.ml/vocabularies/document#link-label": "MainFileType",
-                "http://a.ml/vocabularies/document#link-target": {
-                  "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromMainFileEndpoint/post/request/application%2Fjson/MainFileType"
-                }
-              }
-            }
-          },
-          "method": "post",
-          "http://www.w3.org/ns/hydra/core#returns": {
-            "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromMainFileEndpoint/post/200",
-            "@type": [
-              "http://a.ml/vocabularies/http#Response",
-              "de"
-            ],
-            "http://a.ml/vocabularies/http#payload": [],
-            "name": "200",
-            "http://www.w3.org/ns/hydra/core#statusCode": "200"
-          }
-        }
-      },
-      {
-        "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromDataTypeEndpoint",
-        "@type": [
-          "http://a.ml/vocabularies/http#EndPoint",
-          "de"
-        ],
-        "path": "/typeFromDataTypeEndpoint",
-        "op": {
-          "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromDataTypeEndpoint/post",
-          "@type": [
-            "http://www.w3.org/ns/hydra/core#Operation",
-            "de"
-          ],
-          "http://www.w3.org/ns/hydra/core#expects": {
-            "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromDataTypeEndpoint/post/request",
-            "@type": [
-              "http://a.ml/vocabularies/http#Request",
-              "de"
-            ],
-            "http://a.ml/vocabularies/http#payload": {
-              "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromDataTypeEndpoint/post/request/application%2Fjson",
-              "@type": [
-                "http://a.ml/vocabularies/http#Payload",
-                "de"
-              ],
-              "http://a.ml/vocabularies/http#mediaType": "application/json",
-              "schema": {
-                "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromDataTypeEndpoint/post/request/application%2Fjson/TypeFromDataTypeFile/linked_1",
-                "@type": [
-                  "node",
-                  "shape",
-                  "shapesShape",
-                  "de"
-                ],
-                "http://a.ml/vocabularies/document#link-label": "TypeFromDataTypeFile",
-                "http://a.ml/vocabularies/document#link-target": {
-                  "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromDataTypeEndpoint/post/request/application%2Fjson/TypeFromDataTypeFile"
-                }
-              }
-            }
-          },
-          "method": "post",
-          "http://www.w3.org/ns/hydra/core#returns": {
-            "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromDataTypeEndpoint/post/200",
-            "@type": [
-              "http://a.ml/vocabularies/http#Response",
-              "de"
-            ],
-            "http://a.ml/vocabularies/http#payload": [],
-            "name": "200",
-            "http://www.w3.org/ns/hydra/core#statusCode": "200"
-          }
-        }
-      },
-      {
-        "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromLibraryEndpoint",
-        "@type": [
-          "http://a.ml/vocabularies/http#EndPoint",
-          "de"
-        ],
-        "path": "/typeFromLibraryEndpoint",
-        "op": {
-          "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromLibraryEndpoint/post",
-          "@type": [
-            "http://www.w3.org/ns/hydra/core#Operation",
-            "de"
-          ],
-          "http://www.w3.org/ns/hydra/core#expects": {
-            "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromLibraryEndpoint/post/request",
-            "@type": [
-              "http://a.ml/vocabularies/http#Request",
-              "de"
-            ],
-            "http://a.ml/vocabularies/http#payload": {
-              "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromLibraryEndpoint/post/request/application%2Fjson",
-              "@type": [
-                "http://a.ml/vocabularies/http#Payload",
-                "de"
-              ],
-              "http://a.ml/vocabularies/http#mediaType": "application/json",
-              "schema": {
-                "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromLibraryEndpoint/post/request/application%2Fjson/TypeFromLibray/linked_1",
-                "@type": [
-                  "node",
-                  "shape",
-                  "shapesShape",
-                  "de"
-                ],
-                "http://a.ml/vocabularies/document#link-label": "TypeFromLibray",
-                "http://a.ml/vocabularies/document#link-target": {
-                  "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromLibraryEndpoint/post/request/application%2Fjson/TypeFromLibray"
-                }
-              }
-            }
-          },
-          "method": "post",
-          "http://www.w3.org/ns/hydra/core#returns": {
-            "@id": "file://demo/types-list/types-list.raml#/web-api/end-points/%2FtypeFromLibraryEndpoint/post/200",
-            "@type": [
-              "http://a.ml/vocabularies/http#Response",
-              "de"
-            ],
-            "http://a.ml/vocabularies/http#payload": [],
-            "name": "200",
-            "http://www.w3.org/ns/hydra/core#statusCode": "200"
-          }
-        }
-      }
-    ],
-    "name": "Types test",
-    "v": "v1"
-  },
-  "references": [
-    {
-      "@id": "file://demo/types-list/library.raml",
-      "@type": [
-        "modType",
-        "unitType"
-      ],
-      "declares": {
-        "@id": "file://demo/types-list/library.raml#/declarations/types/TypeFromLibray",
-        "@type": [
-          "node",
-          "shape",
-          "shapesShape",
-          "de"
-        ],
-        "closed": false,
-        "w3name": "TypeFromLibray",
-        "prop": {
-          "@id": "file://demo/types-list/library.raml#/declarations/types/TypeFromLibray/property/age",
-          "@type": [
-            "propShape",
-            "shape",
-            "shapesShape"
-          ],
-          "range": {
-            "@id": "file://demo/types-list/library.raml#/declarations/types/TypeFromLibray/property/age/scalar/age",
-            "@type": [
-              "scalar",
-              "shape",
-              "shapesShape",
-              "de"
-            ],
-            "dt": {
-              "@id": "http://a.ml/vocabularies/shapes#number"
-            },
-            "w3name": "age"
-          },
-          "mc": 1,
-          "w3name": "age",
-          "shaclPath": {
-            "@id": "http://a.ml/vocabularies/data#age"
-          }
-        }
-      },
-      "http://a.ml/vocabularies/document#usage": "This is a Library raml"
-    },
-    {
-      "@id": "file://demo/types-list/typeFromDataTypeFile.raml",
-      "@type": [
-        "http://a.ml/vocabularies/document#DataType",
-        "fragType",
-        "unitType"
-      ],
-      "encodes": {
-        "@id": "file://demo/types-list/typeFromDataTypeFile.raml#/type",
-        "@type": [
-          "node",
-          "shape",
-          "shapesShape",
-          "de"
-        ],
-        "desc": "This is a type from a DataType raml",
-        "closed": false,
-        "w3name": "TypeFromDataTypeFile",
-        "prop": [
+        "schema-org:name": [
           {
-            "@id": "file://demo/types-list/typeFromDataTypeFile.raml#/type/property/title",
+            "@value": "Types test"
+          }
+        ],
+        "schema-org:version": [
+          {
+            "@value": "v1"
+          }
+        ],
+        "raml-http:endpoint": [
+          {
+            "@id": "#21",
             "@type": [
-              "propShape",
-              "shape",
-              "shapesShape"
+              "raml-http:EndPoint",
+              "doc:DomainElement"
             ],
-            "range": {
-              "@id": "file://demo/types-list/typeFromDataTypeFile.raml#/type/property/title/scalar/title",
-              "@type": [
-                "scalar",
-                "shape",
-                "shapesShape",
-                "de"
-              ],
-              "dt": {
-                "@id": "http://www.w3.org/2001/XMLSchema#string"
-              },
-              "w3name": "title"
-            },
-            "mc": 1,
-            "w3name": "title",
-            "shaclPath": {
-              "@id": "http://a.ml/vocabularies/data#title"
-            }
+            "raml-http:path": [
+              {
+                "@value": "/typeFromMainFileEndpoint"
+              }
+            ],
+            "hydra:supportedOperation": [
+              {
+                "@id": "#22",
+                "@type": [
+                  "hydra:Operation",
+                  "doc:DomainElement"
+                ],
+                "hydra:method": [
+                  {
+                    "@value": "post"
+                  }
+                ],
+                "hydra:expects": [
+                  {
+                    "@id": "#23",
+                    "@type": [
+                      "raml-http:Request",
+                      "doc:DomainElement"
+                    ],
+                    "raml-http:payload": [
+                      {
+                        "@id": "#24",
+                        "@type": [
+                          "raml-http:Payload",
+                          "doc:DomainElement"
+                        ],
+                        "raml-http:mediaType": [
+                          {
+                            "@value": "application/json"
+                          }
+                        ],
+                        "raml-http:schema": [
+                          {
+                            "@id": "#25/linked_2",
+                            "@type": [
+                              "shacl:NodeShape",
+                              "shacl:Shape",
+                              "raml-shapes:Shape",
+                              "doc:DomainElement"
+                            ],
+                            "doc:link-target": [
+                              {
+                                "@id": "#25"
+                              }
+                            ],
+                            "doc:link-label": [
+                              {
+                                "@value": "MainFileType"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "hydra:returns": [
+                  {
+                    "@id": "#30",
+                    "@type": [
+                      "raml-http:Response",
+                      "doc:DomainElement"
+                    ],
+                    "schema-org:name": [
+                      {
+                        "@value": "200"
+                      }
+                    ],
+                    "hydra:statusCode": [
+                      {
+                        "@value": "200"
+                      }
+                    ],
+                    "raml-http:payload": []
+                  }
+                ]
+              }
+            ]
           },
           {
-            "@id": "file://demo/types-list/typeFromDataTypeFile.raml#/type/property/price",
+            "@id": "#31",
             "@type": [
-              "propShape",
-              "shape",
-              "shapesShape"
+              "raml-http:EndPoint",
+              "doc:DomainElement"
             ],
-            "range": {
-              "@id": "file://demo/types-list/typeFromDataTypeFile.raml#/type/property/price/scalar/price",
-              "@type": [
-                "scalar",
-                "shape",
-                "shapesShape",
-                "de"
-              ],
-              "dt": {
-                "@id": "http://a.ml/vocabularies/shapes#number"
-              },
-              "w3name": "price"
-            },
-            "mc": 1,
-            "w3name": "price",
-            "shaclPath": {
-              "@id": "http://a.ml/vocabularies/data#price"
-            }
+            "raml-http:path": [
+              {
+                "@value": "/typeFromDataTypeEndpoint"
+              }
+            ],
+            "hydra:supportedOperation": [
+              {
+                "@id": "#32",
+                "@type": [
+                  "hydra:Operation",
+                  "doc:DomainElement"
+                ],
+                "hydra:method": [
+                  {
+                    "@value": "post"
+                  }
+                ],
+                "hydra:expects": [
+                  {
+                    "@id": "#33",
+                    "@type": [
+                      "raml-http:Request",
+                      "doc:DomainElement"
+                    ],
+                    "raml-http:payload": [
+                      {
+                        "@id": "#34",
+                        "@type": [
+                          "raml-http:Payload",
+                          "doc:DomainElement"
+                        ],
+                        "raml-http:mediaType": [
+                          {
+                            "@value": "application/json"
+                          }
+                        ],
+                        "raml-http:schema": [
+                          {
+                            "@id": "#35/linked_2",
+                            "@type": [
+                              "shacl:NodeShape",
+                              "shacl:Shape",
+                              "raml-shapes:Shape",
+                              "doc:DomainElement"
+                            ],
+                            "doc:link-target": [
+                              {
+                                "@id": "#35"
+                              }
+                            ],
+                            "doc:link-label": [
+                              {
+                                "@value": "TypeFromDataTypeFile"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "hydra:returns": [
+                  {
+                    "@id": "#40",
+                    "@type": [
+                      "raml-http:Response",
+                      "doc:DomainElement"
+                    ],
+                    "schema-org:name": [
+                      {
+                        "@value": "200"
+                      }
+                    ],
+                    "hydra:statusCode": [
+                      {
+                        "@value": "200"
+                      }
+                    ],
+                    "raml-http:payload": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "@id": "#41",
+            "@type": [
+              "raml-http:EndPoint",
+              "doc:DomainElement"
+            ],
+            "raml-http:path": [
+              {
+                "@value": "/typeFromLibraryEndpoint"
+              }
+            ],
+            "hydra:supportedOperation": [
+              {
+                "@id": "#42",
+                "@type": [
+                  "hydra:Operation",
+                  "doc:DomainElement"
+                ],
+                "hydra:method": [
+                  {
+                    "@value": "post"
+                  }
+                ],
+                "hydra:expects": [
+                  {
+                    "@id": "#43",
+                    "@type": [
+                      "raml-http:Request",
+                      "doc:DomainElement"
+                    ],
+                    "raml-http:payload": [
+                      {
+                        "@id": "#44",
+                        "@type": [
+                          "raml-http:Payload",
+                          "doc:DomainElement"
+                        ],
+                        "raml-http:mediaType": [
+                          {
+                            "@value": "application/json"
+                          }
+                        ],
+                        "raml-http:schema": [
+                          {
+                            "@id": "#45/linked_2",
+                            "@type": [
+                              "shacl:NodeShape",
+                              "shacl:Shape",
+                              "raml-shapes:Shape",
+                              "doc:DomainElement"
+                            ],
+                            "doc:link-target": [
+                              {
+                                "@id": "#45"
+                              }
+                            ],
+                            "doc:link-label": [
+                              {
+                                "@value": "TypeFromLibray"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "hydra:returns": [
+                  {
+                    "@id": "#48",
+                    "@type": [
+                      "raml-http:Response",
+                      "doc:DomainElement"
+                    ],
+                    "schema-org:name": [
+                      {
+                        "@value": "200"
+                      }
+                    ],
+                    "hydra:statusCode": [
+                      {
+                        "@value": "200"
+                      }
+                    ],
+                    "raml-http:payload": []
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
+    ],
+    "doc:references": [
+      {
+        "@id": "#14",
+        "@type": [
+          "doc:Module",
+          "doc:Unit"
+        ],
+        "doc:declares": [
+          {
+            "@id": "#15",
+            "@type": [
+              "shacl:NodeShape",
+              "shacl:Shape",
+              "raml-shapes:Shape",
+              "doc:DomainElement"
+            ],
+            "shacl:closed": [
+              {
+                "@value": false
+              }
+            ],
+            "shacl:property": [
+              {
+                "@id": "#16",
+                "@type": [
+                  "shacl:PropertyShape",
+                  "shacl:Shape",
+                  "raml-shapes:Shape"
+                ],
+                "shacl:path": [
+                  {
+                    "@id": "http://a.ml/vocabularies/data#age"
+                  }
+                ],
+                "raml-shapes:range": [
+                  {
+                    "@id": "#17",
+                    "@type": [
+                      "raml-shapes:ScalarShape",
+                      "shacl:Shape",
+                      "raml-shapes:Shape",
+                      "doc:DomainElement"
+                    ],
+                    "shacl:datatype": [
+                      {
+                        "@id": "http://a.ml/vocabularies/shapes#number"
+                      }
+                    ],
+                    "shacl:name": [
+                      {
+                        "@value": "age"
+                      }
+                    ]
+                  }
+                ],
+                "shacl:minCount": [
+                  {
+                    "@value": 1
+                  }
+                ],
+                "shacl:name": [
+                  {
+                    "@value": "age"
+                  }
+                ]
+              }
+            ],
+            "shacl:name": [
+              {
+                "@value": "TypeFromLibray"
+              }
+            ]
+          }
+        ],
+        "doc:usage": [
+          {
+            "@value": "This is a Library raml"
+          }
+        ]
+      },
+      {
+        "@id": "#19",
+        "@type": [
+          "doc:DataType",
+          "doc:Fragment",
+          "doc:Unit"
+        ],
+        "doc:encodes": [
+          {
+            "@id": "#7",
+            "@type": [
+              "shacl:NodeShape",
+              "shacl:Shape",
+              "raml-shapes:Shape",
+              "doc:DomainElement"
+            ],
+            "shacl:closed": [
+              {
+                "@value": false
+              }
+            ],
+            "shacl:property": [
+              {
+                "@id": "#8",
+                "@type": [
+                  "shacl:PropertyShape",
+                  "shacl:Shape",
+                  "raml-shapes:Shape"
+                ],
+                "shacl:path": [
+                  {
+                    "@id": "http://a.ml/vocabularies/data#title"
+                  }
+                ],
+                "raml-shapes:range": [
+                  {
+                    "@id": "#9",
+                    "@type": [
+                      "raml-shapes:ScalarShape",
+                      "shacl:Shape",
+                      "raml-shapes:Shape",
+                      "doc:DomainElement"
+                    ],
+                    "shacl:datatype": [
+                      {
+                        "@id": "http://www.w3.org/2001/XMLSchema#string"
+                      }
+                    ],
+                    "shacl:name": [
+                      {
+                        "@value": "title"
+                      }
+                    ]
+                  }
+                ],
+                "shacl:minCount": [
+                  {
+                    "@value": 1
+                  }
+                ],
+                "shacl:name": [
+                  {
+                    "@value": "title"
+                  }
+                ]
+              },
+              {
+                "@id": "#10",
+                "@type": [
+                  "shacl:PropertyShape",
+                  "shacl:Shape",
+                  "raml-shapes:Shape"
+                ],
+                "shacl:path": [
+                  {
+                    "@id": "http://a.ml/vocabularies/data#price"
+                  }
+                ],
+                "raml-shapes:range": [
+                  {
+                    "@id": "#11",
+                    "@type": [
+                      "raml-shapes:ScalarShape",
+                      "shacl:Shape",
+                      "raml-shapes:Shape",
+                      "doc:DomainElement"
+                    ],
+                    "shacl:datatype": [
+                      {
+                        "@id": "http://a.ml/vocabularies/shapes#number"
+                      }
+                    ],
+                    "shacl:name": [
+                      {
+                        "@value": "price"
+                      }
+                    ]
+                  }
+                ],
+                "shacl:minCount": [
+                  {
+                    "@value": 1
+                  }
+                ],
+                "shacl:name": [
+                  {
+                    "@value": "price"
+                  }
+                ]
+              }
+            ],
+            "shacl:name": [
+              {
+                "@value": "TypeFromDataTypeFile"
+              }
+            ],
+            "schema-org:description": [
+              {
+                "@value": "This is a type from a DataType raml"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "doc:declares": [
+      {
+        "@id": "#25",
+        "@type": [
+          "shacl:NodeShape",
+          "shacl:Shape",
+          "raml-shapes:Shape",
+          "doc:DomainElement"
+        ],
+        "shacl:closed": [
+          {
+            "@value": false
+          }
+        ],
+        "shacl:property": [
+          {
+            "@id": "#26",
+            "@type": [
+              "shacl:PropertyShape",
+              "shacl:Shape",
+              "raml-shapes:Shape"
+            ],
+            "shacl:path": [
+              {
+                "@id": "http://a.ml/vocabularies/data#foo"
+              }
+            ],
+            "raml-shapes:range": [
+              {
+                "@id": "#27",
+                "@type": [
+                  "raml-shapes:ScalarShape",
+                  "shacl:Shape",
+                  "raml-shapes:Shape",
+                  "doc:DomainElement"
+                ],
+                "shacl:datatype": [
+                  {
+                    "@id": "http://www.w3.org/2001/XMLSchema#string"
+                  }
+                ],
+                "shacl:name": [
+                  {
+                    "@value": "foo"
+                  }
+                ]
+              }
+            ],
+            "shacl:minCount": [
+              {
+                "@value": 1
+              }
+            ],
+            "shacl:name": [
+              {
+                "@value": "foo"
+              }
+            ]
+          },
+          {
+            "@id": "#28",
+            "@type": [
+              "shacl:PropertyShape",
+              "shacl:Shape",
+              "raml-shapes:Shape"
+            ],
+            "shacl:path": [
+              {
+                "@id": "http://a.ml/vocabularies/data#bar"
+              }
+            ],
+            "raml-shapes:range": [
+              {
+                "@id": "#29",
+                "@type": [
+                  "raml-shapes:ScalarShape",
+                  "shacl:Shape",
+                  "raml-shapes:Shape",
+                  "doc:DomainElement"
+                ],
+                "shacl:datatype": [
+                  {
+                    "@id": "http://www.w3.org/2001/XMLSchema#string"
+                  }
+                ],
+                "shacl:name": [
+                  {
+                    "@value": "bar"
+                  }
+                ]
+              }
+            ],
+            "shacl:minCount": [
+              {
+                "@value": 1
+              }
+            ],
+            "shacl:name": [
+              {
+                "@value": "bar"
+              }
+            ]
+          }
+        ],
+        "shacl:name": [
+          {
+            "@value": "MainFileType"
+          }
+        ],
+        "schema-org:description": [
+          {
+            "@value": "Type contained inside the main raml file"
+          }
+        ]
+      },
+      {
+        "@id": "#35",
+        "@type": [
+          "shacl:NodeShape",
+          "shacl:Shape",
+          "raml-shapes:Shape",
+          "doc:DomainElement"
+        ],
+        "shacl:closed": [
+          {
+            "@value": false
+          }
+        ],
+        "shacl:property": [
+          {
+            "@id": "#36",
+            "@type": [
+              "shacl:PropertyShape",
+              "shacl:Shape",
+              "raml-shapes:Shape"
+            ],
+            "shacl:path": [
+              {
+                "@id": "http://a.ml/vocabularies/data#title"
+              }
+            ],
+            "raml-shapes:range": [
+              {
+                "@id": "#37",
+                "@type": [
+                  "raml-shapes:ScalarShape",
+                  "shacl:Shape",
+                  "raml-shapes:Shape",
+                  "doc:DomainElement"
+                ],
+                "shacl:datatype": [
+                  {
+                    "@id": "http://www.w3.org/2001/XMLSchema#string"
+                  }
+                ],
+                "shacl:name": [
+                  {
+                    "@value": "title"
+                  }
+                ]
+              }
+            ],
+            "shacl:minCount": [
+              {
+                "@value": 1
+              }
+            ],
+            "shacl:name": [
+              {
+                "@value": "title"
+              }
+            ]
+          },
+          {
+            "@id": "#38",
+            "@type": [
+              "shacl:PropertyShape",
+              "shacl:Shape",
+              "raml-shapes:Shape"
+            ],
+            "shacl:path": [
+              {
+                "@id": "http://a.ml/vocabularies/data#price"
+              }
+            ],
+            "raml-shapes:range": [
+              {
+                "@id": "#39",
+                "@type": [
+                  "raml-shapes:ScalarShape",
+                  "shacl:Shape",
+                  "raml-shapes:Shape",
+                  "doc:DomainElement"
+                ],
+                "shacl:datatype": [
+                  {
+                    "@id": "http://a.ml/vocabularies/shapes#number"
+                  }
+                ],
+                "shacl:name": [
+                  {
+                    "@value": "price"
+                  }
+                ]
+              }
+            ],
+            "shacl:minCount": [
+              {
+                "@value": 1
+              }
+            ],
+            "shacl:name": [
+              {
+                "@value": "price"
+              }
+            ]
+          }
+        ],
+        "shacl:name": [
+          {
+            "@value": "TypeFromDataTypeFile"
+          }
+        ],
+        "schema-org:description": [
+          {
+            "@value": "This is a type from a DataType raml"
+          }
+        ]
+      },
+      {
+        "@id": "#45",
+        "@type": [
+          "shacl:NodeShape",
+          "shacl:Shape",
+          "raml-shapes:Shape",
+          "doc:DomainElement"
+        ],
+        "shacl:closed": [
+          {
+            "@value": false
+          }
+        ],
+        "shacl:property": [
+          {
+            "@id": "#46",
+            "@type": [
+              "shacl:PropertyShape",
+              "shacl:Shape",
+              "raml-shapes:Shape"
+            ],
+            "shacl:path": [
+              {
+                "@id": "http://a.ml/vocabularies/data#age"
+              }
+            ],
+            "raml-shapes:range": [
+              {
+                "@id": "#47",
+                "@type": [
+                  "raml-shapes:ScalarShape",
+                  "shacl:Shape",
+                  "raml-shapes:Shape",
+                  "doc:DomainElement"
+                ],
+                "shacl:datatype": [
+                  {
+                    "@id": "http://a.ml/vocabularies/shapes#number"
+                  }
+                ],
+                "shacl:name": [
+                  {
+                    "@value": "age"
+                  }
+                ]
+              }
+            ],
+            "shacl:minCount": [
+              {
+                "@value": 1
+              }
+            ],
+            "shacl:name": [
+              {
+                "@value": "age"
+              }
+            ]
+          }
+        ],
+        "shacl:name": [
+          {
+            "@value": "TypeFromLibray"
+          }
+        ]
+      }
+    ],
+    "@context": {
+      "@base": "amf://id",
+      "raml-http": "http://a.ml/vocabularies/http#",
+      "raml-shapes": "http://a.ml/vocabularies/shapes#",
+      "shacl": "http://www.w3.org/ns/shacl#",
+      "doc": "http://a.ml/vocabularies/document#",
+      "schema-org": "http://schema.org/",
+      "hydra": "http://www.w3.org/ns/hydra/core#"
     }
-  ]
-}
+  }
+]
