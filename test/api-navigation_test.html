@@ -441,7 +441,7 @@
         test('Collects types from a library', () => {
           const result = element.types;
           assert.lengthOf(result, 10);
-          assert.equal(result[9].id, 'file://demo/demo-api/library.raml#/declarations/types/LibraryType');
+          assert.equal(result[9].id, 'amf://id#133');
           assert.equal(result[9].label, 'Type from library');
         });
 
@@ -503,14 +503,14 @@
         }
 
         test('Selectes a method', () => {
-          dispatch('file://demo/demo-api/demo-api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcopy/post', 'method');
+          dispatch('amf://id#149', 'method');
           const node = element.shadowRoot.querySelector('.passive-selected');
           assert.ok(node);
         });
 
         test('Opens iron-collapse', () => {
-          dispatch('file://demo/demo-api/demo-api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcopy/post', 'method');
-          const id = 'file://demo/demo-api/demo-api.raml#/web-api/end-points/%2Ffiles%2F%7BfileId%7D%2Fcopy';
+          dispatch('amf://id#149', 'method');
+          const id = 'amf://id#148';
           const node = element.shadowRoot.querySelector(`.endpoint[data-endpoint-id="${id}"]`);
           assert.isTrue(node.nextElementSibling.opened);
         });
