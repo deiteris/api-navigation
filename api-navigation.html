@@ -652,9 +652,14 @@
           securitySchemes: [],
           endpoints: []
         };
+        if (!model) {
+          return result;
+        }
+        result._typeIds = [];
         this._traverseDeclarations(model, result);
         this._traverseReferences(model, result);
         this._traverseEncodes(model, result);
+        delete result._typeIds;
         return result;
       }
       /**
@@ -749,16 +754,25 @@
           return;
         }
         const id = item['@id'];
-        for (let i = 0, len = target.types.length; i < len; i++) {
-          if (target.types[i].id === id) {
-            // Avoids duplicates from references.
-            return;
-          }
+        if (!id) {
+          return;
         }
-        target.types.push({
-          label: name,
-          id: id
-        });
+        const rfIdKey = this._getAmfKey(this.ns.raml.vocabularies.document + 'reference-id');
+        const compareId = item['@id'].toLowerCase();
+        const refNode = this._ensureArray(item[rfIdKey]);
+        const refId = refNode ? refNode[0]['@id'].toLowerCase() : undefined;
+        const idIndex = target._typeIds.indexOf(compareId);
+        const refIndex = refId ? target._typeIds.indexOf(refId) : -1;
+        if (idIndex === -1 && refIndex === -1) {
+          target._typeIds[target._typeIds.length] = id;
+          if (refId) {
+            target._typeIds[target._typeIds.length] = refId;
+          }
+          target.types.push({
+            label: name,
+            id: id
+          });
+        }
       }
       /**
        * Appends "security" item to the results.
