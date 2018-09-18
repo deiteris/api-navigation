@@ -656,10 +656,12 @@
           return result;
         }
         result._typeIds = [];
+        result._basePaths = [];
         this._traverseDeclarations(model, result);
         this._traverseReferences(model, result);
         this._traverseEncodes(model, result);
         delete result._typeIds;
+        delete result._basePaths;
         return result;
       }
       /**
@@ -818,17 +820,34 @@
         let name = this._getValue(item, this.ns.schema.schemaName);
         const path = this._getValue(item, this.ns.raml.vocabularies.http + 'path');
         const paths = path.split('/');
-        const lastPath = this._computeLastPathName(paths);
-
-        if (!name) {
+        const basePath = paths[1];
+        let noShortPaths = false;
+        if (paths.length > 2 && basePath) {
+          if (target._basePaths.indexOf(basePath) === -1) {
+            noShortPaths = true;
+          }
+        } else if (basePath) {
+          target._basePaths[target._basePaths.length] = basePath;
+        }
+        if (!noShortPaths) {
+          const lastPath = this._computeLastPathName(paths);
+          if (!name) {
+            result.renderPath = false;
+            name = lastPath;
+          } else {
+            result.renderPath = true;
+            result.path = lastPath;
+          }
+        } else if (!name) {
+          result.path = path;
+          name = path;
           result.renderPath = false;
-          name = lastPath;
         } else {
+          result.path = path;
           result.renderPath = true;
-          result.path = lastPath;
         }
         const id = item['@id'];
-        const indent = paths[0] ? paths.length - 1 : paths.length - 2;
+        const indent = noShortPaths ? 0 : (paths[0] ? paths.length - 1 : paths.length - 2);
         const key = this._getAmfKey(this.ns.w3.hydra.supportedOperation);
         const operations = this._ensureArray(item[key]) || [];
         const methods = operations.map((op) => this._createOperationModel(op));
