@@ -301,14 +301,14 @@
     ],
     "http://a.ml/vocabularies/document#references": [
       {
-        "@id": "amf://id#14",
+        "@id": "amf://id#13",
         "@type": [
           "http://a.ml/vocabularies/document#Module",
           "http://a.ml/vocabularies/document#Unit"
         ],
         "http://a.ml/vocabularies/document#declares": [
           {
-            "@id": "amf://id#15",
+            "@id": "amf://id#14",
             "@type": [
               "http://www.w3.org/ns/shacl#NodeShape",
               "http://www.w3.org/ns/shacl#Shape",
@@ -322,7 +322,7 @@
             ],
             "http://www.w3.org/ns/shacl#property": [
               {
-                "@id": "amf://id#16",
+                "@id": "amf://id#15",
                 "@type": [
                   "http://www.w3.org/ns/shacl#PropertyShape",
                   "http://www.w3.org/ns/shacl#Shape",
@@ -335,7 +335,7 @@
                 ],
                 "http://a.ml/vocabularies/shapes#range": [
                   {
-                    "@id": "amf://id#17",
+                    "@id": "amf://id#16",
                     "@type": [
                       "http://a.ml/vocabularies/shapes#ScalarShape",
                       "http://www.w3.org/ns/shacl#Shape",
@@ -380,7 +380,7 @@
         ]
       },
       {
-        "@id": "amf://id#19",
+        "@id": "amf://id#18",
         "@type": [
           "http://a.ml/vocabularies/document#DataType",
           "http://a.ml/vocabularies/document#Fragment",
@@ -388,7 +388,7 @@
         ],
         "http://a.ml/vocabularies/document#encodes": [
           {
-            "@id": "amf://id#7",
+            "@id": "amf://id#19",
             "@type": [
               "http://www.w3.org/ns/shacl#NodeShape",
               "http://www.w3.org/ns/shacl#Shape",
@@ -492,7 +492,7 @@
             ],
             "http://www.w3.org/ns/shacl#name": [
               {
-                "@value": "TypeFromDataTypeFile"
+                "@value": "type"
               }
             ],
             "http://schema.org/description": [

@@ -441,7 +441,7 @@
         test('Collects types from a library', () => {
           const result = element.types;
           assert.lengthOf(result, 10);
-          assert.equal(result[9].id, 'amf://id#133');
+          assert.equal(result[9].id, 'amf://id#148');
           assert.equal(result[9].label, 'Type from library');
         });
 
@@ -503,14 +503,14 @@
         }
 
         test('Selectes a method', () => {
-          dispatch('amf://id#149', 'method');
+          dispatch('amf://id#174', 'method');
           const node = element.shadowRoot.querySelector('.passive-selected');
           assert.ok(node);
         });
 
         test('Opens iron-collapse', () => {
-          dispatch('amf://id#149', 'method');
-          const id = 'amf://id#148';
+          dispatch('amf://id#174', 'method');
+          const id = 'amf://id#173';
           const node = element.shadowRoot.querySelector(`.endpoint[data-endpoint-id="${id}"]`);
           assert.isTrue(node.nextElementSibling.opened);
         });
