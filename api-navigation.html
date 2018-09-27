@@ -8,9 +8,10 @@
 <link rel="import" href="../iron-collapse/iron-collapse.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../amf-helper-mixin/amf-helper-mixin.html">
-
+<link rel="import" href="../http-method-label/http-method-label-common-styles.html">
 <dom-module id="api-navigation">
   <template>
+    <style include="http-method-label-common-styles"></style>
     <style>
     :host {
       display: block;
@@ -172,44 +173,13 @@
     }
 
     .method-label {
-      display: inline-block;
-      margin-right: 8px;
-      padding: 2px 8px;
-      background-color: var(--api-navigation-method-label-background-color, transparent);
-      color: var(--api-navigation-method-label-color, #000);
-      text-transform: uppercase;
-      border-radius: var(--api-navigation-method-label-border-radius, 3px);
-      font-weight: var(--method-display-font-weigth, 400);
+      margin-bottom: 0;
       white-space: nowrap;
-    }
-
-    .method-label[data-method="get"] {
-      background-color: var(--method-label-get-background-color, rgb(0, 128, 0));
-      color: var(--method-label-get-color, #fff);
-    }
-
-    .method-label[data-method="post"] {
-      background-color: var(--method-label-post-background-color, rgb(33, 150, 243));
-      color: var(--method-label-post-color, #fff);
-    }
-
-    .method-label[data-method="delete"] {
-      background-color: var(--method-label-delete-background-color, rgb(244, 67, 54));
-      color: var(--method-label-delete-color, #fff);
-    }
-
-    .method-label[data-method="put"] {
-      background-color: var(--method-label-put-background-color, rgb(255, 165, 0));
-      color: var(--method-label-put-color, #fff);
-    }
-
-    .method-label[data-method="patch"] {
-      background-color: var(--method-label-patch-background-color, rgb(156, 39, 176));
-      color: var(--method-label-patch-color, #fff);
     }
 
     .list-item.iron-selected .method-label[data-method] {
       color: var(--method-display-selected-color, #fff);
+      background-color: var(--method-display-selected-background-color, transparent);
     }
 
     .operation {
