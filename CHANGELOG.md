@@ -1,4 +1,14 @@
 <a name="2.0.10"></a>
+## [2.0.10](https://github.com/advanced-rest-client/api-navigation/compare/2.0.8...2.0.10) (2018-10-24)
+
+
+### Update
+
+* Adding support for common method label styles ([4321efb5a171f5b7f79c2b8d1e6f67d374685cd4](https://github.com/advanced-rest-client/api-navigation/commit/4321efb5a171f5b7f79c2b8d1e6f67d374685cd4))
+
+
+
+<a name="2.0.10"></a>
 ## [2.0.10](https://github.com/advanced-rest-client/api-navigation/compare/2.0.8...2.0.10) (2018-09-27)
 
 
