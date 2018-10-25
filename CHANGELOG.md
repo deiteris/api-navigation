@@ -1,3 +1,17 @@
+<a name="2.0.11"></a>
+## [2.0.11](https://github.com/advanced-rest-client/api-navigation/compare/2.0.8...2.0.11) (2018-10-25)
+
+
+### New
+
+* Adding support for Type, Security, Documentation, and Library fragments ([b2294a422f83fa824bf1373d75f0eff4a072b891](https://github.com/advanced-rest-client/api-navigation/commit/b2294a422f83fa824bf1373d75f0eff4a072b891))
+
+### Update
+
+* Adding support for common method label styles ([4321efb5a171f5b7f79c2b8d1e6f67d374685cd4](https://github.com/advanced-rest-client/api-navigation/commit/4321efb5a171f5b7f79c2b8d1e6f67d374685cd4))
+
+
+
 <a name="2.0.10"></a>
 ## [2.0.10](https://github.com/advanced-rest-client/api-navigation/compare/2.0.8...2.0.10) (2018-10-24)
 
