@@ -197,7 +197,7 @@
     <template is="dom-if" if="[[aware]]">
       <raml-aware raml="{{amfModel}}" scope="[[aware]]"></raml-aware>
     </template>
-    <template is="dom-if" if="[[summary]]">
+    <template is="dom-if" if="[[_renderSummary]]">
       <section class="summary">
         <div class="list-item summary" role="option" tabindex="0" data-api-id="summary" data-shape="summary" on-click="_itemClickHandler">[[summaryLabel]]</div>
       </section>
@@ -384,7 +384,9 @@
      * @appliesMixin ApiElements.AmfHelperMixin
      */
     class ApiNavigation extends ApiElements.AmfHelperMixin(Polymer.Element) {
-      static get is() {return 'api-navigation';}
+      static get is() {
+        return 'api-navigation';
+      }
       static get properties() {
         return {
           /**
@@ -540,6 +542,22 @@
           indentSize: {
             type: Number,
             value: 8
+          },
+          /**
+           * Flag set when passed AMF model is a RAML fragment.
+           */
+          _isFragment: {
+            type: Boolean,
+            value: false
+          },
+          /**
+           * Computed value. True when summary should be rendered.
+           * Summary should be rendered only when `summary` is set and
+           * current model is not a RAML fragment.
+           */
+          _renderSummary: {
+            type: Boolean,
+            computed: '_computeRenderSummary(summary, _isFragment)'
           }
         };
       }
@@ -580,9 +598,31 @@
         if (!model) {
           return;
         }
-        model = this._ensureAmfModel(model);
-        const data = this._collectData(model);
-
+        if (model instanceof Array) {
+          model = model[0];
+        }
+        let data = {};
+        let isFragment = true;
+        const moduleKey = this._getAmfKey(this.ns.raml.vocabularies.document + 'Module');
+        if (this._hasType(model, this.ns.raml.vocabularies.document + 'Document')) {
+          isFragment = false;
+          model = this._ensureAmfModel(model);
+          data = this._collectData(model);
+        } else if (this._hasType(model, this.ns.raml.vocabularies.document + 'SecuritySchemeFragment')) {
+          data = this._collectSecurityData(model);
+          this.securityOpened = true;
+        } else if (this._hasType(model, this.ns.raml.vocabularies.document + 'UserDocumentation')) {
+          data = this._collectDocumentationData(model);
+          this.docsOpened = true;
+        } else if (this._hasType(model, this.ns.raml.vocabularies.document + 'DataType')) {
+          data = this._collectTypeData(model);
+          this.typesOpened = true;
+        } else if (moduleKey === model['@type'][0]) {
+          data = this._collectData(model);
+        }
+        if (this._isFragment !== isFragment) {
+          this._isFragment = isFragment;
+        }
         this._setDocs(data.documentation);
         this._setTypes(data.types);
         this._setSecurity(data.securitySchemes);
@@ -631,6 +671,56 @@
         this._traverseEncodes(model, result);
         delete result._typeIds;
         delete result._basePaths;
+        return result;
+      }
+      /**
+       * Collects the data from the security fragment
+       * @param {Object} model Security fragment model
+       * @return {Object}
+       */
+      _collectSecurityData(model) {
+        const result = {
+          securitySchemes: []
+        };
+        let encodes = this._computeEncodes(model);
+        if (!encodes) {
+          return;
+        }
+        this._appendSecurityItem(encodes, result);
+        return result;
+      }
+      /**
+       * Collects the data from the documentation fragment
+       * @param {Object} model Documentation fragment model
+       * @return {Object}
+       */
+      _collectDocumentationData(model) {
+        const result = {
+          documentation: []
+        };
+        let encodes = this._computeEncodes(model);
+        if (!encodes) {
+          return;
+        }
+        this._appendDocumentationItem(encodes, result);
+        return result;
+      }
+      /**
+       * Collects the data from the type fragment
+       * @param {Object} model Type fragment model
+       * @return {Object}
+       */
+      _collectTypeData(model) {
+        const result = {
+          types: [],
+          _typeIds: []
+        };
+        let encodes = this._computeEncodes(model);
+        if (!encodes) {
+          return;
+        }
+        this._appendTypeItem(encodes, result);
+        delete result._typeIds;
         return result;
       }
       /**
@@ -755,6 +845,9 @@
         let name = this._getValue(item, this.ns.schema.displayName);
         if (!name) {
           name = this._getValue(item, this.ns.raml.vocabularies.security + 'name');
+        }
+        if (!name) {
+          name = this._getValue(item, this.ns.raml.vocabularies.security + 'type');
         }
         const id = item['@id'];
         target.securitySchemes.push({
@@ -1284,6 +1377,15 @@
           return;
         }
         e.target.click();
+      }
+      /**
+       * Computes value for `_renderSummary` property
+       * @param {Boolean} summary Current value of `summary` property
+       * @param {Boolean} isFragment Current value of `_isFragment` property
+       * @return {Boolean}
+       */
+      _computeRenderSummary(summary, isFragment) {
+        return !!(summary && !isFragment);
       }
       /**
        * Dispatched when navigation occurrs.

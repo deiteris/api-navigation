@@ -15,6 +15,7 @@
     <link rel="import" href="../../paper-item/paper-item.html">
     <link rel="import" href="../../paper-listbox/paper-listbox.html">
     <link rel="import" href="../../neon-animation/web-animations.html">
+    <link rel="import" href="../../paper-toast/paper-toast.html">
     <link rel="import" href="../api-navigation.html">
     <custom-style>
       <style is="custom-style" include="demo-pages-shared-styles">
@@ -90,6 +91,7 @@
               <paper-item data-file="demo-api.json">Demo API</paper-item>
               <paper-item data-file="types-list.json">Types list issue demo</paper-item>
               <paper-item data-file="exchange-experience-api.json">Exchange API</paper-item>
+              <paper-item data-file="oauth1-fragment.json">OAuth1 fragment</paper-item>
             </paper-listbox>
           </paper-dropdown-menu>
         </header>
@@ -106,6 +108,8 @@
             <api-navigation aware="api-demo" class="themed"></api-navigation>
           </div>
         </section>
+
+        <paper-toast id="navToast"></paper-toast>
       </template>
     </dom-bind>
     <script>
@@ -126,26 +130,13 @@
           app.amfModel = data;
         });
       };
-
-      // app._load = function() {
-      //   const xhr = new XMLHttpRequest();
-      //   xhr.addEventListener('load', (e) => {
-      //     let data;
-      //     try {
-      //       data = JSON.parse(e.target.response);
-      //     } catch (e) {
-      //       window.alert('Unable to parse AMF model');
-      //       return;
-      //     }
-      //     app.amfModel = data;
-      //   });
-      //   xhr.addEventListener('error', () => window.alert('Unable to load AMF model'));
-      //   xhr.open('GET', './amf-model.json');
-      //   xhr.send();
-      // };
       app._navChanged = function(e) {
-        app.latestSelected = e.detail.selected;
-        app.latestType = e.detail.type;
+        const {selected, type} = e.detail;
+        app.latestSelected = selected;
+        app.latestType = type;
+        const navToast = document.getElementById('navToast');
+        navToast.text = 'Navigation occured. Type: ' + type + ', id: ' + selected;
+        navToast.opened = true;
       };
       window.addEventListener('WebComponentsReady', () => app._load());
       window.addEventListener('api-navigation-selection-changed', app._navChanged);

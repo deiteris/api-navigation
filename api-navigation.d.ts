@@ -232,6 +232,18 @@ declare namespace ApiElements {
     indentSize: number|null|undefined;
 
     /**
+     * Flag set when passed AMF model is a RAML fragment.
+     */
+    _isFragment: boolean|null|undefined;
+
+    /**
+     * Computed value. True when summary should be rendered.
+     * Summary should be rendered only when `summary` is set and
+     * current model is not a RAML fragment.
+     */
+    readonly _renderSummary: boolean|null|undefined;
+
+    /**
      * Ensures aria role atribute is in place.
      * Attaches element's listeners.
      */
@@ -267,6 +279,27 @@ declare namespace ApiElements {
      *    - label `String` - Node label
      */
     _collectData(model: object|null): object|null;
+
+    /**
+     * Collects the data from the security fragment
+     *
+     * @param model Security fragment model
+     */
+    _collectSecurityData(model: object|null): object|null;
+
+    /**
+     * Collects the data from the documentation fragment
+     *
+     * @param model Documentation fragment model
+     */
+    _collectDocumentationData(model: object|null): object|null;
+
+    /**
+     * Collects the data from the type fragment
+     *
+     * @param model Type fragment model
+     */
+    _collectTypeData(model: object|null): object|null;
 
     /**
      * Traverses the `http://raml.org/vocabularies/document#declares`
@@ -484,6 +517,14 @@ declare namespace ApiElements {
      * Selectes an item when space up event is detected.
      */
     _spaceUpHandler(e: KeyboardEvent|null): void;
+
+    /**
+     * Computes value for `_renderSummary` property
+     *
+     * @param summary Current value of `summary` property
+     * @param isFragment Current value of `_isFragment` property
+     */
+    _computeRenderSummary(summary: Boolean|null, isFragment: Boolean|null): Boolean|null;
   }
 }
 
