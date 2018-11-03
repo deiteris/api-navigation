@@ -111,6 +111,48 @@
         });
       });
 
+      suite('data-endpoint-* attributes', () => {
+        [
+          ['Regular model', false],
+          ['Compact model', true]
+        ].forEach((item) => {
+          suite(item[0], () => {
+            let element;
+            let amf;
+            suiteSetup(() => {
+              return AmfLoader.load(item[1])
+              .then((model) => {
+                amf = model;
+              });
+            });
+
+            setup((done) => {
+              element = fixture('Basic');
+              element.amfModel = amf;
+              flush(() => done());
+            });
+
+            test('Each endpoint item has data-endpoint-path attribute', () => {
+              const nodes = element.shadowRoot.querySelectorAll('.list-item.endpoint');
+              assert.isAbove(nodes.length, 1);
+              for (let i = 0, len = nodes.length; i < len; i++) {
+                assert.typeOf(nodes[i].dataset.endpointPath, 'string');
+                assert.equal(nodes[i].dataset.endpointPath[0], '/');
+              }
+            });
+
+            test('Each endpoint item has data-endpoint-id attribute', () => {
+              const nodes = element.shadowRoot.querySelectorAll('.list-item.endpoint');
+              assert.isAbove(nodes.length, 1);
+              for (let i = 0, len = nodes.length; i < len; i++) {
+                assert.typeOf(nodes[i].dataset.endpointId, 'string');
+                assert.isAbove(nodes[i].dataset.endpointId.length, 0);
+              }
+            });
+          });
+        });
+      });
+
       suite('Passive selection', () => {
         let element;
         let amf;
