@@ -212,7 +212,7 @@
         <iron-collapse opened="[[endpointsOpened]]">
           <div class="children">
             <template is="dom-repeat" items="[[endpoints]]">
-              <div class="list-item endpoint" hidden$="[[item.hidden]]" data-endpoint-id$="[[item.id]]" on-click="_toggleEndpoint" title="Toggle endpoint documentation" style$="[[_computeEndpointPadding(item.indent, indentSize)]]">
+              <div class="list-item endpoint" hidden$="[[item.hidden]]" data-endpoint-id$="[[item.id]]" data-endpoint-path$="[[item.path]]" on-click="_toggleEndpoint" title="Toggle endpoint documentation" style$="[[_computeEndpointPadding(item.indent, indentSize)]]">
                 <div class="path-details">
                   <div class="endpoint-name">[[item.label]]</div>
                   <template is="dom-if" if="[[item.renderPath]]">
@@ -881,6 +881,7 @@
 
         let name = this._getValue(item, this.ns.schema.schemaName);
         const path = this._getValue(item, this.ns.raml.vocabularies.http + 'path');
+        result.path = path;
         const paths = path.split('/');
         const basePath = paths[1];
         let noShortPaths = false;
@@ -901,11 +902,9 @@
             result.path = lastPath;
           }
         } else if (!name) {
-          result.path = path;
           name = path;
           result.renderPath = false;
         } else {
-          result.path = path;
           result.renderPath = true;
         }
         const id = item['@id'];
