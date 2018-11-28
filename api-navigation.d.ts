@@ -112,6 +112,8 @@ declare namespace ApiElements {
    * `--method-label-VERB-background-color` | Background color of HTTP method label. Possible verbs are: `get`, `post`, `put`, `delete`, `patch` | `vary`
    * `--method-label-VERB-color` | Color of HTTP method label. Possible verbs are: `get`, `post`, `put`, `delete`, `patch` | `vary`
    * `--api-navigation-operation-endpoint-opened-background-color` | Background color of opened methods list | `inherit`
+   * `--api-navigation-path-label-font-size` | Path label font size | `13px`
+   * `--api-navigation-path-label-color` | Path label font color | `#616161`
    */
   class ApiNavigation extends
     ApiElements.AmfHelperMixin(
