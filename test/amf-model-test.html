@@ -77,7 +77,6 @@
             test('Collects types from a library', () => {
               const result = element.types;
               assert.lengthOf(result, 10);
-              assert.isAbove(result[9].id.indexOf('#127'), -1);
               assert.equal(result[9].label, 'Type from library');
             });
 
