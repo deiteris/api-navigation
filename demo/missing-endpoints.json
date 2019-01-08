@@ -1,0 +1,1092 @@
+[
+{
+"@id": "amf://id",
+"@type": [
+"http://a.ml/vocabularies/document#Document",
+"http://a.ml/vocabularies/document#Fragment",
+"http://a.ml/vocabularies/document#Module",
+"http://a.ml/vocabularies/document#Unit"
+],
+"http://a.ml/vocabularies/document#encodes": [
+{
+"@id": "amf://id#1",
+"@type": [
+"http://schema.org/WebAPI",
+"http://a.ml/vocabularies/document#RootDomainElement",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://schema.org/name": [
+{
+"@value": "Omni Channel Experience API"
+}
+],
+"http://a.ml/vocabularies/http#server": [
+{
+"@id": "amf://id#57",
+"@type": [
+"http://a.ml/vocabularies/http#Server",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://a.ml/vocabularies/http#url": [
+{
+"@value": "http://localhost:8081/api"
+}
+]
+}
+],
+"http://schema.org/version": [
+{
+"@value": "1.0.0"
+}
+],
+"http://a.ml/vocabularies/http#endpoint": [
+{
+"@id": "amf://id#2",
+"@type": [
+"http://a.ml/vocabularies/http#EndPoint",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://a.ml/vocabularies/http#path": [
+{
+"@value": "/root"
+}
+]
+},
+{
+"@id": "amf://id#3",
+"@type": [
+"http://a.ml/vocabularies/http#EndPoint",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://a.ml/vocabularies/http#path": [
+{
+"@value": "/root/posts"
+}
+],
+"http://www.w3.org/ns/hydra/core#supportedOperation": [
+{
+"@id": "amf://id#4",
+"@type": [
+"http://www.w3.org/ns/hydra/core#Operation",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/hydra/core#method": [
+{
+"@value": "get"
+}
+]
+}
+]
+},
+{
+"@id": "amf://id#5",
+"@type": [
+"http://a.ml/vocabularies/http#EndPoint",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://a.ml/vocabularies/http#path": [
+{
+"@value": "/root/posts/{postId}"
+}
+],
+"http://www.w3.org/ns/hydra/core#supportedOperation": [
+{
+"@id": "amf://id#6",
+"@type": [
+"http://www.w3.org/ns/hydra/core#Operation",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/hydra/core#method": [
+{
+"@value": "get"
+}
+]
+}
+],
+"http://a.ml/vocabularies/http#parameter": [
+{
+"@id": "amf://id#7",
+"@type": [
+"http://a.ml/vocabularies/http#Parameter",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://schema.org/name": [
+{
+"@value": "postId"
+}
+],
+"http://a.ml/vocabularies/http#paramName": [
+{
+"@value": "postId"
+}
+],
+"http://www.w3.org/ns/hydra/core#required": [
+{
+"@value": true
+}
+],
+"http://a.ml/vocabularies/http#binding": [
+{
+"@value": "path"
+}
+],
+"http://a.ml/vocabularies/http#schema": [
+{
+"@id": "amf://id#8",
+"@type": [
+"http://a.ml/vocabularies/shapes#ScalarShape",
+"http://www.w3.org/ns/shacl#Shape",
+"http://a.ml/vocabularies/shapes#Shape",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/shacl#datatype": [
+{
+"@id": "http://www.w3.org/2001/XMLSchema#string"
+}
+],
+"http://www.w3.org/ns/shacl#name": [
+{
+"@value": "postId"
+}
+]
+}
+]
+}
+]
+},
+{
+"@id": "amf://id#9",
+"@type": [
+"http://a.ml/vocabularies/http#EndPoint",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://a.ml/vocabularies/http#path": [
+{
+"@value": "/root/posts/{postId}/comments"
+}
+],
+"http://www.w3.org/ns/hydra/core#supportedOperation": [
+{
+"@id": "amf://id#10",
+"@type": [
+"http://www.w3.org/ns/hydra/core#Operation",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/hydra/core#method": [
+{
+"@value": "get"
+}
+]
+}
+],
+"http://a.ml/vocabularies/http#parameter": [
+{
+"@id": "amf://id#11",
+"@type": [
+"http://a.ml/vocabularies/http#Parameter",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://schema.org/name": [
+{
+"@value": "postId"
+}
+],
+"http://a.ml/vocabularies/http#paramName": [
+{
+"@value": "postId"
+}
+],
+"http://www.w3.org/ns/hydra/core#required": [
+{
+"@value": true
+}
+],
+"http://a.ml/vocabularies/http#binding": [
+{
+"@value": "path"
+}
+],
+"http://a.ml/vocabularies/http#schema": [
+{
+"@id": "amf://id#12",
+"@type": [
+"http://a.ml/vocabularies/shapes#ScalarShape",
+"http://www.w3.org/ns/shacl#Shape",
+"http://a.ml/vocabularies/shapes#Shape",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/shacl#datatype": [
+{
+"@id": "http://www.w3.org/2001/XMLSchema#string"
+}
+],
+"http://www.w3.org/ns/shacl#name": [
+{
+"@value": "postId"
+}
+]
+}
+]
+}
+]
+},
+{
+"@id": "amf://id#13",
+"@type": [
+"http://a.ml/vocabularies/http#EndPoint",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://a.ml/vocabularies/http#path": [
+{
+"@value": "/root/posts/{postId}/comments/{commentId}"
+}
+]
+},
+{
+"@id": "amf://id#14",
+"@type": [
+"http://a.ml/vocabularies/http#EndPoint",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://a.ml/vocabularies/http#path": [
+{
+"@value": "/root/pictures"
+}
+],
+"http://www.w3.org/ns/hydra/core#supportedOperation": [
+{
+"@id": "amf://id#15",
+"@type": [
+"http://www.w3.org/ns/hydra/core#Operation",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/hydra/core#method": [
+{
+"@value": "get"
+}
+]
+}
+]
+},
+{
+"@id": "amf://id#16",
+"@type": [
+"http://a.ml/vocabularies/http#EndPoint",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://a.ml/vocabularies/http#path": [
+{
+"@value": "/root/pictures/{picture}"
+}
+],
+"http://www.w3.org/ns/hydra/core#supportedOperation": [
+{
+"@id": "amf://id#17",
+"@type": [
+"http://www.w3.org/ns/hydra/core#Operation",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/hydra/core#method": [
+{
+"@value": "get"
+}
+]
+}
+],
+"http://a.ml/vocabularies/http#parameter": [
+{
+"@id": "amf://id#18",
+"@type": [
+"http://a.ml/vocabularies/http#Parameter",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://schema.org/name": [
+{
+"@value": "picture"
+}
+],
+"http://a.ml/vocabularies/http#paramName": [
+{
+"@value": "picture"
+}
+],
+"http://www.w3.org/ns/hydra/core#required": [
+{
+"@value": true
+}
+],
+"http://a.ml/vocabularies/http#binding": [
+{
+"@value": "path"
+}
+],
+"http://a.ml/vocabularies/http#schema": [
+{
+"@id": "amf://id#19",
+"@type": [
+"http://a.ml/vocabularies/shapes#ScalarShape",
+"http://www.w3.org/ns/shacl#Shape",
+"http://a.ml/vocabularies/shapes#Shape",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/shacl#datatype": [
+{
+"@id": "http://www.w3.org/2001/XMLSchema#string"
+}
+],
+"http://www.w3.org/ns/shacl#name": [
+{
+"@value": "picture"
+}
+]
+}
+]
+}
+]
+},
+{
+"@id": "amf://id#20",
+"@type": [
+"http://a.ml/vocabularies/http#EndPoint",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://a.ml/vocabularies/http#path": [
+{
+"@value": "/root/pictures/{picture}/likes"
+}
+],
+"http://www.w3.org/ns/hydra/core#supportedOperation": [
+{
+"@id": "amf://id#21",
+"@type": [
+"http://www.w3.org/ns/hydra/core#Operation",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/hydra/core#method": [
+{
+"@value": "get"
+}
+]
+}
+],
+"http://a.ml/vocabularies/http#parameter": [
+{
+"@id": "amf://id#22",
+"@type": [
+"http://a.ml/vocabularies/http#Parameter",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://schema.org/name": [
+{
+"@value": "picture"
+}
+],
+"http://a.ml/vocabularies/http#paramName": [
+{
+"@value": "picture"
+}
+],
+"http://www.w3.org/ns/hydra/core#required": [
+{
+"@value": true
+}
+],
+"http://a.ml/vocabularies/http#binding": [
+{
+"@value": "path"
+}
+],
+"http://a.ml/vocabularies/http#schema": [
+{
+"@id": "amf://id#23",
+"@type": [
+"http://a.ml/vocabularies/shapes#ScalarShape",
+"http://www.w3.org/ns/shacl#Shape",
+"http://a.ml/vocabularies/shapes#Shape",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/shacl#datatype": [
+{
+"@id": "http://www.w3.org/2001/XMLSchema#string"
+}
+],
+"http://www.w3.org/ns/shacl#name": [
+{
+"@value": "picture"
+}
+]
+}
+]
+}
+]
+},
+{
+"@id": "amf://id#24",
+"@type": [
+"http://a.ml/vocabularies/http#EndPoint",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://a.ml/vocabularies/http#path": [
+{
+"@value": "/root/pictures/{picture}/likes/{likeId}"
+}
+],
+"http://www.w3.org/ns/hydra/core#supportedOperation": [
+{
+"@id": "amf://id#25",
+"@type": [
+"http://www.w3.org/ns/hydra/core#Operation",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/hydra/core#method": [
+{
+"@value": "get"
+}
+]
+}
+],
+"http://a.ml/vocabularies/http#parameter": [
+{
+"@id": "amf://id#26",
+"@type": [
+"http://a.ml/vocabularies/http#Parameter",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://schema.org/name": [
+{
+"@value": "picture"
+}
+],
+"http://a.ml/vocabularies/http#paramName": [
+{
+"@value": "picture"
+}
+],
+"http://www.w3.org/ns/hydra/core#required": [
+{
+"@value": true
+}
+],
+"http://a.ml/vocabularies/http#binding": [
+{
+"@value": "path"
+}
+],
+"http://a.ml/vocabularies/http#schema": [
+{
+"@id": "amf://id#27",
+"@type": [
+"http://a.ml/vocabularies/shapes#ScalarShape",
+"http://www.w3.org/ns/shacl#Shape",
+"http://a.ml/vocabularies/shapes#Shape",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/shacl#datatype": [
+{
+"@id": "http://www.w3.org/2001/XMLSchema#string"
+}
+],
+"http://www.w3.org/ns/shacl#name": [
+{
+"@value": "picture"
+}
+]
+}
+]
+},
+{
+"@id": "amf://id#28",
+"@type": [
+"http://a.ml/vocabularies/http#Parameter",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://schema.org/name": [
+{
+"@value": "likeId"
+}
+],
+"http://a.ml/vocabularies/http#paramName": [
+{
+"@value": "likeId"
+}
+],
+"http://www.w3.org/ns/hydra/core#required": [
+{
+"@value": true
+}
+],
+"http://a.ml/vocabularies/http#binding": [
+{
+"@value": "path"
+}
+],
+"http://a.ml/vocabularies/http#schema": [
+{
+"@id": "amf://id#29",
+"@type": [
+"http://a.ml/vocabularies/shapes#ScalarShape",
+"http://www.w3.org/ns/shacl#Shape",
+"http://a.ml/vocabularies/shapes#Shape",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/shacl#datatype": [
+{
+"@id": "http://www.w3.org/2001/XMLSchema#string"
+}
+],
+"http://www.w3.org/ns/shacl#name": [
+{
+"@value": "likeId"
+}
+]
+}
+]
+}
+]
+},
+{
+"@id": "amf://id#30",
+"@type": [
+"http://a.ml/vocabularies/http#EndPoint",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://a.ml/vocabularies/http#path": [
+{
+"@value": "/root/addresses/{adressId}"
+}
+],
+"http://www.w3.org/ns/hydra/core#supportedOperation": [
+{
+"@id": "amf://id#31",
+"@type": [
+"http://www.w3.org/ns/hydra/core#Operation",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/hydra/core#method": [
+{
+"@value": "get"
+}
+]
+}
+],
+"http://a.ml/vocabularies/http#parameter": [
+{
+"@id": "amf://id#32",
+"@type": [
+"http://a.ml/vocabularies/http#Parameter",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://schema.org/name": [
+{
+"@value": "adressId"
+}
+],
+"http://a.ml/vocabularies/http#paramName": [
+{
+"@value": "adressId"
+}
+],
+"http://www.w3.org/ns/hydra/core#required": [
+{
+"@value": true
+}
+],
+"http://a.ml/vocabularies/http#binding": [
+{
+"@value": "path"
+}
+],
+"http://a.ml/vocabularies/http#schema": [
+{
+"@id": "amf://id#33",
+"@type": [
+"http://a.ml/vocabularies/shapes#ScalarShape",
+"http://www.w3.org/ns/shacl#Shape",
+"http://a.ml/vocabularies/shapes#Shape",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/shacl#datatype": [
+{
+"@id": "http://www.w3.org/2001/XMLSchema#string"
+}
+],
+"http://www.w3.org/ns/shacl#name": [
+{
+"@value": "adressId"
+}
+]
+}
+]
+}
+]
+},
+{
+"@id": "amf://id#34",
+"@type": [
+"http://a.ml/vocabularies/http#EndPoint",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://a.ml/vocabularies/http#path": [
+{
+"@value": "/root/addresses/{adressId}/postals"
+}
+],
+"http://www.w3.org/ns/hydra/core#supportedOperation": [
+{
+"@id": "amf://id#35",
+"@type": [
+"http://www.w3.org/ns/hydra/core#Operation",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/hydra/core#method": [
+{
+"@value": "get"
+}
+]
+}
+],
+"http://a.ml/vocabularies/http#parameter": [
+{
+"@id": "amf://id#36",
+"@type": [
+"http://a.ml/vocabularies/http#Parameter",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://schema.org/name": [
+{
+"@value": "adressId"
+}
+],
+"http://a.ml/vocabularies/http#paramName": [
+{
+"@value": "adressId"
+}
+],
+"http://www.w3.org/ns/hydra/core#required": [
+{
+"@value": true
+}
+],
+"http://a.ml/vocabularies/http#binding": [
+{
+"@value": "path"
+}
+],
+"http://a.ml/vocabularies/http#schema": [
+{
+"@id": "amf://id#37",
+"@type": [
+"http://a.ml/vocabularies/shapes#ScalarShape",
+"http://www.w3.org/ns/shacl#Shape",
+"http://a.ml/vocabularies/shapes#Shape",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/shacl#datatype": [
+{
+"@id": "http://www.w3.org/2001/XMLSchema#string"
+}
+],
+"http://www.w3.org/ns/shacl#name": [
+{
+"@value": "adressId"
+}
+]
+}
+]
+}
+]
+},
+{
+"@id": "amf://id#38",
+"@type": [
+"http://a.ml/vocabularies/http#EndPoint",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://a.ml/vocabularies/http#path": [
+{
+"@value": "/root/addresses/{adressId}/postals/{postalId}"
+}
+],
+"http://www.w3.org/ns/hydra/core#supportedOperation": [
+{
+"@id": "amf://id#39",
+"@type": [
+"http://www.w3.org/ns/hydra/core#Operation",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/hydra/core#method": [
+{
+"@value": "get"
+}
+]
+}
+],
+"http://a.ml/vocabularies/http#parameter": [
+{
+"@id": "amf://id#40",
+"@type": [
+"http://a.ml/vocabularies/http#Parameter",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://schema.org/name": [
+{
+"@value": "adressId"
+}
+],
+"http://a.ml/vocabularies/http#paramName": [
+{
+"@value": "adressId"
+}
+],
+"http://www.w3.org/ns/hydra/core#required": [
+{
+"@value": true
+}
+],
+"http://a.ml/vocabularies/http#binding": [
+{
+"@value": "path"
+}
+],
+"http://a.ml/vocabularies/http#schema": [
+{
+"@id": "amf://id#41",
+"@type": [
+"http://a.ml/vocabularies/shapes#ScalarShape",
+"http://www.w3.org/ns/shacl#Shape",
+"http://a.ml/vocabularies/shapes#Shape",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/shacl#datatype": [
+{
+"@id": "http://www.w3.org/2001/XMLSchema#string"
+}
+],
+"http://www.w3.org/ns/shacl#name": [
+{
+"@value": "adressId"
+}
+]
+}
+]
+},
+{
+"@id": "amf://id#42",
+"@type": [
+"http://a.ml/vocabularies/http#Parameter",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://schema.org/name": [
+{
+"@value": "postalId"
+}
+],
+"http://a.ml/vocabularies/http#paramName": [
+{
+"@value": "postalId"
+}
+],
+"http://www.w3.org/ns/hydra/core#required": [
+{
+"@value": true
+}
+],
+"http://a.ml/vocabularies/http#binding": [
+{
+"@value": "path"
+}
+],
+"http://a.ml/vocabularies/http#schema": [
+{
+"@id": "amf://id#43",
+"@type": [
+"http://a.ml/vocabularies/shapes#ScalarShape",
+"http://www.w3.org/ns/shacl#Shape",
+"http://a.ml/vocabularies/shapes#Shape",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/shacl#datatype": [
+{
+"@id": "http://www.w3.org/2001/XMLSchema#string"
+}
+],
+"http://www.w3.org/ns/shacl#name": [
+{
+"@value": "postalId"
+}
+]
+}
+]
+}
+]
+},
+{
+"@id": "amf://id#44",
+"@type": [
+"http://a.ml/vocabularies/http#EndPoint",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://a.ml/vocabularies/http#path": [
+{
+"@value": "/other"
+}
+],
+"http://schema.org/description": [
+{
+"@value": "test"
+}
+]
+},
+{
+"@id": "amf://id#45",
+"@type": [
+"http://a.ml/vocabularies/http#EndPoint",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://a.ml/vocabularies/http#path": [
+{
+"@value": "/other/{param1}/{param2}"
+}
+],
+"http://www.w3.org/ns/hydra/core#supportedOperation": [
+{
+"@id": "amf://id#46",
+"@type": [
+"http://www.w3.org/ns/hydra/core#Operation",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/hydra/core#method": [
+{
+"@value": "get"
+}
+]
+}
+],
+"http://a.ml/vocabularies/http#parameter": [
+{
+"@id": "amf://id#47",
+"@type": [
+"http://a.ml/vocabularies/http#Parameter",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://schema.org/name": [
+{
+"@value": "param1"
+}
+],
+"http://a.ml/vocabularies/http#paramName": [
+{
+"@value": "param1"
+}
+],
+"http://www.w3.org/ns/hydra/core#required": [
+{
+"@value": true
+}
+],
+"http://a.ml/vocabularies/http#binding": [
+{
+"@value": "path"
+}
+],
+"http://a.ml/vocabularies/http#schema": [
+{
+"@id": "amf://id#48",
+"@type": [
+"http://a.ml/vocabularies/shapes#ScalarShape",
+"http://www.w3.org/ns/shacl#Shape",
+"http://a.ml/vocabularies/shapes#Shape",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/shacl#datatype": [
+{
+"@id": "http://www.w3.org/2001/XMLSchema#string"
+}
+],
+"http://www.w3.org/ns/shacl#name": [
+{
+"@value": "param1"
+}
+]
+}
+]
+},
+{
+"@id": "amf://id#49",
+"@type": [
+"http://a.ml/vocabularies/http#Parameter",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://schema.org/name": [
+{
+"@value": "param2"
+}
+],
+"http://a.ml/vocabularies/http#paramName": [
+{
+"@value": "param2"
+}
+],
+"http://www.w3.org/ns/hydra/core#required": [
+{
+"@value": true
+}
+],
+"http://a.ml/vocabularies/http#binding": [
+{
+"@value": "path"
+}
+],
+"http://a.ml/vocabularies/http#schema": [
+{
+"@id": "amf://id#50",
+"@type": [
+"http://a.ml/vocabularies/shapes#ScalarShape",
+"http://www.w3.org/ns/shacl#Shape",
+"http://a.ml/vocabularies/shapes#Shape",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/shacl#datatype": [
+{
+"@id": "http://www.w3.org/2001/XMLSchema#string"
+}
+],
+"http://www.w3.org/ns/shacl#name": [
+{
+"@value": "param2"
+}
+]
+}
+]
+}
+]
+},
+{
+"@id": "amf://id#51",
+"@type": [
+"http://a.ml/vocabularies/http#EndPoint",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://a.ml/vocabularies/http#path": [
+{
+"@value": "/other/{param1}/{param2}/posts"
+}
+],
+"http://www.w3.org/ns/hydra/core#supportedOperation": [
+{
+"@id": "amf://id#52",
+"@type": [
+"http://www.w3.org/ns/hydra/core#Operation",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/hydra/core#method": [
+{
+"@value": "get"
+}
+]
+}
+],
+"http://a.ml/vocabularies/http#parameter": [
+{
+"@id": "amf://id#53",
+"@type": [
+"http://a.ml/vocabularies/http#Parameter",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://schema.org/name": [
+{
+"@value": "param1"
+}
+],
+"http://a.ml/vocabularies/http#paramName": [
+{
+"@value": "param1"
+}
+],
+"http://www.w3.org/ns/hydra/core#required": [
+{
+"@value": true
+}
+],
+"http://a.ml/vocabularies/http#binding": [
+{
+"@value": "path"
+}
+],
+"http://a.ml/vocabularies/http#schema": [
+{
+"@id": "amf://id#54",
+"@type": [
+"http://a.ml/vocabularies/shapes#ScalarShape",
+"http://www.w3.org/ns/shacl#Shape",
+"http://a.ml/vocabularies/shapes#Shape",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/shacl#datatype": [
+{
+"@id": "http://www.w3.org/2001/XMLSchema#string"
+}
+],
+"http://www.w3.org/ns/shacl#name": [
+{
+"@value": "param1"
+}
+]
+}
+]
+},
+{
+"@id": "amf://id#55",
+"@type": [
+"http://a.ml/vocabularies/http#Parameter",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://schema.org/name": [
+{
+"@value": "param2"
+}
+],
+"http://a.ml/vocabularies/http#paramName": [
+{
+"@value": "param2"
+}
+],
+"http://www.w3.org/ns/hydra/core#required": [
+{
+"@value": true
+}
+],
+"http://a.ml/vocabularies/http#binding": [
+{
+"@value": "path"
+}
+],
+"http://a.ml/vocabularies/http#schema": [
+{
+"@id": "amf://id#56",
+"@type": [
+"http://a.ml/vocabularies/shapes#ScalarShape",
+"http://www.w3.org/ns/shacl#Shape",
+"http://a.ml/vocabularies/shapes#Shape",
+"http://a.ml/vocabularies/document#DomainElement"
+],
+"http://www.w3.org/ns/shacl#datatype": [
+{
+"@id": "http://www.w3.org/2001/XMLSchema#string"
+}
+],
+"http://www.w3.org/ns/shacl#name": [
+{
+"@value": "param2"
+}
+]
+}
+]
+}
+]
+}
+]
+}
+]
+}
+]

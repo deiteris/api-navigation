@@ -95,13 +95,7 @@
               assert.isFalse(endpoint.renderPath);
             });
 
-            test('Truncates the path to the last part', () => {
-              const result = element.endpoints;
-              const endpoint = result[1];
-              assert.equal(endpoint.path, '/{fileId}');
-            });
-
-            test('Sets missing name as the last part', () => {
+            test('Sets missing name as truncated path', () => {
               const result = element.endpoints;
               const endpoint = result[2];
               assert.equal(endpoint.label, '/copy');
@@ -147,6 +141,90 @@
                 assert.typeOf(nodes[i].dataset.endpointId, 'string');
                 assert.isAbove(nodes[i].dataset.endpointId.length, 0);
               }
+            });
+          });
+        });
+      });
+
+      suite('_collectData()', () => {
+        [
+          ['Regular model', false],
+          ['Compact model', true]
+        ].forEach((item) => {
+          suite(item[0], () => {
+            let element;
+            let amf;
+            suiteSetup(() => {
+              return AmfLoader.load(item[1])
+              .then((model) => {
+                if (model instanceof Array) {
+                  model = model[0];
+                }
+                amf = model;
+              });
+            });
+
+            setup((done) => {
+              element = fixture('Basic');
+              element.amfModel = amf;
+              flush(() => done());
+            });
+
+            test('Returns empty model when no argument', () => {
+              const result = element._collectData();
+              assert.typeOf(result, 'object');
+              assert.lengthOf(result.endpoints, 0);
+            });
+
+            test('Returns endpoints array', () => {
+              const result = element._collectData(amf);
+              assert.isAbove(result.endpoints.length, 1);
+            });
+
+            test('Deletes _typeIds', () => {
+              const result = element._collectData(amf);
+              assert.isUndefined(result._typeIds);
+            });
+
+            test('Deletes _basePaths', () => {
+              const result = element._collectData(amf);
+              assert.isUndefined(result._basePaths);
+            });
+          });
+        });
+      });
+
+      suite('_amfChanged()', () => {
+        [
+          ['Regular model', false],
+          ['Compact model', true]
+        ].forEach((item) => {
+          suite(item[0], () => {
+            let element;
+            let amf;
+            suiteSetup(() => {
+              return AmfLoader.load(item[1])
+              .then((model) => {
+                if (model instanceof Array) {
+                  model = model[0];
+                }
+                amf = model;
+              });
+            });
+
+            setup((done) => {
+              element = fixture('Basic');
+              flush(() => done());
+            });
+
+            test('Does nothing when no model', () => {
+              element._amfChanged();
+              // no error
+            });
+
+            test('Sets endpoints property', () => {
+              element.amfModel = amf;
+              assert.isAbove(element.endpoints.length, 1);
             });
           });
         });

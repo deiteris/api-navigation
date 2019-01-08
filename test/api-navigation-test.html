@@ -30,7 +30,7 @@
     </template>
   </test-fixture>
   <script>
-  /* global MockInteractions */
+  /* global MockInteractions, AmfLoader */
   suite('api-navigation', () => {
     suite('Super basics - without model', () => {
       let element;
@@ -396,20 +396,28 @@
     });
   });
 
-  suite('_computeLastPathName()', () => {
+  suite('_computePathName()', () => {
     let element;
     suiteSetup(() => {
       element = fixture('Basic');
     });
 
     test('Computes short path', () => {
-      const result = element._computeLastPathName(['a', 'b', 'c']);
-      assert.equal(result, '/c');
+      const base = ['/root', '/root/other'];
+      const current = '/root/other/path';
+      const parts = ['root', 'other'];
+      const indent = 2;
+      const result = element._computePathName(current, parts, indent, base);
+      assert.equal(result, '/path');
     });
 
-    test('Computes short path when first item is empty', () => {
-      const result = element._computeLastPathName(['', 'b', 'c']);
-      assert.equal(result, '/c');
+    test('Computes short path for combined endpoint names', () => {
+      const base = ['/root', '/root/other'];
+      const current = '/root/other/path';
+      const parts = ['root', 'other'];
+      const indent = 1;
+      const result = element._computePathName(current, parts, indent, base);
+      assert.equal(result, '/other/path');
     });
   });
 
@@ -479,6 +487,366 @@
     });
   });
 
+  suite('_spaceUpHandler()', () => {
+    let amfModel;
+    let element;
+    suiteSetup(() => {
+      return AmfLoader.load(true)
+      .then((model) => {
+        amfModel = model;
+      });
+    });
+    setup((done) => {
+      element = fixture('Basic');
+      element.amfModel = amfModel;
+      flush(() => done());
+    });
+
+    test('Calls _spaceUpHandler() when space bar triggers on operation label', () => {
+      const node = element.shadowRoot.querySelector('.list-item.operation');
+      node.parentElement.opened = true;
+      const spy = sinon.spy(element, '_spaceUpHandler');
+      MockInteractions.keyEventOn(node, 'keyup', 32, 'Space');
+      assert.isTrue(spy.called);
+    });
+
+    test('Calls _itemClickHandler()', () => {
+      const node = element.shadowRoot.querySelector('.list-item.operation');
+      node.parentElement.opened = true;
+      const spy = sinon.spy(element, '_itemClickHandler');
+      MockInteractions.keyEventOn(node, 'keyup', 32, 'Space');
+      assert.isTrue(spy.called);
+    });
+  });
+
+  suite('_spaceDownHandler()', () => {
+    let amfModel;
+    let element;
+    suiteSetup(() => {
+      return AmfLoader.load(true)
+      .then((model) => {
+        amfModel = model;
+      });
+    });
+
+    setup((done) => {
+      element = fixture('Basic');
+      element.amfModel = amfModel;
+      flush(() => done());
+    });
+
+    test('Calls _spaceDownHandler() when space bar triggers on operation label', () => {
+      const node = element.shadowRoot.querySelector('.list-item.operation');
+      node.parentElement.opened = true;
+      const spy = sinon.spy(element, '_spaceDownHandler');
+      MockInteractions.keyEventOn(node, 'keydown', 32, 'Space');
+      assert.isTrue(spy.called);
+    });
+
+    test('Won\'t call _itemClickHandler()', () => {
+      const node = element.shadowRoot.querySelector('.list-item.operation');
+      node.parentElement.opened = true;
+      const spy = sinon.spy(element, '_itemClickHandler');
+      MockInteractions.keyEventOn(node, 'keydown', 32, 'Space');
+      assert.isFalse(spy.called);
+    });
+  });
+
+  suite('_toggleEndpoint()', () => {
+    let element;
+    setup((done) => {
+      element = fixture('Basic');
+      flush(() => done());
+    });
+
+    test('Does nothing when node with data-endpoint-id is not in the path', () => {
+      const spy = sinon.spy(element, 'toggleOperations');
+      element._toggleEndpoint({
+        composedPath: () => []
+      });
+      assert.isFalse(spy.called);
+    });
+
+    test('Ignores node that are not of a type of 1 (Element)', () => {
+      const spy = sinon.spy(element, 'toggleOperations');
+      element._toggleEndpoint({
+        composedPath: () => [document.createTextNode('test')]
+      });
+      assert.isFalse(spy.called);
+    });
+
+    test('Ignores nodes without data-endpoint-id', () => {
+      const spy = sinon.spy(element, 'toggleOperations');
+      element._toggleEndpoint({
+        composedPath: () => [document.createElement('span')]
+      });
+      assert.isFalse(spy.called);
+    });
+
+    test('Calls toggleOperations()', () => {
+      const spy = sinon.spy(element, 'toggleOperations');
+      const node = document.createElement('span');
+      node.dataset.endpointId = 'testId';
+      element._toggleEndpoint({
+        composedPath: () => [node]
+      });
+      assert.isTrue(spy.called, 'Function called');
+      assert.equal(spy.args[0][0], 'testId', 'Has argument set');
+    });
+  });
+
+  suite('_toggleSection()', () => {
+    let amfModel;
+    let element;
+    suiteSetup(() => {
+      return AmfLoader.load(true)
+      .then((model) => {
+        amfModel = model;
+      });
+    });
+
+    setup((done) => {
+      element = fixture('Basic');
+      element.amfModel = amfModel;
+      flush(() => done());
+    });
+
+    test('Does nothing when node not found in path', () => {
+      element._toggleSection({
+        composedPath: () => []
+      });
+      // No error
+    });
+
+    test('Skips element without dataset property', () => {
+      element._toggleSection({
+        composedPath: () => [document.createTextNode('test')]
+      });
+    });
+
+    test('Skips element without data-section attribute', () => {
+      const node = document.createElement('span');
+      element._toggleSection({
+        composedPath: () => [node]
+      });
+    });
+
+    test('Toggles section', () => {
+      const node = document.createElement('span');
+      node.dataset.section = 'endpoints';
+      element._toggleSection({
+        composedPath: () => [node]
+      });
+      assert.isTrue(element.endpointsOpened);
+    });
+  });
+
+  suite('_selectMethodPassive()', () => {
+    let amfModel;
+    let element;
+    suiteSetup(() => {
+      return AmfLoader.load(true)
+      .then((model) => {
+        amfModel = model;
+      });
+    });
+
+    setup((done) => {
+      element = fixture('Basic');
+      element.amfModel = amfModel;
+      flush(() => done());
+    });
+
+    test('Does nothing when ID is not in the DOM', () => {
+      element._selectMethodPassive('some-id');
+      assert.isUndefined(element.__hasPassiveSelection);
+    });
+
+    test('Adds "passive-selected" class name to the method label', () => {
+      const id = element.endpoints[0].methods[0].id;
+      element._selectMethodPassive(id);
+      const node = element.shadowRoot.querySelector('.passive-selected');
+      assert.equal(node.dataset.apiId, id);
+    });
+
+    test('Sets __hasPassiveSelection flag', () => {
+      const id = element.endpoints[0].methods[0].id;
+      element._selectMethodPassive(id);
+      assert.isTrue(element.__hasPassiveSelection);
+    });
+
+    test('Renders toggle opened', () => {
+      const id = element.endpoints[0].methods[0].id;
+      element._selectMethodPassive(id);
+      const node = element.shadowRoot.querySelector('.passive-selected');
+      assert.isTrue(node.parentElement.opened);
+    });
+  });
+
+  suite('_itemClickHandler()', () => {
+    let amfModel;
+    let element;
+    suiteSetup(() => {
+      return AmfLoader.load(true)
+      .then((model) => {
+        amfModel = model;
+      });
+    });
+
+    setup((done) => {
+      element = fixture('Summary');
+      element.amfModel = amfModel;
+      flush(() => done());
+    });
+
+    test('Uses currentTarget as the target', () => {
+      const node = element.shadowRoot.querySelector('.list-item.summary');
+      const spy = sinon.spy(element, '_selectItem');
+      element._itemClickHandler({
+        currentTarget: node
+      });
+      assert.isTrue(spy.called);
+      assert.isTrue(spy.args[0][0] === node);
+    });
+
+    test('Uses target as the target', () => {
+      const node = element.shadowRoot.querySelector('.list-item.summary');
+      const spy = sinon.spy(element, '_selectItem');
+      element._itemClickHandler({
+        target: node
+      });
+      assert.isTrue(spy.called);
+      assert.isTrue(spy.args[0][0] === node);
+    });
+
+    test('Makes adjustemnts for method label', () => {
+      const node = element.shadowRoot.querySelector('.method-label');
+      const parent = node.parentNode;
+      const spy = sinon.spy(element, '_selectItem');
+      element._itemClickHandler({
+        target: node
+      });
+      assert.isTrue(spy.called);
+      assert.isTrue(spy.args[0][0] === parent);
+    });
+  });
+
+  suite('_labelFilter()', () => {
+    let element;
+    setup(() => {
+      element = fixture('Summary');
+    });
+
+    test('Returns true when __effectiveQuery is not set', () => {
+      const result = element._labelFilter();
+      assert.isTrue(result);
+    });
+
+    test('Returns true when item label contains query', () => {
+      element.__effectiveQuery = 'abc';
+      const result = element._labelFilter({
+        label: 'abcd'
+      });
+      assert.isTrue(result);
+    });
+  });
+
+  suite('_methodFilter()', () => {
+    let element;
+    setup(() => {
+      element = fixture('Summary');
+    });
+
+    test('Returns true when __effectiveQuery is not set', () => {
+      const result = element._methodFilter();
+      assert.isTrue(result);
+    });
+
+    test('Returns true when item label contains query', () => {
+      element.__effectiveQuery = 'abc';
+      const result = element._methodFilter({
+        label: 'abcd'
+      });
+      assert.isTrue(result);
+    });
+
+    test('Returns true when method contains query', () => {
+      element.__effectiveQuery = 'abc';
+      const result = element._methodFilter({
+        method: 'abc'
+      });
+      assert.isTrue(result);
+    });
+  });
+
+  suite('_queryChanged()', () => {
+    let element;
+    setup(() => {
+      element = fixture('Summary');
+    });
+
+    test('Does nothing when __queryDebouncer is already set', () => {
+      element.__queryDebouncer = 1;
+      element.query = 'test';
+      assert.equal(element.__queryDebouncer, 1);
+    });
+
+    test('Sets __queryDebouncer', (done) => {
+      element.query = 'test';
+      assert.isTrue(element.__queryDebouncer);
+      Polymer.RenderStatus.afterNextRender(element, () => {
+        done();
+      });
+    });
+
+    test('Calls _flushQuery()', (done) => {
+      element.query = 'test';
+      const spy = sinon.spy(element, '_flushQuery');
+      Polymer.RenderStatus.afterNextRender(element, () => {
+        assert.isTrue(spy.called);
+        done();
+      });
+    });
+
+    test('Re-sets __queryDebouncer', (done) => {
+      element.query = 'test';
+      Polymer.RenderStatus.afterNextRender(element, () => {
+        assert.isFalse(element.__queryDebouncer);
+        done();
+      });
+    });
+  });
+
+  suite('_flushQuery()', () => {
+    let amfModel;
+    let element;
+    suiteSetup(() => {
+      return AmfLoader.load(true)
+      .then((model) => {
+        amfModel = model;
+      });
+    });
+
+    setup((done) => {
+      element = fixture('Summary');
+      element.amfModel = amfModel;
+      flush(() => done());
+    });
+
+    test('Sets __effectiveQuery as a lowecase query', () => {
+      element.__queryDebouncer = true;
+      element.query = 'Files';
+      element._flushQuery();
+      assert.equal(element.__effectiveQuery, 'files');
+    });
+
+    test('Clear the query', () => {
+      element.__queryDebouncer = true;
+      element.query = '';
+      element._flushQuery();
+      assert.equal(element.__effectiveQuery, '');
+    });
+  });
   a11ySuite('Basic');
   </script>
 </body>

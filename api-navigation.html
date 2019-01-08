@@ -225,7 +225,7 @@
                 <div class="list-item operation" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="endpoint" on-click="_itemClickHandler" on-keyup="_spaceUpHandler" on-keydown="_spaceDownHandler"  style$="[[_computeMethodPadding(item.indent, indentSize)]]">
                   Overview
                 </div>
-                <template is="dom-repeat" items="[[item.methods]]" filter="_methodFilter" observe="method label" data-query on-rendered-item-count-changed="_methodsCountChanged" as="methodItem">
+                <template is="dom-repeat" items="[[item.methods]]" data-query  as="methodItem" on-rendered-item-count-changed="_methodsCountChanged" filter="_methodFilter" observe="method label">
                   <div class="list-item operation" role="option" tabindex="0" data-api-id$="[[methodItem.id]]" data-parent-id$="[[item.id]]" data-shape="method" on-click="_itemClickHandler" on-keyup="_spaceUpHandler" on-keydown="_spaceDownHandler"  style$="[[_computeMethodPadding(item.indent, indentSize)]]">
                     <span class="method-label" data-method$="[[methodItem.method]]">[[methodItem.method]]</span>
                     [[methodItem.label]]
@@ -884,33 +884,40 @@
         let name = this._getValue(item, this.ns.schema.schemaName);
         const path = this._getValue(item, this.ns.raml.vocabularies.http + 'path');
         result.path = path;
-        const paths = path.split('/');
-        const basePath = paths[1];
-        let noShortPaths = false;
-        if (paths.length > 2 && basePath) {
-          if (target._basePaths.indexOf(basePath) === -1) {
-            noShortPaths = true;
-          }
-        } else if (basePath) {
-          target._basePaths[target._basePaths.length] = basePath;
+
+        let tmpPath = path;
+        if (tmpPath[0] === '/') {
+          tmpPath = tmpPath.substr(1);
         }
-        if (!noShortPaths) {
-          const lastPath = this._computeLastPathName(paths);
-          if (!name) {
-            result.renderPath = false;
-            name = lastPath;
-          } else {
-            result.renderPath = true;
-            result.path = lastPath;
+        const parts = tmpPath.split('/');
+        let indent = 0;
+        target._basePaths[target._basePaths.length] = path;
+        if (parts.length > 1) {
+          let lowerParts = parts.slice(0, parts.length - 1);
+          if (lowerParts.length) {
+            for (let i = lowerParts.length - 1; i >= 0; i--) {
+              const currentPath = '/' + lowerParts.slice(0, i + 1).join('/');
+              if (target._basePaths.indexOf(currentPath) !== -1) {
+                indent++;
+              }
+            }
           }
-        } else if (!name) {
-          name = path;
+        }
+        if (!name) {
           result.renderPath = false;
+          if (indent > 0) {
+            try {
+              name = this._computePathName(path, parts, indent, target._basePaths);
+            } catch (_) {
+              name = path;
+            }
+          } else {
+            name = path;
+          }
         } else {
           result.renderPath = true;
         }
         const id = item['@id'];
-        const indent = noShortPaths ? 0 : (paths[0] ? paths.length - 1 : paths.length - 2);
         const key = this._getAmfKey(this.ns.w3.hydra.supportedOperation);
         const operations = this._ensureArray(item[key]) || [];
         const methods = operations.map((op) => this._createOperationModel(op));
@@ -921,12 +928,26 @@
         target.endpoints.push(result);
       }
       /**
-       * Computes a label for the last part of the path.
-       * @param {Array<String>} paths List of path names
-       * @return {String}
+       * Computes label for an endpoint when name is missing and the endpoint
+       * is indented, hence name should be truncated.
+       * @param {String} currentPath Endpoint's path
+       * @param {Array<String>} parts Path parts
+       * @param {Number} indent Endpoint indentation
+       * @param {Array<String>} basePaths List of base paths already used.
+       * @return {String} Name of the path to render.
        */
-      _computeLastPathName(paths) {
-        return '/' + paths[paths.length - 1];
+      _computePathName(currentPath, parts, indent, basePaths) {
+        let path = '';
+        for (let i = 0, len = parts.length; i < len; i++) {
+          path += '/' + parts[i];
+          if (basePaths.indexOf(path) !== -1) {
+            indent--;
+          }
+          if (indent === 0) {
+            break;
+          }
+        }
+        return currentPath.replace(path, '');
       }
       /**
        * Creates the view model for an opration.
@@ -1107,10 +1128,10 @@
           return;
         }
         this.__queryDebouncer = true;
-        setTimeout(() => {
+        Polymer.RenderStatus.afterNextRender(this, () => {
           this._flushQuery();
           this.__queryDebouncer = false;
-        }, 50);
+        });
       }
       /**
        * Calles `render()` function on each data repeater that have filterable
@@ -1266,7 +1287,10 @@
         const path = e.composedPath();
         while (true) {
           const node = path.shift();
-          if (!node || node.nodeType !== 1) {
+          if (!node) {
+            return;
+          }
+          if (node.nodeType !== 1) {
             continue;
           }
           if (!node.dataset.endpointId) {
