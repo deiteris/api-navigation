@@ -225,7 +225,9 @@
                 <div class="list-item operation" role="option" tabindex="0" data-api-id$="[[item.id]]" data-shape="endpoint" on-click="_itemClickHandler" on-keyup="_spaceUpHandler" on-keydown="_spaceDownHandler"  style$="[[_computeMethodPadding(item.indent, indentSize)]]">
                   Overview
                 </div>
-                <template is="dom-repeat" items="[[item.methods]]" filter="_methodFilter" observe="method label" data-query on-rendered-item-count-changed="_methodsCountChanged" as="methodItem">
+                <!-- on-rendered-item-count-changed="_methodsCountChanged" -->
+                <!-- filter="_methodFilter" observe="method label" -->
+                <template is="dom-repeat" items="[[item.methods]]" data-query  as="methodItem">
                   <div class="list-item operation" role="option" tabindex="0" data-api-id$="[[methodItem.id]]" data-parent-id$="[[item.id]]" data-shape="method" on-click="_itemClickHandler" on-keyup="_spaceUpHandler" on-keydown="_spaceDownHandler"  style$="[[_computeMethodPadding(item.indent, indentSize)]]">
                     <span class="method-label" data-method$="[[methodItem.method]]">[[methodItem.method]]</span>
                     [[methodItem.label]]
@@ -885,15 +887,21 @@
         const path = this._getValue(item, this.ns.raml.vocabularies.http + 'path');
         result.path = path;
         const paths = path.split('/');
-        const basePath = paths[1];
+        const basePath = paths.slice(0, paths.length - 2).join('/') || '/';
         let noShortPaths = false;
-        if (paths.length > 2 && basePath) {
-          if (target._basePaths.indexOf(basePath) === -1) {
-            noShortPaths = true;
-          }
+        if (target._basePaths.indexOf(basePath) === -1) {
+          noShortPaths = true;
+          target._basePaths[target._basePaths.length] = basePath;
         } else if (basePath) {
           target._basePaths[target._basePaths.length] = basePath;
         }
+        // if (paths.length > 2 && basePath) {
+        //   if (target._basePaths.indexOf(basePath) === -1) {
+        //     noShortPaths = true;
+        //   }
+        // } else if (basePath) {
+        //   target._basePaths[target._basePaths.length] = basePath;
+        // }
         if (!noShortPaths) {
           const lastPath = this._computeLastPathName(paths);
           if (!name) {
@@ -910,7 +918,7 @@
           result.renderPath = true;
         }
         const id = item['@id'];
-        const indent = noShortPaths ? 0 : (paths[0] ? paths.length - 1 : paths.length - 2);
+        const indent = noShortPaths ? 0 : basePath.split('/').length;
         const key = this._getAmfKey(this.ns.w3.hydra.supportedOperation);
         const operations = this._ensureArray(item[key]) || [];
         const methods = operations.map((op) => this._createOperationModel(op));
