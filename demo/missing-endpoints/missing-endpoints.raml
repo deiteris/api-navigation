@@ -4,16 +4,31 @@ version: 1.0.0
 baseUri: http://localhost:8081/api
 mediaType: [ application/json ]
 
-/a:
-  /b:
+/root:
+  /posts:
     get:
-    /c:
+    /{postId}:
       get:
-  /d/e:
+      /comments:
+        get:
+        /{commentId}:
+  /pictures:
     get:
-  /f/g:
+    /{picture}:
+      get:
+      /likes:
+        get:
+        /{likeId}:
+          get:
+  /addresses/{adressId}:
     get:
-/b:
+    /postals:
+      get:
+      /{postalId}:
+        get:
+/other:
   description: test
-  /c/d:
+  /{param1}/{param2}:
     get:
+    /posts:
+      get:
