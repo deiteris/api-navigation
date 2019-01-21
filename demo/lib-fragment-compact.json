@@ -34,7 +34,7 @@
 ],
 "sourcemaps:value": [
 {
-"@value": "[(3,0)-(39,0)]"
+"@value": "[(3,0)-(37,0)]"
 }
 ]
 }
@@ -1408,161 +1408,6 @@
 "@value": "Basic Authentication"
 }
 ],
-"security:settings": [
-{
-"@id": "#35",
-"@type": [
-"security:Settings",
-"doc:DomainElement"
-],
-"security:additionalProperties": [
-{
-"@id": "#36",
-"@type": [
-"data:Object"
-],
-"data:x-custom": [
-{
-"@id": "#37",
-"@type": [
-"data:Scalar"
-],
-"data:value": [
-{
-"@value": "string",
-"@type": "xsd:string"
-}
-],
-"sourcemaps:sources": [
-{
-"@id": "#37/source-map",
-"@type": [
-"sourcemaps:SourceMap"
-],
-"sourcemaps:lexical": [
-{
-"sourcemaps:element": [
-{
-"@value": "amf://id#37"
-}
-],
-"sourcemaps:value": [
-{
-"@value": "[(38,16)-(38,22)]"
-}
-]
-}
-]
-}
-]
-}
-],
-"sourcemaps:sources": [
-{
-"@id": "#36/source-map",
-"@type": [
-"sourcemaps:SourceMap"
-],
-"sourcemaps:data-node-properties": [
-{
-"sourcemaps:element": [
-{
-"@value": "amf://id#36"
-}
-],
-"sourcemaps:value": [
-{
-"@value": "x-custom->[(38,6)-(39,0)]"
-}
-]
-}
-],
-"sourcemaps:lexical": [
-{
-"sourcemaps:element": [
-{
-"@value": "amf://id#36"
-}
-],
-"sourcemaps:value": [
-{
-"@value": "[(38,6)-(39,0)]"
-}
-]
-}
-]
-}
-]
-}
-],
-"amf://id#40": {
-"doc:name": [
-{
-"@value": "custom"
-}
-],
-"@id": "#39",
-"@type": [
-"data:Scalar"
-],
-"data:value": [
-{
-"@value": "string",
-"@type": "xsd:string"
-}
-],
-"sourcemaps:sources": [
-{
-"@id": "#39/source-map",
-"@type": [
-"sourcemaps:SourceMap"
-],
-"sourcemaps:lexical": [
-{
-"sourcemaps:element": [
-{
-"@value": "amf://id#39"
-}
-],
-"sourcemaps:value": [
-{
-"@value": "[(38,16)-(38,22)]"
-}
-]
-}
-]
-}
-]
-},
-"doc:customDomainProperties": [
-{
-"@id": "#40"
-}
-],
-"sourcemaps:sources": [
-{
-"@id": "#35/source-map",
-"@type": [
-"sourcemaps:SourceMap"
-],
-"sourcemaps:lexical": [
-{
-"sourcemaps:element": [
-{
-"@value": "amf://id#35"
-}
-],
-"sourcemaps:value": [
-{
-"@value": "[(38,0)-(39,0)]"
-}
-]
-}
-]
-}
-]
-}
-],
 "sourcemaps:sources": [
 {
 "@id": "#34/source-map",
@@ -1604,7 +1449,7 @@
 ],
 "sourcemaps:value": [
 {
-"@value": "[(35,2)-(39,0)]"
+"@value": "[(35,2)-(37,0)]"
 }
 ]
 },
