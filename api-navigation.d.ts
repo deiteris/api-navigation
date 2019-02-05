@@ -8,6 +8,10 @@
  *   api-navigation.html
  */
 
+
+// tslint:disable:variable-name Describing an API that's defined elsewhere.
+// tslint:disable:no-any describes the API as best we are able today
+
 /// <reference path="../polymer/types/polymer-element.d.ts" />
 /// <reference path="../polymer/types/lib/elements/dom-if.d.ts" />
 /// <reference path="../polymer/types/lib/elements/dom-repeat.d.ts" />
@@ -246,6 +250,14 @@ declare namespace ApiElements {
     readonly _renderSummary: boolean|null|undefined;
 
     /**
+     * When set it renders full path below endpoint name if the endpoint has
+     * a name (different than the path).
+     * This is not always recommended to use this option as some complex APIs
+     * may render this component difficult to understand.
+     */
+    allowPaths: boolean|null|undefined;
+
+    /**
      * Ensures aria role atribute is in place.
      * Attaches element's listeners.
      */
@@ -363,11 +375,16 @@ declare namespace ApiElements {
     _appendEndpointItem(item: object|null, target: object|null): void;
 
     /**
-     * Computes a label for the last part of the path.
+     * Computes label for an endpoint when name is missing and the endpoint
+     * is indented, hence name should be truncated.
      *
-     * @param paths List of path names
+     * @param currentPath Endpoint's path
+     * @param parts Path parts
+     * @param indent Endpoint indentation
+     * @param basePaths List of base paths already used.
+     * @returns Name of the path to render.
      */
-    _computeLastPathName(paths: Array<String|null>|null): String|null;
+    _computePathName(currentPath: String|null, parts: Array<String|null>|null, indent: Number|null, basePaths: Array<String|null>|null): String|null;
 
     /**
      * Creates the view model for an opration.
@@ -527,6 +544,15 @@ declare namespace ApiElements {
      * @param isFragment Current value of `_isFragment` property
      */
     _computeRenderSummary(summary: Boolean|null, isFragment: Boolean|null): Boolean|null;
+
+    /**
+     * Computes condition value to render path label.
+     *
+     * @param allowPaths Component configuration property.
+     * @param renderPath Endpoint property
+     * @returns True if both arguments are trully.
+     */
+    _computeRenderParth(allowPaths: Boolean|null, renderPath: Boolean|null): Boolean|null;
   }
 }
 
