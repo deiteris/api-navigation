@@ -10,6 +10,7 @@
     <link rel="import" href="../../arc-polyfills/arc-polyfills.html">
     <link rel="import" href="../../iron-test-helpers/mock-interactions.html">
     <script src="amf-loader.js"></script>
+    <script src="amf-helper.js"></script>
   </head>
   <body>
 
@@ -20,7 +21,7 @@
     </test-fixture>
 
     <script>
-      /* global AmfLoader */
+      /* global AmfLoader, AmfHelper */
       suite('AMF Computations', () => {
         [
           ['Regular model', false],
@@ -260,14 +261,17 @@
         }
 
         test('Selectes a method', () => {
-          dispatch('amf://id#138', 'method');
+          const method = AmfHelper.getMethod(element, amf, '/files', 'post');
+          dispatch(method['@id'], 'method');
           const node = element.shadowRoot.querySelector('.passive-selected');
           assert.ok(node);
         });
 
         test('Opens iron-collapse', () => {
-          dispatch('amf://id#138', 'method');
-          const id = 'amf://id#137';
+          const method = AmfHelper.getMethod(element, amf, '/files', 'post');
+          dispatch(method['@id'], 'method');
+          const endpoint = AmfHelper.getEndpoint(element, amf, '/files');
+          const id = endpoint['@id'];
           const node = element.shadowRoot.querySelector(`.endpoint[data-endpoint-id="${id}"]`);
           assert.isTrue(node.nextElementSibling.opened);
         });
