@@ -215,7 +215,7 @@
               <div class="list-item endpoint" hidden$="[[item.hidden]]" data-endpoint-id$="[[item.id]]" data-endpoint-path$="[[item.path]]" on-click="_toggleEndpoint" title="Toggle endpoint documentation" style$="[[_computeEndpointPadding(item.indent, indentSize)]]">
                 <div class="path-details">
                   <div class="endpoint-name">[[item.label]]</div>
-                  <template is="dom-if" if="[[item.renderPath]]">
+                  <template is="dom-if" if="[[_computeRenderParth(allowPaths, item.renderPath)]]">
                     <div class="path-name">[[item.path]]</div>
                   </template>
                 </div>
@@ -560,7 +560,14 @@
           _renderSummary: {
             type: Boolean,
             computed: '_computeRenderSummary(summary, _isFragment)'
-          }
+          },
+          /**
+           * When set it renders full path below endpoint name if the endpoint has
+           * a name (different than the path).
+           * This is not always recommended to use this option as some complex APIs
+           * may render this component difficult to understand.
+           */
+          allowPaths: Boolean
         };
       }
 
@@ -1411,6 +1418,15 @@
        */
       _computeRenderSummary(summary, isFragment) {
         return !!(summary && !isFragment);
+      }
+      /**
+       * Computes condition value to render path label.
+       * @param {Boolean} allowPaths Component configuration property.
+       * @param {Boolean} renderPath Endpoint property
+       * @return {Boolean} True if both arguments are trully.
+       */
+      _computeRenderParth(allowPaths, renderPath) {
+        return !!(allowPaths && renderPath);
       }
       /**
        * Dispatched when navigation occurrs.
