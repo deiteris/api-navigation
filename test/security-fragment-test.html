@@ -4,12 +4,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
     <title>api-navigation test</title>
-    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="../../web-component-tester/browser.js"></script>
-    <link rel="import" href="../api-navigation.html">
-    <link rel="import" href="../../arc-polyfills/arc-polyfills.html">
-    <link rel="import" href="../../iron-test-helpers/mock-interactions.html">
-    <script src="amf-loader.js"></script>
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/@polymer/test-fixture/test-fixture.js"></script>
+    <script src="../node_modules/mocha/mocha.js"></script>
+    <script src="../node_modules/chai/chai.js"></script>
+    <script src="../node_modules/wct-mocha/wct-mocha.js"></script>
+
+    <script type="module" src="../api-navigation.js"></script>
+    <!-- <script type="module" src="../../../arc-polyfills/arc-polyfills.js"></script> -->
+    <script src="./amf-loader.js"></script>
   </head>
   <body>
 
@@ -19,64 +23,64 @@
       </template>
     </test-fixture>
 
-    <script>
-      /* global AmfLoader */
-      suite('Security fragment', () => {
-        [
-          ['Regular model', false],
-          ['Compact model', true]
-        ].forEach((item) => {
-          suite(item[0], () => {
-            let element;
-            suiteSetup(() => {
-              return AmfLoader.load(item[1], 'oauth2-fragment')
-              .then((model) => {
-                element = fixture('Basic');
-                element.amfModel = model;
-              });
-            });
-
-            test('Documentaion is undefined', () => {
-              assert.isUndefined(element.docs);
-            });
-
-            test('Types is undefined', () => {
-              assert.isUndefined(element.types);
-            });
-
-            test('Security is computed', () => {
-              const result = element.security;
-              assert.lengthOf(result, 1);
-              assert.typeOf(result[0].id, 'string');
-              assert.equal(result[0].label, 'OAuth 2.0');
-            });
-
-            test('Endpoints is undefined', () => {
-              assert.isUndefined(element.endpoints);
-            });
-
-            test('Security is opened', () => {
-              assert.isTrue(element.securityOpened);
-            });
-
-            test('_isFragment is set', () => {
-              assert.isTrue(element._isFragment);
-            });
-
-            test('_renderSummary is false', () => {
-              assert.isFalse(element._renderSummary);
-            });
-
-            test('summary is not rendered', () => {
-              flush(() => {
-                const panel = element.shadowRoot.querySelector('.summary');
-                assert.notOk(panel);
-              });
-            });
-          });
+    <script type="module">
+/* global AmfLoader */
+suite('Security fragment', () => {
+  [
+    ['Regular model', false],
+    ['Compact model', true]
+  ].forEach((item) => {
+    suite(item[0], () => {
+      let element;
+      suiteSetup(() => {
+        return AmfLoader.load(item[1], 'oauth2-fragment')
+        .then((model) => {
+          element = fixture('Basic');
+          element.amfModel = model;
         });
       });
-    </script>
+
+      test('Documentaion is undefined', () => {
+        assert.isUndefined(element.docs);
+      });
+
+      test('Types is undefined', () => {
+        assert.isUndefined(element.types);
+      });
+
+      test('Security is computed', () => {
+        const result = element.security;
+        assert.lengthOf(result, 1);
+        assert.typeOf(result[0].id, 'string');
+        assert.equal(result[0].label, 'OAuth 2.0');
+      });
+
+      test('Endpoints is undefined', () => {
+        assert.isUndefined(element.endpoints);
+      });
+
+      test('Security is opened', () => {
+        assert.isTrue(element.securityOpened);
+      });
+
+      test('_isFragment is set', () => {
+        assert.isTrue(element._isFragment);
+      });
+
+      test('_renderSummary is false', () => {
+        assert.isFalse(element._renderSummary);
+      });
+
+      test('summary is not rendered', () => {
+        flush(() => {
+          const panel = element.shadowRoot.querySelector('.summary');
+          assert.notOk(panel);
+        });
+      });
+    });
+  });
+});
+</script>
 
   </body>
 </html>

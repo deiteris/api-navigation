@@ -4,19 +4,22 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
     <title>api-navigation demo</title>
-    <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
-    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-    <link rel="import" href="../../polymer/lib/elements/dom-bind.html">
-    <link rel="import" href="../../raml-aware/raml-aware.html">
-    <link rel="import" href="../../paper-styles/typography.html">
-    <link rel="import" href="../../paper-styles/shadow.html">
-    <link rel="import" href="../../paper-dropdown-menu/paper-dropdown-menu.html">
-    <link rel="import" href="../../paper-item/paper-item.html">
-    <link rel="import" href="../../paper-listbox/paper-listbox.html">
-    <link rel="import" href="../../neon-animation/web-animations.html">
-    <link rel="import" href="../../paper-toast/paper-toast.html">
-    <link rel="import" href="../api-navigation.html">
+    <script src="../../../@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../../../web-animations-js/web-animations-next.min.js"></script>
+
+    <script type="module">
+      import '@polymer/iron-demo-helpers/demo-pages-shared-styles';
+      import '@polymer/polymer/lib/elements/dom-bind.js';
+      import '@api-components/raml-aware/raml-aware.js';
+      import '@polymer/paper-styles/typography.js';
+      import '@polymer/paper-styles/shadow.js';
+      import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
+      import '@polymer/paper-item/paper-item.js';
+      import '@polymer/paper-listbox/paper-listbox.js';
+      import '@polymer/paper-toast/paper-toast.js';
+    </script>
+
+    <script type="module" src="../api-navigation.js"></script>
     <custom-style>
       <style is="custom-style" include="demo-pages-shared-styles">
       :root {
@@ -92,14 +95,14 @@
             <p>Latest selected object: [[latestSelected]]</p>
             <p>Latest selected type: [[latestType]]</p>
             <h2 id="regular">Regular navigation</h2>
-            <api-navigation summary aware="api-demo" endpoints-opened></api-navigation>
+            <api-navigation summary="" aware="api-demo" endpoints-opened=""></api-navigation>
           </div>
         </section>
 
         <paper-toast id="navToast"></paper-toast>
       </template>
     </dom-bind>
-    <script>
+    <script type="module">
     (function(app) {
       app._load = function() {
         document.getElementById('apiList').selected = 0;
