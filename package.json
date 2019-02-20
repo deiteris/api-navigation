@@ -38,8 +38,8 @@
   "main": "api-navigation.js",
   "scripts": {
     "lint": "polymer lint api-navigation.html",
-    "test-sauce": "polymer test --plugin sauce --job-name \"api-navigation:local-test\"",
-    "test": "polymer test --plugin local",
+    "test-sauce": "polymer test --module-resolution=node --npm --plugin sauce --job-name \"api-navigation:local-test\"",
+    "test": "polymer test --module-resolution=node --npm --plugin local",
     "update-types": "gen-typescript-declarations --deleteExisting --outDir ."
   },
   "bugs": {
