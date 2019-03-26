@@ -1,15 +1,15 @@
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {AmfHelperMixin} from '@api-components/amf-helper-mixin/amf-helper-mixin.js';
-import '@polymer/polymer/lib/elements/dom-if.js';
-import '@polymer/polymer/lib/elements/dom-repeat.js';
-import '@api-components/raml-aware/raml-aware.js';
-import '@polymer/paper-icon-button/paper-icon-button.js';
-import '@advanced-rest-client/arc-icons/arc-icons.js';
-import '@polymer/iron-collapse/iron-collapse.js';
-import '@polymer/iron-flex-layout/iron-flex-layout.js';
-import '@api-components/http-method-label/http-method-label-common-styles.js';
+import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
+import {afterNextRender} from '../../@polymer/polymer/lib/utils/render-status.js';
+import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
+import {AmfHelperMixin} from '../../@api-components/amf-helper-mixin/amf-helper-mixin.js';
+import '../../@polymer/polymer/lib/elements/dom-if.js';
+import '../../@polymer/polymer/lib/elements/dom-repeat.js';
+import '../../@api-components/raml-aware/raml-aware.js';
+import '../../@polymer/paper-icon-button/paper-icon-button.js';
+import '../../@advanced-rest-client/arc-icons/arc-icons.js';
+import '../../@polymer/iron-collapse/iron-collapse.js';
+import '../../@polymer/iron-flex-layout/iron-flex-layout.js';
+import '../../@api-components/http-method-label/http-method-label-common-styles.js';
 /* eslint-disable max-len */
 /**
  * `api-navigation`
