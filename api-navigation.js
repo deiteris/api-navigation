@@ -78,7 +78,6 @@ import httpMethodStyles from '@api-components/http-method-label/http-method-labe
  * `--api-navigation-list-item-padding` | Padding of list a item | `4px 16px`
  * `--api-navigation-method-label-color` | Color of the HTTP method label | `#000`
  * `--api-navigation-method-label-background-color` | Background color of the HTTP method label | `transparent`
- * `--api-navigation-method-label-border-radius` | Border radius of HTTP method label | `3px`
  * `--method-display-font-weigth` | Font weight of HTTP label | `400`
  * `--method-label-VERB-background-color` | Background color of HTTP method label. Possible verbs are: `get`, `post`, `put`, `delete`, `patch` | `vary`
  * `--method-label-VERB-color` | Color of HTTP method label. Possible verbs are: `get`, `post`, `put`, `delete`, `patch` | `vary`
@@ -118,9 +117,9 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     h3,
     .list-item.summary {
       font-size: var(--api-navigation-list-section-font-size, 16px);
-      font-weight: 500;
+      font-weight: var(--api-navigation-list-section-font-weight, 500);
       line-height: 24px;
-      color: var(--api-navigation-header-color, rgba(0, 0, 0, 0.84));
+      color: var(--api-navigation-header-color, inherit);
       flex: 1;
       flex-basis: 0.000000001px;
       padding: 0;
@@ -128,14 +127,13 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     }
 
     .list-item.summary {
-      padding: 12px 16px;
+      padding: var(--api-navigation-list-item-summary-padding, 12px 16px);
     }
 
     .list-item.endpoint {
-      font-weight: 500;
+      font-weight: var(--api-navigation-endpoint-font-weight, 500);
       font-size: var(--api-navigation-endpoint-font-size, 15px);
       user-select: none;
-      font-weight: normal;
       display: flex;
       flex-direction: row;
     }
@@ -184,7 +182,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       position: relative;
       min-height: var(--api-navigation-list-item-min-height, 40px);
       padding: var(--api-navigation-list-item-padding, 4px 16px);
-      border:none;
+      border: none;
       outline: none;
       background-color: inherit;
       width: 100%;
@@ -192,16 +190,19 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       box-sizing: border-box;
       cursor: pointer;
       word-break: break-all;
-      color: var(--api-navigation-list-item-color, rgba(0, 0, 0, 0.84));
       display: flex;
       flex-direction: row;
       align-items: center;
+      /* For Anypoint styles */
+      border-left: var(--api-navigation-list-item-border-left);
     }
 
     .list-item.iron-selected {
       font-weight: var(--api-navigation-list-item-selected-weight, bold);
       background-color: var(--api-navigation-list-item-selected-background-color, var(--accent-color));
       color: var(--api-navigation-list-item-selected-color, #fff);
+      /* For Anypoint styling */
+      border-left: var(--api-navigation-list-item-selected-border-left, initial);
     }
 
     .list-item.passive-selected {
@@ -215,6 +216,11 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     .list-item:focus {
       position: relative;
       outline: 0;
+    }
+
+    .list-item:hover:not(.iron-selected) {
+      /* This is Anypoint styling requirement */
+      border-left: var(--api-navigation-list-item-hovered-border-left, initial);
     }
 
     .list-item:focus:before {
@@ -313,7 +319,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
        * It will allow to set `selected` and `selectedType` to `summary`
        * when this option is set.
        */
-      summary: { type: Boolean },
+      summary: { type: Boolean, reflect: true },
       /**
        * A label for the `summary` section.
        */
@@ -340,7 +346,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       /**
        * Determines and changes state of documentation panel.
        */
-      docsOpened: Boolean,
+      docsOpened: { type: Boolean, reflect: true, attribute: 'docs-opened' },
       /**
        * Computed list of "type" items in the API.
        *
@@ -360,7 +366,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       /**
        * Determines and changes state of types panel.
        */
-      typesOpened: Boolean,
+      typesOpened: { type: Boolean, reflect: true, attribute: 'types-opened' },
       /**
        * Computed list of Security schemes items in the API.
        *
@@ -380,7 +386,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       /**
        * Determines and changes state of security panel.
        */
-      securityOpened: Boolean,
+      securityOpened: { type: Boolean, reflect: true, attribute: 'security-opened' },
       /**
        * Computed list of endpoint items in the API.
        *
@@ -400,11 +406,11 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       /**
        * Determines and changes state of endpoints panel.
        */
-      endpointsOpened: Boolean,
+      endpointsOpened: { type: Boolean, reflect: true, attribute: 'endpoints-opened' },
       /**
        * If true, the element will not produce a ripple effect when interacted with via the pointer.
        */
-      noink: Boolean,
+      noink: { type: Boolean, reflect: true },
       /**
        * Filters list elements by this value when set.
        * Clear the value to reset the search.
@@ -1019,6 +1025,9 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       return;
     }
     node.classList.add('iron-selected');
+    if (node.part && node.part.add) {
+      node.part.add('api-navigation-list-item-selected');
+    }
     let collapse;
     switch (node.dataset.shape) {
       case 'method':
@@ -1049,7 +1058,11 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     }
     const nodes = this.shadowRoot.querySelectorAll('.iron-selected');
     for (let i = 0, len = nodes.length; i < len; i++) {
-      nodes[i].classList.remove('iron-selected');
+      const node = nodes[i];
+      node.classList.remove('iron-selected');
+      if (node.part && node.part.remove) {
+        node.part.remove('api-navigation-list-item-selected');
+      }
     }
   }
   /**
