@@ -416,6 +416,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
         type: String,
         reflect: true
       },
+      __effectiveQuery: { type: String },
       /**
        * Size of endpoint indentation for nested resources.
        * In pixels.
@@ -1090,20 +1091,6 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     }
   }
   /**
-   * Label check agains `query` function called by `dom-repeat` element.
-   * This method uses `__effectiveQuery` property set by `_flushQuery()`
-   * method.
-   *
-   * @param {Object} item Model item with `lable` property.
-   * @return {Boolean}
-   */
-  _labelFilter(item) {
-    if (!this.__effectiveQuery) {
-      return true;
-    }
-    return item.label.indexOf(this.__effectiveQuery) !== -1;
-  }
-  /**
    * Label and method check agains `query` function called by `dom-repeat`
    * element. This method uses `__effectiveQuery` property set by
    * `_flushQuery()` method.
@@ -1147,10 +1134,6 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       q = q.toLowerCase();
     }
     this.__effectiveQuery = q;
-    const repeaters = this.shadowRoot.querySelectorAll('dom-repeat[data-query]');
-    for (let i = 0, len = repeaters.length; i < len; i++) {
-      repeaters[i].render();
-    }
   }
   /**
    * Hides the parent model when number of children is 0 or shows it
@@ -1419,13 +1402,91 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
   _computeRenderParth(allowPaths, renderPath) {
     return !!(allowPaths && renderPath);
   }
-
+  /**
+   * Updates value of `amfModel` from `raml-aware`'s api property change.
+   * @param {CustomEvent} e
+   */
   _awareApiChanged(e) {
     this.amfModel = e.detail.value;
   }
+  /**
+   * Returns filtered list of items to render in the menu list.
+   * When `query` is set it tests `label` property of each item if it contains
+   * the query. Otherwise it returns all items.
+   * @param {String} prop Name of the source property keeping array values to render.
+   * @return {Array|undefined}
+   */
+  _getFilteredType(prop) {
+    const value = this[prop];
+    if (!value || !value.length) {
+      return;
+    }
+    const q = this.__effectiveQuery;
+    if (!q) {
+      return value;
+    }
+    return value.filter((item) => {
+      if (typeof item.label !== 'string') {
+        return false;
+      }
+      return item.label.toLowerCase().indexOf(q) !== -1;
+    });
+  }
+  /**
+   * Returns a list of endpoints to render.
+   * When `query` is set it returns filtered list of endpoints for given query.
+   * Othewise it returns all endpoints.
+   * @return {Array|undefined} Filtered list of endpoints
+   */
+  _getFilteredEndpoints() {
+    const value = this._endpoints;
+    if (!value || !value.length) {
+      return;
+    }
+    const q = this.__effectiveQuery;
+    if (!q) {
+      return value;
+    }
 
+    const result = [];
+    for (let i = 0, len = value.length; i < len; i++) {
+      const endpoint = value[i];
+      // If the endpoint's path or label matches the query include whole item
+      if ((endpoint.path || '').toLowerCase().indexOf(q) !== -1 || (endpoint.label || '').toLowerCase().indexOf(q) !== -1) {
+        result[result.length] = endpoint;
+        continue;
+      }
+      // otherwise check all methods and only include matched mathods. If none match
+      // then do not include endpoint.
+      const eMethods = endpoint.methods;
+      if (!eMethods || !eMethods.length) {
+        continue;
+      }
+      const methods = [];
+      for (let j = 0, mLen = eMethods.length; j < mLen; j++) {
+        const method = eMethods[j];
+        if ((method.label || '').toLowerCase().indexOf(q) !== -1 || method.method.indexOf(q) !== -1) {
+          methods[methods.length] = method;
+        }
+      }
+      if (methods.length) {
+        const copy = Object.assign({}, endpoint);
+        copy.methods = methods;
+        result[result.length] = copy;
+      }
+    }
+    return result;
+  }
+  /**
+   * Renders a template for endpoints and methods list.
+   * @return {TemplateResult}
+   */
   _endpointsTemplate() {
     if (!this.hasEndpoints) {
+      return;
+    }
+    const items = this._getFilteredEndpoints();
+    if (!items || !items.length) {
       return;
     }
     return html`<section class="endpoints" ?data-opened="${this.endpointsOpened}">
@@ -1435,7 +1496,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       </div>
       <iron-collapse .opened="${this.endpointsOpened}">
         <div class="children">
-          ${this._endpoints.map((item) => html`
+          ${items.map((item) => html`
           <div part="api-navigation-list-item" class="list-item endpoint" ?hidden="${item.hidden}" data-endpoint-id="${item.id}" data-endpoint-path="${item.path}" @click="${this._toggleEndpoint}" title="Toggle endpoint documentation" style="${this._computeEndpointPadding(item.indent, this.indentSize)}">
             <div class="path-details">
               <div class="endpoint-name">${item.label}</div>
@@ -1457,9 +1518,16 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       </iron-collapse>
     </section>`;
   }
-
+  /**
+   * Renders a template for documentation list.
+   * @return {TemplateResult}
+   */
   _documentationTemplate() {
     if (!this.hasDocs) {
+      return;
+    }
+    const items = this._getFilteredType('_docs');
+    if (!items || !items.length) {
       return;
     }
     return html`<section class="documentation" ?data-opened="${this.docsOpened}">
@@ -1469,16 +1537,23 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       </div>
       <iron-collapse .opened="${this.docsOpened}">
         <div class="children">
-          ${this._docs.map((item) => html`
+          ${items.map((item) => html`
             <div part="api-navigation-list-item" class="list-item" role="option" tabindex="0" data-api-id="${item.id}" data-shape="documentation" @click="${this._itemClickHandler}">${item.label}</div>
           `)}
         </div>
       </iron-collapse>
     </section>`;
   }
-
+  /**
+   * Renders a template for types list.
+   * @return {TemplateResult}
+   */
   _typesTemplate() {
     if (!this.hasTypes) {
+      return;
+    }
+    const items = this._getFilteredType('_types');
+    if (!items || !items.length) {
       return;
     }
     return html`<section class="types" ?data-opened="${this.typesOpened}">
@@ -1488,16 +1563,23 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       </div>
       <iron-collapse .opened="${this.typesOpened}">
         <div class="children">
-        ${this._types.map((item) => html`
+        ${items.map((item) => html`
           <div part="api-navigation-list-item" class="list-item" role="option" tabindex="0" data-api-id="${item.id}" data-shape="type" @click="${this._itemClickHandler}">${item.label}</div>
         `)}
         </div>
       </iron-collapse>
     </section>`;
   }
-
+  /**
+   * Renders a template for security schemes list.
+   * @return {TemplateResult}
+   */
   _securityTemplate() {
     if (!this.hasSecurity) {
+      return;
+    }
+    const items = this._getFilteredType('_security');
+    if (!items || !items.length) {
       return;
     }
     return html`<section class="security" ?data-opened="${this.securityOpened}">
@@ -1507,7 +1589,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       </div>
       <iron-collapse .opened="${this.securityOpened}">
         <div class="children">
-        ${this._types.map((item) => html`
+        ${items.map((item) => html`
           <div part="api-navigation-list-item" class="list-item" role="option" tabindex="0" data-api-id="${item.id}" data-shape="security" @click="${this._itemClickHandler}">${item.label}</div>
         `)}
         </div>

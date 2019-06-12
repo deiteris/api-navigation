@@ -11,6 +11,8 @@ import '../api-navigation.js';
 export class DemoPage {
   constructor() {
     this._apiChanged = this._apiChanged.bind(this);
+    this._searchApiHandler = this._searchApiHandler.bind(this);
+    this._searchButtonHandler = this._searchButtonHandler.bind(this);
 
     setTimeout(() => {
       document.getElementById('apiList').selected = 0;
@@ -39,6 +41,14 @@ export class DemoPage {
 
   set latestType(value) {
     this._setObservableProperty('latestType', value);
+  }
+
+  get query() {
+    return this._query;
+  }
+
+  set query(value) {
+    this._setObservableProperty('query', value);
   }
 
   _setObservableProperty(prop, value) {
@@ -72,6 +82,20 @@ export class DemoPage {
     navToast.opened = true;
   }
 
+  _searchApiHandler(e) {
+    const v = e.target.value;
+    this._updateQuery(v);
+  }
+
+  _searchButtonHandler(e) {
+    const v = e.target.previousElementSibling.value;
+    this._updateQuery(v);
+  }
+
+  _updateQuery(q) {
+    this.query = q;
+  }
+
   apiListTemplate() {
     return html`
     <paper-item data-file="demo-api.json">Demo API</paper-item>
@@ -92,6 +116,11 @@ export class DemoPage {
         ${this.apiListTemplate()}
         </paper-listbox>
       </paper-dropdown-menu>
+
+      <div class="search-container">
+        <input type="search" @search="${this._searchApiHandler}"/>
+        <button class="search-button" @click="${this._searchButtonHandler}">Search API</button>
+      </div>
     </header>
 
     <section role="main" class="vertical-section-container centered main">
@@ -102,12 +131,16 @@ export class DemoPage {
         <api-navigation
           summary=""
           aware="api-demo"
+          .query="${this.query}"
           endpoints-opened=""></api-navigation>
       </div>
 
       <div role="region" class="box" aria-labelledby="themed">
         <h2 id="themed">Themed navigation</h2>
-        <api-navigation aware="api-demo" class="themed"></api-navigation>
+        <api-navigation
+          aware="api-demo"
+          .query="${this.query}"
+          class="themed"></api-navigation>
       </div>
     </section>
 
