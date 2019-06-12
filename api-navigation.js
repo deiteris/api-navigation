@@ -1,15 +1,10 @@
-import {PolymerElement} from '../../@polymer/polymer/polymer-element.js';
-import {afterNextRender} from '../../@polymer/polymer/lib/utils/render-status.js';
-import {html} from '../../@polymer/polymer/lib/utils/html-tag.js';
-import {AmfHelperMixin} from '../../@api-components/amf-helper-mixin/amf-helper-mixin.js';
-import '../../@polymer/polymer/lib/elements/dom-if.js';
-import '../../@polymer/polymer/lib/elements/dom-repeat.js';
-import '../../@api-components/raml-aware/raml-aware.js';
-import '../../@polymer/paper-icon-button/paper-icon-button.js';
-import '../../@advanced-rest-client/arc-icons/arc-icons.js';
-import '../../@polymer/iron-collapse/iron-collapse.js';
-import '../../@polymer/iron-flex-layout/iron-flex-layout.js';
-import '../../@api-components/http-method-label/http-method-label-common-styles.js';
+import { LitElement, html, css } from 'lit-element';
+import { AmfHelperMixin } from '@api-components/amf-helper-mixin/amf-helper-mixin.js';
+import '@api-components/raml-aware/raml-aware.js';
+import '@polymer/paper-icon-button/paper-icon-button.js';
+import '@advanced-rest-client/arc-icons/arc-icons.js';
+import '@polymer/iron-collapse/iron-collapse.js';
+import httpMethodStyles from '@api-components/http-method-label/http-method-label-common-styles.js';
 /* eslint-disable max-len */
 /**
  * `api-navigation`
@@ -59,27 +54,17 @@ import '../../@api-components/http-method-label/http-method-label-common-styles.
  *
  * Custom property | Description | Default
  * ----------------|-------------|----------
- * `--api-navigation` | Mixin applied to this element | `{}`
- * `--arc-font-common-base` | Mixin applied to section headers. Theme mixin | `{}`
- * `--arc-font-font1` | Mixin applied to the element. Theme mixin | `{}`
  * `--api-navigation-header-color` | Color of section title | `rgba(0, 0, 0, 0.84)`
  * `--api-navigation-section-title-background-color` | Background color of the section title | `inherit`
  * `--api-navigation-list-item-min-height` | Minimum heigtht of menu items. Note that each item has top and bottom padding set to 4px which cobines to default 48px. | `40px`
  * `--api-navigation-list-item-color` | Color of the menu items | `rgba(0, 0, 0, 0.84)`
- * `--api-navigation-list-item` | Mixin applied to the menu items | `{}`
  * `--api-navigation-list-item-selected-weight` | Font weight of selected menu item | `bold`
  * `--api-navigation-list-item-selected-background-color` | Background color of selected menu item | `--accent-color`
  * `--api-navigation-list-item-selected-color` | Color of selected menu item | `#fff`
- * `--api-navigation-list-item-selected` | Mixin applied to the selected item | `{}`
  * `--api-navigation-list-item-disabled-color` | Color of disabled menu item. Currently not in use. | `--disabled-text-color`
- * `--api-navigation-list-item-disabled` | Mixin applied to disabled menu item. Currently not in use. | `{}`
- * `--api-navigation-list-item-focused` |  Mixin applied to focused menu item. | `{}`
- * `--api-navigation-list-item-focused-before` | Mixin applied to the `:before` pseudo-element of focused item | `{}`
- * `--api-navigation-list-item-hovered` | Mixin applied to menu item when hovering and not focused. Note, you should not rely of hover states | `{}`
  * `--api-navigation-toggle-icon-color` | Color of the toggle button next to section title | `rgba(0, 0, 0, 0.74)`
  * `--api-navigation-toggle-icon-hover-color` | Color of the toggle button next to section title when hovering. | `--secondary-button-color` or `rgba(0, 0, 0, 0.88)`
  * `--api-navigation-endpoint-toggle-icon-color` | Colot of endpoint toggle button | `--api-navigation-toggle-icon-color` or `rgba(0, 0, 0, 0.74)`
- * `--api-navigation-endpoint-toggle-icon` | Mixin applied to endpoint toggle icon | `{}`
  * `--method-display-get-color` | Font color of the GET method label box | `rgb(0, 128, 0)`
  * `--method-display-post-color` | Font color of the POST method label box | `rgb(33, 150, 243)`
  * `--method-display-put-color` | Font color of the PUT method label box | `rgb(255, 165, 0)`
@@ -90,10 +75,7 @@ import '../../@api-components/http-method-label/http-method-label-common-styles.
  * `--api-navigation-list-section-font-size` | Font size of toggable section label | `16px`
  * `--api-navigation-endpoint-font-size` | Font size applied to endpoint label | `15px`
  * `--api-navigation-operation-font-size` | Font size of operation (HTTP method) label | `14px`
- * `--api-navigation-summary-label` | Mixin applied top the summary label | `{}`
  * `--api-navigation-list-item-padding` | Padding of list a item | `4px 16px`
- * `--api-navigation-toggle-icon` | Mixin applied to toggle icon | `{}`
- * `--api-navigation-list-item-selected-passive` | Mixin applied to an item selected via "passive" navigation event" | `{}`
  * `--api-navigation-method-label-color` | Color of the HTTP method label | `#000`
  * `--api-navigation-method-label-background-color` | Background color of the HTTP method label | `transparent`
  * `--api-navigation-method-label-border-radius` | Border radius of HTTP method label | `3px`
@@ -103,43 +85,50 @@ import '../../@api-components/http-method-label/http-method-label-common-styles.
  * `--api-navigation-operation-endpoint-opened-background-color` | Background color of opened methods list | `inherit`
  * `--api-navigation-path-label-font-size` | Path label font size | `13px`
  * `--api-navigation-path-label-color` | Path label font color | `#616161`
+ * `--api-navigation-endpoint-toggle-icon-width` | | `32px`
+ * `--api-navigation-endpoint-toggle-icon-height` | | `32px`
+ * `--api-navigation-endpoint-toggle-icon-margin-right` | | ``
+ * `--api-navigation-background-color` | Navigation element backgound color | `inherit`
+ * `--api-navigation-color` | Navigation element color | `inherit`
+ * `--arc-font-body1-font-size` | | `inherit`
+ * `--arc-font-body1-font-weight` | | `inherit`
+ * `--arc-font-body1-line-height` | | `inherit`
  *
  * @customElement
- * @polymer
  * @demo demo/index.html
  * @memberof ApiElements
  * @appliesMixin AmfHelperMixin
  */
-class ApiNavigation extends AmfHelperMixin(PolymerElement) {
-  static get template() {
-    return html`
-    <style include="http-method-label-common-styles"></style>
-    <style>
+class ApiNavigation extends AmfHelperMixin(LitElement) {
+  static get styles() {
+    return css`
     :host {
       display: block;
-      background-color: inherit;
-      color: inherit;
+      background-color: var(--api-navigation-background-color, inherit);
+      color: var(--api-navigation-color, inherit);
       overflow: auto;
       position: relative;
-      @apply --arc-font-body1;
-      @apply --api-navigation;
+      font-size: var(--arc-font-body1-font-size, inherit);
+      font-weight: var(--arc-font-body1-font-weight, inherit);
+      line-height: var(--arc-font-body1-line-height, inherit);
     }
+
+    ${httpMethodStyles}
 
     h3,
     .list-item.summary {
-      @apply --arc-font-common-base;
       font-size: var(--api-navigation-list-section-font-size, 16px);
       font-weight: 500;
       line-height: 24px;
       color: var(--api-navigation-header-color, rgba(0, 0, 0, 0.84));
-      @apply --layout-flex;
+      flex: 1;
+      flex-basis: 0.000000001px;
       padding: 0;
       margin: 0;
     }
 
     .list-item.summary {
       padding: 12px 16px;
-      @apply --api-navigation-summary-label;
     }
 
     .list-item.endpoint {
@@ -147,7 +136,8 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
       font-size: var(--api-navigation-endpoint-font-size, 15px);
       user-select: none;
       font-weight: normal;
-      @apply --layout-horizontal;
+      display: flex;
+      flex-direction: row;
     }
 
     .list-item.endpoint:first-of-type {
@@ -155,7 +145,8 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
     }
 
     .path-details {
-      @apply --layout-flex;
+      flex: 1;
+      flex-basis: 0.000000001px;
     }
 
     .path-name,
@@ -178,8 +169,9 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
     }
 
     .section-title {
-      @apply --layout-horizontal;
-      @apply --layout-center;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
       cursor: pointer;
       padding: var(--api-navigation-section-title-padding, 4px 16px);
       background-color: var(--api-navigation-section-title-background-color, inherit);
@@ -201,45 +193,40 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
       cursor: pointer;
       word-break: break-all;
       color: var(--api-navigation-list-item-color, rgba(0, 0, 0, 0.84));
-      @apply --layout-horizontal;
-      @apply --layout-center;
-      @apply --api-navigation-list-item;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
     }
 
     .list-item.iron-selected {
       font-weight: var(--api-navigation-list-item-selected-weight, bold);
       background-color: var(--api-navigation-list-item-selected-background-color, var(--accent-color));
       color: var(--api-navigation-list-item-selected-color, #fff);
-      @apply --api-navigation-list-item-selected;
     }
 
     .list-item.passive-selected {
       font-weight: var(--api-navigation-list-item-selected-weight, bold);
-      @apply --api-navigation-list-item-selected-passive;
     }
 
     .list-item[disabled] {
       color: var(--api-navigation-list-item-disabled-color, var(--disabled-text-color));
-      @apply --api-navigation-list-item-disabled;
     }
 
     .list-item:focus {
       position: relative;
       outline: 0;
-      @apply --api-navigation-list-item-focused;
     }
 
     .list-item:focus:before {
-      @apply --layout-fit;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
       background: currentColor;
       content: '';
       opacity: var(--dark-divider-opacity);
       pointer-events: none;
-      @apply --api-navigation-list-item-focused-before;
-    }
-
-    .list-item:hover:not(.iron-selected) {
-      @apply --api-navigation-list-item-hovered;
     }
 
     .toggle-button,
@@ -250,15 +237,16 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
 
     .toggle-button {
       color: var(--api-navigation-toggle-icon-color, rgba(0, 0, 0, 0.74));
-      @apply --api-navigation-toggle-icon;
     }
 
     .endpoint-toggle-button {
       color: var(--api-navigation-endpoint-toggle-icon-color, var(--api-navigation-toggle-icon-color, rgba(0, 0, 0, 0.74)));
       transform: rotateZ(0deg);
       transition: color 0.25s ease-in-out, transform 0.3s ease-in-out;
-      @apply --api-navigation-toggle-icon;
-      @apply --api-navigation-endpoint-toggle-icon;
+
+      width: var(--api-navigation-endpoint-toggle-icon-width, 32px);
+      height: var(--api-navigation-endpoint-toggle-icon-height, 32px);
+      margin-right: var(--api-navigation-endpoint-toggle-icon-margin-right);
     }
 
     .toggle-button:hover {
@@ -288,115 +276,17 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
       font-size: var(--api-navigation-operation-font-size, 14px);
     }
 
-    .operation-collapse {
-      @apply --api-navigation-operation-collapse;
-    }
-
     [endpoint-opened] {
       background-color: var(--api-navigation-operation-endpoint-opened-background-color, inherit);
-    }
-    </style>
-    <template is="dom-if" if="[[aware]]">
-      <raml-aware raml="{{amfModel}}" scope="[[aware]]"></raml-aware>
-    </template>
-    <template is="dom-if" if="[[_renderSummary]]">
-      <section class="summary">
-        <div class="list-item summary" role="option" tabindex="0" data-api-id="summary" data-shape="summary" on-click="_itemClickHandler">[[summaryLabel]]</div>
-      </section>
-    </template>
-
-    <template is="dom-if" if="[[hasEndpoints]]">
-      <section class="endpoints" data-opened\$="[[endpointsOpened]]">
-        <div class="section-title" data-section="endpoints" on-click="_toggleSection" title="Toggle endpoints list">
-          <h3>Endpoints</h3>
-          <paper-icon-button class="toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
-        </div>
-        <iron-collapse opened="[[endpointsOpened]]">
-          <div class="children">
-            <template is="dom-repeat" items="[[endpoints]]">
-              <div class="list-item endpoint" hidden\$="[[item.hidden]]" data-endpoint-id\$="[[item.id]]" data-endpoint-path\$="[[item.path]]" on-click="_toggleEndpoint" title="Toggle endpoint documentation" style\$="[[_computeEndpointPadding(item.indent, indentSize)]]">
-                <div class="path-details">
-                  <div class="endpoint-name">[[item.label]]</div>
-                  <template is="dom-if" if="[[_computeRenderParth(allowPaths, item.renderPath)]]">
-                    <div class="path-name">[[item.path]]</div>
-                  </template>
-                </div>
-                <paper-icon-button class="endpoint-toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
-              </div>
-              <iron-collapse class="operation-collapse" hidden\$="[[item.hidden]]" data-api-id\$="[[item.id]]">
-                <div class="list-item operation" role="option" tabindex="0" data-api-id\$="[[item.id]]" data-shape="endpoint" on-click="_itemClickHandler" on-keyup="_spaceUpHandler" on-keydown="_spaceDownHandler" style\$="[[_computeMethodPadding(item.indent, indentSize)]]">
-                  Overview
-                </div>
-                <template is="dom-repeat" items="[[item.methods]]" data-query="" as="methodItem" on-rendered-item-count-changed="_methodsCountChanged" filter="_methodFilter" observe="method label">
-                  <div class="list-item operation" role="option" tabindex="0" data-api-id\$="[[methodItem.id]]" data-parent-id\$="[[item.id]]" data-shape="method" on-click="_itemClickHandler" on-keyup="_spaceUpHandler" on-keydown="_spaceDownHandler" style\$="[[_computeMethodPadding(item.indent, indentSize)]]">
-                    <span class="method-label" data-method\$="[[methodItem.method]]">[[methodItem.method]]</span>
-                    [[methodItem.label]]
-                  </div>
-                </template>
-              </iron-collapse>
-            </template>
-          </div>
-        </iron-collapse>
-      </section>
-    </template>
-
-    <template is="dom-if" if="[[hasDocs]]">
-      <section class="documentation" data-opened\$="[[docsOpened]]">
-        <div class="section-title" data-section="docs" on-click="_toggleSection" title="Toggle documentation list">
-          <h3>Documentation</h3>
-          <paper-icon-button class="toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]" on-click="_itemClickHandler"></paper-icon-button>
-        </div>
-        <iron-collapse opened="[[docsOpened]]">
-          <div class="children">
-            <template is="dom-repeat" items="[[docs]]" filter="_labelFilter" observe="label" data-query="">
-              <div class="list-item" role="option" tabindex="0" data-api-id\$="[[item.id]]" data-shape="documentation" on-click="_itemClickHandler">[[item.label]]</div>
-            </template>
-          </div>
-        </iron-collapse>
-      </section>
-    </template>
-    <template is="dom-if" if="[[hasTypes]]">
-      <section class="types" data-opened\$="[[typesOpened]]">
-        <div class="section-title" data-section="types" on-click="_toggleSection" title="Toggle types list">
-          <h3>Types</h3>
-          <paper-icon-button class="toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
-        </div>
-        <iron-collapse opened="[[typesOpened]]">
-          <div class="children">
-            <template is="dom-repeat" items="[[types]]" filter="_labelFilter" observe="label" data-query="">
-              <div class="list-item" role="option" tabindex="0" data-api-id\$="[[item.id]]" data-shape="type" on-click="_itemClickHandler">[[item.label]]</div>
-            </template>
-          </div>
-        </iron-collapse>
-      </section>
-    </template>
-    <template is="dom-if" if="[[hasSecurity]]">
-      <section class="security" data-opened\$="[[securityOpened]]">
-        <div class="section-title" data-section="security" on-click="_toggleSection" title="Toggle security list">
-          <h3>Security</h3>
-          <paper-icon-button class="toggle-button" icon="arc:keyboard-arrow-down" noink="[[noink]]"></paper-icon-button>
-        </div>
-        <iron-collapse opened="[[securityOpened]]">
-          <div class="children">
-            <template is="dom-repeat" items="[[security]]" filter="_labelFilter" observe="label" data-query="">
-              <div class="list-item" role="option" tabindex="0" data-api-id\$="[[item.id]]" data-shape="security" on-click="_itemClickHandler">[[item.label]]</div>
-            </template>
-          </div>
-        </iron-collapse>
-      </section>
-    </template>
-`;
+    }`;
   }
 
-  static get is() {
-    return 'api-navigation';
-  }
   static get properties() {
     return {
       /**
        * `raml-aware` scope property to use.
        */
-      aware: String,
+      aware: { type: String, reflect: true },
       /**
        * A model `@id` of selected documentation part.
        * Special case is for `summary` view. It's not part of an API
@@ -405,8 +295,7 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
        */
       selected: {
         type: String,
-        notify: true,
-        observer: '_selectedChangd'
+        reflect: true
       },
       /**
        * Type of the selected item.
@@ -417,29 +306,28 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
        */
       selectedType: {
         type: String,
-        notify: true
+        reflect: true
       },
       /**
        * If set it renders `API summary` menu option.
        * It will allow to set `selected` and `selectedType` to `summary`
        * when this option is set.
        */
-      summary: Boolean,
+      summary: { type: Boolean },
       /**
        * A label for the `summary` section.
        */
       summaryLabel: {
         type: String,
-        value: 'Summary'
+        reflect: true
       },
       /**
-       * Computed list of documentatoin items in the API.
+       * Computed list of documentation items in the API.
        *
        * @type {Array<Object>}
        */
-      docs: {
-        type: Array,
-        readOnly: true
+      _docs: {
+        type: Array
       },
       /**
        * Computed value, true when `docs` property is set with values
@@ -447,9 +335,7 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
        * @type {Object}
        */
       hasDocs: {
-        type: Boolean,
-        readOnly: true,
-        computed: '_computeHasArrayValue(docs)'
+        type: Boolean
       },
       /**
        * Determines and changes state of documentation panel.
@@ -460,9 +346,8 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
        *
        * @type {Array<Object>}
        */
-      types: {
-        type: Array,
-        readOnly: true
+      _types: {
+        type: Array
       },
       /**
        * Computed value, true when `types` property is set with values
@@ -470,9 +355,7 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
        * @type {Object}
        */
       hasTypes: {
-        type: Boolean,
-        readOnly: true,
-        computed: '_computeHasArrayValue(types)'
+        type: Boolean
       },
       /**
        * Determines and changes state of types panel.
@@ -483,9 +366,8 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
        *
        * @type {Array<Object>}
        */
-      security: {
-        type: Array,
-        readOnly: true
+      _security: {
+        type: Array
       },
       /**
        * Computed value, true when `security` property is set with values
@@ -493,9 +375,7 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
        * @type {Object}
        */
       hasSecurity: {
-        type: Boolean,
-        readOnly: true,
-        computed: '_computeHasArrayValue(security)'
+        type: Boolean
       },
       /**
        * Determines and changes state of security panel.
@@ -506,9 +386,8 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
        *
        * @type {Array<Object>}
        */
-      endpoints: {
-        type: Array,
-        readOnly: true
+      _endpoints: {
+        type: Array
       },
       /**
        * Computed value, true when `endpoints` property is set with values
@@ -516,9 +395,7 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
        * @type {Object}
        */
       hasEndpoints: {
-        type: Boolean,
-        readOnly: true,
-        computed: '_computeHasArrayValue(endpoints)'
+        type: Boolean
       },
       /**
        * Determines and changes state of endpoints panel.
@@ -537,7 +414,7 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
        */
       query: {
         type: String,
-        observer: '_queryChanged'
+        reflect: true
       },
       /**
        * Size of endpoint indentation for nested resources.
@@ -545,14 +422,14 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
        */
       indentSize: {
         type: Number,
-        value: 8
+        reflect: true,
+        attribute: 'indent-size'
       },
       /**
        * Flag set when passed AMF model is a RAML fragment.
        */
       _isFragment: {
-        type: Boolean,
-        value: false
+        type: Boolean
       },
       /**
        * Computed value. True when summary should be rendered.
@@ -561,7 +438,6 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
        */
       _renderSummary: {
         type: Boolean,
-        computed: '_computeRenderSummary(summary, _isFragment)'
       },
       /**
        * When set it renders full path below endpoint name if the endpoint has
@@ -573,15 +449,126 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
     };
   }
 
-  static get observers() {
-    return [
-      '_amfChanged(amfModel)',
-      '_selectionChnaged(selected, selectedType)'
-    ];
+  get amfModel() {
+    return this._amfModel;
+  }
+
+  set amfModel(value) {
+    this._setProperty('amfModel', value);
+    this._amfChanged(value);
+  }
+
+  get selected() {
+    return this._selected;
+  }
+
+  set selected(value) {
+    if (this._setProperty('selected', value, true)) {
+      this._selectedChangd(value);
+      this._selectionChnaged(value, this.selectedType);
+    }
+  }
+
+  get selectedType() {
+    return this._selectedType;
+  }
+
+  set selectedType(value) {
+    if (this._setProperty('selectedType', value, true)) {
+      this._selectionChnaged(this.selected, value);
+    }
+  }
+
+  get _docs() {
+    return this.__docs;
+  }
+
+  set _docs(value) {
+    this._setProperty('_docs', value);
+    this.hasDocs = !!(value && value.length);
+  }
+
+  get _types() {
+    return this.__types;
+  }
+
+  set _types(value) {
+    this._setProperty('_types', value);
+    this.hasTypes = !!(value && value.length);
+  }
+
+  get _security() {
+    return this.__security;
+  }
+
+  set _security(value) {
+    this._setProperty('_security', value);
+    this.hasSecurity = !!(value && value.length);
+  }
+
+  get _endpoints() {
+    return this.__endpoints;
+  }
+
+  set _endpoints(value) {
+    this._setProperty('_endpoints', value);
+    this.hasEndpoints = !!(value && value.length);
+  }
+
+  get summary() {
+    return this._summary;
+  }
+
+  set summary(value) {
+    this._setProperty('summary', value);
+    this._computeRenderSummary(value, this._isFragment);
+  }
+
+  get _isFragment() {
+    return this.__isFragment;
+  }
+
+  set _isFragment(value) {
+    this._setProperty('_isFragment', value);
+    this._computeRenderSummary(this.summary, value);
+  }
+
+  get query() {
+    return this._query;
+  }
+
+  set query(value) {
+    if (this._setProperty('query', value)) {
+      this._queryChanged(value);
+    }
+  }
+
+  _setProperty(prop, value, notify) {
+    const key = '_' + prop;
+    const oldValue = this[key];
+    if (oldValue === value) {
+      return false;
+    }
+    this[key] = value;
+    this.requestUpdate(prop, oldValue);
+    if (notify) {
+      this.dispatchEvent(new CustomEvent(prop + '-changed', {
+        composed: true,
+        detail: {
+          value
+        }
+      }));
+    }
+    return true;
   }
 
   constructor() {
     super();
+
+    this.summaryLabel = 'Summary';
+    this._isFragment = false;
+    this.indentSize = 8;
+
     this._navigationChangeHandler = this._navigationChangeHandler.bind(this);
   }
 
@@ -634,11 +621,11 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
     if (this._isFragment !== isFragment) {
       this._isFragment = isFragment;
     }
-    this._setDocs(data.documentation);
-    this._setTypes(data.types);
-    this._setSecurity(data.securitySchemes);
-    this._setEndpoints(data.endpoints);
-    afterNextRender(this, () => {
+    this._docs = data.documentation;
+    this._types = data.types;
+    this._security = data.securitySchemes;
+    this._endpoints = data.endpoints;
+    setTimeout(() => {
       this._selectedChangd(this.selected);
     });
   }
@@ -965,14 +952,14 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
    * @return {Object} Method view model
    */
   _createOperationModel(item) {
-    let name = this._getValue(item, this.ns.schema.schemaName);
+    const label = this._getValue(item, this.ns.schema.schemaName);
     const methodKey = this.ns.w3.hydra.core + 'method';
     const id = item['@id'];
     const method = this._getValue(item, methodKey);
     return {
-      label: name,
-      id: id,
-      method: method
+      label,
+      id,
+      method
     };
   }
   /**
@@ -982,7 +969,7 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
    * @param {ClickEvent} e
    */
   _toggleSection(e) {
-    const path = e.composedPath();
+    const path = e.composedPath && e.composedPath() || e.path;
     let node;
     while (true) {
       node = path.shift();
@@ -1034,6 +1021,9 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
     let collapse;
     switch (node.dataset.shape) {
       case 'method':
+        collapse = node.parentElement;
+        this.endpointsOpened = true;
+        break;
       case 'endpoint':
         collapse = node.parentElement;
         break;
@@ -1137,7 +1127,7 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
       return;
     }
     this.__queryDebouncer = true;
-    afterNextRender(this, () => {
+    setTimeout(() => {
       this._flushQuery();
       this.__queryDebouncer = false;
     });
@@ -1262,7 +1252,7 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
   }
 
   _cleanPassiveSelection() {
-    // Very simpole optimization to not query local DOM if we are sure
+    // Very simple optimization to not query local DOM if we are sure
     // that there's no selection.
     if (!this.__hasPassiveSelection) {
       return;
@@ -1416,10 +1406,9 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
    * Computes value for `_renderSummary` property
    * @param {Boolean} summary Current value of `summary` property
    * @param {Boolean} isFragment Current value of `_isFragment` property
-   * @return {Boolean}
    */
   _computeRenderSummary(summary, isFragment) {
-    return !!(summary && !isFragment);
+    this._renderSummary = !!(summary && !isFragment);
   }
   /**
    * Computes condition value to render path label.
@@ -1429,6 +1418,117 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
    */
   _computeRenderParth(allowPaths, renderPath) {
     return !!(allowPaths && renderPath);
+  }
+
+  _awareApiChanged(e) {
+    this.amfModel = e.detail.value;
+  }
+
+  _endpointsTemplate() {
+    if (!this.hasEndpoints) {
+      return;
+    }
+    return html`<section class="endpoints" ?data-opened="${this.endpointsOpened}">
+      <div class="section-title" data-section="endpoints" @click="${this._toggleSection}" title="Toggle endpoints list">
+        <h3>Endpoints</h3>
+        <paper-icon-button part="toggle-button" class="toggle-button" icon="arc:keyboard-arrow-down" .noink="${this.noink}"></paper-icon-button>
+      </div>
+      <iron-collapse .opened="${this.endpointsOpened}">
+        <div class="children">
+          ${this._endpoints.map((item) => html`
+          <div part="api-navigation-list-item" class="list-item endpoint" ?hidden="${item.hidden}" data-endpoint-id="${item.id}" data-endpoint-path="${item.path}" @click="${this._toggleEndpoint}" title="Toggle endpoint documentation" style="${this._computeEndpointPadding(item.indent, this.indentSize)}">
+            <div class="path-details">
+              <div class="endpoint-name">${item.label}</div>
+              ${this._computeRenderParth(this.allowPaths, item.renderPath) ? html`<div class="path-name">${item.path}</div>` : html``}
+            </div>
+            <paper-icon-button part="api-navigation-endpoint-toggle-button toggle-button" class="endpoint-toggle-button" icon="arc:keyboard-arrow-down" .noink="${this.noink}"></paper-icon-button>
+          </div>
+          <iron-collapse part="api-navigation-operation-collapse" class="operation-collapse" ?hidden="${item.hidden}" data-api-id="${item.id}">
+            <div part="api-navigation-list-item" class="list-item operation" role="option" tabindex="0" data-api-id="${item.id}" data-shape="endpoint" @click="${this._itemClickHandler}" @keyup="${this._spaceUpHandler}" @keydown="${this._spaceDownHandler}" style="${this._computeMethodPadding(item.indent, this.indentSize)}">
+              Overview
+            </div>
+            ${item.methods.map((methodItem) => html`
+            <div part="api-navigation-list-item" class="list-item operation" role="option" tabindex="0" data-api-id="${methodItem.id}" data-parent-id="${item.id}" data-shape="method" @click="${this._itemClickHandler}" @keyup="${this._spaceUpHandler}" @keydown="${this._spaceDownHandler}" style="${this._computeMethodPadding(item.indent, this.indentSize)}">
+              <span class="method-label" data-method="${methodItem.method}">${methodItem.method}</span>
+              ${methodItem.label}
+            </div>`)}
+          </iron-collapse>`)}
+        </div>
+      </iron-collapse>
+    </section>`;
+  }
+
+  _documentationTemplate() {
+    if (!this.hasDocs) {
+      return;
+    }
+    return html`<section class="documentation" ?data-opened="${this.docsOpened}">
+      <div class="section-title" data-section="docs" @click="${this._toggleSection}" title="Toggle documentation list">
+        <h3>Documentation</h3>
+        <paper-icon-button part="toggle-button" class="toggle-button" icon="arc:keyboard-arrow-down" noink="${this.noink}" @click="${this._itemClickHandler}"></paper-icon-button>
+      </div>
+      <iron-collapse .opened="${this.docsOpened}">
+        <div class="children">
+          ${this._docs.map((item) => html`
+            <div part="api-navigation-list-item" class="list-item" role="option" tabindex="0" data-api-id="${item.id}" data-shape="documentation" @click="${this._itemClickHandler}">${item.label}</div>
+          `)}
+        </div>
+      </iron-collapse>
+    </section>`;
+  }
+
+  _typesTemplate() {
+    if (!this.hasTypes) {
+      return;
+    }
+    return html`<section class="types" ?data-opened="${this.typesOpened}">
+      <div class="section-title" data-section="types" @click="${this._toggleSection}" title="Toggle types list">
+        <h3>Types</h3>
+        <paper-icon-button part="toggle-button" class="toggle-button" icon="arc:keyboard-arrow-down" noink="${this.noink}"></paper-icon-button>
+      </div>
+      <iron-collapse .opened="${this.typesOpened}">
+        <div class="children">
+        ${this._types.map((item) => html`
+          <div part="api-navigation-list-item" class="list-item" role="option" tabindex="0" data-api-id="${item.id}" data-shape="type" @click="${this._itemClickHandler}">${item.label}</div>
+        `)}
+        </div>
+      </iron-collapse>
+    </section>`;
+  }
+
+  _securityTemplate() {
+    if (!this.hasSecurity) {
+      return;
+    }
+    return html`<section class="security" ?data-opened="${this.securityOpened}">
+      <div class="section-title" data-section="security" @click="${this._toggleSection}" title="Toggle security list">
+        <h3>Security</h3>
+        <paper-icon-button part="toggle-button" class="toggle-button" icon="arc:keyboard-arrow-down" noink="${this.noink}"></paper-icon-button>
+      </div>
+      <iron-collapse .opened="${this.securityOpened}">
+        <div class="children">
+        ${this._types.map((item) => html`
+          <div part="api-navigation-list-item" class="list-item" role="option" tabindex="0" data-api-id="${item.id}" data-shape="security" @click="${this._itemClickHandler}">${item.label}</div>
+        `)}
+        </div>
+      </iron-collapse>
+    </section>`;
+  }
+
+  render() {
+    return html`
+    ${this.aware ? html`<raml-aware @api-changed="${this._awareApiChanged}" .scope="${this.aware}"></raml-aware>` : html``}
+
+    ${this._renderSummary ? html`
+    <section class="summary">
+      <div part="api-navigation-list-item" class="list-item summary" role="option" tabindex="0"
+        data-api-id="summary" data-shape="summary" @click="${this._itemClickHandler}">${this.summaryLabel}</div>
+    </section>` : html``}
+
+    ${this._endpointsTemplate()}
+    ${this._documentationTemplate()}
+    ${this._typesTemplate()}
+    ${this._securityTemplate()}`;
   }
   /**
    * Dispatched when navigation occurrs.
@@ -1448,4 +1548,4 @@ class ApiNavigation extends AmfHelperMixin(PolymerElement) {
    * intentional interaction and regular navigation action should not occurr.
    */
 }
-window.customElements.define(ApiNavigation.is, ApiNavigation);
+window.customElements.define('api-navigation', ApiNavigation);

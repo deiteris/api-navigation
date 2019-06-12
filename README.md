@@ -4,13 +4,9 @@
 
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/api-components/api-navigation)
 
-## &lt;api-method-documentation&gt;
+## &lt;api-navigation&gt;
 
-A navigation for an API spec generated from AMF model.
-
-```html
-<api-method-documentation></api-method-documentation>
-```
+A navigation for an API spec generated from AMF ld+json model.
 
 ### API components
 
@@ -29,11 +25,11 @@ npm install --save @api-components/api-navigation
 <html>
   <head>
     <script type="module">
-      import '@api-components/api-navigation/api-method-documentation.js';
+      import '@api-components/api-navigation/api-navigation.js';
     </script>
   </head>
   <body>
-    <api-method-documentation></api-method-documentation>
+    <api-navigation amf-model="..."></api-navigation>
   </body>
 </html>
 ```
@@ -41,13 +37,13 @@ npm install --save @api-components/api-navigation
 ### In a Polymer 3 element
 
 ```js
-import {PolymerElement, html} from '@polymer/polymer';
-import '@api-components/api-navigation/api-method-documentation.js';
+import { LitElement, html } from 'lit-element';
+import '@api-components/api-navigation/api-navigation.js';
 
-class SampleElement extends PolymerElement {
-  static get template() {
+class SampleElement extends LitElement {
+  render() {
     return html`
-    <api-method-documentation></api-method-documentation>
+    <api-navigation amf-model="${this.model}"></api-navigation>
     `;
   }
 }
@@ -58,19 +54,17 @@ customElements.define('sample-element', SampleElement);
 
 ```sh
 git clone https://github.com/api-components/api-navigation
-cd api-url-editor
+cd api-navigation
 npm install
-npm install -g polymer-cli
 ```
 
 ### Running the demo locally
 
 ```sh
-polymer serve --npm
-open http://127.0.0.1:<port>/demo/
+npm start
 ```
 
 ### Running the tests
 ```sh
-polymer test --npm
+npm test
 ```
