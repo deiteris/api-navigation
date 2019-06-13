@@ -6,15 +6,15 @@ const createBaseConfig = require('./karma.conf.js');
 module.exports = (config) => {
   const cnf = slSettings(config);
   cnf.sauceLabs.testName = 'paper-chip-input';
-  // cnf.browsers = [
-  //   'SL_Chrome',
-  //   'SL_Chrome-1',
-  //   'SL_Firefox',
-  //   'SL_Firefox-1',
-  //   'SL_Safari',
-  //   'SL_Safari-1',
-  //   'SL_EDGE'
-  // ];
+  cnf.browsers = [
+    'SL_Chrome',
+    'SL_Chrome-1',
+    'SL_Firefox',
+    'SL_Firefox-1',
+    'SL_Safari',
+    'SL_Safari-1',
+    'SL_EDGE'
+  ];
   if (process.env.TRAVIS) {
     const buildLabel = 'TRAVIS #' + process.env.TRAVIS_BUILD_NUMBER + ' (' + process.env.TRAVIS_BUILD_ID + ')';
 

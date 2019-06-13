@@ -1149,24 +1149,6 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     this.__effectiveQuery = q;
   }
   /**
-   * Hides the parent model when number of children is 0 or shows it
-   * otherwise.
-   *
-   * @param {CustomEvent} e
-   */
-  _methodsCountChanged(e) {
-    const state = e.model.get('item.hidden');
-    if (e.detail.value === 0 && this.__effectiveQuery) {
-      if (!state) {
-        e.model.set('item.hidden', true);
-      }
-    } else {
-      if (state) {
-        e.model.set('item.hidden', false);
-      }
-    }
-  }
-  /**
    * Dispatches `api-navigation-selection-changed` event on selection change.
    *
    * @param {String} selected Selected id
@@ -1364,8 +1346,8 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     switch (parts.length) {
       case 1: paddingLeftValue = parts[0]; break;
       case 2: paddingLeftValue = parts[1]; break;
-      case 3: paddingLeftValue = parts[2]; break;
-      case 4: paddingLeftValue = parts[2]; break;
+      case 3: paddingLeftValue = parts[1]; break;
+      case 4: paddingLeftValue = parts[3]; break;
     }
     if (!paddingLeftValue) {
       return defaultPadding;
@@ -1382,7 +1364,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
    * @param {KeyboardEvent} e
    */
   _spaceDownHandler(e) {
-    if (!(e.code === 'Space' || e.keyCode === 32)) {
+    if (!(e.code === 'Space' || e.key === 'Space' || e.keyCode === 32)) {
       return;
     }
     e.preventDefault();
@@ -1393,7 +1375,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
    * @param {KeyboardEvent} e
    */
   _spaceUpHandler(e) {
-    if (!(e.code === 'Space' || e.keyCode === 32)) {
+    if (!(e.code === 'Space' || e.key === 'Space' || e.keyCode === 32)) {
       return;
     }
     e.target.click();
