@@ -12,8 +12,8 @@ module.exports = (config) => {
     'SL_Firefox',
     'SL_Firefox-1',
     'SL_Safari',
-    'SL_Safari-1',
-    'SL_EDGE'
+    'SL_Safari-1'
+    // 'SL_EDGE'
   ];
 
   cnf.captureTimeout = 0;
