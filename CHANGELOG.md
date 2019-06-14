@@ -413,3 +413,30 @@
 
 
 
+# [3.0.0](https://github.com/advanced-rest-client/api-navigation/compare/2.0.8...3.0.0) (2019-06-14)
+
+
+### Breaking
+
+* Adding `allowPaths` property to render paths. ([06bab1cb015a57b635b773813982992f7862e10d](https://github.com/advanced-rest-client/api-navigation/commit/06bab1cb015a57b635b773813982992f7862e10d))
+
+### Docs
+
+* Updating Polymer docs ([c82c0b9f772eada87945f51382a2588e246a7c1b](https://github.com/advanced-rest-client/api-navigation/commit/c82c0b9f772eada87945f51382a2588e246a7c1b))
+
+### Fix
+
+* Fixes #1 - add `data-endpoint-path` attribute ([491f46d1e992d4930bad1ca7794d2016201fbf1c](https://github.com/advanced-rest-client/api-navigation/commit/491f46d1e992d4930bad1ca7794d2016201fbf1c)), closes [#1](https://github.com/advanced-rest-client/api-navigation/issues/1)
+* Fixes #2 - correct endpoint rendering ([77a21f8d777c768fd0b4d7faa4e0a3b1905761b0](https://github.com/advanced-rest-client/api-navigation/commit/77a21f8d777c768fd0b4d7faa4e0a3b1905761b0)), closes [#2](https://github.com/advanced-rest-client/api-navigation/issues/2)
+
+### New
+
+* Adding support for Type, Security, Documentation, and Library fragments ([b2294a422f83fa824bf1373d75f0eff4a072b891](https://github.com/advanced-rest-client/api-navigation/commit/b2294a422f83fa824bf1373d75f0eff4a072b891))
+
+### Update
+
+* Adding support for common method label styles ([4321efb5a171f5b7f79c2b8d1e6f67d374685cd4](https://github.com/advanced-rest-client/api-navigation/commit/4321efb5a171f5b7f79c2b8d1e6f67d374685cd4))
+* Updating AMF model ([f6c4fd5f07e1b00209711f80b972613443320f15](https://github.com/advanced-rest-client/api-navigation/commit/f6c4fd5f07e1b00209711f80b972613443320f15))
+
+
+
