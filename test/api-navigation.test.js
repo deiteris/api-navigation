@@ -553,11 +553,13 @@ describe('<api-navigation>', () => {
       await nextFrame();
     });
 
-    it('Calls _flushQuery()', async () => {
+    it('Calls _flushQuery()', (done) => {
       element.query = 'test';
       const spy = sinon.spy(element, '_flushQuery');
-      await nextFrame();
-      assert.isTrue(spy.called);
+      setTimeout(() => {
+        assert.isTrue(spy.called);
+        done();
+      });
     });
 
     it('Re-sets __queryDebouncer', (done) => {
