@@ -15,8 +15,11 @@ module.exports = (config) => {
     'SL_Safari-1',
     'SL_EDGE'
   ];
+
+  cnf.captureTimeout = 0;
   cnf.sauceLabs.commandTimeout = 600;
   cnf.commandTimeout = 600;
+  cnf.browserDisconnectTimeout = 10000;
   if (process.env.TRAVIS) {
     const buildLabel = 'TRAVIS #' + process.env.TRAVIS_BUILD_NUMBER + ' (' + process.env.TRAVIS_BUILD_ID + ')';
 

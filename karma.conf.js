@@ -14,7 +14,7 @@ module.exports = (config) => {
        { pattern: config.grep ? config.grep : 'test/**/*.test.js', type: 'module' }
      ],
 
-     browserNoActivityTimeout: 60000
+     browserNoActivityTimeout: 120000
    })
  );
  return config;
