@@ -1,8 +1,8 @@
 [![Published on NPM](https://img.shields.io/npm/v/@api-components/api-navigation.svg)](https://www.npmjs.com/package/@api-components/api-navigation)
 
-[![Build Status](https://travis-ci.org/api-components/api-navigation.svg?branch=stage)](https://travis-ci.org/api-components/api-navigation)
+[![Build Status](https://travis-ci.org/api-components/advanced-rest-client.svg?branch=stage)](https://travis-ci.org/advanced-rest-client/api-navigation)
 
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/api-components/api-navigation)
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/advanced-rest-client/api-navigation)
 
 ## &lt;api-navigation&gt;
 
@@ -53,7 +53,7 @@ customElements.define('sample-element', SampleElement);
 ### Installation
 
 ```sh
-git clone https://github.com/api-components/api-navigation
+git clone https://github.com/advanced-rest-client/api-navigation
 cd api-navigation
 npm install
 ```
