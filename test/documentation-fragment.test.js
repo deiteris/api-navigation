@@ -15,9 +15,9 @@ describe('Documentation fragment', () => {
       let element;
 
       beforeEach(async () => {
-        const amfModel = await AmfLoader.load(item[1], 'documentation-fragment');
+        const amf = await AmfLoader.load(item[1], 'documentation-fragment');
         element = await basicFixture();
-        element.amfModel = amfModel;
+        element.amf = amf;
         await nextFrame();
       });
 

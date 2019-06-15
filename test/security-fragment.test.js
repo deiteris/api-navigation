@@ -15,9 +15,9 @@ describe('Security fragment', () => {
       let element;
 
       beforeEach(async () => {
-        const amfModel = await AmfLoader.load(item[1], 'oauth2-fragment');
+        const amf = await AmfLoader.load(item[1], 'oauth2-fragment');
         element = await basicFixture();
-        element.amfModel = amfModel;
+        element.amf = amf;
         await nextFrame();
       });
 

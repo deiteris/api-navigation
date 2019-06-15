@@ -21,12 +21,12 @@ export class DemoPageBase {
     });
   }
 
-  get amfModel() {
-    return this._amfModel;
+  get amf() {
+    return this._amf;
   }
 
-  set amfModel(value) {
-    this._setObservableProperty('amfModel', value);
+  set amf(value) {
+    this._setObservableProperty('amf', value);
   }
 
   get latestSelected() {
@@ -71,7 +71,7 @@ export class DemoPageBase {
     fetch('./' + file)
     .then((response) => response.json())
     .then((data) => {
-      this.amfModel = data;
+      this.amf = data;
     });
   }
 
@@ -110,7 +110,7 @@ export class DemoPageBase {
   }
 
   headerTemplate() {
-    return html`<raml-aware .api="${this.amfModel}" scope="api-demo"></raml-aware>
+    return html`<raml-aware .api="${this.amf}" scope="api-demo"></raml-aware>
     <header>
       <paper-dropdown-menu label="Select demo API">
         <paper-listbox slot="dropdown-content" id="apiList" @selected-changed="${this._apiChanged}">

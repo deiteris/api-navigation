@@ -17,9 +17,9 @@ describe('AMF model test', () => {
         let element;
 
         beforeEach(async () => {
-          const amfModel = await AmfLoader.load(item[1]);
+          const amf = await AmfLoader.load(item[1]);
           element = await basicFixture();
-          element.amfModel = amfModel;
+          element.amf = amf;
           await nextFrame();
         });
 
@@ -99,12 +99,12 @@ describe('AMF model test', () => {
     ].forEach((item) => {
       describe(item[0], () => {
         let element;
-        let amfModel;
+        let amf;
 
         beforeEach(async () => {
-          amfModel = await AmfLoader.load(item[1]);
+          amf = await AmfLoader.load(item[1]);
           element = await basicFixture();
-          element.amfModel = amfModel;
+          element.amf = amf;
           await nextFrame();
         });
 
@@ -136,15 +136,15 @@ describe('AMF model test', () => {
     ].forEach((item) => {
       describe(item[0], () => {
         let element;
-        let amfModel;
+        let amf;
 
         beforeEach(async () => {
-          amfModel = await AmfLoader.load(item[1]);
-          if (amfModel instanceof Array) {
-            amfModel = amfModel[0];
+          amf = await AmfLoader.load(item[1]);
+          if (amf instanceof Array) {
+            amf = amf[0];
           }
           element = await basicFixture();
-          element.amfModel = amfModel;
+          element.amf = amf;
           await nextFrame();
         });
 
@@ -155,17 +155,17 @@ describe('AMF model test', () => {
         });
 
         it('Returns endpoints array', () => {
-          const result = element._collectData(amfModel);
+          const result = element._collectData(amf);
           assert.isAbove(result.endpoints.length, 1);
         });
 
         it('Deletes _typeIds', () => {
-          const result = element._collectData(amfModel);
+          const result = element._collectData(amf);
           assert.isUndefined(result._typeIds);
         });
 
         it('Deletes _basePaths', () => {
-          const result = element._collectData(amfModel);
+          const result = element._collectData(amf);
           assert.isUndefined(result._basePaths);
         });
       });
@@ -179,12 +179,12 @@ describe('AMF model test', () => {
     ].forEach((item) => {
       describe(item[0], () => {
         let element;
-        let amfModel;
+        let amf;
 
         beforeEach(async () => {
-          amfModel = await AmfLoader.load(item[1]);
-          if (amfModel instanceof Array) {
-            amfModel = amfModel[0];
+          amf = await AmfLoader.load(item[1]);
+          if (amf instanceof Array) {
+            amf = amf[0];
           }
           element = await basicFixture();
         });
@@ -195,7 +195,7 @@ describe('AMF model test', () => {
         });
 
         it('Sets endpoints property', () => {
-          element.amfModel = amfModel;
+          element.amf = amf;
           assert.isAbove(element._endpoints.length, 1);
         });
       });
@@ -204,12 +204,12 @@ describe('AMF model test', () => {
 
   describe('Passive selection', () => {
     let element;
-    let amfModel;
+    let amf;
 
     beforeEach(async () => {
-      amfModel = await AmfLoader.load();
+      amf = await AmfLoader.load();
       element = await basicFixture();
-      element.amfModel = amfModel;
+      element.amf = amf;
       await nextFrame();
     });
 
@@ -227,16 +227,16 @@ describe('AMF model test', () => {
     }
 
     it('Selectes a method', () => {
-      const method = AmfHelper.getMethod(element, amfModel, '/files', 'post');
+      const method = AmfHelper.getMethod(element, amf, '/files', 'post');
       dispatch(method['@id'], 'method');
       const node = element.shadowRoot.querySelector('.passive-selected');
       assert.ok(node);
     });
 
     it('Opens iron-collapse', () => {
-      const method = AmfHelper.getMethod(element, amfModel, '/files', 'post');
+      const method = AmfHelper.getMethod(element, amf, '/files', 'post');
       dispatch(method['@id'], 'method');
-      const endpoint = AmfHelper.getEndpoint(element, amfModel, '/files');
+      const endpoint = AmfHelper.getEndpoint(element, amf, '/files');
       const id = endpoint['@id'];
       const node = element.shadowRoot.querySelector(`.endpoint[data-endpoint-id="${id}"]`);
       assert.isTrue(node.nextElementSibling.opened);

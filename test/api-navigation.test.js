@@ -576,13 +576,13 @@ describe('<api-navigation>', () => {
     ['Regular model', false]
   ].forEach((item) => {
     describe('_spaceUpHandler() - ' + item[0], () => {
-      let amfModel;
+      let amf;
       let element;
 
       beforeEach(async () => {
-        amfModel = await AmfLoader.load(item[1]);
+        amf = await AmfLoader.load(item[1]);
         element = await basicFixture();
-        element.amfModel = amfModel;
+        element.amf = amf;
         await nextFrame();
       });
 
@@ -605,13 +605,13 @@ describe('<api-navigation>', () => {
     });
 
     describe('_spaceDownHandler() - ' + item[0], () => {
-      let amfModel;
+      let amf;
       let element;
 
       beforeEach(async () => {
-        amfModel = await AmfLoader.load(item[1]);
+        amf = await AmfLoader.load(item[1]);
         element = await basicFixture();
-        element.amfModel = amfModel;
+        element.amf = amf;
         await nextFrame();
       });
 
@@ -625,13 +625,13 @@ describe('<api-navigation>', () => {
     });
 
     describe('_toggleSection()', () => {
-      let amfModel;
+      let amf;
       let element;
 
       beforeEach(async () => {
-        amfModel = await AmfLoader.load(item[1]);
+        amf = await AmfLoader.load(item[1]);
         element = await basicFixture();
-        element.amfModel = amfModel;
+        element.amf = amf;
         await nextFrame();
       });
 
@@ -666,13 +666,13 @@ describe('<api-navigation>', () => {
     });
 
     describe('_selectMethodPassive()', () => {
-      let amfModel;
+      let amf;
       let element;
 
       beforeEach(async () => {
-        amfModel = await AmfLoader.load(item[1]);
+        amf = await AmfLoader.load(item[1]);
         element = await basicFixture();
-        element.amfModel = amfModel;
+        element.amf = amf;
         await nextFrame();
       });
 
@@ -703,13 +703,13 @@ describe('<api-navigation>', () => {
     });
 
     describe('_itemClickHandler()', () => {
-      let amfModel;
+      let amf;
       let element;
 
       beforeEach(async () => {
-        amfModel = await AmfLoader.load(item[1]);
+        amf = await AmfLoader.load(item[1]);
         element = await summaryFixture();
-        element.amfModel = amfModel;
+        element.amf = amf;
         await nextFrame();
       });
 
@@ -746,13 +746,13 @@ describe('<api-navigation>', () => {
     });
 
     describe('_flushQuery()', () => {
-      let amfModel;
+      let amf;
       let element;
 
       beforeEach(async () => {
-        amfModel = await AmfLoader.load(item[1]);
+        amf = await AmfLoader.load(item[1]);
         element = await summaryFixture();
-        element.amfModel = amfModel;
+        element.amf = amf;
         await nextFrame();
       });
 
@@ -772,13 +772,13 @@ describe('<api-navigation>', () => {
     });
 
     describe('_computeRenderParth()', () => {
-      let amfModel;
+      let amf;
       let element;
 
       beforeEach(async () => {
-        amfModel = await AmfLoader.load(item[1]);
+        amf = await AmfLoader.load(item[1]);
         element = await summaryFixture();
-        element.amfModel = amfModel;
+        element.amf = amf;
         await nextFrame();
       });
 
@@ -813,7 +813,7 @@ describe('<api-navigation>', () => {
       });
 
       it('Paths are hidden by default', () => {
-        const endpoint = AmfHelper.getEndpoint(element, amfModel, '/about');
+        const endpoint = AmfHelper.getEndpoint(element, amf, '/about');
         const id = endpoint['@id'];
         const node = element.shadowRoot.querySelector(`.endpoint[data-endpoint-id="${id}"] .path-name`);
         assert.notOk(node);
@@ -822,7 +822,7 @@ describe('<api-navigation>', () => {
       it('Renders paths when "allowPaths" is set', async () => {
         element.allowPaths = true;
         await nextFrame();
-        const endpoint = AmfHelper.getEndpoint(element, amfModel, '/about');
+        const endpoint = AmfHelper.getEndpoint(element, amf, '/about');
         const id = endpoint['@id'];
         const node = element.shadowRoot.querySelector(`.endpoint[data-endpoint-id="${id}"] .path-name`);
         assert.ok(node);

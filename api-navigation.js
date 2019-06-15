@@ -22,7 +22,7 @@ import httpMethodStyles from '@api-components/http-method-label/http-method-labe
  * The selection is a selected API shape `@id`. The application is responsible
  * for computing the model selected by the user.
  *
- * AMF model can be passed directly by setting `amfModel` property or by
+ * AMF model can be passed directly by setting `amf` property or by
  * setting `aware` property and by use `raml-aware` element. It allows
  * to communicate AMF data without having access to the element due to
  * shadow DOM restrictions.
@@ -456,12 +456,12 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     };
   }
 
-  get amfModel() {
-    return this._amfModel;
+  get amf() {
+    return this._amf;
   }
 
-  set amfModel(value) {
-    this._setProperty('amfModel', value);
+  set amf(value) {
+    this._setProperty('amf', value);
     this._amfChanged(value);
   }
 
@@ -596,7 +596,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     window.removeEventListener('api-navigation-selection-changed', this._navigationChangeHandler);
   }
   /**
-   * Called by the Polymer change observer when `amfModel` property change.
+   * Called by the Polymer change observer when `amf` property change.
    * @param {Array|Object} model AMF model
    */
   _amfChanged(model) {
@@ -1398,11 +1398,11 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     return !!(allowPaths && renderPath);
   }
   /**
-   * Updates value of `amfModel` from `raml-aware`'s api property change.
+   * Updates value of `amf` from `raml-aware`'s api property change.
    * @param {CustomEvent} e
    */
   _awareApiChanged(e) {
-    this.amfModel = e.detail.value;
+    this.amf = e.detail.value;
   }
   /**
    * Returns filtered list of items to render in the menu list.
