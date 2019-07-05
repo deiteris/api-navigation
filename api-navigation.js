@@ -693,7 +693,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     const result = {
       securitySchemes: []
     };
-    let encodes = this._computeEncodes(model);
+    const encodes = this._computeEncodes(model);
     if (!encodes) {
       return;
     }
@@ -709,7 +709,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     const result = {
       documentation: []
     };
-    let encodes = this._computeEncodes(model);
+    const encodes = this._computeEncodes(model);
     if (!encodes) {
       return;
     }
@@ -726,7 +726,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       types: [],
       _typeIds: []
     };
-    let encodes = this._computeEncodes(model);
+    const encodes = this._computeEncodes(model);
     if (!encodes) {
       return;
     }
@@ -797,27 +797,17 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
    * the first endpoints to appear first, and the last endpoints to appear
    * last
    * @param {Array} endpoints
+   * @return {Array}
    */
   _rearrangeEndpoints(endpoints) {
-    if (!endpoints) return [];
-
-    function mergeSort(unsortedArray) {
-      if (unsortedArray.length <= 1) {
-        return unsortedArray;
-      }
-      const middle = Math.floor(unsortedArray.length / 2);
-
-      const left = unsortedArray.slice(0, middle);
-      const right = unsortedArray.slice(middle);
-
-      return merge(
-        mergeSort(left), mergeSort(right)
-      );
+    if (!endpoints) {
+      return [];
     }
 
     function merge(left, right) {
       const resultArray = [];
-      let leftIndex = 0, rightIndex = 0;
+      let leftIndex = 0;
+      let rightIndex = 0;
 
       while (leftIndex < left.length && rightIndex < right.length) {
         if (left[leftIndex].path < right[rightIndex].path) {
@@ -830,13 +820,27 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       }
 
       return resultArray
-        .concat(left.slice(leftIndex))
-        .concat(right.slice(rightIndex));
+          .concat(left.slice(leftIndex))
+          .concat(right.slice(rightIndex));
+    }
+
+    function mergeSort(unsortedArray) {
+      if (unsortedArray.length <= 1) {
+        return unsortedArray;
+      }
+      const middle = Math.floor(unsortedArray.length / 2);
+
+      const left = unsortedArray.slice(0, middle);
+      const right = unsortedArray.slice(middle);
+
+      return merge(
+          mergeSort(left), mergeSort(right)
+      );
     }
 
     const listMap = this._createListMap(endpoints);
 
-    return Object.keys(listMap).map(key => mergeSort(listMap[key])).reduce((acc, value) => acc.concat(value), []);
+    return Object.keys(listMap).map((key) => mergeSort(listMap[key])).reduce((acc, value) => acc.concat(value), []);
   }
   /**
    * Transforms a list of endpoints into a map that goes from
@@ -848,13 +852,12 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
    * other
    *
    * @param {Array} endpoints
+   * @return {Array}
    */
   _createListMap(endpoints) {
     const map = {};
-
-    const getPathInit = (endpoint) => endpoint.path.split("/")[1];
-
-    endpoints.forEach(endpoint => {
+    const getPathInit = (endpoint) => endpoint.path.split('/')[1];
+    endpoints.forEach((endpoint) => {
       const pathInit = getPathInit(endpoint);
       if (map[pathInit]) {
         map[pathInit].push(endpoint);
@@ -862,8 +865,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
         map[pathInit] = [endpoint];
       }
     });
-
-  return map;
+    return map;
   }
   /**
    * Appends declaration of navigation data model to the target if
@@ -978,7 +980,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     let indent = 0;
     target._basePaths[target._basePaths.length] = path;
     if (parts.length > 1) {
-      let lowerParts = parts.slice(0, parts.length - 1);
+      const lowerParts = parts.slice(0, parts.length - 1);
       if (lowerParts.length) {
         for (let i = lowerParts.length - 1; i >= 0; i--) {
           const currentPath = '/' + lowerParts.slice(0, i + 1).join('/');
