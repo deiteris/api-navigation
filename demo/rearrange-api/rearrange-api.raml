@@ -1,0 +1,32 @@
+#%RAML 1.0
+title: Rearrangeable endpoints demo API
+
+/transactions/:txId:
+    get:
+        displayName: Get transaction
+        description: Get a transaction by id
+    delete:
+        displayName: Delete transaction
+        description: Delete a transcation by id
+/billing:
+    get:
+        displayName: Get billing information
+        description: Get all billing information pertaining to all customers
+/accounts/:accountId:
+    get:
+        displayName: Get account
+        description: Get an account by id
+/accounts:
+    get:
+        displayName: Get all accounts
+        description: Get list of all accounts
+    post:
+        displayName: Create account
+        description: Create a new account
+/transactions:
+    get:
+        displayName: Get all transactions
+        description: Get list of all transactions by all customers
+    post:
+        displayName: Create new transaction
+        description: Create a new transaction

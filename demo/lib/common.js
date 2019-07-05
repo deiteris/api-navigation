@@ -106,7 +106,8 @@ export class DemoPageBase {
     <paper-item data-file="exchange-experience-api.json">Exchange API</paper-item>
     <paper-item data-file="exchange-experience-api-compact.json">Exchange API - compact</paper-item>
     <paper-item data-file="oauth1-fragment.json">OAuth1 fragment</paper-item>
-    <paper-item data-file="missing-endpoints.json">Missing endpoints issue</paper-item>`;
+    <paper-item data-file="missing-endpoints.json">Missing endpoints issue</paper-item>
+    <paper-item data-file="rearrange-api.json">Rearranged endpoints</paper-item>`;
   }
 
   headerTemplate() {

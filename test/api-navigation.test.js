@@ -18,6 +18,10 @@ describe('<api-navigation>', () => {
     return (await fixture(`<api-navigation summary selected="test1"></api-navigation>`));
   }
 
+  async function arrangedFixture() {
+    return (await fixture(`<api-navigation rearrangeendpoints="true"></api-navigation>`));
+  }
+
   describe('Super basics - without model', () => {
     let element;
 
@@ -253,6 +257,47 @@ describe('<api-navigation>', () => {
       node.click();
       assert.equal(element.selected, 'test2');
       assert.equal(element.selectedType, 'endpoint');
+    });
+
+    it('rearrangeEndpoints is not true by default', () => {
+      assert.isNotTrue(element.rearrangeEndpoints);
+    });
+  });
+
+  describe('`Rearranging endpoints`', () => {
+    let element;
+    let amf;
+
+    const dataSet = [
+      { path: '/transactions/:txId' },
+      { path: '/billing' },
+      { path: '/accounts/:accountId' },
+      { path: '/accounts' },
+      { path: '/transactions' },
+    ];
+
+    const expected = [
+      { path: "/transactions" },
+      { path: "/transactions/:txId" },
+      { path: "/billing" },
+      { path: "/accounts" },
+      { path: "/accounts/:accountId" }
+    ];
+
+    beforeEach(async () => {
+      element = await arrangedFixture();
+      amf = await AmfLoader.load(false, 'rearrange-api');
+    });
+
+    it('should rearrange endpoints', () => {
+      const rearranged = element._rearrangeEndpoints(dataSet);
+      assert.sameDeepOrderedMembers(rearranged, expected)
+    });
+
+    it('should have endpoints rearranged', () => {
+      element.amf = amf;
+
+      element._endpoints.forEach((endpoint, i) => assert.equal(endpoint.path, expected[i].path));
     });
   });
 
