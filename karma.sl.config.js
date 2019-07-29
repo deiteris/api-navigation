@@ -4,22 +4,17 @@ const slSettings = require('@advanced-rest-client/testing-karma-sl/sl-settings.j
 const createBaseConfig = require('./karma.conf.js');
 
 module.exports = (config) => {
-  const cnf = slSettings(config);
+  const cnf = slSettings();
   cnf.sauceLabs.testName = 'api-navigation';
   cnf.browsers = [
     'SL_Chrome',
     'SL_Chrome-1',
     'SL_Firefox',
     'SL_Firefox-1',
-    'SL_Safari',
-    'SL_Safari-1'
+    'SL_Safari'
+    // 'SL_Safari-1',
     // 'SL_EDGE'
   ];
-
-  cnf.captureTimeout = 0;
-  cnf.sauceLabs.commandTimeout = 600;
-  cnf.commandTimeout = 600;
-  cnf.browserDisconnectTimeout = 10000;
   if (process.env.TRAVIS) {
     const buildLabel = 'TRAVIS #' + process.env.TRAVIS_BUILD_NUMBER + ' (' + process.env.TRAVIS_BUILD_ID + ')';
 
@@ -32,9 +27,7 @@ module.exports = (config) => {
     cnf.sauceLabs.tunnelIdentifier = process.env.TRAVIS_JOB_NUMBER;
   }
 
-  config.set(
-    merge(createBaseConfig(config), cnf)
-  );
+  config.set(merge(createBaseConfig(config), cnf));
 
   return config;
 };
