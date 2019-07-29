@@ -12,10 +12,10 @@ export class DemoPage extends DemoPageBase {
         <p>Latest selected type: ${this.latestType}</p>
         <h2 id="regular">Regular navigation</h2>
         <api-navigation
-          summary=""
+          summary
           aware="api-demo"
           .query="${this.query}"
-          endpoints-opened=""></api-navigation>
+          endpoints-opened></api-navigation>
       </div>
 
       <div role="region" class="box" aria-labelledby="themed">

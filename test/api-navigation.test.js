@@ -874,4 +874,18 @@ describe('<api-navigation>', () => {
       });
     });
   });
+
+  describe('a11y', () => {
+    let element;
+    beforeEach(async () => {
+      const amf = await AmfLoader.load();
+      element = await summaryFixture();
+      element.amf = amf;
+      await nextFrame();
+    });
+
+    it('Performs a11y tests', async () => {
+      await assert.isAccessible(element);
+    });
+  });
 });

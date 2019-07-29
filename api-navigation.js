@@ -1596,13 +1596,13 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
           class="section-title"
           data-section="endpoints"
           @click="${this._toggleSection}"
-          title="Toggle endpoints list"
-        >
+          title="Toggle endpoints list">
           <h3>Endpoints</h3>
           <paper-icon-button
             part="toggle-button"
             class="toggle-button"
             icon="arc:keyboard-arrow-down"
+            aria-label="Toggle endpoints"
             .noink="${this.noink}"
           ></paper-icon-button>
         </div>
@@ -1618,29 +1618,23 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
                   data-endpoint-path="${item.path}"
                   @click="${this._toggleEndpoint}"
                   title="Toggle endpoint documentation"
-                  style="${this._computeEndpointPadding(item.indent, this.indentSize)}"
-                >
+                  style="${this._computeEndpointPadding(item.indent, this.indentSize)}">
                   <div class="path-details">
                     <div class="endpoint-name">${item.label}</div>
-                    ${this._computeRenderParth(this.allowPaths, item.renderPath)
-                      ? html`
-                          <div class="path-name">${item.path}</div>
-                        `
-                      : html``}
+                    ${this._computeRenderParth(this.allowPaths, item.renderPath) ? html`<div class="path-name">${item.path}</div>` : undefined}
                   </div>
                   <paper-icon-button
                     part="api-navigation-endpoint-toggle-button toggle-button"
                     class="endpoint-toggle-button"
                     icon="arc:keyboard-arrow-down"
-                    .noink="${this.noink}"
-                  ></paper-icon-button>
+                    aria-label="Toggle endpoint"
+                    .noink="${this.noink}"></paper-icon-button>
                 </div>
                 <iron-collapse
                   part="api-navigation-operation-collapse"
                   class="operation-collapse"
                   ?hidden="${item.hidden}"
-                  data-api-id="${item.id}"
-                >
+                  data-api-id="${item.id}">
                   <div
                     part="api-navigation-list-item"
                     class="list-item operation"
@@ -1651,37 +1645,31 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
                     @click="${this._itemClickHandler}"
                     @keyup="${this._spaceUpHandler}"
                     @keydown="${this._spaceDownHandler}"
-                    style="${this._computeMethodPadding(item.indent, this.indentSize)}"
-                  >
+                    style="${this._computeMethodPadding(item.indent, this.indentSize)}">
                     Overview
                   </div>
-                  ${item.methods.map(
-                    (methodItem) => html`
-                      <div
-                        part="api-navigation-list-item"
-                        class="list-item operation"
-                        role="option"
-                        tabindex="0"
-                        data-api-id="${methodItem.id}"
-                        data-parent-id="${item.id}"
-                        data-shape="method"
-                        @click="${this._itemClickHandler}"
-                        @keyup="${this._spaceUpHandler}"
-                        @keydown="${this._spaceDownHandler}"
-                        style="${this._computeMethodPadding(item.indent, this.indentSize)}"
-                      >
-                        <span class="method-label" data-method="${methodItem.method}">${methodItem.method}</span>
-                        ${methodItem.label}
-                      </div>
-                    `
+                  ${item.methods.map((methodItem) => html`
+                    <div
+                      part="api-navigation-list-item"
+                      class="list-item operation"
+                      role="option"
+                      tabindex="0"
+                      data-api-id="${methodItem.id}"
+                      data-parent-id="${item.id}"
+                      data-shape="method"
+                      @click="${this._itemClickHandler}"
+                      @keyup="${this._spaceUpHandler}"
+                      @keydown="${this._spaceDownHandler}"
+                      style="${this._computeMethodPadding(item.indent, this.indentSize)}">
+                      <span class="method-label" data-method="${methodItem.method}">${methodItem.method}</span>
+                      ${methodItem.label}
+                    </div>`
                   )}
-                </iron-collapse>
-              `
+                </iron-collapse>`
             )}
           </div>
         </iron-collapse>
-      </section>
-    `;
+      </section>`;
   }
   /**
    * Renders a template for documentation list.
@@ -1701,8 +1689,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
           class="section-title"
           data-section="docs"
           @click="${this._toggleSection}"
-          title="Toggle documentation list"
-        >
+          title="Toggle documentation list">
           <h3>Documentation</h3>
           <paper-icon-button
             part="toggle-button"
@@ -1710,25 +1697,15 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
             icon="arc:keyboard-arrow-down"
             noink="${this.noink}"
             @click="${this._itemClickHandler}"
-          ></paper-icon-button>
+            aria-label="Toggle documents"></paper-icon-button>
         </div>
         <iron-collapse .opened="${this.docsOpened}">
           <div class="children">
-            ${items.map(
-              (item) => html`
-                <div
-                  part="api-navigation-list-item"
-                  class="list-item"
-                  role="option"
-                  tabindex="0"
-                  data-api-id="${item.id}"
-                  data-shape="documentation"
-                  @click="${this._itemClickHandler}"
-                >
-                  ${item.label}
-                </div>
-              `
-            )}
+          ${items.map((item) => html`
+            <div part="api-navigation-list-item" class="list-item" role="option"
+              tabindex="0" data-api-id="${item.id}" data-shape="documentation" @click="${this._itemClickHandler}">
+              ${item.label}
+            </div>`)}
           </div>
         </iron-collapse>
       </section>
@@ -1755,25 +1732,17 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
             class="toggle-button"
             icon="arc:keyboard-arrow-down"
             noink="${this.noink}"
+            aria-label="Toggle types"
           ></paper-icon-button>
         </div>
         <iron-collapse .opened="${this.typesOpened}">
           <div class="children">
-            ${items.map(
-              (item) => html`
-                <div
-                  part="api-navigation-list-item"
-                  class="list-item"
-                  role="option"
-                  tabindex="0"
-                  data-api-id="${item.id}"
-                  data-shape="type"
-                  @click="${this._itemClickHandler}"
-                >
+            ${items.map((item) =>
+              html`<div part="api-navigation-list-item" class="list-item" role="option"
+                  tabindex="0" data-api-id="${item.id}" data-shape="type"
+                  @click="${this._itemClickHandler}">
                   ${item.label}
-                </div>
-              `
-            )}
+                </div>`)}
           </div>
         </iron-collapse>
       </section>
@@ -1800,56 +1769,46 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
             class="toggle-button"
             icon="arc:keyboard-arrow-down"
             noink="${this.noink}"
-          ></paper-icon-button>
+            aria-label="Toggle security"></paper-icon-button>
         </div>
         <iron-collapse .opened="${this.securityOpened}">
           <div class="children">
             ${items.map(
-              (item) => html`
-                <div
+              (item) => html`<div
                   part="api-navigation-list-item"
                   class="list-item"
                   role="option"
                   tabindex="0"
                   data-api-id="${item.id}"
                   data-shape="security"
-                  @click="${this._itemClickHandler}"
-                >
+                  @click="${this._itemClickHandler}">
                   ${item.label}
-                </div>
-              `
+                </div>`
             )}
           </div>
         </iron-collapse>
-      </section>
-    `;
+      </section>`;
   }
 
   render() {
     return html`
-      ${this.aware
-        ? html`
-            <raml-aware @api-changed="${this._awareApiChanged}" .scope="${this.aware}"></raml-aware>
-          `
-        : html``}
-      ${this._renderSummary
-        ? html`
-            <section class="summary">
-              <div
-                part="api-navigation-list-item"
-                class="list-item summary"
-                role="option"
-                tabindex="0"
-                data-api-id="summary"
-                data-shape="summary"
-                @click="${this._itemClickHandler}"
-              >
-                ${this.summaryLabel}
-              </div>
-            </section>
-          `
-        : html``}
-      ${this._endpointsTemplate()} ${this._documentationTemplate()} ${this._typesTemplate()} ${this._securityTemplate()}
+      ${this.aware ?
+        html`<raml-aware @api-changed="${this._awareApiChanged}" .scope="${this.aware}"></raml-aware>`
+        : undefined}
+      <div class="wrapper" role="listbox" aria-label="Navigate the API">
+      ${this._renderSummary ? html`
+        <section class="summary">
+          <div part="api-navigation-list-item" class="list-item summary"
+            role="option" tabindex="0" data-api-id="summary" data-shape="summary"
+            @click="${this._itemClickHandler}">
+            ${this.summaryLabel}
+          </div>
+        </section>` : undefined}
+      ${this._endpointsTemplate()}
+      ${this._documentationTemplate()}
+      ${this._typesTemplate()}
+      ${this._securityTemplate()}
+      </div>
     `;
   }
   /**
