@@ -560,3 +560,14 @@
 
 
 
+## [3.0.3](https://github.com/advanced-rest-client/api-navigation/compare/2.0.8...3.0.3) (2019-07-29)
+
+
+### Bug Fixes
+
+* adding type check when testing for a value ([894241e](https://github.com/advanced-rest-client/api-navigation/commit/894241e))
+* fixing linter errors ([74afa7c](https://github.com/advanced-rest-client/api-navigation/commit/74afa7c))
+* fixing npm audit errors ([4799c85](https://github.com/advanced-rest-client/api-navigation/commit/4799c85))
+
+
+
