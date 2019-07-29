@@ -101,190 +101,197 @@ import httpMethodStyles from '@api-components/http-method-label/http-method-labe
 class ApiNavigation extends AmfHelperMixin(LitElement) {
   static get styles() {
     return css`
-    :host {
-      display: block;
-      background-color: var(--api-navigation-background-color, inherit);
-      color: var(--api-navigation-color, inherit);
-      overflow: auto;
-      position: relative;
-      font-size: var(--arc-font-body1-font-size, inherit);
-      font-weight: var(--arc-font-body1-font-weight, inherit);
-      line-height: var(--arc-font-body1-line-height, inherit);
-    }
+      :host {
+        display: block;
+        background-color: var(--api-navigation-background-color, inherit);
+        color: var(--api-navigation-color, inherit);
+        overflow: auto;
+        position: relative;
+        font-size: var(--arc-font-body1-font-size, inherit);
+        font-weight: var(--arc-font-body1-font-weight, inherit);
+        line-height: var(--arc-font-body1-line-height, inherit);
+      }
 
-    ${httpMethodStyles}
+      ${httpMethodStyles}
 
-    h3,
+      h3,
     .list-item.summary {
-      font-size: var(--api-navigation-list-section-font-size, 16px);
-      font-weight: var(--api-navigation-list-section-font-weight, 500);
-      line-height: 24px;
-      color: var(--api-navigation-header-color, inherit);
-      flex: 1;
-      flex-basis: 0.000000001px;
-      padding: 0;
-      margin: 0;
-    }
+        font-size: var(--api-navigation-list-section-font-size, 16px);
+        font-weight: var(--api-navigation-list-section-font-weight, 500);
+        line-height: 24px;
+        color: var(--api-navigation-header-color, inherit);
+        flex: 1;
+        flex-basis: 0.000000001px;
+        padding: 0;
+        margin: 0;
+      }
 
-    .list-item.summary {
-      padding: var(--api-navigation-list-item-summary-padding, 12px 16px);
-    }
+      .list-item.summary {
+        padding: var(--api-navigation-list-item-summary-padding, 12px 16px);
+      }
 
-    .list-item.endpoint {
-      font-weight: var(--api-navigation-endpoint-font-weight, 500);
-      font-size: var(--api-navigation-endpoint-font-size, 15px);
-      user-select: none;
-      display: flex;
-      flex-direction: row;
-    }
+      .list-item.endpoint {
+        font-weight: var(--api-navigation-endpoint-font-weight, 500);
+        font-size: var(--api-navigation-endpoint-font-size, 15px);
+        user-select: none;
+        display: flex;
+        flex-direction: row;
+      }
 
-    .list-item.endpoint:first-of-type {
-      margin-top: 0px;
-    }
+      .list-item.endpoint:first-of-type {
+        margin-top: 0px;
+      }
 
-    .path-details {
-      flex: 1;
-      flex-basis: 0.000000001px;
-    }
+      .path-details {
+        flex: 1;
+        flex-basis: 0.000000001px;
+      }
 
-    .path-name,
-    .endpoint-name {
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+      .path-name,
+      .endpoint-name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
 
-    .path-name {
-      font-size: var(--api-navigation-path-label-font-size, 13px);
-      color: var(--api-navigation-path-label-color, #616161);
-    }
+      .path-name {
+        font-size: var(--api-navigation-path-label-font-size, 13px);
+        color: var(--api-navigation-path-label-color, #616161);
+      }
 
-    *[hidden] {
-      display: none !important;
-    }
+      *[hidden] {
+        display: none !important;
+      }
 
-    .children {
-      background-color: inherit;
-    }
+      .children {
+        background-color: inherit;
+      }
 
-    .section-title {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      cursor: pointer;
-      padding: var(--api-navigation-section-title-padding, 4px 16px);
-      background-color: var(--api-navigation-section-title-background-color, inherit);
-      user-select: none;
-      min-height: 40px;
-    }
+      .section-title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        cursor: pointer;
+        padding: var(--api-navigation-section-title-padding, 4px 16px);
+        background-color: var(--api-navigation-section-title-background-color, inherit);
+        user-select: none;
+        min-height: 40px;
+      }
 
-    .list-item {
-      display: block;
-      position: relative;
-      min-height: var(--api-navigation-list-item-min-height, 40px);
-      padding: var(--api-navigation-list-item-padding, 4px 16px);
-      border: none;
-      outline: none;
-      background-color: inherit;
-      width: 100%;
-      text-align: left;
-      box-sizing: border-box;
-      cursor: pointer;
-      word-break: break-all;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      /* For Anypoint styles */
-      border-left: var(--api-navigation-list-item-border-left);
-    }
+      .list-item {
+        display: block;
+        position: relative;
+        min-height: var(--api-navigation-list-item-min-height, 40px);
+        padding: var(--api-navigation-list-item-padding, 4px 16px);
+        border: none;
+        outline: none;
+        background-color: inherit;
+        width: 100%;
+        text-align: left;
+        box-sizing: border-box;
+        cursor: pointer;
+        word-break: break-all;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        /* For Anypoint styles */
+        border-left: var(--api-navigation-list-item-border-left);
+      }
 
-    .list-item.iron-selected {
-      font-weight: var(--api-navigation-list-item-selected-weight, bold);
-      background-color: var(--api-navigation-list-item-selected-background-color, var(--accent-color));
-      color: var(--api-navigation-list-item-selected-color, #fff);
-      /* For Anypoint styling */
-      border-left: var(--api-navigation-list-item-selected-border-left, initial);
-    }
+      .list-item.iron-selected {
+        font-weight: var(--api-navigation-list-item-selected-weight, bold);
+        background-color: var(--api-navigation-list-item-selected-background-color, var(--accent-color));
+        color: var(--api-navigation-list-item-selected-color, #fff);
+        /* For Anypoint styling */
+        border-left: var(--api-navigation-list-item-selected-border-left, initial);
+      }
 
-    .list-item.passive-selected {
-      font-weight: var(--api-navigation-list-item-selected-weight, bold);
-    }
+      .list-item.passive-selected {
+        font-weight: var(--api-navigation-list-item-selected-weight, bold);
+      }
 
-    .list-item[disabled] {
-      color: var(--api-navigation-list-item-disabled-color, var(--disabled-text-color));
-    }
+      .list-item[disabled] {
+        color: var(--api-navigation-list-item-disabled-color, var(--disabled-text-color));
+      }
 
-    .list-item:focus {
-      position: relative;
-      outline: 0;
-    }
+      .list-item:focus {
+        position: relative;
+        outline: 0;
+      }
 
-    .list-item:hover:not(.iron-selected) {
-      /* This is Anypoint styling requirement */
-      border-left: var(--api-navigation-list-item-hovered-border-left, initial);
-    }
+      .list-item:hover:not(.iron-selected) {
+        /* This is Anypoint styling requirement */
+        border-left: var(--api-navigation-list-item-hovered-border-left, initial);
+      }
 
-    .list-item:focus:before {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background: currentColor;
-      content: '';
-      opacity: var(--dark-divider-opacity);
-      pointer-events: none;
-    }
+      .list-item:focus:before {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: currentColor;
+        content: '';
+        opacity: var(--dark-divider-opacity);
+        pointer-events: none;
+      }
 
-    .toggle-button,
-    .endpoint-toggle-button {
-      transform: rotateZ(0deg);
-      transition: color 0.25s ease-in-out, transform 0.3s ease-in-out;
-    }
+      .toggle-button,
+      .endpoint-toggle-button {
+        transform: rotateZ(0deg);
+        transition: color 0.25s ease-in-out, transform 0.3s ease-in-out;
+      }
 
-    .toggle-button {
-      color: var(--api-navigation-toggle-icon-color, rgba(0, 0, 0, 0.74));
-    }
+      .toggle-button {
+        color: var(--api-navigation-toggle-icon-color, rgba(0, 0, 0, 0.74));
+      }
 
-    .endpoint-toggle-button {
-      color: var(--api-navigation-endpoint-toggle-icon-color, var(--api-navigation-toggle-icon-color, rgba(0, 0, 0, 0.74)));
-      transform: rotateZ(0deg);
-      transition: color 0.25s ease-in-out, transform 0.3s ease-in-out;
+      .endpoint-toggle-button {
+        color: var(
+          --api-navigation-endpoint-toggle-icon-color,
+          var(--api-navigation-toggle-icon-color, rgba(0, 0, 0, 0.74))
+        );
+        transform: rotateZ(0deg);
+        transition: color 0.25s ease-in-out, transform 0.3s ease-in-out;
 
-      width: var(--api-navigation-endpoint-toggle-icon-width, 32px);
-      height: var(--api-navigation-endpoint-toggle-icon-height, 32px);
-      margin-right: var(--api-navigation-endpoint-toggle-icon-margin-right);
-    }
+        width: var(--api-navigation-endpoint-toggle-icon-width, 32px);
+        height: var(--api-navigation-endpoint-toggle-icon-height, 32px);
+        margin-right: var(--api-navigation-endpoint-toggle-icon-margin-right);
+      }
 
-    .toggle-button:hover {
-      color: var(--api-navigation-toggle-icon-hover-color, var(--secondary-button-color, rgba(0, 0, 0, 0.88)));
-    }
+      .toggle-button:hover {
+        color: var(--api-navigation-toggle-icon-hover-color, var(--secondary-button-color, rgba(0, 0, 0, 0.88)));
+      }
 
-    .endpoint-toggle-button:hover {
-      color: var(--api-navigation-endpoint-toggle-icon-hover-color, var(--api-navigation-toggle-icon-hover-color, var(--secondary-button-color, rgba(0, 0, 0, 0.88))));
-    }
+      .endpoint-toggle-button:hover {
+        color: var(
+          --api-navigation-endpoint-toggle-icon-hover-color,
+          var(--api-navigation-toggle-icon-hover-color, var(--secondary-button-color, rgba(0, 0, 0, 0.88)))
+        );
+      }
 
-    [data-opened] .toggle-button,
-    [endpoint-opened] .endpoint-toggle-button {
-      transform: rotateZ(-180deg);
-    }
+      [data-opened] .toggle-button,
+      [endpoint-opened] .endpoint-toggle-button {
+        transform: rotateZ(-180deg);
+      }
 
-    .method-label {
-      margin-bottom: 0;
-      white-space: nowrap;
-    }
+      .method-label {
+        margin-bottom: 0;
+        white-space: nowrap;
+      }
 
-    .list-item.iron-selected .method-label[data-method] {
-      color: var(--method-display-selected-color, #fff);
-    }
+      .list-item.iron-selected .method-label[data-method] {
+        color: var(--method-display-selected-color, #fff);
+      }
 
-    .operation {
-      padding-left: var(--api-navigation-operation-item-padding-left, 24px);
-      font-size: var(--api-navigation-operation-font-size, 14px);
-    }
+      .operation {
+        padding-left: var(--api-navigation-operation-item-padding-left, 24px);
+        font-size: var(--api-navigation-operation-font-size, 14px);
+      }
 
-    [endpoint-opened] {
-      background-color: var(--api-navigation-operation-endpoint-opened-background-color, inherit);
-    }`;
+      [endpoint-opened] {
+        background-color: var(--api-navigation-operation-endpoint-opened-background-color, inherit);
+      }
+    `;
   }
 
   static get properties() {
@@ -444,7 +451,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
        * current model is not a RAML fragment.
        */
       _renderSummary: {
-        type: Boolean,
+        type: Boolean
       },
       /**
        * When set it renders full path below endpoint name if the endpoint has
@@ -565,12 +572,14 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     this[key] = value;
     this.requestUpdate(prop, oldValue);
     if (notify) {
-      this.dispatchEvent(new CustomEvent(prop + '-changed', {
-        composed: true,
-        detail: {
-          value
-        }
-      }));
+      this.dispatchEvent(
+        new CustomEvent(prop + '-changed', {
+          composed: true,
+          detail: {
+            value
+          }
+        })
+      );
     }
     return true;
   }
@@ -590,7 +599,9 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
    * Attaches element's listeners.
    */
   connectedCallback() {
-    super.connectedCallback();
+    if (super.connectedCallback) {
+      super.connectedCallback();
+    }
     if (!this.getAttribute('role')) {
       this.setAttribute('role', 'navigation');
     }
@@ -598,7 +609,9 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
   }
 
   disconnectedCallback() {
-    super.disconnectedCallback();
+    if (super.disconnectedCallback) {
+      super.disconnectedCallback();
+    }
     window.removeEventListener('api-navigation-selection-changed', this._navigationChangeHandler);
   }
   /**
@@ -628,7 +641,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     } else if (this._hasType(model, this.ns.raml.vocabularies.document + 'DataType')) {
       data = this._collectTypeData(model);
       this.typesOpened = true;
-    } else if (moduleKey === model['@type'][0]) {
+    } else if (model['@type'] && moduleKey === model['@type'][0]) {
       data = this._collectData(model);
     }
     if (this._isFragment !== isFragment) {
@@ -819,9 +832,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
         }
       }
 
-      return resultArray
-          .concat(left.slice(leftIndex))
-          .concat(right.slice(rightIndex));
+      return resultArray.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
     }
 
     function mergeSort(unsortedArray) {
@@ -833,14 +844,14 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       const left = unsortedArray.slice(0, middle);
       const right = unsortedArray.slice(middle);
 
-      return merge(
-          mergeSort(left), mergeSort(right)
-      );
+      return merge(mergeSort(left), mergeSort(right));
     }
 
     const listMap = this._createListMap(endpoints);
 
-    return Object.keys(listMap).map((key) => mergeSort(listMap[key])).reduce((acc, value) => acc.concat(value), []);
+    return Object.keys(listMap)
+      .map((key) => mergeSort(listMap[key]))
+      .reduce((acc, value) => acc.concat(value), []);
   }
   /**
    * Transforms a list of endpoints into a map that goes from
@@ -1060,9 +1071,10 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
    * @param {ClickEvent} e
    */
   _toggleSection(e) {
-    const path = e.composedPath && e.composedPath() || e.path;
+    const path = (e.composedPath && e.composedPath()) || e.path;
     let node;
-    while (true) {
+    const test = true;
+    while (test) {
       node = path.shift();
       if (!node) {
         return;
@@ -1164,7 +1176,6 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     selector = `.list-item.endpoint[data-endpoint-id="${id}"]`;
     const label = this.shadowRoot.querySelector(selector);
     if (!label) {
-      console.warn('Expected label for ', id);
       return;
     }
     if (collapse.opened) {
@@ -1199,8 +1210,10 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (!this.__effectiveQuery) {
       return true;
     }
-    return (item.label || '').toLowerCase().indexOf(this.__effectiveQuery) !== -1 ||
-      item.method.indexOf(this.__effectiveQuery) !== -1;
+    return (
+      (item.label || '').toLowerCase().indexOf(this.__effectiveQuery) !== -1 ||
+      item.method.indexOf(this.__effectiveQuery) !== -1
+    );
   }
   /**
    * When `query` property change it runs the filter function
@@ -1247,9 +1260,6 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       const node = this.shadowRoot.querySelector(`.operation[data-api-id="${selected}"]`);
       if (node) {
         endpointId = node.dataset.parentId;
-      }
-      if (!endpointId) {
-        console.warn(`Expecting endpointId to be set on the event.`);
       }
     }
     const e = new CustomEvent('api-navigation-selection-changed', {
@@ -1346,7 +1356,8 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
    */
   _toggleEndpoint(e) {
     const path = e.composedPath();
-    while (true) {
+    const test = true;
+    while (test) {
       const node = path.shift();
       if (!node) {
         return;
@@ -1375,7 +1386,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (factor < 1) {
       return `padding-left: ${padding}px`;
     }
-    const result = (factor * size) + padding;
+    const result = factor * size + padding;
     return `padding-left: ${result}px`;
   }
 
@@ -1384,7 +1395,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (factor < 1) {
       return `padding-left: ${padding}px`;
     }
-    const result = (factor * size) + padding;
+    const result = factor * size + padding;
     return `padding-left: ${result}px`;
   }
   /**
@@ -1428,10 +1439,18 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     const parts = padding.split(' ');
     let paddingLeftValue;
     switch (parts.length) {
-      case 1: paddingLeftValue = parts[0]; break;
-      case 2: paddingLeftValue = parts[1]; break;
-      case 3: paddingLeftValue = parts[1]; break;
-      case 4: paddingLeftValue = parts[3]; break;
+      case 1:
+        paddingLeftValue = parts[0];
+        break;
+      case 2:
+        paddingLeftValue = parts[1];
+        break;
+      case 3:
+        paddingLeftValue = parts[1];
+        break;
+      case 4:
+        paddingLeftValue = parts[3];
+        break;
     }
     if (!paddingLeftValue) {
       return defaultPadding;
@@ -1531,7 +1550,10 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     for (let i = 0, len = value.length; i < len; i++) {
       const endpoint = value[i];
       // If the endpoint's path or label matches the query include whole item
-      if ((endpoint.path || '').toLowerCase().indexOf(q) !== -1 || (endpoint.label || '').toLowerCase().indexOf(q) !== -1) {
+      if (
+        (endpoint.path || '').toLowerCase().indexOf(q) !== -1 ||
+        (endpoint.label || '').toLowerCase().indexOf(q) !== -1
+      ) {
         result[result.length] = endpoint;
         continue;
       }
@@ -1568,34 +1590,98 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (!items || !items.length) {
       return;
     }
-    return html`<section class="endpoints" ?data-opened="${this.endpointsOpened}">
-      <div class="section-title" data-section="endpoints" @click="${this._toggleSection}" title="Toggle endpoints list">
-        <h3>Endpoints</h3>
-        <paper-icon-button part="toggle-button" class="toggle-button" icon="arc:keyboard-arrow-down" .noink="${this.noink}"></paper-icon-button>
-      </div>
-      <iron-collapse .opened="${this.endpointsOpened}">
-        <div class="children">
-          ${items.map((item) => html`
-          <div part="api-navigation-list-item" class="list-item endpoint" ?hidden="${item.hidden}" data-endpoint-id="${item.id}" data-endpoint-path="${item.path}" @click="${this._toggleEndpoint}" title="Toggle endpoint documentation" style="${this._computeEndpointPadding(item.indent, this.indentSize)}">
-            <div class="path-details">
-              <div class="endpoint-name">${item.label}</div>
-              ${this._computeRenderParth(this.allowPaths, item.renderPath) ? html`<div class="path-name">${item.path}</div>` : html``}
-            </div>
-            <paper-icon-button part="api-navigation-endpoint-toggle-button toggle-button" class="endpoint-toggle-button" icon="arc:keyboard-arrow-down" .noink="${this.noink}"></paper-icon-button>
-          </div>
-          <iron-collapse part="api-navigation-operation-collapse" class="operation-collapse" ?hidden="${item.hidden}" data-api-id="${item.id}">
-            <div part="api-navigation-list-item" class="list-item operation" role="option" tabindex="0" data-api-id="${item.id}" data-shape="endpoint" @click="${this._itemClickHandler}" @keyup="${this._spaceUpHandler}" @keydown="${this._spaceDownHandler}" style="${this._computeMethodPadding(item.indent, this.indentSize)}">
-              Overview
-            </div>
-            ${item.methods.map((methodItem) => html`
-            <div part="api-navigation-list-item" class="list-item operation" role="option" tabindex="0" data-api-id="${methodItem.id}" data-parent-id="${item.id}" data-shape="method" @click="${this._itemClickHandler}" @keyup="${this._spaceUpHandler}" @keydown="${this._spaceDownHandler}" style="${this._computeMethodPadding(item.indent, this.indentSize)}">
-              <span class="method-label" data-method="${methodItem.method}">${methodItem.method}</span>
-              ${methodItem.label}
-            </div>`)}
-          </iron-collapse>`)}
+    return html`
+      <section class="endpoints" ?data-opened="${this.endpointsOpened}">
+        <div
+          class="section-title"
+          data-section="endpoints"
+          @click="${this._toggleSection}"
+          title="Toggle endpoints list"
+        >
+          <h3>Endpoints</h3>
+          <paper-icon-button
+            part="toggle-button"
+            class="toggle-button"
+            icon="arc:keyboard-arrow-down"
+            .noink="${this.noink}"
+          ></paper-icon-button>
         </div>
-      </iron-collapse>
-    </section>`;
+        <iron-collapse .opened="${this.endpointsOpened}">
+          <div class="children">
+            ${items.map(
+              (item) => html`
+                <div
+                  part="api-navigation-list-item"
+                  class="list-item endpoint"
+                  ?hidden="${item.hidden}"
+                  data-endpoint-id="${item.id}"
+                  data-endpoint-path="${item.path}"
+                  @click="${this._toggleEndpoint}"
+                  title="Toggle endpoint documentation"
+                  style="${this._computeEndpointPadding(item.indent, this.indentSize)}"
+                >
+                  <div class="path-details">
+                    <div class="endpoint-name">${item.label}</div>
+                    ${this._computeRenderParth(this.allowPaths, item.renderPath)
+                      ? html`
+                          <div class="path-name">${item.path}</div>
+                        `
+                      : html``}
+                  </div>
+                  <paper-icon-button
+                    part="api-navigation-endpoint-toggle-button toggle-button"
+                    class="endpoint-toggle-button"
+                    icon="arc:keyboard-arrow-down"
+                    .noink="${this.noink}"
+                  ></paper-icon-button>
+                </div>
+                <iron-collapse
+                  part="api-navigation-operation-collapse"
+                  class="operation-collapse"
+                  ?hidden="${item.hidden}"
+                  data-api-id="${item.id}"
+                >
+                  <div
+                    part="api-navigation-list-item"
+                    class="list-item operation"
+                    role="option"
+                    tabindex="0"
+                    data-api-id="${item.id}"
+                    data-shape="endpoint"
+                    @click="${this._itemClickHandler}"
+                    @keyup="${this._spaceUpHandler}"
+                    @keydown="${this._spaceDownHandler}"
+                    style="${this._computeMethodPadding(item.indent, this.indentSize)}"
+                  >
+                    Overview
+                  </div>
+                  ${item.methods.map(
+                    (methodItem) => html`
+                      <div
+                        part="api-navigation-list-item"
+                        class="list-item operation"
+                        role="option"
+                        tabindex="0"
+                        data-api-id="${methodItem.id}"
+                        data-parent-id="${item.id}"
+                        data-shape="method"
+                        @click="${this._itemClickHandler}"
+                        @keyup="${this._spaceUpHandler}"
+                        @keydown="${this._spaceDownHandler}"
+                        style="${this._computeMethodPadding(item.indent, this.indentSize)}"
+                      >
+                        <span class="method-label" data-method="${methodItem.method}">${methodItem.method}</span>
+                        ${methodItem.label}
+                      </div>
+                    `
+                  )}
+                </iron-collapse>
+              `
+            )}
+          </div>
+        </iron-collapse>
+      </section>
+    `;
   }
   /**
    * Renders a template for documentation list.
@@ -1609,19 +1695,44 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (!items || !items.length) {
       return;
     }
-    return html`<section class="documentation" ?data-opened="${this.docsOpened}">
-      <div class="section-title" data-section="docs" @click="${this._toggleSection}" title="Toggle documentation list">
-        <h3>Documentation</h3>
-        <paper-icon-button part="toggle-button" class="toggle-button" icon="arc:keyboard-arrow-down" noink="${this.noink}" @click="${this._itemClickHandler}"></paper-icon-button>
-      </div>
-      <iron-collapse .opened="${this.docsOpened}">
-        <div class="children">
-          ${items.map((item) => html`
-            <div part="api-navigation-list-item" class="list-item" role="option" tabindex="0" data-api-id="${item.id}" data-shape="documentation" @click="${this._itemClickHandler}">${item.label}</div>
-          `)}
+    return html`
+      <section class="documentation" ?data-opened="${this.docsOpened}">
+        <div
+          class="section-title"
+          data-section="docs"
+          @click="${this._toggleSection}"
+          title="Toggle documentation list"
+        >
+          <h3>Documentation</h3>
+          <paper-icon-button
+            part="toggle-button"
+            class="toggle-button"
+            icon="arc:keyboard-arrow-down"
+            noink="${this.noink}"
+            @click="${this._itemClickHandler}"
+          ></paper-icon-button>
         </div>
-      </iron-collapse>
-    </section>`;
+        <iron-collapse .opened="${this.docsOpened}">
+          <div class="children">
+            ${items.map(
+              (item) => html`
+                <div
+                  part="api-navigation-list-item"
+                  class="list-item"
+                  role="option"
+                  tabindex="0"
+                  data-api-id="${item.id}"
+                  data-shape="documentation"
+                  @click="${this._itemClickHandler}"
+                >
+                  ${item.label}
+                </div>
+              `
+            )}
+          </div>
+        </iron-collapse>
+      </section>
+    `;
   }
   /**
    * Renders a template for types list.
@@ -1635,19 +1746,38 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (!items || !items.length) {
       return;
     }
-    return html`<section class="types" ?data-opened="${this.typesOpened}">
-      <div class="section-title" data-section="types" @click="${this._toggleSection}" title="Toggle types list">
-        <h3>Types</h3>
-        <paper-icon-button part="toggle-button" class="toggle-button" icon="arc:keyboard-arrow-down" noink="${this.noink}"></paper-icon-button>
-      </div>
-      <iron-collapse .opened="${this.typesOpened}">
-        <div class="children">
-        ${items.map((item) => html`
-          <div part="api-navigation-list-item" class="list-item" role="option" tabindex="0" data-api-id="${item.id}" data-shape="type" @click="${this._itemClickHandler}">${item.label}</div>
-        `)}
+    return html`
+      <section class="types" ?data-opened="${this.typesOpened}">
+        <div class="section-title" data-section="types" @click="${this._toggleSection}" title="Toggle types list">
+          <h3>Types</h3>
+          <paper-icon-button
+            part="toggle-button"
+            class="toggle-button"
+            icon="arc:keyboard-arrow-down"
+            noink="${this.noink}"
+          ></paper-icon-button>
         </div>
-      </iron-collapse>
-    </section>`;
+        <iron-collapse .opened="${this.typesOpened}">
+          <div class="children">
+            ${items.map(
+              (item) => html`
+                <div
+                  part="api-navigation-list-item"
+                  class="list-item"
+                  role="option"
+                  tabindex="0"
+                  data-api-id="${item.id}"
+                  data-shape="type"
+                  @click="${this._itemClickHandler}"
+                >
+                  ${item.label}
+                </div>
+              `
+            )}
+          </div>
+        </iron-collapse>
+      </section>
+    `;
   }
   /**
    * Renders a template for security schemes list.
@@ -1661,35 +1791,66 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (!items || !items.length) {
       return;
     }
-    return html`<section class="security" ?data-opened="${this.securityOpened}">
-      <div class="section-title" data-section="security" @click="${this._toggleSection}" title="Toggle security list">
-        <h3>Security</h3>
-        <paper-icon-button part="toggle-button" class="toggle-button" icon="arc:keyboard-arrow-down" noink="${this.noink}"></paper-icon-button>
-      </div>
-      <iron-collapse .opened="${this.securityOpened}">
-        <div class="children">
-        ${items.map((item) => html`
-          <div part="api-navigation-list-item" class="list-item" role="option" tabindex="0" data-api-id="${item.id}" data-shape="security" @click="${this._itemClickHandler}">${item.label}</div>
-        `)}
+    return html`
+      <section class="security" ?data-opened="${this.securityOpened}">
+        <div class="section-title" data-section="security" @click="${this._toggleSection}" title="Toggle security list">
+          <h3>Security</h3>
+          <paper-icon-button
+            part="toggle-button"
+            class="toggle-button"
+            icon="arc:keyboard-arrow-down"
+            noink="${this.noink}"
+          ></paper-icon-button>
         </div>
-      </iron-collapse>
-    </section>`;
+        <iron-collapse .opened="${this.securityOpened}">
+          <div class="children">
+            ${items.map(
+              (item) => html`
+                <div
+                  part="api-navigation-list-item"
+                  class="list-item"
+                  role="option"
+                  tabindex="0"
+                  data-api-id="${item.id}"
+                  data-shape="security"
+                  @click="${this._itemClickHandler}"
+                >
+                  ${item.label}
+                </div>
+              `
+            )}
+          </div>
+        </iron-collapse>
+      </section>
+    `;
   }
 
   render() {
     return html`
-    ${this.aware ? html`<raml-aware @api-changed="${this._awareApiChanged}" .scope="${this.aware}"></raml-aware>` : html``}
-
-    ${this._renderSummary ? html`
-    <section class="summary">
-      <div part="api-navigation-list-item" class="list-item summary" role="option" tabindex="0"
-        data-api-id="summary" data-shape="summary" @click="${this._itemClickHandler}">${this.summaryLabel}</div>
-    </section>` : html``}
-
-    ${this._endpointsTemplate()}
-    ${this._documentationTemplate()}
-    ${this._typesTemplate()}
-    ${this._securityTemplate()}`;
+      ${this.aware
+        ? html`
+            <raml-aware @api-changed="${this._awareApiChanged}" .scope="${this.aware}"></raml-aware>
+          `
+        : html``}
+      ${this._renderSummary
+        ? html`
+            <section class="summary">
+              <div
+                part="api-navigation-list-item"
+                class="list-item summary"
+                role="option"
+                tabindex="0"
+                data-api-id="summary"
+                data-shape="summary"
+                @click="${this._itemClickHandler}"
+              >
+                ${this.summaryLabel}
+              </div>
+            </section>
+          `
+        : html``}
+      ${this._endpointsTemplate()} ${this._documentationTemplate()} ${this._typesTemplate()} ${this._securityTemplate()}
+    `;
   }
   /**
    * Dispatched when navigation occurrs.
