@@ -469,15 +469,6 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     };
   }
 
-  get amf() {
-    return this._amf;
-  }
-
-  set amf(value) {
-    this._setProperty('amf', value);
-    this._amfChanged(value);
-  }
-
   get selected() {
     return this._selected;
   }
@@ -615,10 +606,10 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     window.removeEventListener('api-navigation-selection-changed', this._navigationChangeHandler);
   }
   /**
-   * Called by the Polymer change observer when `amf` property change.
+   * Overrides `AmfHelperMixin.__amfChanged()`
    * @param {Array|Object} model AMF model
    */
-  _amfChanged(model) {
+  __amfChanged(model) {
     if (!model) {
       return;
     }

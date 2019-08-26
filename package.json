@@ -1,7 +1,7 @@
 {
   "name": "@api-components/api-navigation",
   "description": "An element to display the response body",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "license": "Apache-2.0",
   "main": "api-navigation.js",
   "keywords": [
@@ -27,24 +27,24 @@
   },
   "dependencies": {
     "@advanced-rest-client/arc-icons": "^3.0.0",
-    "@api-components/amf-helper-mixin": "^3.0.2",
+    "@api-components/amf-helper-mixin": "^3.1.4",
     "@api-components/http-method-label": "^3.0.0",
     "@api-components/raml-aware": "^3.0.0",
     "@polymer/iron-collapse": "^3.0.0",
     "@polymer/paper-icon-button": "^3.0.0",
     "lit-element": "^2.2.1",
-    "lit-html": "^1.1.1"
+    "lit-html": "^1.1.2"
   },
   "devDependencies": {
-    "@advanced-rest-client/arc-demo-helper": "^1.0.4",
-    "@advanced-rest-client/eslint-config": "^1.0.6",
+    "@advanced-rest-client/arc-demo-helper": "^1.0.14",
+    "@advanced-rest-client/eslint-config": "^1.1.2",
     "@advanced-rest-client/prettier-config": "^0.1.0",
-    "@advanced-rest-client/testing-karma-sl": "^1.0.2",
+    "@advanced-rest-client/testing-karma-sl": "^1.0.4",
     "@api-components/api-model-generator": "^0.1.12",
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^7.0.0",
-    "@open-wc/testing": "^2.2.1",
-    "@open-wc/testing-karma": "^3.1.5",
+    "@open-wc/testing": "^2.3.2",
+    "@open-wc/testing-karma": "^3.1.26",
     "@polymer/gen-typescript-declarations": "^1.6.2",
     "@polymer/iron-test-helpers": "^3.0.0",
     "@polymer/paper-dropdown-menu": "^3.0.0",
@@ -52,11 +52,11 @@
     "@polymer/paper-listbox": "^3.0.0",
     "@polymer/paper-toast": "^3.0.0",
     "deepmerge": "^4.0.0",
-    "es-dev-server": "^1.8.3",
+    "es-dev-server": "^1.15.1",
     "husky": "^1.0.0",
     "karma": "^4.2.0",
     "lint-staged": "^8.0.0",
-    "sinon": "^7.3.2",
+    "sinon": "^7.4.1",
     "web-animations-js": "^2.3.1"
   },
   "scripts": {

@@ -172,7 +172,7 @@ describe('AMF model test', () => {
     });
   });
 
-  describe('_amfChanged()', () => {
+  describe('__amfChanged()', () => {
     [
       ['Regular model', false],
       ['Compact model', true]
@@ -190,7 +190,7 @@ describe('AMF model test', () => {
         });
 
         it('Does nothing when no model', () => {
-          element._amfChanged();
+          element.__amfChanged();
           // no error
         });
 
