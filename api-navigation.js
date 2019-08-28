@@ -564,7 +564,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     this.requestUpdate(prop, oldValue);
     if (notify) {
       this.dispatchEvent(
-        new CustomEvent(prop + '-changed', {
+        new CustomEvent(prop.toLowerCase() + '-changed', {
           composed: true,
           detail: {
             value
