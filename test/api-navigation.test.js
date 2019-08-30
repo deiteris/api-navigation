@@ -1,8 +1,8 @@
-import { fixture, assert, nextFrame } from '@open-wc/testing';
+import { fixture, assert, nextFrame, html } from '@open-wc/testing';
 import { AmfLoader } from './amf-loader.js';
 import { AmfHelper } from './amf-helper.js';
 import { tap, keyEventOn, keyboardEventFor } from '@polymer/iron-test-helpers/mock-interactions.js';
-import sinon from 'sinon/pkg/sinon-esm.js';
+import * as sinon from 'sinon/pkg/sinon-esm.js';
 import '../api-navigation.js';
 
 describe('<api-navigation>', () => {
@@ -20,6 +20,38 @@ describe('<api-navigation>', () => {
 
   async function arrangedFixture() {
     return (await fixture(`<api-navigation rearrangeendpoints="true"></api-navigation>`));
+  }
+
+  async function endpointsOpenedFixture(amf) {
+    const elm = (await fixture(html`<api-navigation
+      endpointsOpened
+      .amf="${amf}"></api-navigation>`));
+    await nextFrame();
+    return elm;
+  }
+
+  async function docsOpenedFixture(amf) {
+    const elm = (await fixture(html`<api-navigation
+      docsOpened
+      .amf="${amf}"></api-navigation>`));
+    await nextFrame();
+    return elm;
+  }
+
+  async function typesOpenedFixture(amf) {
+    const elm = (await fixture(html`<api-navigation
+      typesopened
+      .amf="${amf}"></api-navigation>`));
+    await nextFrame();
+    return elm;
+  }
+
+  async function securityOpenedFixture(amf) {
+    const elm = (await fixture(html`<api-navigation
+      securityopened
+      .amf="${amf}"></api-navigation>`));
+    await nextFrame();
+    return elm;
   }
 
   describe('Super basics - without model', () => {
@@ -277,11 +309,11 @@ describe('<api-navigation>', () => {
     ];
 
     const expected = [
-      { path: "/transactions" },
-      { path: "/transactions/:txId" },
-      { path: "/billing" },
-      { path: "/accounts" },
-      { path: "/accounts/:accountId" }
+      { path: '/transactions' },
+      { path: '/transactions/:txId' },
+      { path: '/billing' },
+      { path: '/accounts' },
+      { path: '/accounts/:accountId' }
     ];
 
     beforeEach(async () => {
@@ -291,7 +323,7 @@ describe('<api-navigation>', () => {
 
     it('should rearrange endpoints', () => {
       const rearranged = element._rearrangeEndpoints(dataSet);
-      assert.sameDeepOrderedMembers(rearranged, expected)
+      assert.sameDeepOrderedMembers(rearranged, expected);
     });
 
     it('should have endpoints rearranged', () => {
@@ -886,6 +918,37 @@ describe('<api-navigation>', () => {
 
     it('Performs a11y tests', async () => {
       await assert.isAccessible(element);
+    });
+  });
+
+  describe('default opened state', () => {
+    let amf;
+    before(async () => {
+      amf = await AmfLoader.load();
+    });
+
+    it('opens endpoints when initialized', async () => {
+      const element = await endpointsOpenedFixture(amf);
+      const node = element.shadowRoot.querySelector('.endpoints > iron-collapse');
+      assert.isTrue(node.opened);
+    });
+
+    it('opens documentation when initialized', async () => {
+      const element = await docsOpenedFixture(amf);
+      const node = element.shadowRoot.querySelector('.documentation > iron-collapse');
+      assert.isTrue(node.opened);
+    });
+
+    it('opens types when initialized', async () => {
+      const element = await typesOpenedFixture(amf);
+      const node = element.shadowRoot.querySelector('.types > iron-collapse');
+      assert.isTrue(node.opened);
+    });
+
+    it('opens security when initialized', async () => {
+      const element = await securityOpenedFixture(amf);
+      const node = element.shadowRoot.querySelector('.security > iron-collapse');
+      assert.isTrue(node.opened);
     });
   });
 });

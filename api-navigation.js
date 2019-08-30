@@ -354,7 +354,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       /**
        * Determines and changes state of documentation panel.
        */
-      docsOpened: { type: Boolean, reflect: true, attribute: 'docs-opened' },
+      docsOpened: { type: Boolean, reflect: true },
       /**
        * Computed list of "type" items in the API.
        *
@@ -374,7 +374,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       /**
        * Determines and changes state of types panel.
        */
-      typesOpened: { type: Boolean, reflect: true, attribute: 'types-opened' },
+      typesOpened: { type: Boolean, reflect: true },
       /**
        * Computed list of Security schemes items in the API.
        *
@@ -394,7 +394,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       /**
        * Determines and changes state of security panel.
        */
-      securityOpened: { type: Boolean, reflect: true, attribute: 'security-opened' },
+      securityOpened: { type: Boolean, reflect: true },
       /**
        * Computed list of endpoint items in the API.
        *
@@ -414,7 +414,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       /**
        * Determines and changes state of endpoints panel.
        */
-      endpointsOpened: { type: Boolean, reflect: true, attribute: 'endpoints-opened' },
+      endpointsOpened: { type: Boolean, reflect: true },
       /**
        * If true, the element will not produce a ripple effect when interacted with via the pointer.
        */
