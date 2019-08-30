@@ -1,9 +1,10 @@
 import { LitElement, html, css } from 'lit-element';
 import { AmfHelperMixin } from '@api-components/amf-helper-mixin/amf-helper-mixin.js';
 import '@api-components/raml-aware/raml-aware.js';
-import '@polymer/paper-icon-button/paper-icon-button.js';
+import '@anypoint-web-components/anypoint-button/anypoint-icon-button.js';
 import '@advanced-rest-client/arc-icons/arc-icons.js';
 import '@polymer/iron-collapse/iron-collapse.js';
+import '@polymer/iron-icon/iron-icon.js';
 import httpMethodStyles from '@api-components/http-method-label/http-method-label-common-styles.js';
 /* eslint-disable max-len */
 /**
@@ -465,7 +466,11 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
        * of endpoints based on the `path` value of the endpoint, keeping the order
        * of which endpoint was first in the list, relative to each other
        */
-      rearrangeEndpoints: Boolean
+      rearrangeEndpoints: Boolean,
+      /**
+       * Enables compatibility with Anypoint components.
+       */
+      compatibility: { type: Boolean }
     };
   }
 
@@ -1589,13 +1594,15 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
           @click="${this._toggleSection}"
           title="Toggle endpoints list">
           <h3>Endpoints</h3>
-          <paper-icon-button
+          <anypoint-icon-button
             part="toggle-button"
             class="toggle-button"
-            icon="arc:keyboard-arrow-down"
             aria-label="Toggle endpoints"
             .noink="${this.noink}"
-          ></paper-icon-button>
+            ?compatibility="${this.compatibility}"
+          >
+            <iron-icon icon="arc:keyboard-arrow-down" alt="toggle icon"></iron-icon>
+          </anypoint-icon-button>
         </div>
         <iron-collapse .opened="${this.endpointsOpened}">
           <div class="children">
@@ -1614,12 +1621,14 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
                     <div class="endpoint-name">${item.label}</div>
                     ${this._computeRenderParth(this.allowPaths, item.renderPath) ? html`<div class="path-name">${item.path}</div>` : undefined}
                   </div>
-                  <paper-icon-button
+                  <anypoint-icon-button
                     part="api-navigation-endpoint-toggle-button toggle-button"
                     class="endpoint-toggle-button"
-                    icon="arc:keyboard-arrow-down"
                     aria-label="Toggle endpoint"
-                    .noink="${this.noink}"></paper-icon-button>
+                    .noink="${this.noink}"
+                    ?compatibility="${this.compatibility}">
+                    <iron-icon icon="arc:keyboard-arrow-down" alt="toggle icon"></iron-icon>
+                  </anypoint-icon-button>
                 </div>
                 <iron-collapse
                   part="api-navigation-operation-collapse"
@@ -1682,13 +1691,15 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
           @click="${this._toggleSection}"
           title="Toggle documentation list">
           <h3>Documentation</h3>
-          <paper-icon-button
+          <anypoint-icon-button
             part="toggle-button"
             class="toggle-button"
-            icon="arc:keyboard-arrow-down"
             noink="${this.noink}"
             @click="${this._itemClickHandler}"
-            aria-label="Toggle documents"></paper-icon-button>
+            aria-label="Toggle documents"
+            ?compatibility="${this.compatibility}">
+            <iron-icon icon="arc:keyboard-arrow-down" alt="toggle icon"></iron-icon>
+          </anypoint-icon-button>
         </div>
         <iron-collapse .opened="${this.docsOpened}">
           <div class="children">
@@ -1718,13 +1729,15 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       <section class="types" ?data-opened="${this.typesOpened}">
         <div class="section-title" data-section="types" @click="${this._toggleSection}" title="Toggle types list">
           <h3>Types</h3>
-          <paper-icon-button
+          <anypoint-icon-button
             part="toggle-button"
             class="toggle-button"
-            icon="arc:keyboard-arrow-down"
             noink="${this.noink}"
             aria-label="Toggle types"
-          ></paper-icon-button>
+            ?compatibility="${this.compatibility}"
+          >
+            <iron-icon icon="arc:keyboard-arrow-down" alt="toggle icon"></iron-icon>
+          </anypoint-icon-button>
         </div>
         <iron-collapse .opened="${this.typesOpened}">
           <div class="children">
@@ -1755,12 +1768,14 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       <section class="security" ?data-opened="${this.securityOpened}">
         <div class="section-title" data-section="security" @click="${this._toggleSection}" title="Toggle security list">
           <h3>Security</h3>
-          <paper-icon-button
+          <anypoint-icon-button
             part="toggle-button"
             class="toggle-button"
-            icon="arc:keyboard-arrow-down"
             noink="${this.noink}"
-            aria-label="Toggle security"></paper-icon-button>
+            aria-label="Toggle security"
+            ?compatibility="${this.compatibility}">
+            <iron-icon icon="arc:keyboard-arrow-down" alt="toggle icon"></iron-icon>
+          </anypoint-icon-button>
         </div>
         <iron-collapse .opened="${this.securityOpened}">
           <div class="children">
