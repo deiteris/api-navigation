@@ -10,46 +10,7 @@
     <script type="module" src="../node_modules/@advanced-rest-client/arc-demo-helper/arc-demo-helper.js"></script>
 
     <style>
-      html {
-        --arc-font-common-base: {
-          @apply --paper-font-common-base;
-        };
-        --arc-font-body1: {
-          @apply --paper-font-body1;
-        };
-        --api-navigation-list-item-selected-background-color: var(--primary-color);
-        --api-navigation-endpoint-toggle-icon-color: #9E9E9E;
-        --api-navigation-endpoint-toggle-icon: {
-          width: 32px;
-          height: 32px;
-          margin-right: 4px;
-        };
-      }
-
-      html,
-      body {
-        margin: 0 !important;
-        padding: 0 !important;
-      }
-
-      header {
-        padding: 12px 24px;
-        background-color: #C5E1A5;
-        --iron-icon-fill-color: #3E2723;
-        --paper-input-container-focus-color: #33691E;
-        --paper-input-container-label: {
-          color: #3E2723;
-        };
-        display: flex;
-        align-items: center;
-      }
-
-      h2 {
-        @apply --paper-font-headline;
-      }
-
       .box {
-        @apply --shadow-elevation-4dp;
         box-sizing: border-box;
         padding: 16px;
         margin-bottom: 40px;
@@ -80,15 +41,14 @@
         --api-navigation-list-item-selected-background-color: #FFCC80;
         --method-display-selected-color: #000;
         --api-navigation-list-item-selected-color: #000;
-        --api-navigation-list-item: {
-          border-left: 4px transparent solid;
-        };
-        --api-navigation-list-item-selected: {
-          border-left: 4px #2196F3 solid;
-        };
-        --api-navigation-list-item-hovered: {
-          border-left: 4px #90CAF9 solid;
-        };
+      }
+
+      html,
+      body {
+        --paper-input-container-color: #fff;
+        --paper-input-container-input-color: #fff;
+        margin: 0;
+        padding: 0 !important;
       }
       </style>
   </head>

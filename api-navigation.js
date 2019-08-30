@@ -111,6 +111,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
         font-size: var(--arc-font-body1-font-size, inherit);
         font-weight: var(--arc-font-body1-font-weight, inherit);
         line-height: var(--arc-font-body1-line-height, inherit);
+        outline: none;
       }
 
       ${httpMethodStyles}
@@ -558,6 +559,41 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       this._queryChanged(value);
     }
   }
+  /**
+   * @return {?Element} A reference to currently selected node.
+   */
+  get selectedItem() {
+    return this._selectedItem;
+  }
+
+  get _selectedItem() {
+    return this.__selectedItem;
+  }
+
+  set _selectedItem(value) {
+    this.__selectedItem = value;
+  }
+
+  /**
+   * @return {?Element} The currently focused item.
+   */
+  get focusedItem() {
+    return this._focusedItem;
+  }
+
+  get _focusedItem() {
+    return this.__focusedItem;
+  }
+
+  set _focusedItem(value) {
+    const old = this.__focusedItem;
+    /* istanbul ignore if */
+    if (old === value) {
+      return;
+    }
+    this.__focusedItem = value;
+    this._focusedItemChanged(value, old);
+  }
 
   _setProperty(prop, value, notify) {
     const key = '_' + prop;
@@ -588,6 +624,8 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     this.indentSize = 8;
 
     this._navigationChangeHandler = this._navigationChangeHandler.bind(this);
+    this._focusHandler = this._focusHandler.bind(this);
+    this._keydownHandler = this._keydownHandler.bind(this);
   }
 
   /**
@@ -599,9 +637,19 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       super.connectedCallback();
     }
     if (!this.getAttribute('role')) {
-      this.setAttribute('role', 'navigation');
+      this.setAttribute('role', 'menubar');
+    }
+    if (!this.getAttribute('aria-label')) {
+      this.setAttribute('aria-label', 'API structure');
+    }
+    if (!this.getAttribute('tabindex')) {
+      this.setAttribute('tabindex', '0');
     }
     window.addEventListener('api-navigation-selection-changed', this._navigationChangeHandler);
+    this.addEventListener('focus', this._focusHandler);
+    this.addEventListener('keydown', this._keydownHandler);
+
+    this._resetTabindices();
   }
 
   disconnectedCallback() {
@@ -609,6 +657,9 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       super.disconnectedCallback();
     }
     window.removeEventListener('api-navigation-selection-changed', this._navigationChangeHandler);
+    this.removeEventListener('focus', this._focusHandler);
+    this.removeEventListener('keydown', this._keydownHandler);
+    this._items = null;
   }
   /**
    * Overrides `AmfHelperMixin.__amfChanged()`
@@ -623,6 +674,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     }
     let data = {};
     let isFragment = true;
+    this._items = null;
     const moduleKey = this._getAmfKey(this.ns.raml.vocabularies.document + 'Module');
     if (this._hasType(model, this.ns.raml.vocabularies.document + 'Document')) {
       isFragment = false;
@@ -650,6 +702,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     this._closeCollapses();
     setTimeout(() => {
       this._selectedChangd(this.selected);
+      this._resetTabindices();
     });
   }
 
@@ -1067,7 +1120,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
    *
    * @param {ClickEvent} e
    */
-  _toggleSection(e) {
+  _toggleSectionHandler(e) {
     const path = (e.composedPath && e.composedPath()) || e.path;
     let node;
     const test = true;
@@ -1080,6 +1133,10 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
         break;
       }
     }
+    this._toggleSection(node);
+  }
+
+  _toggleSection(node) {
     const section = node.dataset.section;
     const openedKey = section + 'Opened';
     this[openedKey] = !this[openedKey];
@@ -1095,6 +1152,8 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     this.selectedType = undefined; // cancels event fireing
     this.selected = id;
     this.selectedType = shape; // now fire event
+    this._selectedItem = node;
+    this._focusedItem = node;
   }
   /**
    * Toggles selection state of a node that has `data-api-id` set to
@@ -1296,7 +1355,8 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
    * @param {CustomEvent} e
    */
   _navigationChangeHandler(e) {
-    if (e.composedPath()[0] === this) {
+    const path = (e.composedPath && e.composedPath()) || e.path;
+    if (path[0] === this) {
       return;
     }
     this._cleanPassiveSelection();
@@ -1352,7 +1412,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
    * @param {ClickEvent} e
    */
   _toggleEndpoint(e) {
-    const path = e.composedPath();
+    const path = (e.composedPath && e.composedPath()) || e.path;
     const test = true;
     while (test) {
       const node = path.shift();
@@ -1459,28 +1519,6 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     return Number(paddingLeftValue);
   }
   /**
-   * Cancels space key down event when selecting a method with keyboard.
-   * Without it the page would scroll down.
-   * @param {KeyboardEvent} e
-   */
-  _spaceDownHandler(e) {
-    if (!(e.code === 'Space' || e.key === 'Space' || e.keyCode === 32)) {
-      return;
-    }
-    e.preventDefault();
-    e.stopImmediatePropagation();
-  }
-  /**
-   * Selectes an item when space up event is detected.
-   * @param {KeyboardEvent} e
-   */
-  _spaceUpHandler(e) {
-    if (!(e.code === 'Space' || e.key === 'Space' || e.keyCode === 32)) {
-      return;
-    }
-    e.target.click();
-  }
-  /**
    * Computes value for `_renderSummary` property
    * @param {Boolean} summary Current value of `summary` property
    * @param {Boolean} isFragment Current value of `_isFragment` property
@@ -1494,7 +1532,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
    * @param {Boolean} renderPath Endpoint property
    * @return {Boolean} True if both arguments are trully.
    */
-  _computeRenderParth(allowPaths, renderPath) {
+  _computeRenderPath(allowPaths, renderPath) {
     return !!(allowPaths && renderPath);
   }
   /**
@@ -1585,6 +1623,242 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       }
     }
   }
+
+  _focusHandler(e) {
+    if (this._shiftTabPressed) {
+      // do not focus the menu itself
+      return;
+    }
+    const path = (e.composedPath && e.composedPath()) || e.path;
+    const rootTarget = path[0];
+    if (rootTarget !== this && typeof rootTarget.tabIndex !== 'undefined' && !this.contains(rootTarget)) {
+      return;
+    }
+    this._focusedItem = null;
+    if (this.selectedItem) {
+      this.selectedItem.focus();
+      this._focusedItem = this.selectedItem;
+    } else {
+      this.focusNext();
+    }
+  }
+
+  focusPrevious() {
+    const items = this._listActiveItems();
+    const length = items.length;
+    const curFocusIndex = items.indexOf(this._focusedItem);
+    for (let i = 1; i < length + 1; i++) {
+      const item = items[(curFocusIndex - i + length) % length];
+      if (!item.hasAttribute('disabled')) {
+        const owner = (item.getRootNode && item.getRootNode()) || document;
+        this._focusedItem = item;
+        // Focus might not have worked, if the element was hidden or not
+        // focusable. In that case, try again.
+        if (owner.activeElement === item) {
+          return;
+        }
+      }
+    }
+  }
+
+  focusNext() {
+    const items = this._listActiveItems();
+    const length = items.length;
+    const curFocusIndex = items.indexOf(this._focusedItem);
+    for (let i = 1; i < length + 1; i++) {
+      const item = items[(curFocusIndex + i) % length];
+      if (!item.hasAttribute('disabled')) {
+        const owner = (item.getRootNode && item.getRootNode()) || document;
+        this._focusedItem = item;
+        // Focus might not have worked, if the element was hidden or not
+        // focusable. In that case, try again.
+        if (owner.activeElement === item) {
+          return;
+        }
+      }
+    }
+  }
+
+  /**
+   * Discretely updates tabindex values among menu items as the focused item
+   * changes.
+   *
+   * @param {Element} focusedItem The element that is currently focused.
+   * @param {?Element} old The last element that was considered focused, if
+   * applicable.
+   */
+  _focusedItemChanged(focusedItem, old) {
+    if (old) {
+      old.setAttribute('tabindex', '-1');
+    }
+    if (focusedItem && !focusedItem.hasAttribute('disabled')) {
+      focusedItem.setAttribute('tabindex', '0');
+      focusedItem.focus();
+    }
+  }
+  /**
+   * Resets all tabindex attributes to the appropriate value based on the
+   * current selection state. The appropriate value is `0` (focusable) for
+   * the default selected item, and `-1` (not keyboard focusable) for all
+   * other items. Also sets the correct initial values for aria-selected
+   * attribute, true for default selected item and false for others.
+   */
+  _resetTabindices() {
+    const { selectedItem } = this;
+    const items = this._listActiveItems();
+    items.forEach((item) => {
+      item.setAttribute('tabindex', item === selectedItem ? '0' : '-1');
+    });
+  }
+
+  _listActiveItems() {
+    if (this._items) {
+      return this._items;
+    }
+    let result = [];
+    if (this.summary) {
+      const node = this.shadowRoot.querySelector('.list-item.summary');
+      if (node) {
+        result[result.length] = node;
+      }
+    }
+    if (this.hasEndpoints) {
+      const node = this.shadowRoot.querySelector('.endpoints .section-title');
+      if (node) {
+        result[result.length] = node;
+      }
+      const nodes = this.shadowRoot.querySelectorAll('.endpoints .list-item.endpoint');
+      for (let i = 0; i < nodes.length; i++) {
+        const node = nodes[i];
+        result[result.length] = node;
+        const collapse = node.nextElementSibling;
+        if (collapse.localName !== 'iron-collapse') {
+          continue;
+        }
+        const children = collapse.querySelectorAll('.list-item.operation');
+        if (children.length) {
+          result = result.concat(Array.from(children));
+        }
+      }
+    }
+    if (this.hasDocs) {
+      const children = this._listSectionActiveNodes('.documentation');
+      result = result.concat(Array.from(children));
+    }
+    if (this.hasTypes) {
+      const children = this._listSectionActiveNodes('.types');
+      result = result.concat(Array.from(children));
+    }
+    if (this.hasSecurity) {
+      const children = this._listSectionActiveNodes('.security');
+      result = result.concat(Array.from(children));
+    }
+    this._items = result.length ? result : undefined;
+    return result;
+  }
+
+  _listSectionActiveNodes(selector) {
+    let result = [];
+    const node = this.shadowRoot.querySelector(`${selector} .section-title`);
+    if (node) {
+      result[result.length] = node;
+      const collapse = node.nextElementSibling;
+      if (collapse) {
+        const children = collapse.querySelectorAll('.list-item');
+        if (children.length) {
+          result = result.concat(Array.from(children));
+        }
+      }
+    }
+    return result;
+  }
+  /**
+   * Handler for the keydown event.
+   * @param {KeyboardEvent} e
+   */
+  _keydownHandler(e) {
+    if (e.key === 'ArrowDown') {
+      this._onDownKey(e);
+    } else if (e.key === 'ArrowUp') {
+      this._onUpKey(e);
+    } else if (e.key === 'Tab' && e.shiftKey) {
+      this._onShiftTabDown(e);
+    } else if (e.key === 'Escape') {
+      this._onEscKey(e);
+    } else if (e.key === ' ' || e.code === 'Space') {
+      this._onSpace(e);
+    } else if (e.key === 'Enter' || e.key === 'NumpadEnter') {
+      this._onSpace(e);
+    }
+    e.stopPropagation();
+  }
+  /**
+   * Handler that is called when the up key is pressed.
+   *
+   * @param {CustomEvent} e A key combination event.
+   */
+  _onUpKey(e) {
+    this.focusPrevious();
+    e.preventDefault();
+  }
+  /**
+   * Handler that is called when the down key is pressed.
+   *
+   * @param {CustomEvent} e A key combination event.
+   */
+  _onDownKey(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.focusNext();
+  }
+  /**
+   * Handler that is called when the esc key is pressed.
+   *
+   * @param {CustomEvent} e A key combination event.
+   */
+  _onEscKey() {
+    const focusedItem = this.focusedItem;
+    if (focusedItem) {
+      focusedItem.blur();
+    }
+  }
+
+  _onSpace(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const path = (e.composedPath && e.composedPath()) || e.path;
+    const target = path && path[0];
+    if (!target) {
+      return;
+    }
+    const { classList } = target;
+    if (classList.contains('section-title')) {
+      this._toggleSection(target);
+    } else if (classList.contains('list-item') && classList.contains('endpoint')) {
+      this.toggleOperations(target.dataset.endpointId);
+    } else if (classList.contains('list-item')) {
+      this._selectItem(target);
+    }
+  }
+  /**
+   * Handler that is called when a shift+tab keypress is detected by the menu.
+   *
+   * @param {CustomEvent} event A key combination event.
+   */
+  _onShiftTabDown() {
+    const oldTabIndex = this.getAttribute('tabindex');
+
+    this._shiftTabPressed = true;
+
+    this._focusedItem = null;
+
+    this.setAttribute('tabindex', '-1');
+
+    setTimeout(() => {
+      this.setAttribute('tabindex', oldTabIndex);
+      this._shiftTabPressed = false;
+    }, 1);
+  }
   /**
    * Renders a template for endpoints and methods list.
    * @return {TemplateResult}
@@ -1602,8 +1876,10 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
         <div
           class="section-title"
           data-section="endpoints"
-          @click="${this._toggleSection}"
-          title="Toggle endpoints list">
+          @click="${this._toggleSectionHandler}"
+          title="Toggle endpoints list"
+          aria-haspopup="true"
+          role="menuitem">
           <h3>Endpoints</h3>
           <anypoint-icon-button
             part="toggle-button"
@@ -1611,76 +1887,82 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
             aria-label="Toggle endpoints"
             .noink="${this.noink}"
             ?compatibility="${this.compatibility}"
+            tabindex="-1"
           >
             <iron-icon icon="arc:keyboard-arrow-down" alt="toggle icon"></iron-icon>
           </anypoint-icon-button>
         </div>
-        <iron-collapse .opened="${this.endpointsOpened}">
+        <iron-collapse .opened="${this.endpointsOpened}" aria-hidden="${this.endpointsOpened ? 'false' : 'true'}" role="menu">
           <div class="children">
-            ${items.map(
-              (item) => html`
-                <div
-                  part="api-navigation-list-item"
-                  class="list-item endpoint"
-                  ?hidden="${item.hidden}"
-                  data-endpoint-id="${item.id}"
-                  data-endpoint-path="${item.path}"
-                  @click="${this._toggleEndpoint}"
-                  title="Toggle endpoint documentation"
-                  style="${this._computeEndpointPadding(item.indent, this.indentSize)}">
-                  <div class="path-details">
-                    <div class="endpoint-name">${item.label}</div>
-                    ${this._computeRenderParth(this.allowPaths, item.renderPath) ? html`<div class="path-name">${item.path}</div>` : undefined}
-                  </div>
-                  <anypoint-icon-button
-                    part="api-navigation-endpoint-toggle-button toggle-button"
-                    class="endpoint-toggle-button"
-                    aria-label="Toggle endpoint"
-                    .noink="${this.noink}"
-                    ?compatibility="${this.compatibility}">
-                    <iron-icon icon="arc:keyboard-arrow-down" alt="toggle icon"></iron-icon>
-                  </anypoint-icon-button>
-                </div>
-                <iron-collapse
-                  part="api-navigation-operation-collapse"
-                  class="operation-collapse"
-                  ?hidden="${item.hidden}"
-                  data-api-id="${item.id}">
-                  <div
-                    part="api-navigation-list-item"
-                    class="list-item operation"
-                    role="option"
-                    tabindex="0"
-                    data-api-id="${item.id}"
-                    data-shape="endpoint"
-                    @click="${this._itemClickHandler}"
-                    @keyup="${this._spaceUpHandler}"
-                    @keydown="${this._spaceDownHandler}"
-                    style="${this._computeMethodPadding(item.indent, this.indentSize)}">
-                    Overview
-                  </div>
-                  ${item.methods.map((methodItem) => html`
-                    <div
-                      part="api-navigation-list-item"
-                      class="list-item operation"
-                      role="option"
-                      tabindex="0"
-                      data-api-id="${methodItem.id}"
-                      data-parent-id="${item.id}"
-                      data-shape="method"
-                      @click="${this._itemClickHandler}"
-                      @keyup="${this._spaceUpHandler}"
-                      @keydown="${this._spaceDownHandler}"
-                      style="${this._computeMethodPadding(item.indent, this.indentSize)}">
-                      <span class="method-label" data-method="${methodItem.method}">${methodItem.method}</span>
-                      ${methodItem.label}
-                    </div>`
-                  )}
-                </iron-collapse>`
-            )}
+            ${items.map((item) => this._endpointTemplate(item))}
           </div>
         </iron-collapse>
       </section>`;
+  }
+
+  _endpointTemplate(item) {
+    return html`<div
+      part="api-navigation-list-item"
+      class="list-item endpoint"
+      ?hidden="${item.hidden}"
+      data-endpoint-id="${item.id}"
+      data-endpoint-path="${item.path}"
+      @click="${this._toggleEndpoint}"
+      title="Toggle endpoint documentation"
+      style="${this._computeEndpointPadding(item.indent, this.indentSize)}"
+      role="menuitem"
+      aria-haspopup="true">
+      <div class="path-details">
+        <div class="endpoint-name">${item.label}</div>
+        ${this._computeRenderPath(this.allowPaths, item.renderPath) ? html`<div class="path-name">${item.path}</div>` : undefined}
+      </div>
+      <anypoint-icon-button
+        part="api-navigation-endpoint-toggle-button toggle-button"
+        class="endpoint-toggle-button"
+        aria-label="Toggle endpoint"
+        .noink="${this.noink}"
+        ?compatibility="${this.compatibility}"
+        tabindex="-1">
+        <iron-icon icon="arc:keyboard-arrow-down" alt="toggle icon"></iron-icon>
+      </anypoint-icon-button>
+    </div>
+    <iron-collapse
+      part="api-navigation-operation-collapse"
+      class="operation-collapse"
+      ?hidden="${item.hidden}"
+      data-api-id="${item.id}"
+      aria-hidden="${item.hidden ? 'true' : 'false'}"
+      role="menu">
+      <div
+        part="api-navigation-list-item"
+        class="list-item operation"
+        role="menuitem"
+        tabindex="0"
+        data-api-id="${item.id}"
+        data-shape="endpoint"
+        @click="${this._itemClickHandler}"
+        style="${this._computeMethodPadding(item.indent, this.indentSize)}">
+        Overview
+      </div>
+      ${item.methods.map((methodItem) => this._methodTemplate(item, methodItem))}
+    </iron-collapse>`;
+  }
+
+  _methodTemplate(endpointItem, methodItem) {
+    const style = this._computeMethodPadding(endpointItem.indent, this.indentSize);
+    return html`<div
+      part="api-navigation-list-item"
+      class="list-item operation"
+      role="menuitem"
+      tabindex="0"
+      data-api-id="${methodItem.id}"
+      data-parent-id="${endpointItem.id}"
+      data-shape="method"
+      @click="${this._itemClickHandler}"
+      style="${style}">
+      <span class="method-label" data-method="${methodItem.method}">${methodItem.method}</span>
+      ${methodItem.label}
+    </div>`;
   }
   /**
    * Renders a template for documentation list.
@@ -1699,7 +1981,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
         <div
           class="section-title"
           data-section="docs"
-          @click="${this._toggleSection}"
+          @click="${this._toggleSectionHandler}"
           title="Toggle documentation list">
           <h3>Documentation</h3>
           <anypoint-icon-button
@@ -1708,14 +1990,15 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
             noink="${this.noink}"
             @click="${this._itemClickHandler}"
             aria-label="Toggle documents"
-            ?compatibility="${this.compatibility}">
+            ?compatibility="${this.compatibility}"
+            tabindex="-1">
             <iron-icon icon="arc:keyboard-arrow-down" alt="toggle icon"></iron-icon>
           </anypoint-icon-button>
         </div>
         <iron-collapse .opened="${this.docsOpened}">
           <div class="children">
           ${items.map((item) => html`
-            <div part="api-navigation-list-item" class="list-item" role="option"
+            <div part="api-navigation-list-item" class="list-item" role="menuitem"
               tabindex="0" data-api-id="${item.id}" data-shape="documentation" @click="${this._itemClickHandler}">
               ${item.label}
             </div>`)}
@@ -1738,7 +2021,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     }
     return html`
       <section class="types" ?data-opened="${this.typesOpened}">
-        <div class="section-title" data-section="types" @click="${this._toggleSection}" title="Toggle types list">
+        <div class="section-title" data-section="types" @click="${this._toggleSectionHandler}" title="Toggle types list">
           <h3>Types</h3>
           <anypoint-icon-button
             part="toggle-button"
@@ -1746,6 +2029,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
             noink="${this.noink}"
             aria-label="Toggle types"
             ?compatibility="${this.compatibility}"
+            tabindex="-1"
           >
             <iron-icon icon="arc:keyboard-arrow-down" alt="toggle icon"></iron-icon>
           </anypoint-icon-button>
@@ -1753,7 +2037,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
         <iron-collapse .opened="${this.typesOpened}">
           <div class="children">
             ${items.map((item) =>
-              html`<div part="api-navigation-list-item" class="list-item" role="option"
+              html`<div part="api-navigation-list-item" class="list-item" role="menuitem"
                   tabindex="0" data-api-id="${item.id}" data-shape="type"
                   @click="${this._itemClickHandler}">
                   ${item.label}
@@ -1777,14 +2061,15 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     }
     return html`
       <section class="security" ?data-opened="${this.securityOpened}">
-        <div class="section-title" data-section="security" @click="${this._toggleSection}" title="Toggle security list">
+        <div class="section-title" data-section="security" @click="${this._toggleSectionHandler}" title="Toggle security list">
           <h3>Security</h3>
           <anypoint-icon-button
             part="toggle-button"
             class="toggle-button"
             noink="${this.noink}"
             aria-label="Toggle security"
-            ?compatibility="${this.compatibility}">
+            ?compatibility="${this.compatibility}"
+            tabindex="-1">
             <iron-icon icon="arc:keyboard-arrow-down" alt="toggle icon"></iron-icon>
           </anypoint-icon-button>
         </div>
@@ -1794,7 +2079,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
               (item) => html`<div
                   part="api-navigation-list-item"
                   class="list-item"
-                  role="option"
+                  role="menuitem"
                   tabindex="0"
                   data-api-id="${item.id}"
                   data-shape="security"
@@ -1812,11 +2097,11 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       ${this.aware ?
         html`<raml-aware @api-changed="${this._awareApiChanged}" .scope="${this.aware}"></raml-aware>`
         : undefined}
-      <div class="wrapper" role="listbox" aria-label="Navigate the API">
+      <div class="wrapper" role="menu" aria-label="Navigate the API">
       ${this._renderSummary ? html`
         <section class="summary">
           <div part="api-navigation-list-item" class="list-item summary"
-            role="option" tabindex="0" data-api-id="summary" data-shape="summary"
+            role="menuitem" tabindex="0" data-api-id="summary" data-shape="summary"
             @click="${this._itemClickHandler}">
             ${this.summaryLabel}
           </div>

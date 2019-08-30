@@ -70,6 +70,16 @@
 ]
 }
 ],
+"raml-http:accepts": [
+{
+"@value": "application/json"
+}
+],
+"raml-http:contentType": [
+{
+"@value": "application/json"
+}
+],
 "schema-org:version": [
 {
 "@value": "1.0.0"
@@ -273,6 +283,7 @@
 "@id": "#8",
 "@type": [
 "raml-shapes:ScalarShape",
+"raml-shapes:AnyShape",
 "shacl:Shape",
 "raml-shapes:Shape",
 "doc:DomainElement"
@@ -429,6 +440,7 @@
 "@id": "#12",
 "@type": [
 "raml-shapes:ScalarShape",
+"raml-shapes:AnyShape",
 "shacl:Shape",
 "raml-shapes:Shape",
 "doc:DomainElement"
@@ -717,6 +729,7 @@
 "@id": "#19",
 "@type": [
 "raml-shapes:ScalarShape",
+"raml-shapes:AnyShape",
 "shacl:Shape",
 "raml-shapes:Shape",
 "doc:DomainElement"
@@ -873,6 +886,7 @@
 "@id": "#23",
 "@type": [
 "raml-shapes:ScalarShape",
+"raml-shapes:AnyShape",
 "shacl:Shape",
 "raml-shapes:Shape",
 "doc:DomainElement"
@@ -1029,6 +1043,7 @@
 "@id": "#27",
 "@type": [
 "raml-shapes:ScalarShape",
+"raml-shapes:AnyShape",
 "shacl:Shape",
 "raml-shapes:Shape",
 "doc:DomainElement"
@@ -1099,6 +1114,7 @@
 "@id": "#29",
 "@type": [
 "raml-shapes:ScalarShape",
+"raml-shapes:AnyShape",
 "shacl:Shape",
 "raml-shapes:Shape",
 "doc:DomainElement"
@@ -1255,6 +1271,7 @@
 "@id": "#33",
 "@type": [
 "raml-shapes:ScalarShape",
+"raml-shapes:AnyShape",
 "shacl:Shape",
 "raml-shapes:Shape",
 "doc:DomainElement"
@@ -1411,6 +1428,7 @@
 "@id": "#37",
 "@type": [
 "raml-shapes:ScalarShape",
+"raml-shapes:AnyShape",
 "shacl:Shape",
 "raml-shapes:Shape",
 "doc:DomainElement"
@@ -1567,6 +1585,7 @@
 "@id": "#41",
 "@type": [
 "raml-shapes:ScalarShape",
+"raml-shapes:AnyShape",
 "shacl:Shape",
 "raml-shapes:Shape",
 "doc:DomainElement"
@@ -1637,6 +1656,7 @@
 "@id": "#43",
 "@type": [
 "raml-shapes:ScalarShape",
+"raml-shapes:AnyShape",
 "shacl:Shape",
 "raml-shapes:Shape",
 "doc:DomainElement"
@@ -1844,6 +1864,7 @@
 "@id": "#48",
 "@type": [
 "raml-shapes:ScalarShape",
+"raml-shapes:AnyShape",
 "shacl:Shape",
 "raml-shapes:Shape",
 "doc:DomainElement"
@@ -1914,6 +1935,7 @@
 "@id": "#50",
 "@type": [
 "raml-shapes:ScalarShape",
+"raml-shapes:AnyShape",
 "shacl:Shape",
 "raml-shapes:Shape",
 "doc:DomainElement"
@@ -2070,6 +2092,7 @@
 "@id": "#54",
 "@type": [
 "raml-shapes:ScalarShape",
+"raml-shapes:AnyShape",
 "shacl:Shape",
 "raml-shapes:Shape",
 "doc:DomainElement"
@@ -2140,6 +2163,7 @@
 "@id": "#56",
 "@type": [
 "raml-shapes:ScalarShape",
+"raml-shapes:AnyShape",
 "shacl:Shape",
 "raml-shapes:Shape",
 "doc:DomainElement"
@@ -2254,6 +2278,18 @@
 {
 "sourcemaps:element": [
 {
+"@value": "raml-http:accepts"
+}
+],
+"sourcemaps:value": [
+{
+"@value": "[(5,0)-(7,0)]"
+}
+]
+},
+{
+"sourcemaps:element": [
+{
 "@value": "schema-org:name"
 }
 ],
@@ -2284,6 +2320,18 @@
 "sourcemaps:value": [
 {
 "@value": "[(4,0)-(5,0)]"
+}
+]
+},
+{
+"sourcemaps:element": [
+{
+"@value": "raml-http:contentType"
+}
+],
+"sourcemaps:value": [
+{
+"@value": "[(5,0)-(7,0)]"
 }
 ]
 }

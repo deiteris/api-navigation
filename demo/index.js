@@ -1,11 +1,11 @@
 import { html, render } from 'lit-html';
-import {DemoPageBase} from './lib/common.js';
+import { DemoPageBase } from './lib/common.js';
 
 export class DemoPage extends DemoPageBase {
   render() {
     render(html`
     ${this.headerTemplate()}
-
+    <h1>API navigation</h1>
     <section role="main" class="vertical-section-container centered main">
       <div role="region" class="box" aria-labelledby="regular">
         <p>Latest selected object: ${this.latestSelected}</p>

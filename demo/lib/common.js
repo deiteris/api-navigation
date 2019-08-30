@@ -107,20 +107,22 @@ export class DemoPageBase {
     <paper-item data-file="exchange-experience-api-compact.json">Exchange API - compact</paper-item>
     <paper-item data-file="oauth1-fragment.json">OAuth1 fragment</paper-item>
     <paper-item data-file="missing-endpoints.json">Missing endpoints issue</paper-item>
-    <paper-item data-file="rearrange-api.json">Rearranged endpoints</paper-item>`;
+    <paper-item data-file="rearrange-api.json">Rearranged endpoints</paper-item>
+    <paper-item data-file="simple-api.json">Simple API</paper-item>`;
+
   }
 
   headerTemplate() {
     return html`<raml-aware .api="${this.amf}" scope="api-demo"></raml-aware>
     <header>
-      <paper-dropdown-menu label="Select demo API">
+      <paper-dropdown-menu label="Select demo API" aria-label="Select demo API" aria-expanded="false">
         <paper-listbox slot="dropdown-content" id="apiList" @selected-changed="${this._apiChanged}">
         ${this.apiListTemplate()}
         </paper-listbox>
       </paper-dropdown-menu>
 
       <div class="search-container">
-        <input type="search" @search="${this._searchApiHandler}"/>
+        <input type="search" @search="${this._searchApiHandler}" aria-label="API search field"/>
         <button class="search-button" @click="${this._searchButtonHandler}">Search API</button>
       </div>
     </header>`;

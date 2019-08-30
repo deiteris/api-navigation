@@ -70,6 +70,16 @@
 ]
 }
 ],
+"http://a.ml/vocabularies/http#accepts": [
+{
+"@value": "application/json"
+}
+],
+"http://a.ml/vocabularies/http#contentType": [
+{
+"@value": "application/json"
+}
+],
 "http://schema.org/version": [
 {
 "@value": "1.0.0"
@@ -273,6 +283,7 @@
 "@id": "amf://id#8",
 "@type": [
 "http://a.ml/vocabularies/shapes#ScalarShape",
+"http://a.ml/vocabularies/shapes#AnyShape",
 "http://www.w3.org/ns/shacl#Shape",
 "http://a.ml/vocabularies/shapes#Shape",
 "http://a.ml/vocabularies/document#DomainElement"
@@ -429,6 +440,7 @@
 "@id": "amf://id#12",
 "@type": [
 "http://a.ml/vocabularies/shapes#ScalarShape",
+"http://a.ml/vocabularies/shapes#AnyShape",
 "http://www.w3.org/ns/shacl#Shape",
 "http://a.ml/vocabularies/shapes#Shape",
 "http://a.ml/vocabularies/document#DomainElement"
@@ -717,6 +729,7 @@
 "@id": "amf://id#19",
 "@type": [
 "http://a.ml/vocabularies/shapes#ScalarShape",
+"http://a.ml/vocabularies/shapes#AnyShape",
 "http://www.w3.org/ns/shacl#Shape",
 "http://a.ml/vocabularies/shapes#Shape",
 "http://a.ml/vocabularies/document#DomainElement"
@@ -873,6 +886,7 @@
 "@id": "amf://id#23",
 "@type": [
 "http://a.ml/vocabularies/shapes#ScalarShape",
+"http://a.ml/vocabularies/shapes#AnyShape",
 "http://www.w3.org/ns/shacl#Shape",
 "http://a.ml/vocabularies/shapes#Shape",
 "http://a.ml/vocabularies/document#DomainElement"
@@ -1029,6 +1043,7 @@
 "@id": "amf://id#27",
 "@type": [
 "http://a.ml/vocabularies/shapes#ScalarShape",
+"http://a.ml/vocabularies/shapes#AnyShape",
 "http://www.w3.org/ns/shacl#Shape",
 "http://a.ml/vocabularies/shapes#Shape",
 "http://a.ml/vocabularies/document#DomainElement"
@@ -1099,6 +1114,7 @@
 "@id": "amf://id#29",
 "@type": [
 "http://a.ml/vocabularies/shapes#ScalarShape",
+"http://a.ml/vocabularies/shapes#AnyShape",
 "http://www.w3.org/ns/shacl#Shape",
 "http://a.ml/vocabularies/shapes#Shape",
 "http://a.ml/vocabularies/document#DomainElement"
@@ -1255,6 +1271,7 @@
 "@id": "amf://id#33",
 "@type": [
 "http://a.ml/vocabularies/shapes#ScalarShape",
+"http://a.ml/vocabularies/shapes#AnyShape",
 "http://www.w3.org/ns/shacl#Shape",
 "http://a.ml/vocabularies/shapes#Shape",
 "http://a.ml/vocabularies/document#DomainElement"
@@ -1411,6 +1428,7 @@
 "@id": "amf://id#37",
 "@type": [
 "http://a.ml/vocabularies/shapes#ScalarShape",
+"http://a.ml/vocabularies/shapes#AnyShape",
 "http://www.w3.org/ns/shacl#Shape",
 "http://a.ml/vocabularies/shapes#Shape",
 "http://a.ml/vocabularies/document#DomainElement"
@@ -1567,6 +1585,7 @@
 "@id": "amf://id#41",
 "@type": [
 "http://a.ml/vocabularies/shapes#ScalarShape",
+"http://a.ml/vocabularies/shapes#AnyShape",
 "http://www.w3.org/ns/shacl#Shape",
 "http://a.ml/vocabularies/shapes#Shape",
 "http://a.ml/vocabularies/document#DomainElement"
@@ -1637,6 +1656,7 @@
 "@id": "amf://id#43",
 "@type": [
 "http://a.ml/vocabularies/shapes#ScalarShape",
+"http://a.ml/vocabularies/shapes#AnyShape",
 "http://www.w3.org/ns/shacl#Shape",
 "http://a.ml/vocabularies/shapes#Shape",
 "http://a.ml/vocabularies/document#DomainElement"
@@ -1844,6 +1864,7 @@
 "@id": "amf://id#48",
 "@type": [
 "http://a.ml/vocabularies/shapes#ScalarShape",
+"http://a.ml/vocabularies/shapes#AnyShape",
 "http://www.w3.org/ns/shacl#Shape",
 "http://a.ml/vocabularies/shapes#Shape",
 "http://a.ml/vocabularies/document#DomainElement"
@@ -1914,6 +1935,7 @@
 "@id": "amf://id#50",
 "@type": [
 "http://a.ml/vocabularies/shapes#ScalarShape",
+"http://a.ml/vocabularies/shapes#AnyShape",
 "http://www.w3.org/ns/shacl#Shape",
 "http://a.ml/vocabularies/shapes#Shape",
 "http://a.ml/vocabularies/document#DomainElement"
@@ -2070,6 +2092,7 @@
 "@id": "amf://id#54",
 "@type": [
 "http://a.ml/vocabularies/shapes#ScalarShape",
+"http://a.ml/vocabularies/shapes#AnyShape",
 "http://www.w3.org/ns/shacl#Shape",
 "http://a.ml/vocabularies/shapes#Shape",
 "http://a.ml/vocabularies/document#DomainElement"
@@ -2140,6 +2163,7 @@
 "@id": "amf://id#56",
 "@type": [
 "http://a.ml/vocabularies/shapes#ScalarShape",
+"http://a.ml/vocabularies/shapes#AnyShape",
 "http://www.w3.org/ns/shacl#Shape",
 "http://a.ml/vocabularies/shapes#Shape",
 "http://a.ml/vocabularies/document#DomainElement"
@@ -2254,6 +2278,18 @@
 {
 "http://a.ml/vocabularies/document-source-maps#element": [
 {
+"@value": "http://a.ml/vocabularies/http#accepts"
+}
+],
+"http://a.ml/vocabularies/document-source-maps#value": [
+{
+"@value": "[(5,0)-(7,0)]"
+}
+]
+},
+{
+"http://a.ml/vocabularies/document-source-maps#element": [
+{
 "@value": "http://schema.org/name"
 }
 ],
@@ -2284,6 +2320,18 @@
 "http://a.ml/vocabularies/document-source-maps#value": [
 {
 "@value": "[(4,0)-(5,0)]"
+}
+]
+},
+{
+"http://a.ml/vocabularies/document-source-maps#element": [
+{
+"@value": "http://a.ml/vocabularies/http#contentType"
+}
+],
+"http://a.ml/vocabularies/document-source-maps#value": [
+{
+"@value": "[(5,0)-(7,0)]"
 }
 ]
 }

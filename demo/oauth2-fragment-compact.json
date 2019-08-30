@@ -60,6 +60,7 @@
 "@id": "#3",
 "@type": [
 "raml-shapes:ScalarShape",
+"raml-shapes:AnyShape",
 "shacl:Shape",
 "raml-shapes:Shape",
 "doc:DomainElement"
@@ -95,12 +96,23 @@
 {
 "@id": "#4",
 "@type": [
-"data:Scalar"
+"data:Scalar",
+"data:Node",
+"doc:DomainElement"
 ],
 "data:value": [
 {
-"@value": "ya.2453vfDb3cJHisdf.*&H",
-"@type": "xsd:string"
+"@value": "ya.2453vfDb3cJHisdf.*&H"
+}
+],
+"shacl:datatype": [
+{
+"@id": "http://www.w3.org/2001/XMLSchema#string"
+}
+],
+"schema-org:name": [
+{
+"@value": "scalar_1"
 }
 ],
 "sourcemaps:sources": [
@@ -169,6 +181,18 @@
 "sourcemaps:element": [
 {
 "@value": "amf://id#4"
+}
+],
+"sourcemaps:value": [
+{
+"@value": "[(13,15)-(13,38)]"
+}
+]
+},
+{
+"sourcemaps:element": [
+{
+"@value": "doc:structuredValue"
 }
 ],
 "sourcemaps:value": [
@@ -268,12 +292,24 @@
 {
 "sourcemaps:element": [
 {
-"@value": "hydra:required"
+"@value": "raml-http:schema"
 }
 ],
 "sourcemaps:value": [
 {
-"@value": "[(15,6)-(16,0)]"
+"@value": "[(11,4)-(16,0)]"
+}
+]
+},
+{
+"sourcemaps:element": [
+{
+"@value": "schema-org:description"
+}
+],
+"sourcemaps:value": [
+{
+"@value": "[(14,6)-(15,0)]"
 }
 ]
 },
@@ -292,12 +328,12 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "hydra:required"
 }
 ],
 "sourcemaps:value": [
 {
-"@value": "[(14,6)-(15,0)]"
+"@value": "[(15,6)-(16,0)]"
 }
 ]
 }
@@ -343,6 +379,7 @@
 "@id": "#6",
 "@type": [
 "raml-shapes:ScalarShape",
+"raml-shapes:AnyShape",
 "shacl:Shape",
 "raml-shapes:Shape",
 "doc:DomainElement"
@@ -434,12 +471,24 @@
 {
 "sourcemaps:element": [
 {
-"@value": "hydra:required"
+"@value": "raml-http:schema"
 }
 ],
 "sourcemaps:value": [
 {
-"@value": "[(9,6)-(10,0)]"
+"@value": "[(6,4)-(10,0)]"
+}
+]
+},
+{
+"sourcemaps:element": [
+{
+"@value": "schema-org:description"
+}
+],
+"sourcemaps:value": [
+{
+"@value": "[(8,6)-(9,0)]"
 }
 ]
 },
@@ -458,12 +507,12 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "hydra:required"
 }
 ],
 "sourcemaps:value": [
 {
-"@value": "[(8,6)-(9,0)]"
+"@value": "[(9,6)-(10,0)]"
 }
 ]
 }
@@ -512,7 +561,8 @@
 "@type": [
 "raml-shapes:AnyShape",
 "shacl:Shape",
-"raml-shapes:Shape"
+"raml-shapes:Shape",
+"doc:DomainElement"
 ],
 "shacl:name": [
 {
@@ -524,6 +574,20 @@
 "@id": "#9/source-map",
 "@type": [
 "sourcemaps:SourceMap"
+],
+"sourcemaps:auto-generated-name": [
+{
+"sourcemaps:element": [
+{
+"@value": "amf://id#9"
+}
+],
+"sourcemaps:value": [
+{
+"@value": ""
+}
+]
+}
 ],
 "sourcemaps:lexical": [
 {
@@ -653,7 +717,8 @@
 "@type": [
 "raml-shapes:AnyShape",
 "shacl:Shape",
-"raml-shapes:Shape"
+"raml-shapes:Shape",
+"doc:DomainElement"
 ],
 "shacl:name": [
 {
@@ -665,6 +730,20 @@
 "@id": "#12/source-map",
 "@type": [
 "sourcemaps:SourceMap"
+],
+"sourcemaps:auto-generated-name": [
+{
+"sourcemaps:element": [
+{
+"@value": "amf://id#12"
+}
+],
+"sourcemaps:value": [
+{
+"@value": ""
+}
+]
+}
 ],
 "sourcemaps:lexical": [
 {
@@ -904,48 +983,24 @@
 {
 "sourcemaps:element": [
 {
-"@value": "hydra:response"
+"@value": "security:settings"
 }
 ],
 "sourcemaps:value": [
 {
-"@value": "[(16,2)-(25,0)]"
+"@value": "[(25,0)-(30,0)]"
 }
 ]
 },
 {
 "sourcemaps:element": [
 {
-"@value": "raml-http:header"
+"@value": "raml-http:parameter"
 }
 ],
 "sourcemaps:value": [
 {
-"@value": "[(10,2)-(16,0)]"
-}
-]
-},
-{
-"sourcemaps:element": [
-{
-"@value": "security:type"
-}
-],
-"sourcemaps:value": [
-{
-"@value": "[(2,0)-(3,0)]"
-}
-]
-},
-{
-"sourcemaps:element": [
-{
-"@value": "amf://id#1"
-}
-],
-"sourcemaps:value": [
-{
-"@value": "[(2,0)-(30,0)]"
+"@value": "[(5,2)-(10,0)]"
 }
 ]
 },
@@ -964,12 +1019,48 @@
 {
 "sourcemaps:element": [
 {
-"@value": "raml-http:parameter"
+"@value": "amf://id#1"
 }
 ],
 "sourcemaps:value": [
 {
-"@value": "[(5,2)-(10,0)]"
+"@value": "[(2,0)-(30,0)]"
+}
+]
+},
+{
+"sourcemaps:element": [
+{
+"@value": "security:type"
+}
+],
+"sourcemaps:value": [
+{
+"@value": "[(2,0)-(3,0)]"
+}
+]
+},
+{
+"sourcemaps:element": [
+{
+"@value": "raml-http:header"
+}
+],
+"sourcemaps:value": [
+{
+"@value": "[(10,2)-(16,0)]"
+}
+]
+},
+{
+"sourcemaps:element": [
+{
+"@value": "hydra:response"
+}
+],
+"sourcemaps:value": [
+{
+"@value": "[(16,2)-(25,0)]"
 }
 ]
 }
@@ -1010,7 +1101,6 @@
 "doc": "http://a.ml/vocabularies/document#",
 "sourcemaps": "http://a.ml/vocabularies/document-source-maps#",
 "schema-org": "http://schema.org/",
-"xsd": "http://www.w3.org/2001/XMLSchema#",
 "hydra": "http://www.w3.org/ns/hydra/core#"
 }
 }

@@ -1,7 +1,7 @@
-import { fixture, assert, nextFrame, html } from '@open-wc/testing';
+import { fixture, assert, nextFrame, html, aTimeout } from '@open-wc/testing';
 import { AmfLoader } from './amf-loader.js';
 import { AmfHelper } from './amf-helper.js';
-import { tap, keyEventOn, keyboardEventFor } from '@polymer/iron-test-helpers/mock-interactions.js';
+import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions.js';
 import * as sinon from 'sinon/pkg/sinon-esm.js';
 import '../api-navigation.js';
 
@@ -51,6 +51,11 @@ describe('<api-navigation>', () => {
       securityopened
       .amf="${amf}"></api-navigation>`));
     await nextFrame();
+    return elm;
+  }
+
+  async function modelFixture(amf) {
+    const elm = (await fixture(html`<api-navigation .amf="${amf}"></api-navigation>`));
     return elm;
   }
 
@@ -438,7 +443,7 @@ describe('<api-navigation>', () => {
           assert.equal(e.detail.type, type);
           assert.isUndefined(e.detail.endpointId);
         });
-        tap(node);
+        MockInteractions.tap(node);
         assert.isTrue(called);
       });
     });
@@ -453,7 +458,7 @@ describe('<api-navigation>', () => {
         assert.equal(e.detail.type, 'method');
         assert.equal(e.detail.endpointId, 'test9');
       });
-      tap(node);
+      MockInteractions.tap(node);
       assert.isTrue(called);
     });
   });
@@ -652,56 +657,7 @@ describe('<api-navigation>', () => {
     ['Compact model', true],
     ['Regular model', false]
   ].forEach((item) => {
-    describe('_spaceUpHandler() - ' + item[0], () => {
-      let amf;
-      let element;
-
-      beforeEach(async () => {
-        amf = await AmfLoader.load(item[1]);
-        element = await basicFixture();
-        element.amf = amf;
-        await nextFrame();
-      });
-
-      it('Calls _spaceUpHandler() when space bar triggers on operation label', () => {
-        const node = element.shadowRoot.querySelector('.list-item.operation');
-        node.parentElement.opened = true;
-        const spy = sinon.spy(node, 'click');
-        keyEventOn(node, 'keyup', 32, '', 'Space');
-        assert.isTrue(spy.called);
-      });
-
-      it('Calls _itemClickHandler()', () => {
-        const node = element.shadowRoot.querySelector('.list-item.operation');
-        node.parentElement.opened = true;
-        // _selectItem is called by _itemClickHandler()
-        const spy = sinon.spy(element, '_selectItem');
-        keyEventOn(node, 'keyup', 32, '', 'Space');
-        assert.isTrue(spy.called);
-      });
-    });
-
-    describe('_spaceDownHandler() - ' + item[0], () => {
-      let amf;
-      let element;
-
-      beforeEach(async () => {
-        amf = await AmfLoader.load(item[1]);
-        element = await basicFixture();
-        element.amf = amf;
-        await nextFrame();
-      });
-
-      it('Calls _spaceDownHandler() when space bar triggers on operation label', () => {
-        const node = element.shadowRoot.querySelector('.list-item.operation');
-        node.parentElement.opened = true;
-        const e = keyboardEventFor('keydown', 32, '', 'Space');
-        node.dispatchEvent(e);
-        assert.isTrue(e.defaultPrevented);
-      });
-    });
-
-    describe('_toggleSection()', () => {
+    describe('_toggleSectionHandler()', () => {
       let amf;
       let element;
 
@@ -713,21 +669,21 @@ describe('<api-navigation>', () => {
       });
 
       it('Does nothing when node not found in path', () => {
-        element._toggleSection({
+        element._toggleSectionHandler({
           composedPath: () => []
         });
         // No error
       });
 
       it('Skips element without dataset property', () => {
-        element._toggleSection({
+        element._toggleSectionHandler({
           composedPath: () => [document.createTextNode('test')]
         });
       });
 
       it('Skips element without data-section attribute', () => {
         const node = document.createElement('span');
-        element._toggleSection({
+        element._toggleSectionHandler({
           composedPath: () => [node]
         });
       });
@@ -735,7 +691,7 @@ describe('<api-navigation>', () => {
       it('Toggles section', () => {
         const node = document.createElement('span');
         node.dataset.section = 'endpoints';
-        element._toggleSection({
+        element._toggleSectionHandler({
           composedPath: () => [node]
         });
         assert.isTrue(element.endpointsOpened);
@@ -848,7 +804,7 @@ describe('<api-navigation>', () => {
       });
     });
 
-    describe('_computeRenderParth()', () => {
+    describe('_computeRenderPath()', () => {
       let amf;
       let element;
 
@@ -860,32 +816,32 @@ describe('<api-navigation>', () => {
       });
 
       it('Returns true when both arguments are true', () => {
-        const result = element._computeRenderParth(true, true);
+        const result = element._computeRenderPath(true, true);
         assert.isTrue(result);
       });
 
       it('Returns false when allowPaths is false', () => {
-        const result = element._computeRenderParth(false, true);
+        const result = element._computeRenderPath(false, true);
         assert.isFalse(result);
       });
 
       it('Returns false when allowPaths is not set', () => {
-        const result = element._computeRenderParth(undefined, true);
+        const result = element._computeRenderPath(undefined, true);
         assert.isFalse(result);
       });
 
       it('Returns false when renderPath is false', () => {
-        const result = element._computeRenderParth(true, false);
+        const result = element._computeRenderPath(true, false);
         assert.isFalse(result);
       });
 
       it('Returns false when renderPath is not set', () => {
-        const result = element._computeRenderParth(true, undefined);
+        const result = element._computeRenderPath(true, undefined);
         assert.isFalse(result);
       });
 
       it('Returns false when both undefinerd', () => {
-        const result = element._computeRenderParth(false, false);
+        const result = element._computeRenderPath(false, false);
         assert.isFalse(result);
       });
 
@@ -949,6 +905,136 @@ describe('<api-navigation>', () => {
       const element = await securityOpenedFixture(amf);
       const node = element.shadowRoot.querySelector('.security > iron-collapse');
       assert.isTrue(node.opened);
+    });
+  });
+
+  [
+    ['a11y', true]
+  ].forEach(([label, compact]) => {
+    describe(label, () => {
+      let amf;
+
+      before(async () => {
+        amf = await AmfLoader.load(compact, 'simple-api');
+      });
+
+      describe('menu keyboard tests', function() {
+        let element;
+        beforeEach(async () => {
+          element = await modelFixture(amf);
+        });
+
+        it('first item gets focus when menu is focused', async () => {
+          MockInteractions.focus(element);
+          await aTimeout();
+          const node = element.shadowRoot.querySelector('.endpoints .section-title');
+          assert.equal(element.focusedItem, node, 'element.focusedItem is first item');
+        });
+
+        it('selected item gets focus when menubar is focused', async () => {
+          element.endpointsOpened = true;
+          await aTimeout();
+          const node = element.shadowRoot.querySelector('.list-item.operation');
+          MockInteractions.tap(node);
+          window.focus();
+          await aTimeout();
+          MockInteractions.focus(element);
+          assert.equal(element.focusedItem, node, 'element.focusedItem is first item');
+        });
+
+        it('focused on previous item', async () => {
+          element.endpointsOpened = true;
+          await aTimeout();
+          MockInteractions.focus(element);
+          await aTimeout();
+          // Key press up
+          MockInteractions.keyDownOn(element, 38, [], 'ArrowUp');
+          await aTimeout();
+          const node = element.shadowRoot.querySelectorAll('.endpoints > iron-collapse .list-item.endpoint')[2];
+          assert.equal(element.focusedItem, node, 'element.focusedItem is last item');
+        });
+
+        it('focused on next item', async () => {
+          MockInteractions.focus(element);
+          await aTimeout();
+          // Key press down
+          MockInteractions.keyDownOn(element, 40, [], 'ArrowDown');
+          await aTimeout();
+          const node = element.shadowRoot.querySelector('.endpoints > .section-title');
+          assert.equal(element.focusedItem, node, 'element.focusedItem is last item');
+        });
+
+        it('focused on next item', async () => {
+          MockInteractions.focus(element);
+          await aTimeout();
+          // Key press down
+          MockInteractions.keyDownOn(element, 40, [], 'ArrowDown');
+          await aTimeout();
+          const node = element.shadowRoot.querySelector('.endpoints > .section-title');
+          assert.equal(element.focusedItem, node, 'element.focusedItem is last item');
+        });
+
+        it('keyboard events should not bubble', async () => {
+          let keyCounter = 0;
+          element.parentElement.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+              keyCounter++;
+            }
+            if (event.key === 'ArrowUp') {
+              keyCounter++;
+            }
+            if (event.key === 'ArrowDown') {
+              keyCounter++;
+            }
+          });
+          // up
+          MockInteractions.keyDownOn(element, 38, [], 'ArrowUp');
+          // down
+          MockInteractions.keyDownOn(element, 40, [], 'ArrowDown');
+          // esc
+          MockInteractions.keyDownOn(element, 27, [], 'Escape');
+          await aTimeout();
+          assert.equal(keyCounter, 0);
+        });
+
+        it('selects operation item with spacebar', () => {
+          const node = element.shadowRoot.querySelector('.list-item.operation');
+          MockInteractions.keyDownOn(node, 32, [], ' ');
+          assert.equal(element.selected, node.dataset.apiId);
+        });
+
+        it('selects operation item with enter', () => {
+          const node = element.shadowRoot.querySelector('.list-item.operation');
+          MockInteractions.keyDownOn(node, 13, [], 'Enter');
+          assert.equal(element.selected, node.dataset.apiId);
+        });
+
+        it('toggles endpoints with spacebar', () => {
+          const node = element.shadowRoot.querySelector('.section-title');
+          MockInteractions.keyDownOn(node, 32, [], ' ');
+          assert.isTrue(element.endpointsOpened);
+        });
+
+        it('toggles endpoint with spacebar', () => {
+          const node = element.shadowRoot.querySelector('.list-item.endpoint');
+          MockInteractions.keyDownOn(node, 32, [], ' ');
+          assert.isTrue(node.nextElementSibling.opened);
+        });
+
+        it('shift+tab removes focus', async () => {
+          MockInteractions.focus(element);
+          // Wait for async focus
+          await aTimeout();
+          // Key press 'Tab'
+          MockInteractions.keyDownOn(element, 9, ['shift'], 'Tab');
+          assert.equal(element.getAttribute('tabindex'), '-1');
+          assert.isTrue(element._shiftTabPressed);
+          assert.equal(element._focusedItem, null);
+          await aTimeout(1);
+          assert.isFalse(element._shiftTabPressed);
+          assert.equal(element.getAttribute('tabindex'), '0');
+        });
+      });
     });
   });
 });

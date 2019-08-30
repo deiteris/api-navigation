@@ -3,7 +3,6 @@ AmfLoader.load = async function(compact, fileName) {
   fileName = fileName || 'demo-api';
   const file = '/' + fileName + (compact ? '-compact' : '') + '.json';
   const url = location.protocol + '//' + location.host + '/base/demo/' + file;
-  /* global Promise */
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.addEventListener('load', (e) => {
