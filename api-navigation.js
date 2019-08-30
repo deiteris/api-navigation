@@ -647,6 +647,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     this._types = data.types;
     this._security = data.securitySchemes;
     this._endpoints = data.endpoints;
+    this._closeCollapses();
     setTimeout(() => {
       this._selectedChangd(this.selected);
     });
@@ -1573,6 +1574,16 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       }
     }
     return result;
+  }
+
+  _closeCollapses() {
+    const nodes = this.shadowRoot.querySelectorAll('.operation-collapse');
+    for (let i = 0, len = nodes.length; i < len; i++) {
+      const node = nodes[i];
+      if (node.opened) {
+        node.opened = false;
+      }
+    }
   }
   /**
    * Renders a template for endpoints and methods list.

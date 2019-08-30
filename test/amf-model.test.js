@@ -242,4 +242,30 @@ describe('AMF model test', () => {
       assert.isTrue(node.nextElementSibling.opened);
     });
   });
+
+  describe('Changing model', () => {
+    let compactAmf;
+    let amf;
+    before(async () => {
+      amf = await AmfLoader.load();
+      compactAmf = await AmfLoader.load(true);
+    });
+
+    let element;
+    beforeEach(async () => {
+      element = await basicFixture();
+      element.amf = amf;
+      await nextFrame();
+    });
+
+    it('closes methods collapse when changing model', async () => {
+      const node = element.shadowRoot.querySelector('.operation-collapse');
+      node.opened = true;
+      await nextFrame();
+      /* eslint-disable-next-line require-atomic-updates */
+      element.amf = compactAmf;
+      await nextFrame();
+      assert.isFalse(node.opened);
+    });
+  });
 });
