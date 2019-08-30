@@ -12,11 +12,7 @@
 // tslint:disable:variable-name Describing an API that's defined elsewhere.
 // tslint:disable:no-any describes the API as best we are able today
 
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-
-import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
-
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {LitElement, html, css} from 'lit-element';
 
 import {AmfHelperMixin} from '@api-components/amf-helper-mixin/amf-helper-mixin.js';
 
@@ -38,7 +34,7 @@ declare namespace ApiElements {
    * The selection is a selected API shape `@id`. The application is responsible
    * for computing the model selected by the user.
    *
-   * AMF model can be passed directly by setting `amfModel` property or by
+   * AMF model can be passed directly by setting `amf` property or by
    * setting `aware` property and by use `raml-aware` element. It allows
    * to communicate AMF data without having access to the element due to
    * shadow DOM restrictions.
@@ -70,27 +66,17 @@ declare namespace ApiElements {
    *
    * Custom property | Description | Default
    * ----------------|-------------|----------
-   * `--api-navigation` | Mixin applied to this element | `{}`
-   * `--arc-font-common-base` | Mixin applied to section headers. Theme mixin | `{}`
-   * `--arc-font-font1` | Mixin applied to the element. Theme mixin | `{}`
    * `--api-navigation-header-color` | Color of section title | `rgba(0, 0, 0, 0.84)`
    * `--api-navigation-section-title-background-color` | Background color of the section title | `inherit`
    * `--api-navigation-list-item-min-height` | Minimum heigtht of menu items. Note that each item has top and bottom padding set to 4px which cobines to default 48px. | `40px`
    * `--api-navigation-list-item-color` | Color of the menu items | `rgba(0, 0, 0, 0.84)`
-   * `--api-navigation-list-item` | Mixin applied to the menu items | `{}`
    * `--api-navigation-list-item-selected-weight` | Font weight of selected menu item | `bold`
    * `--api-navigation-list-item-selected-background-color` | Background color of selected menu item | `--accent-color`
    * `--api-navigation-list-item-selected-color` | Color of selected menu item | `#fff`
-   * `--api-navigation-list-item-selected` | Mixin applied to the selected item | `{}`
    * `--api-navigation-list-item-disabled-color` | Color of disabled menu item. Currently not in use. | `--disabled-text-color`
-   * `--api-navigation-list-item-disabled` | Mixin applied to disabled menu item. Currently not in use. | `{}`
-   * `--api-navigation-list-item-focused` |  Mixin applied to focused menu item. | `{}`
-   * `--api-navigation-list-item-focused-before` | Mixin applied to the `:before` pseudo-element of focused item | `{}`
-   * `--api-navigation-list-item-hovered` | Mixin applied to menu item when hovering and not focused. Note, you should not rely of hover states | `{}`
    * `--api-navigation-toggle-icon-color` | Color of the toggle button next to section title | `rgba(0, 0, 0, 0.74)`
    * `--api-navigation-toggle-icon-hover-color` | Color of the toggle button next to section title when hovering. | `--secondary-button-color` or `rgba(0, 0, 0, 0.88)`
    * `--api-navigation-endpoint-toggle-icon-color` | Colot of endpoint toggle button | `--api-navigation-toggle-icon-color` or `rgba(0, 0, 0, 0.74)`
-   * `--api-navigation-endpoint-toggle-icon` | Mixin applied to endpoint toggle icon | `{}`
    * `--method-display-get-color` | Font color of the GET method label box | `rgb(0, 128, 0)`
    * `--method-display-post-color` | Font color of the POST method label box | `rgb(33, 150, 243)`
    * `--method-display-put-color` | Font color of the PUT method label box | `rgb(255, 165, 0)`
@@ -101,28 +87,27 @@ declare namespace ApiElements {
    * `--api-navigation-list-section-font-size` | Font size of toggable section label | `16px`
    * `--api-navigation-endpoint-font-size` | Font size applied to endpoint label | `15px`
    * `--api-navigation-operation-font-size` | Font size of operation (HTTP method) label | `14px`
-   * `--api-navigation-summary-label` | Mixin applied top the summary label | `{}`
    * `--api-navigation-list-item-padding` | Padding of list a item | `4px 16px`
-   * `--api-navigation-toggle-icon` | Mixin applied to toggle icon | `{}`
-   * `--api-navigation-list-item-selected-passive` | Mixin applied to an item selected via "passive" navigation event" | `{}`
    * `--api-navigation-method-label-color` | Color of the HTTP method label | `#000`
    * `--api-navigation-method-label-background-color` | Background color of the HTTP method label | `transparent`
-   * `--api-navigation-method-label-border-radius` | Border radius of HTTP method label | `3px`
    * `--method-display-font-weigth` | Font weight of HTTP label | `400`
    * `--method-label-VERB-background-color` | Background color of HTTP method label. Possible verbs are: `get`, `post`, `put`, `delete`, `patch` | `vary`
    * `--method-label-VERB-color` | Color of HTTP method label. Possible verbs are: `get`, `post`, `put`, `delete`, `patch` | `vary`
    * `--api-navigation-operation-endpoint-opened-background-color` | Background color of opened methods list | `inherit`
    * `--api-navigation-path-label-font-size` | Path label font size | `13px`
    * `--api-navigation-path-label-color` | Path label font color | `#616161`
+   * `--api-navigation-endpoint-toggle-icon-width` | | `32px`
+   * `--api-navigation-endpoint-toggle-icon-height` | | `32px`
+   * `--api-navigation-endpoint-toggle-icon-margin-right` | | ``
+   * `--api-navigation-background-color` | Navigation element backgound color | `inherit`
+   * `--api-navigation-color` | Navigation element color | `inherit`
+   * `--arc-font-body1-font-size` | | `inherit`
+   * `--arc-font-body1-font-weight` | | `inherit`
+   * `--arc-font-body1-line-height` | | `inherit`
    */
   class ApiNavigation extends
     AmfHelperMixin(
     Object) {
-
-    /**
-     * `raml-aware` scope property to use.
-     */
-    aware: string|null|undefined;
 
     /**
      * A model `@id` of selected documentation part.
@@ -142,6 +127,26 @@ declare namespace ApiElements {
     selectedType: string|null|undefined;
 
     /**
+     * Computed list of documentation items in the API.
+     */
+    _docs: Array<object|null>|null;
+
+    /**
+     * Computed list of "type" items in the API.
+     */
+    _types: Array<object|null>|null;
+
+    /**
+     * Computed list of Security schemes items in the API.
+     */
+    _security: Array<object|null>|null;
+
+    /**
+     * Computed list of endpoint items in the API.
+     */
+    _endpoints: Array<object|null>|null;
+
+    /**
      * If set it renders `API summary` menu option.
      * It will allow to set `selected` and `selectedType` to `summary`
      * when this option is set.
@@ -149,19 +154,37 @@ declare namespace ApiElements {
     summary: boolean|null|undefined;
 
     /**
+     * Flag set when passed AMF model is a RAML fragment.
+     */
+    _isFragment: boolean|null|undefined;
+
+    /**
+     * Filters list elements by this value when set.
+     * Clear the value to reset the search.
+     *
+     * This is not currently exposed in element's UI due
+     * to complexity of search and performance.
+     */
+    query: string|null|undefined;
+    readonly selectedItem: Element|null;
+    _selectedItem: any;
+    readonly focusedItem: Element|null;
+    _focusedItem: any;
+
+    /**
+     * `raml-aware` scope property to use.
+     */
+    aware: string|null|undefined;
+
+    /**
      * A label for the `summary` section.
      */
     summaryLabel: string|null|undefined;
 
     /**
-     * Computed list of documentatoin items in the API.
-     */
-    readonly docs: Array<object|null>|null;
-
-    /**
      * Computed value, true when `docs` property is set with values
      */
-    readonly hasDocs: object|null;
+    hasDocs: object|null;
 
     /**
      * Determines and changes state of documentation panel.
@@ -169,14 +192,9 @@ declare namespace ApiElements {
     docsOpened: boolean|null|undefined;
 
     /**
-     * Computed list of "type" items in the API.
-     */
-    readonly types: Array<object|null>|null;
-
-    /**
      * Computed value, true when `types` property is set with values
      */
-    readonly hasTypes: object|null;
+    hasTypes: object|null;
 
     /**
      * Determines and changes state of types panel.
@@ -184,14 +202,9 @@ declare namespace ApiElements {
     typesOpened: boolean|null|undefined;
 
     /**
-     * Computed list of Security schemes items in the API.
-     */
-    readonly security: Array<object|null>|null;
-
-    /**
      * Computed value, true when `security` property is set with values
      */
-    readonly hasSecurity: object|null;
+    hasSecurity: object|null;
 
     /**
      * Determines and changes state of security panel.
@@ -199,14 +212,9 @@ declare namespace ApiElements {
     securityOpened: boolean|null|undefined;
 
     /**
-     * Computed list of endpoint items in the API.
-     */
-    readonly endpoints: Array<object|null>|null;
-
-    /**
      * Computed value, true when `endpoints` property is set with values
      */
-    readonly hasEndpoints: object|null;
+    hasEndpoints: object|null;
 
     /**
      * Determines and changes state of endpoints panel.
@@ -219,31 +227,17 @@ declare namespace ApiElements {
     noink: boolean|null|undefined;
 
     /**
-     * Filters list elements by this value when set.
-     * Clear the value to reset the search.
-     *
-     * This is not currently exposed in element's UI due
-     * to complexity of search and performance.
-     */
-    query: string|null|undefined;
-
-    /**
      * Size of endpoint indentation for nested resources.
      * In pixels.
      */
     indentSize: number|null|undefined;
 
     /**
-     * Flag set when passed AMF model is a RAML fragment.
-     */
-    _isFragment: boolean|null|undefined;
-
-    /**
      * Computed value. True when summary should be rendered.
      * Summary should be rendered only when `summary` is set and
      * current model is not a RAML fragment.
      */
-    readonly _renderSummary: boolean|null|undefined;
+    _renderSummary: boolean|null|undefined;
 
     /**
      * When set it renders full path below endpoint name if the endpoint has
@@ -254,18 +248,24 @@ declare namespace ApiElements {
     allowPaths: boolean|null|undefined;
 
     /**
+     * If this value is set, then the navigation component will sort the list
+     * of endpoints based on the `path` value of the endpoint, keeping the order
+     * of which endpoint was first in the list, relative to each other
+     */
+    rearrangeEndpoints: boolean|null|undefined;
+
+    /**
+     * Enables compatibility with Anypoint components.
+     */
+    compatibility: boolean|null|undefined;
+    _setProperty(prop: any, value: any, notify: any): any;
+
+    /**
      * Ensures aria role atribute is in place.
      * Attaches element's listeners.
      */
     connectedCallback(): void;
     disconnectedCallback(): void;
-
-    /**
-     * Called by the Polymer change observer when `amfModel` property change.
-     *
-     * @param model AMF model
-     */
-    _amfChanged(model: any[]|object|null): void;
 
     /**
      * Collects the information about the API and creates data model
@@ -336,6 +336,24 @@ declare namespace ApiElements {
     _traverseEncodes(model: object|null, target: object|null): void;
 
     /**
+     * Re-arrange the endpoints in relative order to each other, keeping
+     * the first endpoints to appear first, and the last endpoints to appear
+     * last
+     */
+    _rearrangeEndpoints(endpoints: any[]|null): any[]|null;
+
+    /**
+     * Transforms a list of endpoints into a map that goes from
+     * string -> Object[], representing the first part of the endpoint
+     * path, and the list of endpoints that match it. The idea is
+     * to have a map for this, respecting the order each
+     * endpoint is first found at, so that re-arranging the
+     * endpoints keeps them in the same relative order to each
+     * other
+     */
+    _createListMap(endpoints: any[]|null): any[]|null;
+
+    /**
      * Appends declaration of navigation data model to the target if
      * it matches documentation or security types.
      */
@@ -394,7 +412,8 @@ declare namespace ApiElements {
      * Click handler for section name item.
      * Toggles the view.
      */
-    _toggleSection(e: ClickEvent|null): void;
+    _toggleSectionHandler(e: ClickEvent|null): void;
+    _toggleSection(node: any): void;
 
     /**
      * Selectes new item in the menu.
@@ -430,15 +449,6 @@ declare namespace ApiElements {
     _selectedChangd(current: String|null): void;
 
     /**
-     * Label check agains `query` function called by `dom-repeat` element.
-     * This method uses `__effectiveQuery` property set by `_flushQuery()`
-     * method.
-     *
-     * @param item Model item with `lable` property.
-     */
-    _labelFilter(item: object|null): Boolean|null;
-
-    /**
      * Label and method check agains `query` function called by `dom-repeat`
      * element. This method uses `__effectiveQuery` property set by
      * `_flushQuery()` method.
@@ -463,12 +473,6 @@ declare namespace ApiElements {
      * Also the `__effectiveQuery` is transformed to perform text search.
      */
     _flushQuery(): void;
-
-    /**
-     * Hides the parent model when number of children is 0 or shows it
-     * otherwise.
-     */
-    _methodsCountChanged(e: CustomEvent|null): void;
 
     /**
      * Dispatches `api-navigation-selection-changed` event on selection change.
@@ -523,23 +527,12 @@ declare namespace ApiElements {
     _computeEndpointPaddingLeft(): Number|null;
 
     /**
-     * Cancels space key down event when selecting a method with keyboard.
-     * Without it the page would scroll down.
-     */
-    _spaceDownHandler(e: KeyboardEvent|null): void;
-
-    /**
-     * Selectes an item when space up event is detected.
-     */
-    _spaceUpHandler(e: KeyboardEvent|null): void;
-
-    /**
      * Computes value for `_renderSummary` property
      *
      * @param summary Current value of `summary` property
      * @param isFragment Current value of `_isFragment` property
      */
-    _computeRenderSummary(summary: Boolean|null, isFragment: Boolean|null): Boolean|null;
+    _computeRenderSummary(summary: Boolean|null, isFragment: Boolean|null): void;
 
     /**
      * Computes condition value to render path label.
@@ -548,7 +541,108 @@ declare namespace ApiElements {
      * @param renderPath Endpoint property
      * @returns True if both arguments are trully.
      */
-    _computeRenderParth(allowPaths: Boolean|null, renderPath: Boolean|null): Boolean|null;
+    _computeRenderPath(allowPaths: Boolean|null, renderPath: Boolean|null): Boolean|null;
+
+    /**
+     * Updates value of `amf` from `raml-aware`'s api property change.
+     */
+    _awareApiChanged(e: CustomEvent|null): void;
+
+    /**
+     * Returns filtered list of items to render in the menu list.
+     * When `query` is set it tests `label` property of each item if it contains
+     * the query. Otherwise it returns all items.
+     *
+     * @param prop Name of the source property keeping array values to render.
+     */
+    _getFilteredType(prop: String|null): any[]|null|undefined;
+
+    /**
+     * Returns a list of endpoints to render.
+     * When `query` is set it returns filtered list of endpoints for given query.
+     * Othewise it returns all endpoints.
+     *
+     * @returns Filtered list of endpoints
+     */
+    _getFilteredEndpoints(): any[]|null|undefined;
+    _closeCollapses(): void;
+    _focusHandler(e: any): void;
+    focusPrevious(): void;
+    focusNext(): void;
+
+    /**
+     * Discretely updates tabindex values among menu items as the focused item
+     * changes.
+     *
+     * @param focusedItem The element that is currently focused.
+     * @param old The last element that was considered focused, if
+     * applicable.
+     */
+    _focusedItemChanged(focusedItem: Element|null, old: Element|null): void;
+
+    /**
+     * Resets all tabindex attributes to the appropriate value based on the
+     * current selection state. The appropriate value is `0` (focusable) for
+     * the default selected item, and `-1` (not keyboard focusable) for all
+     * other items. Also sets the correct initial values for aria-selected
+     * attribute, true for default selected item and false for others.
+     */
+    _resetTabindices(): void;
+    _listActiveItems(): any;
+    _listSectionActiveNodes(selector: any): any;
+
+    /**
+     * Handler for the keydown event.
+     */
+    _keydownHandler(e: KeyboardEvent|null): void;
+
+    /**
+     * Handler that is called when the up key is pressed.
+     *
+     * @param e A key combination event.
+     */
+    _onUpKey(e: CustomEvent|null): void;
+
+    /**
+     * Handler that is called when the down key is pressed.
+     *
+     * @param e A key combination event.
+     */
+    _onDownKey(e: CustomEvent|null): void;
+
+    /**
+     * Handler that is called when the esc key is pressed.
+     */
+    _onEscKey(): void;
+    _onSpace(e: any): void;
+
+    /**
+     * Handler that is called when a shift+tab keypress is detected by the menu.
+     */
+    _onShiftTabDown(): void;
+
+    /**
+     * Renders a template for endpoints and methods list.
+     */
+    _endpointsTemplate(): TemplateResult|null;
+    _endpointTemplate(item: any): any;
+    _methodTemplate(endpointItem: any, methodItem: any): any;
+
+    /**
+     * Renders a template for documentation list.
+     */
+    _documentationTemplate(): TemplateResult|null;
+
+    /**
+     * Renders a template for types list.
+     */
+    _typesTemplate(): TemplateResult|null;
+
+    /**
+     * Renders a template for security schemes list.
+     */
+    _securityTemplate(): TemplateResult|null;
+    render(): any;
   }
 }
 
