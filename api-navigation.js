@@ -2,9 +2,8 @@ import { LitElement, html, css } from 'lit-element';
 import { AmfHelperMixin } from '@api-components/amf-helper-mixin/amf-helper-mixin.js';
 import '@api-components/raml-aware/raml-aware.js';
 import '@anypoint-web-components/anypoint-button/anypoint-icon-button.js';
-import '@advanced-rest-client/arc-icons/arc-icons.js';
+import { keyboardArrowDown } from '@advanced-rest-client/arc-icons/ArcIcons.js';
 import '@polymer/iron-collapse/iron-collapse.js';
-import '@polymer/iron-icon/iron-icon.js';
 import httpMethodStyles from '@api-components/http-method-label/http-method-label-common-styles.js';
 /* eslint-disable max-len */
 /**
@@ -116,12 +115,27 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
 
       ${httpMethodStyles}
 
+      .wrapper {
+        color: inherit;
+      }
+
+      .section-title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        cursor: pointer;
+        padding: var(--api-navigation-section-title-padding, 4px 16px);
+        background-color: var(--api-navigation-section-title-background-color, inherit);
+        user-select: none;
+        min-height: 40px;
+        color: var(--api-navigation-header-color, inherit);
+      }
+
       h3,
-    .list-item.summary {
+      .list-item.summary {
         font-size: var(--api-navigation-list-section-font-size, 16px);
         font-weight: var(--api-navigation-list-section-font-weight, 500);
         line-height: 24px;
-        color: var(--api-navigation-header-color, inherit);
         flex: 1;
         flex-basis: 0.000000001px;
         padding: 0;
@@ -168,17 +182,6 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
         background-color: inherit;
       }
 
-      .section-title {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        cursor: pointer;
-        padding: var(--api-navigation-section-title-padding, 4px 16px);
-        background-color: var(--api-navigation-section-title-background-color, inherit);
-        user-select: none;
-        min-height: 40px;
-      }
-
       .list-item {
         display: block;
         position: relative;
@@ -199,7 +202,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
         border-left: var(--api-navigation-list-item-border-left);
       }
 
-      .list-item.iron-selected {
+      .list-item.selected {
         font-weight: var(--api-navigation-list-item-selected-weight, bold);
         background-color: var(--api-navigation-list-item-selected-background-color, var(--accent-color));
         color: var(--api-navigation-list-item-selected-color, #fff);
@@ -220,7 +223,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
         outline: 0;
       }
 
-      .list-item:hover:not(.iron-selected) {
+      .list-item:hover:not(.selected) {
         /* This is Anypoint styling requirement */
         border-left: var(--api-navigation-list-item-hovered-border-left, initial);
       }
@@ -240,35 +243,16 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       .toggle-button,
       .endpoint-toggle-button {
         transform: rotateZ(0deg);
-        transition: color 0.25s ease-in-out, transform 0.3s ease-in-out;
-      }
-
-      .toggle-button {
-        color: var(--api-navigation-toggle-icon-color, rgba(0, 0, 0, 0.74));
+        transition: transform 0.3s ease-in-out;
       }
 
       .endpoint-toggle-button {
-        color: var(
-          --api-navigation-endpoint-toggle-icon-color,
-          var(--api-navigation-toggle-icon-color, rgba(0, 0, 0, 0.74))
-        );
         transform: rotateZ(0deg);
-        transition: color 0.25s ease-in-out, transform 0.3s ease-in-out;
+        transition: transform 0.3s ease-in-out;
 
         width: var(--api-navigation-endpoint-toggle-icon-width, 32px);
         height: var(--api-navigation-endpoint-toggle-icon-height, 32px);
         margin-right: var(--api-navigation-endpoint-toggle-icon-margin-right);
-      }
-
-      .toggle-button:hover {
-        color: var(--api-navigation-toggle-icon-hover-color, var(--secondary-button-color, rgba(0, 0, 0, 0.88)));
-      }
-
-      .endpoint-toggle-button:hover {
-        color: var(
-          --api-navigation-endpoint-toggle-icon-hover-color,
-          var(--api-navigation-toggle-icon-hover-color, var(--secondary-button-color, rgba(0, 0, 0, 0.88)))
-        );
       }
 
       [data-opened] .toggle-button,
@@ -281,7 +265,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
         white-space: nowrap;
       }
 
-      .list-item.iron-selected .method-label[data-method] {
+      .list-item.selected .method-label[data-method] {
         color: var(--method-display-selected-color, #fff);
       }
 
@@ -292,6 +276,13 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
 
       [endpoint-opened] {
         background-color: var(--api-navigation-operation-endpoint-opened-background-color, inherit);
+      }
+
+      .icon {
+        display: block;
+        width: 24px;
+        height: 24px;
+        fill: currentColor;
       }
     `;
   }
@@ -1176,7 +1167,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (!node) {
       return;
     }
-    node.classList.add('iron-selected');
+    node.classList.add('selected');
     if (node.part && node.part.add) {
       node.part.add('api-navigation-list-item-selected');
     }
@@ -1208,10 +1199,10 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (!this.shadowRoot) {
       return;
     }
-    const nodes = this.shadowRoot.querySelectorAll('.iron-selected');
+    const nodes = this.shadowRoot.querySelectorAll('.selected');
     for (let i = 0, len = nodes.length; i < len; i++) {
       const node = nodes[i];
-      node.classList.remove('iron-selected');
+      node.classList.remove('selected');
       if (node.part && node.part.remove) {
         node.part.remove('api-navigation-list-item-selected');
       }
@@ -1889,7 +1880,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
             ?compatibility="${this.compatibility}"
             tabindex="-1"
           >
-            <iron-icon icon="arc:keyboard-arrow-down" alt="toggle icon"></iron-icon>
+            <span class="icon">${keyboardArrowDown}</span>
           </anypoint-icon-button>
         </div>
         <iron-collapse .opened="${this.endpointsOpened}" aria-hidden="${this.endpointsOpened ? 'false' : 'true'}" role="menu">
@@ -1923,7 +1914,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
         .noink="${this.noink}"
         ?compatibility="${this.compatibility}"
         tabindex="-1">
-        <iron-icon icon="arc:keyboard-arrow-down" alt="toggle icon"></iron-icon>
+        <span class="icon">${keyboardArrowDown}</span>
       </anypoint-icon-button>
     </div>
     <iron-collapse
@@ -1992,7 +1983,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
             aria-label="Toggle documents"
             ?compatibility="${this.compatibility}"
             tabindex="-1">
-            <iron-icon icon="arc:keyboard-arrow-down" alt="toggle icon"></iron-icon>
+            <span class="icon">${keyboardArrowDown}</span>
           </anypoint-icon-button>
         </div>
         <iron-collapse .opened="${this.docsOpened}">
@@ -2031,7 +2022,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
             ?compatibility="${this.compatibility}"
             tabindex="-1"
           >
-            <iron-icon icon="arc:keyboard-arrow-down" alt="toggle icon"></iron-icon>
+            <span class="icon">${keyboardArrowDown}</span>
           </anypoint-icon-button>
         </div>
         <iron-collapse .opened="${this.typesOpened}">
@@ -2070,7 +2061,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
             aria-label="Toggle security"
             ?compatibility="${this.compatibility}"
             tabindex="-1">
-            <iron-icon icon="arc:keyboard-arrow-down" alt="toggle icon"></iron-icon>
+            <span class="icon">${keyboardArrowDown}</span>
           </anypoint-icon-button>
         </div>
         <iron-collapse .opened="${this.securityOpened}">
