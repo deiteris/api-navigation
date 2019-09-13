@@ -129,6 +129,11 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
         user-select: none;
         min-height: 40px;
         color: var(--api-navigation-header-color, inherit);
+        outline: none;
+      }
+
+      .section-title:focus {
+        background-color: var(--api-navigation-section-title-focus-background-color, #e5e5e5);
       }
 
       h3,
