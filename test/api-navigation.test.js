@@ -338,7 +338,7 @@ describe('<api-navigation>', () => {
     });
   });
 
-  describe('Navigation events`', () => {
+  describe('Navigation events', () => {
     let element;
     let model;
     beforeEach(async () => {
@@ -403,13 +403,14 @@ describe('<api-navigation>', () => {
       (node || document.body).dispatchEvent(e);
     }
 
-    it('Updates selection from the change event', () => {
+    it('Updates selection from the change event', async () => {
       const id = 'test3';
       fire(id, 'type');
       assert.equal(element.selected, id);
       assert.equal(element.selectedType, 'type');
       const node = element.shadowRoot.querySelector(`[data-api-id="${id}"]`);
-      assert.isTrue(node.classList.contains('iron-selected'));
+      await nextFrame();
+      assert.isTrue(node.classList.contains('selected'));
     });
 
     it('Does not update selection if it is the source', () => {
