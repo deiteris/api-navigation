@@ -249,14 +249,14 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       .endpoint-toggle-button {
         transform: rotateZ(0deg);
         transition: transform 0.3s ease-in-out;
+
+        width: var(--api-navigation-endpoint-toggle-icon-width, 32px);
+        height: var(--api-navigation-endpoint-toggle-icon-height, 32px);
       }
 
       .endpoint-toggle-button {
         transform: rotateZ(0deg);
         transition: transform 0.3s ease-in-out;
-
-        width: var(--api-navigation-endpoint-toggle-icon-width, 32px);
-        height: var(--api-navigation-endpoint-toggle-icon-height, 32px);
         margin-right: var(--api-navigation-endpoint-toggle-icon-margin-right);
       }
 
