@@ -11,74 +11,74 @@
 {
 "@id": "#17",
 "@type": [
-"schema-org:WebAPI",
+"apiContract:WebAPI",
 "doc:RootDomainElement",
 "doc:DomainElement"
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "Types test"
 }
 ],
-"raml-http:accepts": [
+"apiContract:accepts": [
 {
 "@value": "application/json"
 }
 ],
-"raml-http:contentType": [
+"apiContract:contentType": [
 {
 "@value": "application/json"
 }
 ],
-"schema-org:version": [
+"core:version": [
 {
 "@value": "v1"
 }
 ],
-"raml-http:endpoint": [
+"apiContract:endpoint": [
 {
 "@id": "#18",
 "@type": [
-"raml-http:EndPoint",
+"apiContract:EndPoint",
 "doc:DomainElement"
 ],
-"raml-http:path": [
+"apiContract:path": [
 {
 "@value": "/typeFromMainFileEndpoint"
 }
 ],
-"hydra:supportedOperation": [
+"apiContract:supportedOperation": [
 {
 "@id": "#19",
 "@type": [
-"hydra:Operation",
+"apiContract:Operation",
 "doc:DomainElement"
 ],
-"hydra:method": [
+"apiContract:method": [
 {
 "@value": "post"
 }
 ],
-"hydra:expects": [
+"apiContract:expects": [
 {
 "@id": "#20",
 "@type": [
-"raml-http:Request",
+"apiContract:Request",
 "doc:DomainElement"
 ],
-"raml-http:payload": [
+"apiContract:payload": [
 {
 "@id": "#21",
 "@type": [
-"raml-http:Payload",
+"apiContract:Payload",
 "doc:DomainElement"
 ],
-"raml-http:mediaType": [
+"core:mediaType": [
 {
 "@value": "application/json"
 }
 ],
-"raml-http:schema": [
+"raml-shapes:schema": [
 {
 "@id": "#11/linked_3",
 "@type": [
@@ -148,24 +148,24 @@
 ]
 }
 ],
-"hydra:returns": [
+"apiContract:returns": [
 {
 "@id": "#22",
 "@type": [
-"raml-http:Response",
+"apiContract:Response",
 "doc:DomainElement"
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "200"
 }
 ],
-"hydra:statusCode": [
+"apiContract:statusCode": [
 {
 "@value": "200"
 }
 ],
-"raml-http:payload": [],
+"apiContract:payload": [],
 "sourcemaps:sources": [
 {
 "@id": "#22/source-map",
@@ -200,7 +200,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "hydra:returns"
+"@value": "apiContract:returns"
 }
 ],
 "sourcemaps:value": [
@@ -252,46 +252,46 @@
 {
 "@id": "#23",
 "@type": [
-"raml-http:EndPoint",
+"apiContract:EndPoint",
 "doc:DomainElement"
 ],
-"raml-http:path": [
+"apiContract:path": [
 {
 "@value": "/typeFromDataTypeEndpoint"
 }
 ],
-"hydra:supportedOperation": [
+"apiContract:supportedOperation": [
 {
 "@id": "#24",
 "@type": [
-"hydra:Operation",
+"apiContract:Operation",
 "doc:DomainElement"
 ],
-"hydra:method": [
+"apiContract:method": [
 {
 "@value": "post"
 }
 ],
-"hydra:expects": [
+"apiContract:expects": [
 {
 "@id": "#25",
 "@type": [
-"raml-http:Request",
+"apiContract:Request",
 "doc:DomainElement"
 ],
-"raml-http:payload": [
+"apiContract:payload": [
 {
 "@id": "#26",
 "@type": [
-"raml-http:Payload",
+"apiContract:Payload",
 "doc:DomainElement"
 ],
-"raml-http:mediaType": [
+"core:mediaType": [
 {
 "@value": "application/json"
 }
 ],
-"raml-http:schema": [
+"raml-shapes:schema": [
 {
 "@id": "#6/linked_3",
 "@type": [
@@ -361,24 +361,24 @@
 ]
 }
 ],
-"hydra:returns": [
+"apiContract:returns": [
 {
 "@id": "#27",
 "@type": [
-"raml-http:Response",
+"apiContract:Response",
 "doc:DomainElement"
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "200"
 }
 ],
-"hydra:statusCode": [
+"apiContract:statusCode": [
 {
 "@value": "200"
 }
 ],
-"raml-http:payload": [],
+"apiContract:payload": [],
 "sourcemaps:sources": [
 {
 "@id": "#27/source-map",
@@ -413,7 +413,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "hydra:returns"
+"@value": "apiContract:returns"
 }
 ],
 "sourcemaps:value": [
@@ -465,46 +465,46 @@
 {
 "@id": "#28",
 "@type": [
-"raml-http:EndPoint",
+"apiContract:EndPoint",
 "doc:DomainElement"
 ],
-"raml-http:path": [
+"apiContract:path": [
 {
 "@value": "/typeFromLibraryEndpoint"
 }
 ],
-"hydra:supportedOperation": [
+"apiContract:supportedOperation": [
 {
 "@id": "#29",
 "@type": [
-"hydra:Operation",
+"apiContract:Operation",
 "doc:DomainElement"
 ],
-"hydra:method": [
+"apiContract:method": [
 {
 "@value": "post"
 }
 ],
-"hydra:expects": [
+"apiContract:expects": [
 {
 "@id": "#30",
 "@type": [
-"raml-http:Request",
+"apiContract:Request",
 "doc:DomainElement"
 ],
-"raml-http:payload": [
+"apiContract:payload": [
 {
 "@id": "#31",
 "@type": [
-"raml-http:Payload",
+"apiContract:Payload",
 "doc:DomainElement"
 ],
-"raml-http:mediaType": [
+"core:mediaType": [
 {
 "@value": "application/json"
 }
 ],
-"raml-http:schema": [
+"raml-shapes:schema": [
 {
 "@id": "#2/linked_4",
 "@type": [
@@ -574,24 +574,24 @@
 ]
 }
 ],
-"hydra:returns": [
+"apiContract:returns": [
 {
 "@id": "#32",
 "@type": [
-"raml-http:Response",
+"apiContract:Response",
 "doc:DomainElement"
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "200"
 }
 ],
-"hydra:statusCode": [
+"apiContract:statusCode": [
 {
 "@value": "200"
 }
 ],
-"raml-http:payload": [],
+"apiContract:payload": [],
 "sourcemaps:sources": [
 {
 "@id": "#32/source-map",
@@ -626,7 +626,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "hydra:returns"
+"@value": "apiContract:returns"
 }
 ],
 "sourcemaps:value": [
@@ -686,7 +686,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "raml-http:contentType"
+"@value": "apiContract:contentType"
 }
 ],
 "sourcemaps:value": [
@@ -698,7 +698,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "raml-http:accepts"
+"@value": "apiContract:accepts"
 }
 ],
 "sourcemaps:value": [
@@ -712,7 +712,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:version"
+"@value": "core:version"
 }
 ],
 "sourcemaps:value": [
@@ -724,7 +724,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "raml-http:accepts"
+"@value": "apiContract:accepts"
 }
 ],
 "sourcemaps:value": [
@@ -748,7 +748,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:name"
+"@value": "core:name"
 }
 ],
 "sourcemaps:value": [
@@ -760,7 +760,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "raml-http:contentType"
+"@value": "apiContract:contentType"
 }
 ],
 "sourcemaps:value": [
@@ -786,6 +786,11 @@
 ]
 }
 ]
+}
+],
+"doc:version": [
+{
+"@value": "2.0.0"
 }
 ],
 "doc:references": [
@@ -818,6 +823,11 @@
 ]
 }
 ]
+],
+"doc:version": [
+{
+"@value": "2.0.0"
+}
 ],
 "doc:usage": [
 {
@@ -876,7 +886,7 @@
 {
 "@id": "#5",
 "@type": [
-"doc:DataType",
+"raml-shapes:DataTypeFragment",
 "doc:Fragment",
 "doc:Unit"
 ],
@@ -1082,7 +1092,7 @@
 "@value": "TypeFromDataTypeFile"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "This is a type from a DataType raml"
 }
@@ -1125,7 +1135,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -1163,6 +1173,11 @@
 ]
 }
 ]
+}
+],
+"doc:version": [
+{
+"@value": "2.0.0"
 }
 ],
 "sourcemaps:sources": [
@@ -1413,7 +1428,7 @@
 "@value": "MainFileType"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "Type contained inside the main raml file"
 }
@@ -1442,7 +1457,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -1694,7 +1709,7 @@
 "@value": "TypeFromDataTypeFile"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "This is a type from a DataType raml"
 }
@@ -1723,7 +1738,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -1963,7 +1978,7 @@
 "@value": "TypeFromDataTypeFile"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "This is a type from a DataType raml"
 }
@@ -2006,7 +2021,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -2208,13 +2223,12 @@
 ],
 "@context": {
 "@base": "amf://id",
-"raml-http": "http://a.ml/vocabularies/http#",
-"raml-shapes": "http://a.ml/vocabularies/shapes#",
 "shacl": "http://www.w3.org/ns/shacl#",
+"raml-shapes": "http://a.ml/vocabularies/shapes#",
 "doc": "http://a.ml/vocabularies/document#",
-"sourcemaps": "http://a.ml/vocabularies/document-source-maps#",
-"schema-org": "http://schema.org/",
-"hydra": "http://www.w3.org/ns/hydra/core#"
+"apiContract": "http://a.ml/vocabularies/apiContract#",
+"core": "http://a.ml/vocabularies/core#",
+"sourcemaps": "http://a.ml/vocabularies/document-source-maps#"
 }
 }
 ]

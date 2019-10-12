@@ -2,7 +2,7 @@
 {
 "@id": "amf://id",
 "@type": [
-"http://a.ml/vocabularies/document#SecuritySchemeFragment",
+"http://a.ml/vocabularies/security#SecuritySchemeFragment",
 "http://a.ml/vocabularies/document#Fragment",
 "http://a.ml/vocabularies/document#Unit"
 ],
@@ -18,44 +18,44 @@
 "@value": "OAuth 2.0"
 }
 ],
-"http://schema.org/description": [
+"http://a.ml/vocabularies/core#description": [
 {
 "@value": "This API supports OAuth 2.0 for authenticating all API requests."
 }
 ],
-"http://a.ml/vocabularies/http#header": [
+"http://a.ml/vocabularies/apiContract#header": [
 {
 "@id": "amf://id#2",
 "@type": [
-"http://a.ml/vocabularies/http#Parameter",
+"http://a.ml/vocabularies/apiContract#Parameter",
 "http://a.ml/vocabularies/document#DomainElement"
 ],
-"http://schema.org/name": [
+"http://a.ml/vocabularies/core#name": [
 {
 "@value": "authorization"
 }
 ],
-"http://a.ml/vocabularies/http#paramName": [
+"http://a.ml/vocabularies/apiContract#paramName": [
 {
 "@value": "authorization"
 }
 ],
-"http://schema.org/description": [
+"http://a.ml/vocabularies/core#description": [
 {
 "@value": "Used to send a valid OAuth 2 access token. Do not use with the \"access_token\" query string parameter."
 }
 ],
-"http://www.w3.org/ns/hydra/core#required": [
+"http://a.ml/vocabularies/apiContract#required": [
 {
 "@value": false
 }
 ],
-"http://a.ml/vocabularies/http#binding": [
+"http://a.ml/vocabularies/apiContract#binding": [
 {
 "@value": "header"
 }
 ],
-"http://a.ml/vocabularies/http#schema": [
+"http://a.ml/vocabularies/shapes#schema": [
 {
 "@id": "amf://id#3",
 "@type": [
@@ -75,16 +75,16 @@
 "@value": "schema"
 }
 ],
-"http://schema.org/description": [
+"http://a.ml/vocabularies/core#description": [
 {
 "@value": "Used to send a valid OAuth 2 access token. Do not use with the \"access_token\" query string parameter."
 }
 ],
-"http://a.ml/vocabularies/document#examples": [
+"http://a.ml/vocabularies/apiContract#examples": [
 {
 "@id": "amf://id#4",
 "@type": [
-"http://a.ml/vocabularies/document#Example",
+"http://a.ml/vocabularies/apiContract#Example",
 "http://a.ml/vocabularies/document#DomainElement"
 ],
 "http://a.ml/vocabularies/document#strict": [
@@ -110,7 +110,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"http://schema.org/name": [
+"http://a.ml/vocabularies/core#name": [
 {
 "@value": "scalar_1"
 }
@@ -139,7 +139,7 @@
 ]
 }
 ],
-"http://www.w3.org/ns/shacl#raw": [
+"http://a.ml/vocabularies/document#raw": [
 {
 "@value": "ya.2453vfDb3cJHisdf.*&H"
 }
@@ -168,7 +168,7 @@
 {
 "http://a.ml/vocabularies/document-source-maps#element": [
 {
-"@value": "http://www.w3.org/ns/shacl#raw"
+"@value": "http://a.ml/vocabularies/document#raw"
 }
 ],
 "http://a.ml/vocabularies/document-source-maps#value": [
@@ -244,7 +244,7 @@
 {
 "http://a.ml/vocabularies/document-source-maps#element": [
 {
-"@value": "http://schema.org/description"
+"@value": "http://a.ml/vocabularies/core#description"
 }
 ],
 "http://a.ml/vocabularies/document-source-maps#value": [
@@ -292,7 +292,7 @@
 {
 "http://a.ml/vocabularies/document-source-maps#element": [
 {
-"@value": "http://a.ml/vocabularies/http#schema"
+"@value": "http://a.ml/vocabularies/shapes#schema"
 }
 ],
 "http://a.ml/vocabularies/document-source-maps#value": [
@@ -304,7 +304,7 @@
 {
 "http://a.ml/vocabularies/document-source-maps#element": [
 {
-"@value": "http://schema.org/description"
+"@value": "http://a.ml/vocabularies/core#description"
 }
 ],
 "http://a.ml/vocabularies/document-source-maps#value": [
@@ -328,7 +328,7 @@
 {
 "http://a.ml/vocabularies/document-source-maps#element": [
 {
-"@value": "http://www.w3.org/ns/hydra/core#required"
+"@value": "http://a.ml/vocabularies/apiContract#required"
 }
 ],
 "http://a.ml/vocabularies/document-source-maps#value": [
@@ -342,39 +342,39 @@
 ]
 }
 ],
-"http://a.ml/vocabularies/http#parameter": [
+"http://a.ml/vocabularies/apiContract#parameter": [
 {
 "@id": "amf://id#5",
 "@type": [
-"http://a.ml/vocabularies/http#Parameter",
+"http://a.ml/vocabularies/apiContract#Parameter",
 "http://a.ml/vocabularies/document#DomainElement"
 ],
-"http://schema.org/name": [
+"http://a.ml/vocabularies/core#name": [
 {
 "@value": "access_token"
 }
 ],
-"http://a.ml/vocabularies/http#paramName": [
+"http://a.ml/vocabularies/apiContract#paramName": [
 {
 "@value": "access_token"
 }
 ],
-"http://schema.org/description": [
+"http://a.ml/vocabularies/core#description": [
 {
 "@value": "Used to send a valid OAuth 2 access token. Do not use with the \"Authorization\" header."
 }
 ],
-"http://www.w3.org/ns/hydra/core#required": [
+"http://a.ml/vocabularies/apiContract#required": [
 {
 "@value": false
 }
 ],
-"http://a.ml/vocabularies/http#binding": [
+"http://a.ml/vocabularies/apiContract#binding": [
 {
 "@value": "query"
 }
 ],
-"http://a.ml/vocabularies/http#schema": [
+"http://a.ml/vocabularies/shapes#schema": [
 {
 "@id": "amf://id#6",
 "@type": [
@@ -394,7 +394,7 @@
 "@value": "schema"
 }
 ],
-"http://schema.org/description": [
+"http://a.ml/vocabularies/core#description": [
 {
 "@value": "Used to send a valid OAuth 2 access token. Do not use with the \"Authorization\" header."
 }
@@ -423,7 +423,7 @@
 {
 "http://a.ml/vocabularies/document-source-maps#element": [
 {
-"@value": "http://schema.org/description"
+"@value": "http://a.ml/vocabularies/core#description"
 }
 ],
 "http://a.ml/vocabularies/document-source-maps#value": [
@@ -471,7 +471,7 @@
 {
 "http://a.ml/vocabularies/document-source-maps#element": [
 {
-"@value": "http://a.ml/vocabularies/http#schema"
+"@value": "http://a.ml/vocabularies/shapes#schema"
 }
 ],
 "http://a.ml/vocabularies/document-source-maps#value": [
@@ -483,7 +483,7 @@
 {
 "http://a.ml/vocabularies/document-source-maps#element": [
 {
-"@value": "http://schema.org/description"
+"@value": "http://a.ml/vocabularies/core#description"
 }
 ],
 "http://a.ml/vocabularies/document-source-maps#value": [
@@ -507,7 +507,7 @@
 {
 "http://a.ml/vocabularies/document-source-maps#element": [
 {
-"@value": "http://www.w3.org/ns/hydra/core#required"
+"@value": "http://a.ml/vocabularies/apiContract#required"
 }
 ],
 "http://a.ml/vocabularies/document-source-maps#value": [
@@ -521,41 +521,41 @@
 ]
 }
 ],
-"http://www.w3.org/ns/hydra/core#response": [
+"http://a.ml/vocabularies/apiContract#response": [
 {
 "@id": "amf://id#7",
 "@type": [
-"http://a.ml/vocabularies/http#Response",
+"http://a.ml/vocabularies/apiContract#Response",
 "http://a.ml/vocabularies/document#DomainElement"
 ],
-"http://schema.org/name": [
+"http://a.ml/vocabularies/core#name": [
 {
 "@value": "401"
 }
 ],
-"http://schema.org/description": [
+"http://a.ml/vocabularies/core#description": [
 {
 "@value": "Bad or expired token. This can happen if the user or Dropbox revoked or expired an access token. To fix, re-authenticate the user."
 }
 ],
-"http://www.w3.org/ns/hydra/core#statusCode": [
+"http://a.ml/vocabularies/apiContract#statusCode": [
 {
 "@value": "401"
 }
 ],
-"http://a.ml/vocabularies/http#payload": [
+"http://a.ml/vocabularies/apiContract#payload": [
 {
 "@id": "amf://id#8",
 "@type": [
-"http://a.ml/vocabularies/http#Payload",
+"http://a.ml/vocabularies/apiContract#Payload",
 "http://a.ml/vocabularies/document#DomainElement"
 ],
-"http://a.ml/vocabularies/http#mediaType": [
+"http://a.ml/vocabularies/core#mediaType": [
 {
 "@value": "application/json"
 }
 ],
-"http://a.ml/vocabularies/http#schema": [
+"http://a.ml/vocabularies/shapes#schema": [
 {
 "@id": "amf://id#9",
 "@type": [
@@ -641,7 +641,7 @@
 {
 "http://a.ml/vocabularies/document-source-maps#element": [
 {
-"@value": "http://a.ml/vocabularies/http#payload"
+"@value": "http://a.ml/vocabularies/apiContract#payload"
 }
 ],
 "http://a.ml/vocabularies/document-source-maps#value": [
@@ -665,7 +665,7 @@
 {
 "http://a.ml/vocabularies/document-source-maps#element": [
 {
-"@value": "http://schema.org/description"
+"@value": "http://a.ml/vocabularies/core#description"
 }
 ],
 "http://a.ml/vocabularies/document-source-maps#value": [
@@ -681,37 +681,37 @@
 {
 "@id": "amf://id#10",
 "@type": [
-"http://a.ml/vocabularies/http#Response",
+"http://a.ml/vocabularies/apiContract#Response",
 "http://a.ml/vocabularies/document#DomainElement"
 ],
-"http://schema.org/name": [
+"http://a.ml/vocabularies/core#name": [
 {
 "@value": "403"
 }
 ],
-"http://schema.org/description": [
+"http://a.ml/vocabularies/core#description": [
 {
 "@value": "Bad OAuth request (wrong consumer key, bad nonce, expired timestamp...). Unfortunately, re-authenticating the user won't help here."
 }
 ],
-"http://www.w3.org/ns/hydra/core#statusCode": [
+"http://a.ml/vocabularies/apiContract#statusCode": [
 {
 "@value": "403"
 }
 ],
-"http://a.ml/vocabularies/http#payload": [
+"http://a.ml/vocabularies/apiContract#payload": [
 {
 "@id": "amf://id#11",
 "@type": [
-"http://a.ml/vocabularies/http#Payload",
+"http://a.ml/vocabularies/apiContract#Payload",
 "http://a.ml/vocabularies/document#DomainElement"
 ],
-"http://a.ml/vocabularies/http#mediaType": [
+"http://a.ml/vocabularies/core#mediaType": [
 {
 "@value": "application/json"
 }
 ],
-"http://a.ml/vocabularies/http#schema": [
+"http://a.ml/vocabularies/shapes#schema": [
 {
 "@id": "amf://id#12",
 "@type": [
@@ -797,7 +797,7 @@
 {
 "http://a.ml/vocabularies/document-source-maps#element": [
 {
-"@value": "http://a.ml/vocabularies/http#payload"
+"@value": "http://a.ml/vocabularies/apiContract#payload"
 }
 ],
 "http://a.ml/vocabularies/document-source-maps#value": [
@@ -821,7 +821,7 @@
 {
 "http://a.ml/vocabularies/document-source-maps#element": [
 {
-"@value": "http://schema.org/description"
+"@value": "http://a.ml/vocabularies/core#description"
 }
 ],
 "http://a.ml/vocabularies/document-source-maps#value": [
@@ -868,7 +868,7 @@
 "http://a.ml/vocabularies/security#Scope",
 "http://a.ml/vocabularies/document#DomainElement"
 ],
-"http://a.ml/vocabularies/security#name": [
+"http://a.ml/vocabularies/core#name": [
 {
 "@value": "profile"
 }
@@ -880,7 +880,7 @@
 "http://a.ml/vocabularies/security#Scope",
 "http://a.ml/vocabularies/document#DomainElement"
 ],
-"http://a.ml/vocabularies/security#name": [
+"http://a.ml/vocabularies/core#name": [
 {
 "@value": "email"
 }
@@ -995,7 +995,7 @@
 {
 "http://a.ml/vocabularies/document-source-maps#element": [
 {
-"@value": "http://a.ml/vocabularies/http#parameter"
+"@value": "http://a.ml/vocabularies/apiContract#parameter"
 }
 ],
 "http://a.ml/vocabularies/document-source-maps#value": [
@@ -1007,7 +1007,7 @@
 {
 "http://a.ml/vocabularies/document-source-maps#element": [
 {
-"@value": "http://schema.org/description"
+"@value": "http://a.ml/vocabularies/core#description"
 }
 ],
 "http://a.ml/vocabularies/document-source-maps#value": [
@@ -1043,7 +1043,7 @@
 {
 "http://a.ml/vocabularies/document-source-maps#element": [
 {
-"@value": "http://a.ml/vocabularies/http#header"
+"@value": "http://a.ml/vocabularies/apiContract#header"
 }
 ],
 "http://a.ml/vocabularies/document-source-maps#value": [
@@ -1055,7 +1055,7 @@
 {
 "http://a.ml/vocabularies/document-source-maps#element": [
 {
-"@value": "http://www.w3.org/ns/hydra/core#response"
+"@value": "http://a.ml/vocabularies/apiContract#response"
 }
 ],
 "http://a.ml/vocabularies/document-source-maps#value": [
@@ -1067,6 +1067,11 @@
 ]
 }
 ]
+}
+],
+"http://a.ml/vocabularies/document#version": [
+{
+"@value": "2.0.0"
 }
 ],
 "http://a.ml/vocabularies/document-source-maps#sources": [

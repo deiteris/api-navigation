@@ -2,7 +2,7 @@
 {
 "@id": "",
 "@type": [
-"doc:SecuritySchemeFragment",
+"security:SecuritySchemeFragment",
 "doc:Fragment",
 "doc:Unit"
 ],
@@ -18,44 +18,44 @@
 "@value": "OAuth 2.0"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "This API supports OAuth 2.0 for authenticating all API requests."
 }
 ],
-"raml-http:header": [
+"apiContract:header": [
 {
 "@id": "#2",
 "@type": [
-"raml-http:Parameter",
+"apiContract:Parameter",
 "doc:DomainElement"
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "authorization"
 }
 ],
-"raml-http:paramName": [
+"apiContract:paramName": [
 {
 "@value": "authorization"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "Used to send a valid OAuth 2 access token. Do not use with the \"access_token\" query string parameter."
 }
 ],
-"hydra:required": [
+"apiContract:required": [
 {
 "@value": false
 }
 ],
-"raml-http:binding": [
+"apiContract:binding": [
 {
 "@value": "header"
 }
 ],
-"raml-http:schema": [
+"raml-shapes:schema": [
 {
 "@id": "#3",
 "@type": [
@@ -75,16 +75,16 @@
 "@value": "schema"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "Used to send a valid OAuth 2 access token. Do not use with the \"access_token\" query string parameter."
 }
 ],
-"doc:examples": [
+"apiContract:examples": [
 {
 "@id": "#4",
 "@type": [
-"doc:Example",
+"apiContract:Example",
 "doc:DomainElement"
 ],
 "doc:strict": [
@@ -110,7 +110,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_1"
 }
@@ -139,7 +139,7 @@
 ]
 }
 ],
-"shacl:raw": [
+"doc:raw": [
 {
 "@value": "ya.2453vfDb3cJHisdf.*&H"
 }
@@ -168,7 +168,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "shacl:raw"
+"@value": "doc:raw"
 }
 ],
 "sourcemaps:value": [
@@ -244,7 +244,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -292,7 +292,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "raml-http:schema"
+"@value": "raml-shapes:schema"
 }
 ],
 "sourcemaps:value": [
@@ -304,7 +304,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -328,7 +328,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "hydra:required"
+"@value": "apiContract:required"
 }
 ],
 "sourcemaps:value": [
@@ -342,39 +342,39 @@
 ]
 }
 ],
-"raml-http:parameter": [
+"apiContract:parameter": [
 {
 "@id": "#5",
 "@type": [
-"raml-http:Parameter",
+"apiContract:Parameter",
 "doc:DomainElement"
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "access_token"
 }
 ],
-"raml-http:paramName": [
+"apiContract:paramName": [
 {
 "@value": "access_token"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "Used to send a valid OAuth 2 access token. Do not use with the \"Authorization\" header."
 }
 ],
-"hydra:required": [
+"apiContract:required": [
 {
 "@value": false
 }
 ],
-"raml-http:binding": [
+"apiContract:binding": [
 {
 "@value": "query"
 }
 ],
-"raml-http:schema": [
+"raml-shapes:schema": [
 {
 "@id": "#6",
 "@type": [
@@ -394,7 +394,7 @@
 "@value": "schema"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "Used to send a valid OAuth 2 access token. Do not use with the \"Authorization\" header."
 }
@@ -423,7 +423,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -471,7 +471,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "raml-http:schema"
+"@value": "raml-shapes:schema"
 }
 ],
 "sourcemaps:value": [
@@ -483,7 +483,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -507,7 +507,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "hydra:required"
+"@value": "apiContract:required"
 }
 ],
 "sourcemaps:value": [
@@ -521,41 +521,41 @@
 ]
 }
 ],
-"hydra:response": [
+"apiContract:response": [
 {
 "@id": "#7",
 "@type": [
-"raml-http:Response",
+"apiContract:Response",
 "doc:DomainElement"
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "401"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "Bad or expired token. This can happen if the user or Dropbox revoked or expired an access token. To fix, re-authenticate the user."
 }
 ],
-"hydra:statusCode": [
+"apiContract:statusCode": [
 {
 "@value": "401"
 }
 ],
-"raml-http:payload": [
+"apiContract:payload": [
 {
 "@id": "#8",
 "@type": [
-"raml-http:Payload",
+"apiContract:Payload",
 "doc:DomainElement"
 ],
-"raml-http:mediaType": [
+"core:mediaType": [
 {
 "@value": "application/json"
 }
 ],
-"raml-http:schema": [
+"raml-shapes:schema": [
 {
 "@id": "#9",
 "@type": [
@@ -641,7 +641,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "raml-http:payload"
+"@value": "apiContract:payload"
 }
 ],
 "sourcemaps:value": [
@@ -665,7 +665,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -681,37 +681,37 @@
 {
 "@id": "#10",
 "@type": [
-"raml-http:Response",
+"apiContract:Response",
 "doc:DomainElement"
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "403"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "Bad OAuth request (wrong consumer key, bad nonce, expired timestamp...). Unfortunately, re-authenticating the user won't help here."
 }
 ],
-"hydra:statusCode": [
+"apiContract:statusCode": [
 {
 "@value": "403"
 }
 ],
-"raml-http:payload": [
+"apiContract:payload": [
 {
 "@id": "#11",
 "@type": [
-"raml-http:Payload",
+"apiContract:Payload",
 "doc:DomainElement"
 ],
-"raml-http:mediaType": [
+"core:mediaType": [
 {
 "@value": "application/json"
 }
 ],
-"raml-http:schema": [
+"raml-shapes:schema": [
 {
 "@id": "#12",
 "@type": [
@@ -797,7 +797,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "raml-http:payload"
+"@value": "apiContract:payload"
 }
 ],
 "sourcemaps:value": [
@@ -821,7 +821,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -868,7 +868,7 @@
 "security:Scope",
 "doc:DomainElement"
 ],
-"security:name": [
+"core:name": [
 {
 "@value": "profile"
 }
@@ -880,7 +880,7 @@
 "security:Scope",
 "doc:DomainElement"
 ],
-"security:name": [
+"core:name": [
 {
 "@value": "email"
 }
@@ -995,7 +995,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "raml-http:parameter"
+"@value": "apiContract:parameter"
 }
 ],
 "sourcemaps:value": [
@@ -1007,7 +1007,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -1043,7 +1043,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "raml-http:header"
+"@value": "apiContract:header"
 }
 ],
 "sourcemaps:value": [
@@ -1055,7 +1055,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "hydra:response"
+"@value": "apiContract:response"
 }
 ],
 "sourcemaps:value": [
@@ -1067,6 +1067,11 @@
 ]
 }
 ]
+}
+],
+"doc:version": [
+{
+"@value": "2.0.0"
 }
 ],
 "sourcemaps:sources": [
@@ -1093,15 +1098,14 @@
 ],
 "@context": {
 "@base": "amf://id",
-"raml-http": "http://a.ml/vocabularies/http#",
 "shacl": "http://www.w3.org/ns/shacl#",
 "raml-shapes": "http://a.ml/vocabularies/shapes#",
 "security": "http://a.ml/vocabularies/security#",
 "data": "http://a.ml/vocabularies/data#",
 "doc": "http://a.ml/vocabularies/document#",
-"sourcemaps": "http://a.ml/vocabularies/document-source-maps#",
-"schema-org": "http://schema.org/",
-"hydra": "http://www.w3.org/ns/hydra/core#"
+"apiContract": "http://a.ml/vocabularies/apiContract#",
+"core": "http://a.ml/vocabularies/core#",
+"sourcemaps": "http://a.ml/vocabularies/document-source-maps#"
 }
 }
 ]

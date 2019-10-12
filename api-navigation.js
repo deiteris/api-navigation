@@ -671,18 +671,18 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     let data = {};
     let isFragment = true;
     this._items = null;
-    const moduleKey = this._getAmfKey(this.ns.raml.vocabularies.document + 'Module');
-    if (this._hasType(model, this.ns.raml.vocabularies.document + 'Document')) {
+    const moduleKey = this._getAmfKey(this.ns.aml.vocabularies.document.Module);
+    if (this._hasType(model, this.ns.aml.vocabularies.document.Document)) {
       isFragment = false;
       model = this._ensureAmfModel(model);
       data = this._collectData(model);
-    } else if (this._hasType(model, this.ns.raml.vocabularies.document + 'SecuritySchemeFragment')) {
+    } else if (this._hasType(model, this.ns.aml.vocabularies.security.SecuritySchemeFragment)) {
       data = this._collectSecurityData(model);
       this.securityOpened = true;
-    } else if (this._hasType(model, this.ns.raml.vocabularies.document + 'UserDocumentation')) {
+    } else if (this._hasType(model, this.ns.aml.vocabularies.apiContract.UserDocumentationFragment)) {
       data = this._collectDocumentationData(model);
       this.docsOpened = true;
-    } else if (this._hasType(model, this.ns.raml.vocabularies.document + 'DataType')) {
+    } else if (this._hasType(model, this.ns.aml.vocabularies.shapes.DataTypeFragment)) {
       data = this._collectTypeData(model);
       this.typesOpened = true;
     } else if (model['@type'] && moduleKey === model['@type'][0]) {
@@ -819,7 +819,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
       return;
     }
     refs.forEach((item) => {
-      if (!this._hasType(item, this.ns.raml.vocabularies.document + 'Module')) {
+      if (!this._hasType(item, this.ns.aml.vocabularies.document.Module)) {
         return;
       }
       this._traverseDeclarations(item, target);
@@ -837,7 +837,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (!data) {
       return;
     }
-    const ekey = this._getAmfKey(this.ns.raml.vocabularies.http + 'endpoint');
+    const ekey = this._getAmfKey(this.ns.aml.vocabularies.apiContract.endpoint);
     const endpoint = this._ensureArray(data[ekey]);
     if (endpoint) {
       endpoint.forEach((item) => this._appendModelItem(item, target));
@@ -845,7 +845,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (this.rearrangeEndpoints) {
       target.endpoints = this._rearrangeEndpoints(target.endpoints);
     }
-    const dkey = this._getAmfKey(this.ns.schema.doc);
+    const dkey = this._getAmfKey(this.ns.aml.vocabularies.core.documentation);
     const documentation = this._ensureArray(data[dkey]);
     if (documentation) {
       documentation.forEach((item) => this._appendModelItem(item, target));
@@ -932,13 +932,13 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
    * @param {Object} target
    */
   _appendModelItem(item, target) {
-    if (this._hasType(item, this.ns.w3.shacl.shape)) {
+    if (this._hasType(item, this.ns.w3.shacl.Shape)) {
       this._appendTypeItem(item, target);
-    } else if (this._hasType(item, this.ns.raml.vocabularies.security + 'SecurityScheme')) {
+    } else if (this._hasType(item, this.ns.aml.vocabularies.security.SecurityScheme)) {
       this._appendSecurityItem(item, target);
-    } else if (this._hasType(item, this.ns.schema.creativeWork)) {
+    } else if (this._hasType(item, this.ns.aml.vocabularies.core.CreativeWork)) {
       this._appendDocumentationItem(item, target);
-    } else if (this._hasType(item, this.ns.raml.vocabularies.http + 'EndPoint')) {
+    } else if (this._hasType(item, this.ns.aml.vocabularies.apiContract.EndPoint)) {
       this._appendEndpointItem(item, target);
     }
   }
@@ -949,12 +949,12 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
    * @param {Object} target
    */
   _appendTypeItem(item, target) {
-    const w3name = this._getValue(item, this.ns.w3.shacl.name + 'name');
+    const w3name = this._getValue(item, this.ns.w3.shacl.name);
     if (w3name && w3name.indexOf('amf_inline_type') === 0) {
       // https://www.mulesoft.org/jira/browse/APIMF-972
       return;
     }
-    let name = this._getValue(item, this.ns.schema.schemaName);
+    let name = this._getValue(item, this.ns.aml.vocabularies.core.name);
     if (!name && w3name) {
       name = w3name;
     } else if (!name) {
@@ -964,7 +964,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (!id) {
       return;
     }
-    const rfIdKey = this._getAmfKey(this.ns.raml.vocabularies.document + 'reference-id');
+    const rfIdKey = this._getAmfKey(this.ns.aml.vocabularies.document.referenceId);
     const compareId = item['@id'].toLowerCase();
     const refNode = this._ensureArray(item[rfIdKey]);
     const refId = refNode ? refNode[0]['@id'].toLowerCase() : undefined;
@@ -988,12 +988,12 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
    * @param {Object} target
    */
   _appendSecurityItem(item, target) {
-    let name = this._getValue(item, this.ns.schema.displayName);
+    let name = this._getValue(item, this.ns.aml.vocabularies.core.displayName);
     if (!name) {
-      name = this._getValue(item, this.ns.raml.vocabularies.security + 'name');
+      name = this._getValue(item, this.ns.aml.vocabularies.security.name);
     }
     if (!name) {
-      name = this._getValue(item, this.ns.raml.vocabularies.security + 'type');
+      name = this._getValue(item, this.ns.aml.vocabularies.security.type);
     }
     const id = item['@id'];
     target.securitySchemes.push({
@@ -1008,7 +1008,7 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
    * @param {Object} target
    */
   _appendDocumentationItem(item, target) {
-    const name = this._getValue(item, this.ns.schema.title);
+    const name = this._getValue(item, this.ns.aml.vocabularies.core.title);
     const id = item['@id'];
     target.documentation.push({
       label: name,
@@ -1025,8 +1025,8 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
   _appendEndpointItem(item, target) {
     const result = {};
 
-    let name = this._getValue(item, this.ns.schema.schemaName);
-    const path = this._getValue(item, this.ns.raml.vocabularies.http + 'path');
+    let name = this._getValue(item, this.ns.aml.vocabularies.core.name);
+    const path = this._getValue(item, this.ns.raml.vocabularies.apiContract.path);
     result.path = path;
 
     let tmpPath = path;
@@ -1100,8 +1100,8 @@ class ApiNavigation extends AmfHelperMixin(LitElement) {
    * @return {Object} Method view model
    */
   _createOperationModel(item) {
-    const label = this._getValue(item, this.ns.schema.schemaName);
-    const methodKey = this.ns.w3.hydra.core + 'method';
+    const label = this._getValue(item, this.ns.aml.vocabularies.core.name);
+    const methodKey = this.ns.aml.vocabularies.apiContract.method;
     const id = item['@id'];
     const method = this._getValue(item, methodKey);
     return {

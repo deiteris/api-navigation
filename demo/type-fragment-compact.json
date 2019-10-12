@@ -2,7 +2,7 @@
 {
 "@id": "",
 "@type": [
-"doc:DataType",
+"raml-shapes:DataTypeFragment",
 "doc:Fragment",
 "doc:Unit"
 ],
@@ -55,7 +55,7 @@
 "@value": "favouriteTime"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "The person's favourite time of day"
 }
@@ -84,7 +84,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -203,16 +203,16 @@
 "@value": "favouriteNumber"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "Favourite number"
 }
 ],
-"doc:examples": [
+"apiContract:examples": [
 {
 "@id": "#34",
 "@type": [
-"doc:Example",
+"apiContract:Example",
 "doc:DomainElement"
 ],
 "doc:strict": [
@@ -238,7 +238,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#integer"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_1"
 }
@@ -267,7 +267,7 @@
 ]
 }
 ],
-"shacl:raw": [
+"doc:raw": [
 {
 "@value": "25"
 }
@@ -296,7 +296,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "shacl:raw"
+"@value": "doc:raw"
 }
 ],
 "sourcemaps:value": [
@@ -358,7 +358,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:name"
+"@value": "core:name"
 }
 ],
 "sourcemaps:value": [
@@ -528,7 +528,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#boolean"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_1"
 }
@@ -880,7 +880,7 @@
 "@value": "etag"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "ETag of this resource for caching purposes.\n__This property will be ignored when creating an object.__\n"
 }
@@ -909,7 +909,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -1013,7 +1013,7 @@
 "@value": "tagline"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "The brief description (tagline) of this person."
 }
@@ -1042,7 +1042,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -1151,16 +1151,16 @@
 "@value": "name"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "Person full name. The input will be rejected if this property is not set while creating new object."
 }
 ],
-"doc:examples": [
+"apiContract:examples": [
 {
 "@id": "#44",
 "@type": [
-"doc:Example",
+"apiContract:Example",
 "doc:DomainElement"
 ],
 "doc:strict": [
@@ -1186,7 +1186,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_1"
 }
@@ -1215,7 +1215,7 @@
 ]
 }
 ],
-"shacl:raw": [
+"doc:raw": [
 {
 "@value": "John Smith"
 }
@@ -1244,7 +1244,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "shacl:raw"
+"@value": "doc:raw"
 }
 ],
 "sourcemaps:value": [
@@ -1306,7 +1306,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -1434,11 +1434,11 @@
 "@value": "created"
 }
 ],
-"doc:examples": [
+"apiContract:examples": [
 {
 "@id": "#47",
 "@type": [
-"doc:Example",
+"apiContract:Example",
 "doc:DomainElement"
 ],
 "doc:strict": [
@@ -1464,7 +1464,7 @@
 "@id": "http://a.ml/vocabularies/shapes#dateTimeOnly"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_1"
 }
@@ -1493,7 +1493,7 @@
 ]
 }
 ],
-"shacl:raw": [
+"doc:raw": [
 {
 "@value": "2018-04-09T19:10:15"
 }
@@ -1522,7 +1522,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "shacl:raw"
+"@value": "doc:raw"
 }
 ],
 "sourcemaps:value": [
@@ -1688,7 +1688,7 @@
 "@value": "url"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "The URL of this person's profile."
 }
@@ -1717,7 +1717,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -1836,7 +1836,7 @@
 "@value": "id"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "A unique identifier of a person.\n\nIt is a 32 bit string containing alphanumeric characters.\n"
 }
@@ -1851,7 +1851,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -1979,7 +1979,7 @@
 "@value": "language"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "The user's preferred language for rendering."
 }
@@ -2008,7 +2008,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -2112,7 +2112,7 @@
 "@value": "age"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "Very unpractical property to have in a data store.\n"
 }
@@ -2141,7 +2141,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -2325,7 +2325,7 @@
 "@value": "birthday"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "The person's date of birth, represented as YYYY-MM-DD."
 }
@@ -2354,7 +2354,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -2526,7 +2526,7 @@
 "@value": "gender?"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "The person's gender. Possible values includes, but are not limited to, the following values:\n* \"male\" - Male gender.\n* \"female\" - Female gender.\n* \"other\" - Other.\n"
 }
@@ -2553,7 +2553,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_1"
 }
@@ -2600,7 +2600,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_2"
 }
@@ -2647,7 +2647,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_3"
 }
@@ -2678,14 +2678,14 @@
 ]
 }
 ],
-"doc:examples": [
+"apiContract:examples": [
 {
 "@id": "#65",
 "@type": [
-"doc:Example",
+"apiContract:Example",
 "doc:DomainElement"
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "Women"
 }
@@ -2713,7 +2713,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_1"
 }
@@ -2742,7 +2742,7 @@
 ]
 }
 ],
-"shacl:raw": [
+"doc:raw": [
 {
 "@value": "female"
 }
@@ -2771,7 +2771,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "shacl:raw"
+"@value": "doc:raw"
 }
 ],
 "sourcemaps:value": [
@@ -2783,7 +2783,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:name"
+"@value": "core:name"
 }
 ],
 "sourcemaps:value": [
@@ -2823,10 +2823,10 @@
 {
 "@id": "#66",
 "@type": [
-"doc:Example",
+"apiContract:Example",
 "doc:DomainElement"
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "Man"
 }
@@ -2854,7 +2854,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_1"
 }
@@ -2883,7 +2883,7 @@
 ]
 }
 ],
-"shacl:raw": [
+"doc:raw": [
 {
 "@value": "male"
 }
@@ -2912,7 +2912,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "shacl:raw"
+"@value": "doc:raw"
 }
 ],
 "sourcemaps:value": [
@@ -2924,7 +2924,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:name"
+"@value": "core:name"
 }
 ],
 "sourcemaps:value": [
@@ -2964,10 +2964,10 @@
 {
 "@id": "#67",
 "@type": [
-"doc:Example",
+"apiContract:Example",
 "doc:DomainElement"
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "Elmo"
 }
@@ -2995,7 +2995,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_1"
 }
@@ -3024,7 +3024,7 @@
 ]
 }
 ],
-"shacl:raw": [
+"doc:raw": [
 {
 "@value": "other"
 }
@@ -3053,7 +3053,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "shacl:raw"
+"@value": "doc:raw"
 }
 ],
 "sourcemaps:value": [
@@ -3065,7 +3065,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:name"
+"@value": "core:name"
 }
 ],
 "sourcemaps:value": [
@@ -3163,7 +3163,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -3216,21 +3216,21 @@
 "@value": "type"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "A person resource"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "An object representing a person in the API.\nThis object will be used in all methods returning a Person or list of people.\n"
 }
 ],
-"doc:examples": [
+"apiContract:examples": [
 {
 "@id": "#15",
 "@type": [
-"doc:Example",
+"apiContract:Example",
 "doc:DomainElement"
 ],
 "doc:strict": [
@@ -3264,7 +3264,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_2"
 }
@@ -3311,7 +3311,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_3"
 }
@@ -3358,7 +3358,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_4"
 }
@@ -3405,7 +3405,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_5"
 }
@@ -3452,7 +3452,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_6"
 }
@@ -3507,7 +3507,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_8"
 }
@@ -3554,7 +3554,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_9"
 }
@@ -3583,7 +3583,7 @@
 ]
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "object_7"
 }
@@ -3654,7 +3654,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_10"
 }
@@ -3701,7 +3701,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_11"
 }
@@ -3748,7 +3748,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_12"
 }
@@ -3795,7 +3795,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#integer"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_13"
 }
@@ -3842,7 +3842,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_14"
 }
@@ -3889,7 +3889,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#nil"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_15"
 }
@@ -3918,7 +3918,7 @@
 ]
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "object_1"
 }
@@ -4091,7 +4091,7 @@
 ]
 }
 ],
-"shacl:raw": [
+"doc:raw": [
 {
 "@value": "\n  id: \"R34fg663H9KW9MMSKISIhTs1dR7Hss7e\"\n  name: \"Pawel Psztyc\"\n  birthday: \"1983-10-20\"\n  gender: male\n  url: \"https://domain.com/profile/pawel.psztyc\"\n  image:\n    url: https://domain.com/profile/pawel.psztyc/image\n    thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n  tagline: Some text about me.\n  language: en_GB\n  etag: \"W\\\\244m4n5kj3gbn2nj4k4n4\"\n  favouriteNumber: 10\n  favouriteTime: 10:29:52\n  nillable: null\n\n"
 }
@@ -4120,7 +4120,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "shacl:raw"
+"@value": "doc:raw"
 }
 ],
 "sourcemaps:value": [
@@ -4182,7 +4182,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -4206,7 +4206,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:name"
+"@value": "core:name"
 }
 ],
 "sourcemaps:value": [
@@ -4234,11 +4234,16 @@
 ]
 }
 ],
+"doc:version": [
+{
+"@value": "2.0.0"
+}
+],
 "doc:references": [
 {
 "@id": "#1",
 "@type": [
-"doc:DataType",
+"raml-shapes:DataTypeFragment",
 "doc:Fragment",
 "doc:Unit"
 ],
@@ -4291,7 +4296,7 @@
 "@value": "etag"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "ETag of this resource for caching purposes.\n__This property will be ignored when creating an object.__\n"
 }
@@ -4320,7 +4325,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -4397,7 +4402,7 @@
 "@value": "type"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "Common properties for all resources returned by the API.\n"
 }
@@ -4440,7 +4445,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -4480,6 +4485,11 @@
 ]
 }
 ],
+"doc:version": [
+{
+"@value": "2.0.0"
+}
+],
 "sourcemaps:sources": [
 {
 "@id": "#1/source-map",
@@ -4506,7 +4516,7 @@
 {
 "@id": "#5",
 "@type": [
-"doc:DataType",
+"raml-shapes:DataTypeFragment",
 "doc:Fragment",
 "doc:Unit"
 ],
@@ -4559,7 +4569,7 @@
 "@value": "url"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "The URL of the image.\nTo resize the image and crop it to a square, append the query string **?sz=x**, where x is the dimension in pixels of each side.\n"
 }
@@ -4588,7 +4598,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -4692,12 +4702,12 @@
 "@value": "thumb"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "Thumbnail"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "An URL to the thumbnail of the image. Thumbnails are 60x60px cropped images of the original image.\n"
 }
@@ -4726,7 +4736,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -4762,7 +4772,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:name"
+"@value": "core:name"
 }
 ],
 "sourcemaps:value": [
@@ -4815,16 +4825,16 @@
 "@value": "amf_inline_type_2"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "An image object representing an image object strored in the file store.\nThe image can be only included in the response. It has no effect if the Image appear in the\nrequest. Endpoint handles image creation on it's own and clients can't process images\nexcept of sending image data.\n"
 }
 ],
-"doc:examples": [
+"apiContract:examples": [
 {
 "@id": "#7",
 "@type": [
-"doc:Example",
+"apiContract:Example",
 "doc:DomainElement"
 ],
 "doc:strict": [
@@ -4858,7 +4868,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_2"
 }
@@ -4905,7 +4915,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_3"
 }
@@ -4934,7 +4944,7 @@
 ]
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "object_1"
 }
@@ -4987,7 +4997,7 @@
 ]
 }
 ],
-"shacl:raw": [
+"doc:raw": [
 {
 "@value": "\n  url: https://domain.com/profile/pawel.psztyc/image\n  thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n"
 }
@@ -5016,7 +5026,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "shacl:raw"
+"@value": "doc:raw"
 }
 ],
 "sourcemaps:value": [
@@ -5092,7 +5102,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -5130,6 +5140,11 @@
 ]
 }
 ]
+}
+],
+"doc:version": [
+{
+"@value": "2.0.0"
 }
 ],
 "sourcemaps:sources": [
@@ -5304,7 +5319,7 @@
 "@value": "url"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "The URL of the image.\nTo resize the image and crop it to a square, append the query string **?sz=x**, where x is the dimension in pixels of each side.\n"
 }
@@ -5333,7 +5348,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -5437,12 +5452,12 @@
 "@value": "thumb"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "Thumbnail"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "An URL to the thumbnail of the image. Thumbnails are 60x60px cropped images of the original image.\n"
 }
@@ -5471,7 +5486,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -5507,7 +5522,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:name"
+"@value": "core:name"
 }
 ],
 "sourcemaps:value": [
@@ -5560,16 +5575,16 @@
 "@value": "amf_inline_type_2"
 }
 ],
-"schema-org:description": [
+"core:description": [
 {
 "@value": "An image object representing an image object strored in the file store.\nThe image can be only included in the response. It has no effect if the Image appear in the\nrequest. Endpoint handles image creation on it's own and clients can't process images\nexcept of sending image data.\n"
 }
 ],
-"doc:examples": [
+"apiContract:examples": [
 {
 "@id": "#7",
 "@type": [
-"doc:Example",
+"apiContract:Example",
 "doc:DomainElement"
 ],
 "doc:strict": [
@@ -5603,7 +5618,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_2"
 }
@@ -5650,7 +5665,7 @@
 "@id": "http://www.w3.org/2001/XMLSchema#string"
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "scalar_3"
 }
@@ -5679,7 +5694,7 @@
 ]
 }
 ],
-"schema-org:name": [
+"core:name": [
 {
 "@value": "object_1"
 }
@@ -5732,7 +5747,7 @@
 ]
 }
 ],
-"shacl:raw": [
+"doc:raw": [
 {
 "@value": "\n  url: https://domain.com/profile/pawel.psztyc/image\n  thumb: https://domain.com/profile/pawel.psztyc/image/thumb\n"
 }
@@ -5761,7 +5776,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "shacl:raw"
+"@value": "doc:raw"
 }
 ],
 "sourcemaps:value": [
@@ -5837,7 +5852,7 @@
 {
 "sourcemaps:element": [
 {
-"@value": "schema-org:description"
+"@value": "core:description"
 }
 ],
 "sourcemaps:value": [
@@ -5879,13 +5894,14 @@
 ],
 "@context": {
 "@base": "amf://id",
-"raml-shapes": "http://a.ml/vocabularies/shapes#",
 "shacl": "http://www.w3.org/ns/shacl#",
+"raml-shapes": "http://a.ml/vocabularies/shapes#",
 "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
 "data": "http://a.ml/vocabularies/data#",
 "doc": "http://a.ml/vocabularies/document#",
-"sourcemaps": "http://a.ml/vocabularies/document-source-maps#",
-"schema-org": "http://schema.org/"
+"apiContract": "http://a.ml/vocabularies/apiContract#",
+"core": "http://a.ml/vocabularies/core#",
+"sourcemaps": "http://a.ml/vocabularies/document-source-maps#"
 }
 }
 ]
