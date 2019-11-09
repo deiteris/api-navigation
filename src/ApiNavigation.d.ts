@@ -110,6 +110,7 @@ declare namespace ApiElements {
   class ApiNavigation extends
     AmfHelperMixin(
     Object) {
+    readonly styles: any;
 
     /**
      * A model `@id` of selected documentation part.
