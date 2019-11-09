@@ -274,7 +274,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       /**
        * Enables compatibility with Anypoint components.
        */
-      compatibility: { type: Boolean }
+      compatibility: { type: Boolean },
     };
   }
 
@@ -315,7 +315,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         background-color: var(--api-navigation-section-title-focus-background-color, #e5e5e5);
       }
 
-      h3,
+      .title-h3,
       .list-item.summary {
         font-size: var(--api-navigation-list-section-font-size, 16px);
         font-weight: var(--api-navigation-list-section-font-weight, 500);
@@ -1875,8 +1875,9 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
           @click="${this._toggleSectionHandler}"
           title="Toggle endpoints list"
           aria-haspopup="true"
-          role="menuitem">
-          <h3>Endpoints</h3>
+          role="menuitem"
+        >
+          <div class="title-h3">Endpoints</div>
           <anypoint-icon-button
             part="toggle-button"
             class="toggle-button"
@@ -1978,8 +1979,9 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
           class="section-title"
           data-section="docs"
           @click="${this._toggleSectionHandler}"
-          title="Toggle documentation list">
-          <h3>Documentation</h3>
+          title="Toggle documentation list"
+        >
+          <div class="title-h3">Documentation</div>
           <anypoint-icon-button
             part="toggle-button"
             class="toggle-button"
@@ -2018,7 +2020,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     return html`
       <section class="types" ?data-opened="${this.typesOpened}">
         <div class="section-title" data-section="types" @click="${this._toggleSectionHandler}" title="Toggle types list">
-          <h3>Types</h3>
+          <div class="title-h3">Types</div>
           <anypoint-icon-button
             part="toggle-button"
             class="toggle-button"
@@ -2058,7 +2060,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     return html`
       <section class="security" ?data-opened="${this.securityOpened}">
         <div class="section-title" data-section="security" @click="${this._toggleSectionHandler}" title="Toggle security list">
-          <h3>Security</h3>
+          <div class="title-h3">Security</div>
           <anypoint-icon-button
             part="toggle-button"
             class="toggle-button"
