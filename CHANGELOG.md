@@ -627,3 +627,23 @@
 
 
 
+## [4.0.1](https://github.com/advanced-rest-client/api-navigation/compare/2.0.8...4.0.1) (2019-11-09)
+
+
+### Bug Fixes
+
+* adding type check when testing for a value ([894241e](https://github.com/advanced-rest-client/api-navigation/commit/894241ea0aa7336408c7a1b7145c77ec17ca0bb2))
+* fixing event type value dispatched from proeprty setter ([b4a0cfc](https://github.com/advanced-rest-client/api-navigation/commit/b4a0cfc1e1ef5430cd8b1a9db3b70321cf33759c))
+* fixing icons alignment ([dfab393](https://github.com/advanced-rest-client/api-navigation/commit/dfab393cc3713bcc071d73ae07c5b1ff87fe84a7))
+* fixing linter errors ([74afa7c](https://github.com/advanced-rest-client/api-navigation/commit/74afa7c35f6e94caba26f04dfd3838ce2a43dcec))
+* fixing npm audit errors ([4799c85](https://github.com/advanced-rest-client/api-navigation/commit/4799c8552c7c2e84555e866a310215d1ca13e3e7))
+* fixing type declaration in properties ([89e6856](https://github.com/advanced-rest-client/api-navigation/commit/89e685647b471ef1e01748119415775386412bac))
+
+
+### Features
+
+* adding auto collapse of methods when changin model ([4dd24b3](https://github.com/advanced-rest-client/api-navigation/commit/4dd24b3219753443a84cfcf4e4432d3e4749a751))
+* adding keyboard support for a11y ([021af89](https://github.com/advanced-rest-client/api-navigation/commit/021af893ae47bc0f2586215cbb7b1799ec3e6d33))
+
+
+
