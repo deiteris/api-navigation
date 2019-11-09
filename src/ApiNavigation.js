@@ -264,13 +264,13 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
        * This is not always recommended to use this option as some complex APIs
        * may render this component difficult to understand.
        */
-      allowPaths: Boolean,
+      allowPaths: { type: Boolean },
       /**
        * If this value is set, then the navigation component will sort the list
        * of endpoints based on the `path` value of the endpoint, keeping the order
        * of which endpoint was first in the list, relative to each other
        */
-      rearrangeEndpoints: Boolean,
+      rearrangeEndpoints: { type: Boolean },
       /**
        * Enables compatibility with Anypoint components.
        */
