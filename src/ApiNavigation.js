@@ -99,7 +99,186 @@ import httpMethodStyles from '@api-components/http-method-label/http-method-labe
  * @appliesMixin AmfHelperMixin
  */
 export class ApiNavigation extends AmfHelperMixin(LitElement) {
-  static get styles() {
+  static get properties() {
+    return {
+      /**
+       * `raml-aware` scope property to use.
+       */
+      aware: { type: String, reflect: true },
+      /**
+       * A model `@id` of selected documentation part.
+       * Special case is for `summary` view. It's not part of an API
+       * but most applications has some kins of summary view for the
+       * API.
+       */
+      selected: {
+        type: String,
+        reflect: true
+      },
+      /**
+       * Type of the selected item.
+       * One of `documentation`, `type`, `security`, `endpoint`, `method`
+       * or `summary`.
+       *
+       * This property is set after `selected` property.
+       */
+      selectedType: {
+        type: String,
+        reflect: true
+      },
+      /**
+       * If set it renders `API summary` menu option.
+       * It will allow to set `selected` and `selectedType` to `summary`
+       * when this option is set.
+       */
+      summary: { type: Boolean, reflect: true },
+      /**
+       * A label for the `summary` section.
+       */
+      summaryLabel: {
+        type: String,
+        reflect: true
+      },
+      /**
+       * Computed list of documentation items in the API.
+       *
+       * @type {Array<Object>}
+       */
+      _docs: {
+        type: Array
+      },
+      /**
+       * Computed value, true when `docs` property is set with values
+       *
+       * @type {Object}
+       */
+      hasDocs: {
+        type: Boolean
+      },
+      /**
+       * Determines and changes state of documentation panel.
+       */
+      docsOpened: { type: Boolean, reflect: true },
+      /**
+       * Computed list of "type" items in the API.
+       *
+       * @type {Array<Object>}
+       */
+      _types: {
+        type: Array
+      },
+      /**
+       * Computed value, true when `types` property is set with values
+       *
+       * @type {Object}
+       */
+      hasTypes: {
+        type: Boolean
+      },
+      /**
+       * Determines and changes state of types panel.
+       */
+      typesOpened: { type: Boolean, reflect: true },
+      /**
+       * Computed list of Security schemes items in the API.
+       *
+       * @type {Array<Object>}
+       */
+      _security: {
+        type: Array
+      },
+      /**
+       * Computed value, true when `security` property is set with values
+       *
+       * @type {Object}
+       */
+      hasSecurity: {
+        type: Boolean
+      },
+      /**
+       * Determines and changes state of security panel.
+       */
+      securityOpened: { type: Boolean, reflect: true },
+      /**
+       * Computed list of endpoint items in the API.
+       *
+       * @type {Array<Object>}
+       */
+      _endpoints: {
+        type: Array
+      },
+      /**
+       * Computed value, true when `endpoints` property is set with values
+       *
+       * @type {Object}
+       */
+      hasEndpoints: {
+        type: Boolean
+      },
+      /**
+       * Determines and changes state of endpoints panel.
+       */
+      endpointsOpened: { type: Boolean, reflect: true },
+      /**
+       * If true, the element will not produce a ripple effect when interacted with via the pointer.
+       */
+      noink: { type: Boolean, reflect: true },
+      /**
+       * Filters list elements by this value when set.
+       * Clear the value to reset the search.
+       *
+       * This is not currently exposed in element's UI due
+       * to complexity of search and performance.
+       */
+      query: {
+        type: String,
+        reflect: true
+      },
+      __effectiveQuery: { type: String },
+      /**
+       * Size of endpoint indentation for nested resources.
+       * In pixels.
+       */
+      indentSize: {
+        type: Number,
+        reflect: true,
+        attribute: 'indent-size'
+      },
+      /**
+       * Flag set when passed AMF model is a RAML fragment.
+       */
+      _isFragment: {
+        type: Boolean
+      },
+      /**
+       * Computed value. True when summary should be rendered.
+       * Summary should be rendered only when `summary` is set and
+       * current model is not a RAML fragment.
+       */
+      _renderSummary: {
+        type: Boolean
+      },
+      /**
+       * When set it renders full path below endpoint name if the endpoint has
+       * a name (different than the path).
+       * This is not always recommended to use this option as some complex APIs
+       * may render this component difficult to understand.
+       */
+      allowPaths: Boolean,
+      /**
+       * If this value is set, then the navigation component will sort the list
+       * of endpoints based on the `path` value of the endpoint, keeping the order
+       * of which endpoint was first in the list, relative to each other
+       */
+      rearrangeEndpoints: Boolean,
+      /**
+       * Enables compatibility with Anypoint components.
+       */
+      compatibility: { type: Boolean }
+    };
+  }
+
+  get styles() {
     return css`
       :host {
         display: block;
@@ -290,185 +469,6 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         fill: currentColor;
       }
     `;
-  }
-
-  static get properties() {
-    return {
-      /**
-       * `raml-aware` scope property to use.
-       */
-      aware: { type: String, reflect: true },
-      /**
-       * A model `@id` of selected documentation part.
-       * Special case is for `summary` view. It's not part of an API
-       * but most applications has some kins of summary view for the
-       * API.
-       */
-      selected: {
-        type: String,
-        reflect: true
-      },
-      /**
-       * Type of the selected item.
-       * One of `documentation`, `type`, `security`, `endpoint`, `method`
-       * or `summary`.
-       *
-       * This property is set after `selected` property.
-       */
-      selectedType: {
-        type: String,
-        reflect: true
-      },
-      /**
-       * If set it renders `API summary` menu option.
-       * It will allow to set `selected` and `selectedType` to `summary`
-       * when this option is set.
-       */
-      summary: { type: Boolean, reflect: true },
-      /**
-       * A label for the `summary` section.
-       */
-      summaryLabel: {
-        type: String,
-        reflect: true
-      },
-      /**
-       * Computed list of documentation items in the API.
-       *
-       * @type {Array<Object>}
-       */
-      _docs: {
-        type: Array
-      },
-      /**
-       * Computed value, true when `docs` property is set with values
-       *
-       * @type {Object}
-       */
-      hasDocs: {
-        type: Boolean
-      },
-      /**
-       * Determines and changes state of documentation panel.
-       */
-      docsOpened: { type: Boolean, reflect: true },
-      /**
-       * Computed list of "type" items in the API.
-       *
-       * @type {Array<Object>}
-       */
-      _types: {
-        type: Array
-      },
-      /**
-       * Computed value, true when `types` property is set with values
-       *
-       * @type {Object}
-       */
-      hasTypes: {
-        type: Boolean
-      },
-      /**
-       * Determines and changes state of types panel.
-       */
-      typesOpened: { type: Boolean, reflect: true },
-      /**
-       * Computed list of Security schemes items in the API.
-       *
-       * @type {Array<Object>}
-       */
-      _security: {
-        type: Array
-      },
-      /**
-       * Computed value, true when `security` property is set with values
-       *
-       * @type {Object}
-       */
-      hasSecurity: {
-        type: Boolean
-      },
-      /**
-       * Determines and changes state of security panel.
-       */
-      securityOpened: { type: Boolean, reflect: true },
-      /**
-       * Computed list of endpoint items in the API.
-       *
-       * @type {Array<Object>}
-       */
-      _endpoints: {
-        type: Array
-      },
-      /**
-       * Computed value, true when `endpoints` property is set with values
-       *
-       * @type {Object}
-       */
-      hasEndpoints: {
-        type: Boolean
-      },
-      /**
-       * Determines and changes state of endpoints panel.
-       */
-      endpointsOpened: { type: Boolean, reflect: true },
-      /**
-       * If true, the element will not produce a ripple effect when interacted with via the pointer.
-       */
-      noink: { type: Boolean, reflect: true },
-      /**
-       * Filters list elements by this value when set.
-       * Clear the value to reset the search.
-       *
-       * This is not currently exposed in element's UI due
-       * to complexity of search and performance.
-       */
-      query: {
-        type: String,
-        reflect: true
-      },
-      __effectiveQuery: { type: String },
-      /**
-       * Size of endpoint indentation for nested resources.
-       * In pixels.
-       */
-      indentSize: {
-        type: Number,
-        reflect: true,
-        attribute: 'indent-size'
-      },
-      /**
-       * Flag set when passed AMF model is a RAML fragment.
-       */
-      _isFragment: {
-        type: Boolean
-      },
-      /**
-       * Computed value. True when summary should be rendered.
-       * Summary should be rendered only when `summary` is set and
-       * current model is not a RAML fragment.
-       */
-      _renderSummary: {
-        type: Boolean
-      },
-      /**
-       * When set it renders full path below endpoint name if the endpoint has
-       * a name (different than the path).
-       * This is not always recommended to use this option as some complex APIs
-       * may render this component difficult to understand.
-       */
-      allowPaths: Boolean,
-      /**
-       * If this value is set, then the navigation component will sort the list
-       * of endpoints based on the `path` value of the endpoint, keeping the order
-       * of which endpoint was first in the list, relative to each other
-       */
-      rearrangeEndpoints: Boolean,
-      /**
-       * Enables compatibility with Anypoint components.
-       */
-      compatibility: { type: Boolean }
-    };
   }
 
   get selected() {
@@ -2089,7 +2089,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   }
 
   render() {
-    return html`
+    return html`<style>${this.styles}</style>
       ${this.aware ?
         html`<raml-aware @api-changed="${this._awareApiChanged}" .scope="${this.aware}"></raml-aware>`
         : undefined}
