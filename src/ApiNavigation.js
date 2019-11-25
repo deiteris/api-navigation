@@ -632,6 +632,9 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (super.connectedCallback) {
       super.connectedCallback();
     }
+    if (window.ShadyCSS) {
+      window.ShadyCSS.styleElement(this)
+    }
     if (!this.getAttribute('role')) {
       this.setAttribute('role', 'menubar');
     }
