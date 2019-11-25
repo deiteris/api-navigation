@@ -8,6 +8,11 @@ module.exports = (config) => {
     sauceLabs: {
       testName: 'api-resource-example-document',
     },
+    client: {
+      mocha: {
+        timeout: 5000
+      }
+    }
   });
   slConfig.browsers = [
     'SL_Chrome',
