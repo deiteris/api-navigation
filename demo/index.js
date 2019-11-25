@@ -1,5 +1,6 @@
 import { html, render } from 'lit-html';
 import { DemoPageBase } from './lib/common.js';
+import '@advanced-rest-client/arc-demo-helper/arc-demo-helper.js';
 
 export class DemoPage extends DemoPageBase {
   render() {
