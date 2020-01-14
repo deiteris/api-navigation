@@ -968,9 +968,9 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       return;
     }
     const rfIdKey = this._getAmfKey(this.ns.aml.vocabularies.document.referenceId);
-    const compareId = item['@id'].toLowerCase();
+    const compareId = item['@id'];
     const refNode = this._ensureArray(item[rfIdKey]);
-    const refId = refNode ? refNode[0]['@id'].toLowerCase() : undefined;
+    const refId = refNode ? refNode[0]['@id'] : undefined;
     const idIndex = target._typeIds.indexOf(compareId);
     const refIndex = refId ? target._typeIds.indexOf(refId) : -1;
     if (idIndex === -1 && refIndex === -1) {

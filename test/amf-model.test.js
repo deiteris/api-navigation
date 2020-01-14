@@ -23,30 +23,30 @@ describe('AMF model test', () => {
           await nextFrame();
         });
 
-        it('Collects documentaion information', () => {
+        it('Collects documentation information', () => {
           const result = element._docs;
-          assert.isAbove(result.length, 0);
+          assert.equal(result.length, 2);
           assert.typeOf(result[0].id, 'string');
           assert.typeOf(result[0].label, 'string');
         });
 
         it('Collects types information', () => {
           const result = element._types;
-          assert.isAbove(result.length, 0);
+          assert.equal(result.length, 10);
           assert.typeOf(result[0].id, 'string');
           assert.typeOf(result[0].label, 'string');
         });
 
         it('Collects security information', () => {
           const result = element._security;
-          assert.isAbove(result.length, 0);
+          assert.equal(result.length, 2);
           assert.typeOf(result[0].id, 'string');
           assert.typeOf(result[0].label, 'string');
         });
 
         it('Collects endpoints information', () => {
           const result = element._endpoints;
-          assert.isAbove(result.length, 0);
+          assert.equal(result.length, 32);
           assert.typeOf(result[0].id, 'string');
           assert.typeOf(result[0].label, 'string');
           assert.typeOf(result[0].methods, 'array');
@@ -56,7 +56,7 @@ describe('AMF model test', () => {
         it('Collects methods information', () => {
           const result = element._endpoints;
           const methods = result[0].methods;
-          assert.isAbove(methods.length, 0);
+          assert.equal(methods.length, 2);
           assert.typeOf(methods[0].id, 'string');
           assert.typeOf(methods[0].label, 'string');
           assert.typeOf(methods[0].method, 'string');
@@ -92,6 +92,49 @@ describe('AMF model test', () => {
     });
   });
 
+  describe('AMF cache pipeline', () => {
+    describe('When model contains URI IDs', () => {
+      let element;
+
+      beforeEach(async () => {
+        const amf = await AmfLoader.load(false, 'APIC-349-cache-resolution');
+        element = await basicFixture();
+        element.amf = amf;
+        await nextFrame();
+      });
+
+      it('Collects documentation information', () => {
+        const result = element._docs;
+        assert.equal(result.length, 4);
+        assert.typeOf(result[0].id, 'string');
+        assert.typeOf(result[0].label, 'string');
+      });
+
+      it('Collects types information', () => {
+        const result = element._types;
+        assert.equal(result.length, 9);
+        assert.typeOf(result[0].id, 'string');
+        assert.typeOf(result[0].label, 'string');
+      });
+
+      it('Collects endpoints information', () => {
+        const result = element._endpoints;
+        assert.equal(result.length, 5);
+        assert.typeOf(result[0].id, 'string');
+        assert.typeOf(result[0].label, 'string');
+        assert.typeOf(result[0].methods, 'array');
+        assert.typeOf(result[0].renderPath, 'boolean');
+      });
+
+      it('Collects methods information', () => {
+        const result = element._endpoints;
+        const methods = result[0].methods;
+        assert.equal(methods.length, 1);
+        assert.typeOf(methods[0].id, 'string');
+        assert.typeOf(methods[0].method, 'string');
+      });
+    })
+  })
   describe('data-endpoint-* attributes', () => {
     [
       ['Regular model', false],

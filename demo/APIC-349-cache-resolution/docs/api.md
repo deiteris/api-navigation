@@ -1,0 +1,1 @@
+The API gives you chance to test features referred to API Console and Mocking Service.
