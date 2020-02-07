@@ -301,24 +301,26 @@ describe('<api-navigation>', () => {
     });
   });
 
-  describe('`Rearranging endpoints`', () => {
+  describe('Rearranging endpoint', () => {
     let element;
     let amf;
 
+    const pathKey = 'http://a.ml/vocabularies/apiContract#path'
+
     const dataSet = [
-      { path: '/transactions/:txId' },
-      { path: '/billing' },
-      { path: '/accounts/:accountId' },
-      { path: '/accounts' },
-      { path: '/transactions' },
+      { [pathKey]: '/transactions/:txId' },
+      { [pathKey]: '/billing' },
+      { [pathKey]: '/accounts/:accountId' },
+      { [pathKey]: '/accounts' },
+      { [pathKey]: '/transactions' },
     ];
 
     const expected = [
-      { path: '/transactions' },
-      { path: '/transactions/:txId' },
-      { path: '/billing' },
-      { path: '/accounts' },
-      { path: '/accounts/:accountId' }
+      { [pathKey]: '/transactions' },
+      { [pathKey]: '/transactions/:txId' },
+      { [pathKey]: '/billing' },
+      { [pathKey]: '/accounts' },
+      { [pathKey]: '/accounts/:accountId' }
     ];
 
     beforeEach(async () => {
@@ -334,7 +336,7 @@ describe('<api-navigation>', () => {
     it('should have endpoints rearranged', () => {
       element.amf = amf;
 
-      element._endpoints.forEach((endpoint, i) => assert.equal(endpoint.path, expected[i].path));
+      element._endpoints.forEach((endpoint, i) => assert.equal(endpoint.path, expected[i][pathKey]));
     });
   });
 

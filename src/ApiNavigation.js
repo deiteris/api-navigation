@@ -841,12 +841,12 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       return;
     }
     const ekey = this._getAmfKey(this.ns.aml.vocabularies.apiContract.endpoint);
-    const endpoint = this._ensureArray(data[ekey]);
+    let endpoint = this._ensureArray(data[ekey]);
+    if (this.rearrangeEndpoints) {
+      endpoint = this._rearrangeEndpoints(endpoint);
+    }
     if (endpoint) {
       endpoint.forEach((item) => this._appendModelItem(item, target));
-    }
-    if (this.rearrangeEndpoints) {
-      target.endpoints = this._rearrangeEndpoints(target.endpoints);
     }
     const dkey = this._getAmfKey(this.ns.aml.vocabularies.core.documentation);
     const documentation = this._ensureArray(data[dkey]);
@@ -863,16 +863,18 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
    */
   _rearrangeEndpoints(endpoints) {
     if (!endpoints) {
-      return [];
+      return null;
     }
 
-    function merge(left, right) {
+    const merge = (left, right) => {
       const resultArray = [];
       let leftIndex = 0;
       let rightIndex = 0;
 
       while (leftIndex < left.length && rightIndex < right.length) {
-        if (left[leftIndex].path < right[rightIndex].path) {
+        const leftPath = this._getValue(left[leftIndex], this.ns.raml.vocabularies.apiContract.path)
+        const rightPath = this._getValue(right[rightIndex], this.ns.raml.vocabularies.apiContract.path)
+        if (leftPath < rightPath) {
           resultArray.push(left[leftIndex]);
           leftIndex++;
         } else {
@@ -884,7 +886,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       return resultArray.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
     }
 
-    function mergeSort(unsortedArray) {
+    const mergeSort = (unsortedArray) => {
       if (unsortedArray.length <= 1) {
         return unsortedArray;
       }
@@ -916,7 +918,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
    */
   _createListMap(endpoints) {
     const map = {};
-    const getPathInit = (endpoint) => endpoint.path.split('/')[1];
+    const getPathInit = (endpoint) => this._getValue(endpoint, this.ns.raml.vocabularies.apiContract.path).split('/')[1];
     endpoints.forEach((endpoint) => {
       const pathInit = getPathInit(endpoint);
       if (map[pathInit]) {
