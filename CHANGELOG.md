@@ -1019,3 +1019,16 @@
  [ee58da5](https://github.com/advanced-rest-client/api-navigation/commit/ee58da512d00c74d8cadba576f7f1819df72e516) by Pawel Psztyc
 
 
+<a name="4.0.4"></a>
+## [4.0.4](https://github.com/advanced-rest-client/api-navigation/compare/4.0.2...4.0.4) (2020-02-07)
+
+### Update
+
+* [ci skip] automated merge master->stage. syncing main branches [493d512](https://github.com/advanced-rest-client/api-navigation/commit/493d512fc5cbc773a9cb3263506aa7337071926e) by Ci agent
+
+
+### Bug Fixes
+
+* remove unnecessary lowerCase transformation in AMF IDs [bump-version] [92b2884](https://github.com/advanced-rest-client/api-navigation/commit/92b2884b515d4724568e90d2592ca0586ec716d7) by Leandro Bauret
+
+
