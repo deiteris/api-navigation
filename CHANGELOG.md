@@ -1041,3 +1041,24 @@
 * [ci skip] automated merge master->stage. syncing main branches [493d512](https://github.com/advanced-rest-client/api-navigation/commit/493d512fc5cbc773a9cb3263506aa7337071926e) by Ci agent
 
 
+<a name="4.1.0"></a>
+## [4.1.0](https://github.com/advanced-rest-client/api-navigation/compare/4.0.3...4.1.0) (2020-03-25)
+
+### Build
+
+* bumping version [05ab584](https://github.com/advanced-rest-client/api-navigation/commit/05ab584c60d51947fe4c792b6dbccdc88a797935) by Pawel
+
+
+### Update
+
+* updating package's meta [28c6261](https://github.com/advanced-rest-client/api-navigation/commit/28c62619f41200ec4f99f7b4b1019b1ef89eafbe) by Pawel
+* [ci skip] automated merge master->stage. syncing main branches [8a74be6](https://github.com/advanced-rest-client/api-navigation/commit/8a74be6c485bc5d9c09c1c6ed53387a98605bd3e) by Ci agent
+* [ci skip] automated merge master->stage. syncing main branches [d3e98ce](https://github.com/advanced-rest-client/api-navigation/commit/d3e98ce4f7fde422c85297e6edfc62a2d1759ee4) by Ci agent
+* [ci skip] automated merge master->stage. syncing main branches [493d512](https://github.com/advanced-rest-client/api-navigation/commit/493d512fc5cbc773a9cb3263506aa7337071926e) by Ci agent
+
+
+### Features
+
+* adding support for OAS 3 security schemes [42f44a5](https://github.com/advanced-rest-client/api-navigation/commit/42f44a5c2d9fcc760a0d930d0a338a0308115b96) by Pawel
+
+
