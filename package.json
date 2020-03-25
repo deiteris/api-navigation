@@ -10,12 +10,11 @@
     "navigation"
   ],
   "authors": [
-    "Pawel Psztyc",
-    "The Advanced REST client authors <arc@mulesoft.com>"
+    "Pawel Psztyc"
   ],
   "contributors": [
-    "Pawel Psztyc",
-    "The Advanced REST client authors <arc@mulesoft.com>"
+    "Leandro Bauret",
+    "Francisco Di Giandomenico"
   ],
   "repository": {
     "type": "git",
