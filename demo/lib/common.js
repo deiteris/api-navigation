@@ -1,130 +1,119 @@
 import { html } from 'lit-html';
-import '@api-components/raml-aware/raml-aware.js';
-import '@polymer/paper-styles/typography.js';
-import '@polymer/paper-styles/shadow.js';
-import '@polymer/paper-dropdown-menu/paper-dropdown-menu.js';
-import '@polymer/paper-item/paper-item.js';
-import '@polymer/paper-listbox/paper-listbox.js';
-import '@polymer/paper-toast/paper-toast.js';
+import { DemoPage } from '@advanced-rest-client/arc-demo-helper/src/DemoPage.js';
+import '@anypoint-web-components/anypoint-dropdown-menu/anypoint-dropdown-menu.js';
+import '@anypoint-web-components/anypoint-listbox/anypoint-listbox.js';
+import '@anypoint-web-components/anypoint-item/anypoint-item.js';
+import '@advanced-rest-client/arc-demo-helper/arc-interactive-demo.js';
 import '../../api-navigation.js';
 
-export class DemoPageBase {
+export class NavDemoPage extends DemoPage {
   constructor() {
+    super();
+    this.componentName = 'api-navigation';
+    this.renderViewControls = true;
+
     this._apiChanged = this._apiChanged.bind(this);
+    this._navChanged = this._navChanged.bind(this);
     this._searchApiHandler = this._searchApiHandler.bind(this);
     this._searchButtonHandler = this._searchButtonHandler.bind(this);
-    this._navChanged = this._navChanged.bind(this);
+
+    /**
+     * AMF model read from the API model file downloaded aftwer initialization.
+     * @type {Array<Object>|Object}
+     */
+    this.amf = null;
+
+    this.initObservableProperties([
+      'amf', 'query', 'latestSelected', 'latestType', 'latestEndpoint',
+    ]);
 
     window.addEventListener('api-navigation-selection-changed', this._navChanged);
-    setTimeout(() => {
-      document.getElementById('apiList').selected = 0;
-    });
+    document.body.classList.add('api');
   }
 
-  get amf() {
-    return this._amf;
-  }
-
-  set amf(value) {
-    this._setObservableProperty('amf', value);
-  }
-
-  get latestSelected() {
-    return this._latestSelected;
-  }
-
-  set latestSelected(value) {
-    this._setObservableProperty('latestSelected', value);
-  }
-
-  get latestType() {
-    return this._latestType;
-  }
-
-  set latestType(value) {
-    this._setObservableProperty('latestType', value);
-  }
-
-  get query() {
-    return this._query;
-  }
-
-  set query(value) {
-    this._setObservableProperty('query', value);
-  }
-
-  _setObservableProperty(prop, value) {
-    const key = '_' + prop;
-    if (this[key] === value) {
-      return;
-    }
-    this[key] = value;
-    this.render();
+  /**
+   * Sets default API selection when the view is rendered.
+   */
+  firstRender() {
+    super.firstRender();
+    document.getElementById('apiList').selected = 0;
   }
 
   _apiChanged(e) {
-    const file = e.target.selectedItem.dataset.file;
+    const file = e.target.selectedItem.dataset.src;
     this._loadFile(file);
   }
 
-  _loadFile(file) {
-    fetch('./' + file)
-    .then((response) => response.json())
-    .then((data) => {
-      this.amf = data;
-    });
+  async _loadFile(file) {
+    const response = await fetch('./' + file);
+    const data = await response.json();
+    this.amf = data;
   }
 
   _navChanged(e) {
-    const { selected, type } = e.detail;
+    const { selected, type, endpoint } = e.detail;
     this.latestSelected = selected;
     this.latestType = type;
-    const navToast = document.getElementById('navToast');
-    navToast.text = 'Navigation occured. Type: ' + type + ', id: ' + selected;
-    navToast.opened = true;
+    this.latestEndpoint = endpoint;
   }
 
   _searchApiHandler(e) {
-    const v = e.target.value;
-    this._updateQuery(v);
+    const { value } = e.target;
+    this._updateQuery(value);
   }
 
   _searchButtonHandler(e) {
-    const v = e.target.previousElementSibling.value;
-    this._updateQuery(v);
+    const { value } = e.target.previousElementSibling;
+    this._updateQuery(value);
   }
 
   _updateQuery(q) {
     this.query = q;
   }
 
-  apiListTemplate() {
-    return html`
-    <paper-item data-file="demo-api.json">Demo API</paper-item>
-    <paper-item data-file="demo-api-compact.json">Demo API - compact</paper-item>
-    <paper-item data-file="types-list.json">Types list issue demo</paper-item>
-    <paper-item data-file="exchange-experience-api.json">Exchange API</paper-item>
-    <paper-item data-file="exchange-experience-api-compact.json">Exchange API - compact</paper-item>
-    <paper-item data-file="oauth1-fragment.json">OAuth1 fragment</paper-item>
-    <paper-item data-file="missing-endpoints.json">Missing endpoints issue</paper-item>
-    <paper-item data-file="rearrange-api.json">Rearranged endpoints</paper-item>
-    <paper-item data-file="simple-api.json">Simple API</paper-item>`;
-
+  _apiListTemplate() {
+    return [
+      ['demo-api', 'Demo API'],
+      ['exchange-experience-api', 'Exchange Experience API'],
+      ['oauth1-fragment', 'OAuth1 fragment'],
+      ['types-list', 'Types list issue'],
+      ['missing-endpoints', 'Missing endpoints issue'],
+      ['rearrange-api', 'Rearranged endpoints'],
+      ['simple-api', 'Simple API'],
+      ['api-keys', 'API key'],
+      ['oas-demo', 'OAS Demo API'],
+      ['oauth-flows', 'OAS OAuth Flow'],
+      ['oas-bearer', 'OAS Bearer'],
+    ].map(([file, label]) => html`
+      <anypoint-item data-src="${file}-compact.json">${label} - compact model</anypoint-item>
+      <anypoint-item data-src="${file}.json">${label}</anypoint-item>
+    `);
   }
 
+  /**
+   * Call this on the top of the `render()` method to render demo navigation
+   * @return {Object} HTML template for demo header
+   */
   headerTemplate() {
-    return html`<raml-aware .api="${this.amf}" scope="api-demo"></raml-aware>
+    const { componentName } = this;
+    return html`
     <header>
-      <paper-dropdown-menu label="Select demo API" aria-label="Select demo API" aria-expanded="false">
-        <paper-listbox slot="dropdown-content" id="apiList" @selected-changed="${this._apiChanged}">
-        ${this.apiListTemplate()}
-        </paper-listbox>
-      </paper-dropdown-menu>
-
+      ${componentName ? html`<h1 class="api-title">${componentName}</h1>` : ''}
+      <anypoint-dropdown-menu
+        aria-label="Activate to select demo API"
+        aria-expanded="false"
+      >
+        <label slot="label">Select demo API</label>
+        <anypoint-listbox slot="dropdown-content" id="apiList" @selected-changed="${this._apiChanged}">
+          ${this._apiListTemplate()}
+        </anypoint-listbox>
+      </anypoint-dropdown-menu>
       <div class="search-container">
         <input type="search" @search="${this._searchApiHandler}" aria-label="API search field"/>
         <button class="search-button" @click="${this._searchButtonHandler}">Search API</button>
       </div>
+      <div class="spacer"></div>
+      ${this._viewControlsTemplate()}
     </header>`;
   }
 }

@@ -10,5 +10,9 @@
   "example-fragment/example-fragment.raml": "RAML 1.0",
   "missing-endpoints/missing-endpoints.raml": "RAML 1.0",
   "rearrange-api/rearrange-api.raml": "RAML 1.0",
-  "simple-api/simple-api.raml": "RAML 1.0"
+  "simple-api/simple-api.raml": "RAML 1.0",
+  "api-keys/api-keys.yaml": "OAS 3.0",
+  "oauth-flows/oauth-flows.yaml": "OAS 3.0",
+  "oas-bearer/oas-bearer.yaml": "OAS 3.0",
+  "oas-demo/oas-demo.yaml": "OAS 3.0"
 }

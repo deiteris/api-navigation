@@ -1,6 +1,6 @@
 {
   "excludeFiles": [
-    "demo/*",
+    "demo/**",
     "test/*",
     "coverage/*",
     "karma.*",

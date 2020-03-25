@@ -1,56 +1,148 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
-    <title>api-navigation demo</title>
 
-    <style>
-      .box {
-        box-sizing: border-box;
-        padding: 16px;
-        margin-bottom: 40px;
-      }
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+  <title>api-navigation demo</title>
+  <style>
+    .main.centered {
+      max-width: 1440px !important;
+    }
 
-      .search-container {
-        flex: 1;
-        flex-basis: 0.000000001px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+    body.styled {
+      --anypoiont-dropdown-shaddow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+      --anypoiont-autocomplete-dropdown-shaddow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+      --arc-font-subhead-font-size: 16px;
+      --arc-font-subhead-font-weight: 400;
+      --arc-font-subhead-line-height: 24px;
+      --code-mirror-height: auto;
 
-      input[type="search"] {
-        font-size: 15px;
-        padding: 8px;
-        min-width: 320px;
-      }
+      --arc-font-headline-font-size: 24px;
+      --arc-font-headline-font-weight: 400;
+      --arc-font-headline-letter-spacing: -.012em;
+      --arc-font-headline-line-height: 32px;
+      --arc-font-title-font-size: 20px;
+      --arc-font-title-font-weight: 500;
+      --arc-font-title-line-height: 28px;
+    }
 
-      .search-button {
-        font-size: 15px;
-        padding: 8px;
-      }
+    body.styled.api.dark {
+      --secondary-text-color: #616161;
+      --primary-background-color: #424242;
+      --code-background-color: #263238 !important;
+      --code-color: #fff;
 
-      .themed {
-        background-color: #E1F5FE;
-        --api-navigation-operation-endpoint-opened-background-color: #B3E5FC;
-        --api-navigation-list-item-selected-background-color: #FFCC80;
-        --method-display-selected-color: #000;
-        --api-navigation-list-item-selected-color: #000;
-      }
+      --anypoint-input-legacy-label-color: #F5F5F5;
+      --arc-interactive-demo-options-color: #F5F5F5;
 
-      html,
-      body {
-        --paper-input-container-color: #fff;
-        --paper-input-container-input-color: #fff;
-        margin: 0;
-        padding: 0 !important;
-      }
-      </style>
-  </head>
-  <body>
-    <div id="demo"></div>
+      --anypoint-dropdown-menu-background-color: #494949;
+      --anypoint-dropdown-menu-label-background-color: var(--primary-background-color);
+      --anypoint-listbox-background-color: #494949;
+      --anypoint-dropdown-menu-focus-background-color: #9E9E9E;
+      --anypoint-dropdown-menu-label-color: #fff;
+      --anypoint-dropdown-menu-info-message-color: #fff;
+      --anypoint-item-hover-background-color: #9E9E9E;
+      --anypoiont-autocomplete-background-color: #494949;
+      --anypoint-icon-button-emphasis-low-color: #fff;
 
-    <script type="module" src="index.js"></script>
-  </body>
+      --api-type-document-type-attribute-color: #fff;
+      --api-annotation-document-color: #fff;
+
+      --markdown-styles-code-text-shadow: none;
+      --markdown-styles-table-row-background-color: #4f4f4f;
+      --markdown-styles-table-even-row-background-color: #2a2a2a;
+
+      --api-type-document-property-parent-color: #fff;
+
+      --code-type-boolean-value-color: #F07178;
+      --code-type-number-value-color: #F78C6A;
+      --code-type-text-value-color: #C3E88D;
+      --code-property-value-color: #F07178;
+      --code-operator-value-background-color: transparent;
+
+      --http-code-snippet-code-text-shadow: #fff;
+      --http-code-snippet-container-background-color: var(--code-background-color);
+      --http-code-snippet-code-function-color: #82AAFF;
+      --http-code-snippet-code-keyword-color: #C792EA;
+      --http-code-snippet-code-cdata-color: #adb9c5;
+
+      --http-method-label-get-background-color: rgb(0, 128, 0);
+      --http-method-label-get-color: #fff;
+      --http-method-label-post-background-color: rgb(33, 150, 243);
+      --http-method-label-post-color: #fff;
+      --http-method-label-put-background-color: rgb(255, 165, 0);
+      --http-method-label-put-color: #fff;
+      --http-method-label-delete-background-color: rgb(244, 67, 54);
+      --http-method-label-delete-color: #fff;
+    }
+
+    body.styled.api.anypoint {
+      --api-navigation-operation-endpoint-opened-background-color: #f4f5f6;
+      --api-navigation-list-item-selected-background-color: #e8e9ea;
+      --api-navigation-list-item-selected-color: #000;
+      --api-navigation-color: #58595a;
+      --api-navigation-list-item-selected-border-left: 4px #00A2DF solid;
+      --api-navigation-list-item-hovered-border-left: 4px #ABE2F5 solid;
+      --api-navigation-endpoint-font-size: 15px;
+      --api-navigation-list-item-padding: 5px 15px;
+      --api-navigation-list-item-border-left: 4px transparent solid;
+      --api-navigation-list-section-font-size: 15px;
+      --api-navigation-list-item-summary-padding: 8px 12px;
+      --api-navigation-list-item-selected-weight: 500;
+
+      --method-display-selected-color: #fff;
+      /* HTTP methods colors in method documentation panel */
+      --http-method-label-border-radius: 1px;
+      --http-method-label-get-background-color: #00b49d;
+      --http-method-label-get-color: #fff;
+      --http-method-label-post-background-color: #9a63f9;
+      --http-method-label-post-color: #fff;
+      --http-method-label-put-background-color: #F2BE24;
+      --http-method-label-put-color: #fff;
+      --http-method-label-patch-background-color: #5E66F9;
+      --http-method-label-patch-color: #fff;
+      --http-method-label-delete-background-color: #D1344E;
+      --http-method-label-delete-color: #fff;
+      --http-method-label-options-background-color: #00B5D1;
+      --http-method-label-options-color: #fff;
+      --http-method-label-head-background-color: #17BC65;
+      --http-method-label-head-color: #fff;
+      --http-method-label-padding: 4px 5px;
+      --method-display-font-weigth: 100;
+      --dark-divider-opacity: 0;
+    }
+
+    .box {
+      box-sizing: border-box;
+      padding: 16px;
+      margin-bottom: 40px;
+    }
+
+    .search-container {
+      flex: 1;
+      flex-basis: 0.000000001px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    input[type="search"] {
+      font-size: 15px;
+      padding: 8px;
+      min-width: 320px;
+    }
+
+    .search-button {
+      font-size: 15px;
+      padding: 8px;
+    }
+    </style>
+</head>
+
+<body>
+  <div id="demo"></div>
+  <script type="module" src="index.js"></script>
+</body>
+
 </html>

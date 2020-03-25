@@ -10,20 +10,20 @@ module.exports = (config) => {
     },
     client: {
       mocha: {
-        timeout: 5000
+        timeout: 10000
       }
     }
   });
-  slConfig.browsers = [
-    'SL_Chrome',
-    'SL_Chrome-1',
-    'SL_Firefox',
-    'SL_Firefox-1',
-    'SL_Safari',
-    'SL_Safari-1',
-    // 'SL_EDGE',
-    // 'SL_IE_11'
-  ];
+  // slConfig.browsers = [
+  //   'SL_Chrome',
+  //   'SL_Chrome-1',
+  //   'SL_Firefox',
+  //   'SL_Firefox-1',
+  //   'SL_Safari',
+  //   'SL_Safari-1',
+  //   // 'SL_EDGE',
+  //   // 'SL_IE_11'
+  // ];
   config.set(merge(createBaseConfig(config), slConfig));
   return config;
 };

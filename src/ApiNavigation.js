@@ -5,6 +5,15 @@ import '@anypoint-web-components/anypoint-button/anypoint-icon-button.js';
 import { keyboardArrowDown } from '@advanced-rest-client/arc-icons/ArcIcons.js';
 import '@polymer/iron-collapse/iron-collapse.js';
 import httpMethodStyles from '@api-components/http-method-label/http-method-label-common-styles.js';
+
+function mapAuthName(name) {
+  switch (name) {
+    case 'http': return 'HTTP';
+    case 'openIdConnect': return 'OpenID Connect';
+    default: return name;
+  }
+}
+
 /* eslint-disable max-len */
 /**
  * `api-navigation`
@@ -998,7 +1007,13 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       name = this._getValue(item, this.ns.aml.vocabularies.security.name);
     }
     if (!name) {
-      name = this._getValue(item, this.ns.aml.vocabularies.security.type);
+      const apiName = this._getValue(item, this.ns.aml.vocabularies.core.name);
+      const secType = this._getValue(item, this.ns.aml.vocabularies.security.type);
+      let result = '';
+      if (apiName) {
+        result = `${apiName} - `;
+      }
+      name = result + mapAuthName(secType);
     }
     const id = item['@id'];
     target.securitySchemes.push({
