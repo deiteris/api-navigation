@@ -1062,3 +1062,41 @@
 * adding support for OAS 3 security schemes [42f44a5](https://github.com/advanced-rest-client/api-navigation/commit/42f44a5c2d9fcc760a0d930d0a338a0308115b96) by Pawel
 
 
+<a name="4.1.1"></a>
+## [4.1.1](https://github.com/advanced-rest-client/api-navigation/compare/4.0.4...4.1.1) (2020-05-13)
+
+### Build
+
+* bumping version [0c6ce80](https://github.com/advanced-rest-client/api-navigation/commit/0c6ce80f5366f8d42ce7c21b3341804aed9de2d1) by Pawel
+* bumping version [05ab584](https://github.com/advanced-rest-client/api-navigation/commit/05ab584c60d51947fe4c792b6dbccdc88a797935) by Pawel
+
+
+### Update
+
+* [ci skip] automated merge master->stage. syncing main branches [9ace22b](https://github.com/advanced-rest-client/api-navigation/commit/9ace22b1e75194b59ae99e09044a97d2062d254b) by Ci agent
+* updating package's meta [28c6261](https://github.com/advanced-rest-client/api-navigation/commit/28c62619f41200ec4f99f7b4b1019b1ef89eafbe) by Pawel
+* [ci skip] automated merge master->stage. syncing main branches [8a74be6](https://github.com/advanced-rest-client/api-navigation/commit/8a74be6c485bc5d9c09c1c6ed53387a98605bd3e) by Ci agent
+* [ci skip] automated merge master->stage. syncing main branches [d3e98ce](https://github.com/advanced-rest-client/api-navigation/commit/d3e98ce4f7fde422c85297e6edfc62a2d1759ee4) by Ci agent
+
+
+### Features
+
+* adding support for OAS 3 security schemes [42f44a5](https://github.com/advanced-rest-client/api-navigation/commit/42f44a5c2d9fcc760a0d930d0a338a0308115b96) by Pawel
+
+
+### Bug Fixes
+
+* fixes APIC-408 - OAS external docs [0b9a229](https://github.com/advanced-rest-client/api-navigation/commit/0b9a2290221f01205ba3f2a41bda18da2d7fcd46) by Pawel
+
+
+### Refactor
+
+* refactoring to open-wc standards [5a0a91e](https://github.com/advanced-rest-client/api-navigation/commit/5a0a91eb5c6328cec98914c91654a493d64b89c2) by Pawel
+
+
+### Testing
+
+* increasing timeout for AMF tests [29862ce](https://github.com/advanced-rest-client/api-navigation/commit/29862cee6b4629359bbd570ef6003747aab566d7) by Pawel
+* updating test name in SL [3bf5435](https://github.com/advanced-rest-client/api-navigation/commit/3bf54351483247ffdf2eee9953b2e903fd40f4da) by Pawel
+
+
