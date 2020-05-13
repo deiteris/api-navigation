@@ -6,7 +6,7 @@ const createBaseConfig = require('./karma.conf.js');
 module.exports = config => {
   const slConfig = merge(slSettings(), {
     sauceLabs: {
-      testName: 'api-resource-example-document',
+      testName: 'api-navigation',
     },
     client: {
       mocha: {
