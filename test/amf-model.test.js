@@ -3,17 +3,20 @@ import { AmfLoader } from './amf-loader.js';
 import { AmfHelper } from './amf-helper.js';
 import '../api-navigation.js';
 
+/* eslint-disable no-plusplus */
+/* eslint-disable prefer-destructuring */
+
 describe('AMF model test', () => {
   async function basicFixture() {
-    return (await fixture(`<api-navigation></api-navigation>`));
+    return fixture(`<api-navigation></api-navigation>`);
   }
 
   describe('AMF Computations', () => {
     [
       ['Regular model', false],
-      ['Compact model', true]
-    ].forEach((item) => {
-      describe(item[0], () => {
+      ['Compact model', true],
+    ].forEach(item => {
+      describe(String(item[0]), () => {
         let element;
 
         beforeEach(async () => {
@@ -28,6 +31,8 @@ describe('AMF model test', () => {
           assert.equal(result.length, 2);
           assert.typeOf(result[0].id, 'string');
           assert.typeOf(result[0].label, 'string');
+          assert.typeOf(result[0].isExternal, 'boolean');
+          assert.isUndefined(result[0].url);
         });
 
         it('Collects types information', () => {
@@ -55,7 +60,7 @@ describe('AMF model test', () => {
 
         it('Collects methods information', () => {
           const result = element._endpoints;
-          const methods = result[0].methods;
+          const { methods } = result[0];
           assert.equal(methods.length, 2);
           assert.typeOf(methods[0].id, 'string');
           assert.typeOf(methods[0].label, 'string');
@@ -108,6 +113,8 @@ describe('AMF model test', () => {
         assert.equal(result.length, 4);
         assert.typeOf(result[0].id, 'string');
         assert.typeOf(result[0].label, 'string');
+        assert.typeOf(result[0].isExternal, 'boolean');
+        assert.isUndefined(result[0].url);
       });
 
       it('Collects types information', () => {
@@ -128,19 +135,19 @@ describe('AMF model test', () => {
 
       it('Collects methods information', () => {
         const result = element._endpoints;
-        const methods = result[0].methods;
+        const { methods } = result[0];
         assert.equal(methods.length, 1);
         assert.typeOf(methods[0].id, 'string');
         assert.typeOf(methods[0].method, 'string');
       });
-    })
-  })
+    });
+  });
   describe('data-endpoint-* attributes', () => {
     [
       ['Regular model', false],
-      ['Compact model', true]
-    ].forEach((item) => {
-      describe(item[0], () => {
+      ['Compact model', true],
+    ].forEach(item => {
+      describe(String(item[0]), () => {
         let element;
         let amf;
 
@@ -152,7 +159,9 @@ describe('AMF model test', () => {
         });
 
         it('Each endpoint item has data-endpoint-path attribute', () => {
-          const nodes = element.shadowRoot.querySelectorAll('.list-item.endpoint');
+          const nodes = element.shadowRoot.querySelectorAll(
+            '.list-item.endpoint'
+          );
           assert.isAbove(nodes.length, 1);
           for (let i = 0, len = nodes.length; i < len; i++) {
             assert.typeOf(nodes[i].dataset.endpointPath, 'string');
@@ -161,7 +170,9 @@ describe('AMF model test', () => {
         });
 
         it('Each endpoint item has data-endpoint-id attribute', () => {
-          const nodes = element.shadowRoot.querySelectorAll('.list-item.endpoint');
+          const nodes = element.shadowRoot.querySelectorAll(
+            '.list-item.endpoint'
+          );
           assert.isAbove(nodes.length, 1);
           for (let i = 0, len = nodes.length; i < len; i++) {
             assert.typeOf(nodes[i].dataset.endpointId, 'string');
@@ -175,16 +186,16 @@ describe('AMF model test', () => {
   describe('_collectData()', () => {
     [
       ['Regular model', false],
-      ['Compact model', true]
-    ].forEach((item) => {
-      describe(item[0], () => {
+      ['Compact model', true],
+    ].forEach(item => {
+      describe(String(item[0]), () => {
         let element;
         let amf;
 
         beforeEach(async () => {
           amf = await AmfLoader.load(item[1]);
-          if (amf instanceof Array) {
-            amf = amf[0];
+          if (Array.isArray(amf)) {
+            [amf] = amf;
           }
           element = await basicFixture();
           element.amf = amf;
@@ -218,16 +229,16 @@ describe('AMF model test', () => {
   describe('__amfChanged()', () => {
     [
       ['Regular model', false],
-      ['Compact model', true]
-    ].forEach((item) => {
-      describe(item[0], () => {
+      ['Compact model', true],
+    ].forEach(item => {
+      describe(String(item[0]), () => {
         let element;
         let amf;
 
         beforeEach(async () => {
           amf = await AmfLoader.load(item[1]);
-          if (amf instanceof Array) {
-            amf = amf[0];
+          if (Array.isArray(amf)) {
+            [amf] = amf;
           }
           element = await basicFixture();
         });
@@ -263,8 +274,8 @@ describe('AMF model test', () => {
         detail: {
           selected,
           type,
-          passive: true
-        }
+          passive: true,
+        },
       });
       document.body.dispatchEvent(e);
     }
@@ -281,7 +292,9 @@ describe('AMF model test', () => {
       dispatch(method['@id'], 'method');
       const endpoint = AmfHelper.getEndpoint(element, amf, '/files');
       const id = endpoint['@id'];
-      const node = element.shadowRoot.querySelector(`.endpoint[data-endpoint-id="${id}"]`);
+      const node = element.shadowRoot.querySelector(
+        `.endpoint[data-endpoint-id="${id}"]`
+      );
       assert.isTrue(node.nextElementSibling.opened);
     });
   });

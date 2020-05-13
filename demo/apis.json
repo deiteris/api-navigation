@@ -15,5 +15,6 @@
   "oauth-flows/oauth-flows.yaml": "OAS 3.0",
   "oas-bearer/oas-bearer.yaml": "OAS 3.0",
   "oas-demo/oas-demo.yaml": "OAS 3.0",
-  "APIC-349-cache-resolution/APIC-349-cache-resolution.raml": "RAML 1.0"
+  "APIC-349-cache-resolution/APIC-349-cache-resolution.raml": "RAML 1.0",
+  "ext-docs/ext-docs.yaml": "OAS 3.0"
 }

@@ -1,0 +1,14 @@
+openapi: '3.0.0'
+info:
+  title: Servers demo API
+  version: '1.0'
+externalDocs:
+  url: https://example.com
+  description: Docs
+paths:
+  /default:
+    description: A default path to the API
+    get:
+      summary: "A get method"
+      responses:
+        200:

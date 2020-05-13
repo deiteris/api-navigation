@@ -143,10 +143,12 @@ describe('<api-navigation>', () => {
         {
           id: 'test1',
           label: 'test1',
+          isExternal: false,
         },
         {
           id: 'test2',
           label: 'test2',
+          isExternal: false,
         },
       ];
       element = await preselectedFixture();
@@ -388,10 +390,12 @@ describe('<api-navigation>', () => {
           {
             id: 'test1',
             label: 'test1',
+            isExternal: false,
           },
           {
             id: 'test2',
             label: 'test2',
+            isExternal: false,
           },
         ],
         types: [

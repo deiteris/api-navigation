@@ -155,6 +155,11 @@ export default css`
     pointer-events: none;
   }
 
+  a.list-item {
+    color: inherit;
+    text-decoration: none;
+  }
+
   .toggle-button,
   .endpoint-toggle-button {
     transform: rotateZ(0deg);
@@ -201,5 +206,13 @@ export default css`
     width: 24px;
     height: 24px;
     fill: currentColor;
+  }
+
+  .new-tab {
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
+    display: inline-block;
+    vertical-align: middle;
   }
 `;

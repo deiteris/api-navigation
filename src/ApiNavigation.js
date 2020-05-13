@@ -2,7 +2,10 @@ import { LitElement, html } from 'lit-element';
 import { AmfHelperMixin } from '@api-components/amf-helper-mixin/amf-helper-mixin.js';
 import '@api-components/raml-aware/raml-aware.js';
 import '@anypoint-web-components/anypoint-button/anypoint-icon-button.js';
-import { keyboardArrowDown } from '@advanced-rest-client/arc-icons/ArcIcons.js';
+import {
+  keyboardArrowDown,
+  openInNew,
+} from '@advanced-rest-client/arc-icons/ArcIcons.js';
 import '@polymer/iron-collapse/iron-collapse.js';
 import httpMethodStyles from '@api-components/http-method-label/http-method-label-common-styles.js';
 import navStyles from './Styles.js';
@@ -50,6 +53,8 @@ import navStyles from './Styles.js';
  * @typedef {Object} DocumentationItem
  * @property {string} label
  * @property {string} id
+ * @property {boolean} isExternal
+ * @property {string=} url
  */
 
 /**
@@ -927,12 +932,27 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
    * @param {TargetModel} target
    */
   _appendDocumentationItem(item, target) {
-    const name = this._getValue(item, this.ns.aml.vocabularies.core.title);
+    const { core } = this.ns.aml.vocabularies;
     const id = item['@id'];
-    target.documentation.push({
-      label: String(name),
+    const urlNode = item[this._getAmfKey(core.url)];
+    const url = urlNode ? (urlNode[0] || urlNode)['@id'] : undefined;
+    let isExternal = false;
+    let label;
+    if (url) {
+      isExternal = true;
+      const desc = this._getValue(item, core.description);
+      label = String(desc);
+    } else {
+      const title = this._getValue(item, core.title);
+      label = String(title);
+    }
+    const result = {
       id,
-    });
+      label,
+      isExternal,
+      url,
+    };
+    target.documentation.push(result);
   }
 
   /**
@@ -1471,7 +1491,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
    * When `query` is set it tests `label` property of each item if it contains
    * the query. Otherwise it returns all items.
    * @param {String} prop Name of the source property keeping array values to render.
-   * @return {TypeItem[]|undefined}
+   * @return {Array<TypeItem|DocumentationItem|SecurityItem|EndpointItem>|undefined}
    */
   _getFilteredType(prop) {
     const value = this[prop];
@@ -1947,7 +1967,9 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (!this.hasDocs) {
       return '';
     }
-    const items = this._getFilteredType('_docs');
+    const items = /** @type DocumentationItem[] */ (this._getFilteredType(
+      '_docs'
+    ));
     if (!items || !items.length) {
       return '';
     }
@@ -1974,23 +1996,45 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         </div>
         <iron-collapse .opened="${this.docsOpened}">
           <div class="children">
-            ${items.map(
-              item => html` <div
-                part="api-navigation-list-item"
-                class="list-item"
-                role="menuitem"
-                tabindex="0"
-                data-api-id="${item.id}"
-                data-shape="documentation"
-                @click="${this._itemClickHandler}"
-              >
-                ${item.label}
-              </div>`
-            )}
+            ${items.map(item => this._documentationItemTemplate(item))}
           </div>
         </iron-collapse>
       </section>
     `;
+  }
+
+  /**
+   * @param {DocumentationItem} item
+   * @return {TemplateResult} Template for an docs item
+   */
+  _documentationItemTemplate(item) {
+    if (item.isExternal) {
+      return html`<a
+        href="${item.url}"
+        target="_blank"
+        part="api-navigation-list-item"
+        class="list-item"
+        tabindex="0"
+        data-api-id="${item.id}"
+        data-shape="documentation"
+      >
+        ${item.label}
+        <span class="icon new-tab" title="Opens in a new tab"
+          >${openInNew}</span
+        >
+      </a>`;
+    }
+    return html`<div
+      part="api-navigation-list-item"
+      class="list-item"
+      role="menuitem"
+      tabindex="0"
+      data-api-id="${item.id}"
+      data-shape="documentation"
+      @click="${this._itemClickHandler}"
+    >
+      ${item.label}
+    </div>`;
   }
 
   /**
@@ -2109,8 +2153,8 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       return '';
     }
     return html`<raml-aware
-      @api-changed="${this._awareApiChanged}"
       .scope="${aware}"
+      @api-changed="${this._awareApiChanged}"
     ></raml-aware>`;
   }
 

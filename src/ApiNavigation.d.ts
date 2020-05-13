@@ -3,7 +3,13 @@ import {LitElement, TemplateResult, CSSResult} from 'lit-element';
 import {AmfHelperMixin} from '@api-components/amf-helper-mixin/amf-helper-mixin.js';
 
 declare interface ModelItem {
+  /**
+   * A label to render in the menu list item
+   */
   label: string;
+  /**
+   * The AMF `@id` associated with the label.
+   */
   id: string;
 }
 
@@ -25,6 +31,15 @@ declare interface TypeItem extends ModelItem {
 }
 
 declare interface DocumentationItem extends ModelItem {
+  /**
+   * When set the documentation item refers to an external document
+   */
+  isExternal: boolean;
+  /**
+   * Only set when `isExternal` equals `true`.
+   * An URL for the external documentation.
+   */
+  url?: string;
 }
 
 declare interface TargetModel {
@@ -557,7 +572,7 @@ export declare class ApiNavigation {
    *
    * @param prop Name of the source property keeping array values to render.
    */
-  _getFilteredType(prop: string): TypeItem[]|undefined;
+  _getFilteredType(prop: string): Array<TypeItem|DocumentationItem|SecurityItem|EndpointItem>|undefined;
 
   /**
    * Returns a list of endpoints to render.
@@ -654,6 +669,11 @@ export declare class ApiNavigation {
    * Renders a template for documentation list.
    */
   _documentationTemplate(): TemplateResult|string;
+
+  /**
+   * @returns Template for an docs item
+   */
+  _documentationItemTemplate(item: DocumentationItem): TemplateResult;
 
   /**
    * Renders a template for types list.

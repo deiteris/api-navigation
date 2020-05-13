@@ -24,10 +24,17 @@ export class NavDemoPage extends DemoPage {
     this.amf = null;
 
     this.initObservableProperties([
-      'amf', 'query', 'latestSelected', 'latestType', 'latestEndpoint',
+      'amf',
+      'query',
+      'latestSelected',
+      'latestType',
+      'latestEndpoint',
     ]);
 
-    window.addEventListener('api-navigation-selection-changed', this._navChanged);
+    window.addEventListener(
+      'api-navigation-selection-changed',
+      this._navChanged
+    );
     document.body.classList.add('api');
   }
 
@@ -45,7 +52,7 @@ export class NavDemoPage extends DemoPage {
   }
 
   async _loadFile(file) {
-    const response = await fetch('./' + file);
+    const response = await fetch(`./${file}`);
     const data = await response.json();
     this.amf = data;
   }
@@ -84,10 +91,15 @@ export class NavDemoPage extends DemoPage {
       ['oas-demo', 'OAS Demo API'],
       ['oauth-flows', 'OAS OAuth Flow'],
       ['oas-bearer', 'OAS Bearer'],
-    ].map(([file, label]) => html`
-      <anypoint-item data-src="${file}-compact.json">${label} - compact model</anypoint-item>
-      <anypoint-item data-src="${file}.json">${label}</anypoint-item>
-    `);
+      ['ext-docs', 'External docs'],
+    ].map(
+      ([file, label]) => html`
+        <anypoint-item data-src="${file}-compact.json"
+          >${label} - compact model</anypoint-item
+        >
+        <anypoint-item data-src="${file}.json">${label}</anypoint-item>
+      `
+    );
   }
 
   /**
@@ -96,21 +108,30 @@ export class NavDemoPage extends DemoPage {
    */
   headerTemplate() {
     const { componentName } = this;
-    return html`
-    <header>
+    return html` <header>
       ${componentName ? html`<h1 class="api-title">${componentName}</h1>` : ''}
       <anypoint-dropdown-menu
         aria-label="Activate to select demo API"
         aria-expanded="false"
       >
         <label slot="label">Select demo API</label>
-        <anypoint-listbox slot="dropdown-content" id="apiList" @selected-changed="${this._apiChanged}">
+        <anypoint-listbox
+          slot="dropdown-content"
+          id="apiList"
+          @selected-changed="${this._apiChanged}"
+        >
           ${this._apiListTemplate()}
         </anypoint-listbox>
       </anypoint-dropdown-menu>
       <div class="search-container">
-        <input type="search" @search="${this._searchApiHandler}" aria-label="API search field"/>
-        <button class="search-button" @click="${this._searchButtonHandler}">Search API</button>
+        <input
+          type="search"
+          @search="${this._searchApiHandler}"
+          aria-label="API search field"
+        />
+        <button class="search-button" @click="${this._searchButtonHandler}">
+          Search API
+        </button>
       </div>
       <div class="spacer"></div>
       ${this._viewControlsTemplate()}
