@@ -3,16 +3,16 @@ const merge = require('deepmerge');
 const { slSettings } = require('@advanced-rest-client/testing-karma-sl');
 const createBaseConfig = require('./karma.conf.js');
 
-module.exports = (config) => {
-  const slConfig = merge(slSettings(config), {
+module.exports = config => {
+  const slConfig = merge(slSettings(), {
     sauceLabs: {
       testName: 'api-resource-example-document',
     },
     client: {
       mocha: {
-        timeout: 10000
-      }
-    }
+        timeout: 10000,
+      },
+    },
   });
   // slConfig.browsers = [
   //   'SL_Chrome',

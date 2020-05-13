@@ -1,20 +1,134 @@
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html } from 'lit-element';
 import { AmfHelperMixin } from '@api-components/amf-helper-mixin/amf-helper-mixin.js';
 import '@api-components/raml-aware/raml-aware.js';
 import '@anypoint-web-components/anypoint-button/anypoint-icon-button.js';
 import { keyboardArrowDown } from '@advanced-rest-client/arc-icons/ArcIcons.js';
 import '@polymer/iron-collapse/iron-collapse.js';
 import httpMethodStyles from '@api-components/http-method-label/http-method-label-common-styles.js';
+import navStyles from './Styles.js';
 
+/* eslint-disable no-plusplus */
+/* eslint-disable no-continue */
+/* eslint-disable max-len */
+/* eslint-disable no-param-reassign */
+/* eslint-disable class-methods-use-this */
+/* eslint-disable prefer-destructuring */
+
+/** @typedef {import('@polymer/iron-collapse').IronCollapseElement} IronCollapseElement */
+/** @typedef {import('lit-element').TemplateResult} TemplateResult */
+
+/**
+ * @typedef {Object} MethodItem
+ * @property {string} label
+ * @property {string} id
+ * @property {string} method
+ */
+
+/**
+ * @typedef {Object} EndpointItem
+ * @property {string} label
+ * @property {string} id
+ * @property {string} path
+ * @property {boolean} renderPath
+ * @property {number} indent
+ * @property {MethodItem[]} methods
+ */
+
+/**
+ * @typedef {Object} SecurityItem
+ * @property {string} label
+ * @property {string} id
+ */
+
+/**
+ * @typedef {Object} TypeItem
+ * @property {string} label
+ * @property {string} id
+ */
+
+/**
+ * @typedef {Object} DocumentationItem
+ * @property {string} label
+ * @property {string} id
+ */
+
+/**
+ * @typedef {Object} TargetModel
+ * @property {DocumentationItem[]=} documentation
+ * @property {TypeItem[]=} types
+ * @property {SecurityItem[]=} securitySchemes
+ * @property {EndpointItem[]=} endpoints
+ * @property {string[]=} _typeIds
+ * @property {string[]=} _basePaths
+ */
+
+/**
+ * Maps authorization scheme name to a label
+ * @param {string} name
+ * @return {string}
+ */
 function mapAuthName(name) {
   switch (name) {
-    case 'http': return 'HTTP';
-    case 'openIdConnect': return 'OpenID Connect';
-    default: return name;
+    case 'http':
+      return 'HTTP';
+    case 'openIdConnect':
+      return 'OpenID Connect';
+    default:
+      return name;
   }
 }
 
-/* eslint-disable max-len */
+/**
+ * Discretely updates tabindex values among menu items as the focused item
+ * changes.
+ *
+ * @param {HTMLElement} focusedItem The element that is currently focused.
+ * @param {HTMLElement=} old The last element that was considered focused, if
+ * applicable.
+ */
+function focusedItemChanged(focusedItem, old) {
+  if (old) {
+    old.setAttribute('tabindex', '-1');
+  }
+  if (focusedItem && !focusedItem.hasAttribute('disabled')) {
+    focusedItem.setAttribute('tabindex', '0');
+    focusedItem.focus();
+  }
+}
+
+/**
+ * Computes label for an endpoint when name is missing and the endpoint
+ * is indented, hence name should be truncated.
+ * @param {string} currentPath Endpoint's path
+ * @param {string[]} parts Path parts
+ * @param {number} indent Endpoint indentation
+ * @param {string[]} basePaths List of base paths already used.
+ * @return {string} Name of the path to render.
+ */
+export function computePathName(currentPath, parts, indent, basePaths) {
+  let path = '';
+  for (let i = 0, len = parts.length; i < len; i++) {
+    path += `/${parts[i]}`;
+    if (basePaths.indexOf(path) !== -1) {
+      indent--;
+    }
+    if (indent === 0) {
+      break;
+    }
+  }
+  return currentPath.replace(path, '');
+}
+
+/**
+ * Computes condition value to render path label.
+ * @param {boolean} allowPaths Component configuration property.
+ * @param {boolean} renderPath Endpoint property
+ * @return {boolean} True if both arguments are trully.
+ */
+export function computeRenderPath(allowPaths, renderPath) {
+  return !!(allowPaths && renderPath);
+}
+
 /**
  * `api-navigation`
  * A navigation for an API spec using AMF model.
@@ -24,7 +138,7 @@ function mapAuthName(name) {
  *
  * The element works with [AMF](https://github.com/mulesoft/amf)
  * json/ld model. When the model is set it computes list of documentation
- * nodes, types, endpoints, mathods and security schemas.
+ * nodes, types, endpoints, methods and security schemas.
  * As a result user can select any of the items in the UI and the application
  * is informed about user choice via custom event.
  *
@@ -41,15 +155,15 @@ function mapAuthName(name) {
  * <api-navigation aware="api-console"></api-navigation>
  * ```
  *
- * Once the `raml-aware` element receives some that they are instantly
- * transfered to `api-navigation`.
+ * Once the `raml-aware` element receives some data it's instantly
+ * transferred to `api-navigation`.
  *
  * Note, this element does not contain polyfills for Array platform features.
  * Use `arc-polyfills` to add support for IE and Safari 9.
  *
  * ## Passive navigation
  *
- * Passive navigation means that a navigation event occured but it wasn't
+ * Passive navigation means that a navigation event occurred but it wasn't
  * invoked by intentional user interaction. For example
  * `api-endpoint-documentation` component renders list of documentations for
  * HTTP methods. While scrolling through the list navigation context
@@ -102,10 +216,7 @@ function mapAuthName(name) {
  * `--arc-font-body1-font-weight` | | `inherit`
  * `--arc-font-body1-line-height` | | `inherit`
  *
- * @customElement
  * @demo demo/index.html
- * @memberof ApiElements
- * @appliesMixin AmfHelperMixin
  */
 export class ApiNavigation extends AmfHelperMixin(LitElement) {
   static get properties() {
@@ -120,10 +231,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
        * but most applications has some kins of summary view for the
        * API.
        */
-      selected: {
-        type: String,
-        reflect: true
-      },
+      selected: { type: String, reflect: true },
       /**
        * Type of the selected item.
        * One of `documentation`, `type`, `security`, `endpoint`, `method`
@@ -131,10 +239,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
        *
        * This property is set after `selected` property.
        */
-      selectedType: {
-        type: String,
-        reflect: true
-      },
+      selectedType: { type: String, reflect: true },
       /**
        * If set it renders `API summary` menu option.
        * It will allow to set `selected` and `selectedType` to `summary`
@@ -144,86 +249,35 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       /**
        * A label for the `summary` section.
        */
-      summaryLabel: {
-        type: String,
-        reflect: true
-      },
+      summaryLabel: { type: String, reflect: true },
       /**
        * Computed list of documentation items in the API.
-       *
-       * @type {Array<Object>}
        */
-      _docs: {
-        type: Array
-      },
-      /**
-       * Computed value, true when `docs` property is set with values
-       *
-       * @type {Object}
-       */
-      hasDocs: {
-        type: Boolean
-      },
+      _docs: { type: Array },
       /**
        * Determines and changes state of documentation panel.
        */
       docsOpened: { type: Boolean, reflect: true },
       /**
        * Computed list of "type" items in the API.
-       *
-       * @type {Array<Object>}
        */
-      _types: {
-        type: Array
-      },
-      /**
-       * Computed value, true when `types` property is set with values
-       *
-       * @type {Object}
-       */
-      hasTypes: {
-        type: Boolean
-      },
+      _types: { type: Array },
       /**
        * Determines and changes state of types panel.
        */
       typesOpened: { type: Boolean, reflect: true },
       /**
        * Computed list of Security schemes items in the API.
-       *
-       * @type {Array<Object>}
        */
-      _security: {
-        type: Array
-      },
-      /**
-       * Computed value, true when `security` property is set with values
-       *
-       * @type {Object}
-       */
-      hasSecurity: {
-        type: Boolean
-      },
+      _security: { type: Array },
       /**
        * Determines and changes state of security panel.
        */
       securityOpened: { type: Boolean, reflect: true },
       /**
        * Computed list of endpoint items in the API.
-       *
-       * @type {Array<Object>}
        */
-      _endpoints: {
-        type: Array
-      },
-      /**
-       * Computed value, true when `endpoints` property is set with values
-       *
-       * @type {Object}
-       */
-      hasEndpoints: {
-        type: Boolean
-      },
+      _endpoints: { type: Array },
       /**
        * Determines and changes state of endpoints panel.
        */
@@ -239,34 +293,20 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
        * This is not currently exposed in element's UI due
        * to complexity of search and performance.
        */
-      query: {
-        type: String,
-        reflect: true
-      },
+      query: { type: String, reflect: true },
       __effectiveQuery: { type: String },
       /**
        * Size of endpoint indentation for nested resources.
        * In pixels.
+       *
+       * The attribute name for this property is `indent-size`. Note, that this
+       * will change to web consistant name `indentsize` in the future.
        */
-      indentSize: {
-        type: Number,
-        reflect: true,
-        attribute: 'indent-size'
-      },
+      indentSize: { type: Number, reflect: true, attribute: 'indent-size' },
       /**
        * Flag set when passed AMF model is a RAML fragment.
        */
-      _isFragment: {
-        type: Boolean
-      },
-      /**
-       * Computed value. True when summary should be rendered.
-       * Summary should be rendered only when `summary` is set and
-       * current model is not a RAML fragment.
-       */
-      _renderSummary: {
-        type: Boolean
-      },
+      _isFragment: { type: Boolean },
       /**
        * When set it renders full path below endpoint name if the endpoint has
        * a name (different than the path).
@@ -288,196 +328,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   }
 
   get styles() {
-    return css`
-      :host {
-        display: block;
-        background-color: var(--api-navigation-background-color, inherit);
-        color: var(--api-navigation-color, inherit);
-        overflow: auto;
-        position: relative;
-        font-size: var(--arc-font-body1-font-size, inherit);
-        font-weight: var(--arc-font-body1-font-weight, inherit);
-        line-height: var(--arc-font-body1-line-height, inherit);
-        outline: none;
-      }
-
-      ${httpMethodStyles}
-
-      .wrapper {
-        color: inherit;
-      }
-
-      .section-title {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        cursor: pointer;
-        padding: var(--api-navigation-section-title-padding, 4px 16px);
-        background-color: var(--api-navigation-section-title-background-color, inherit);
-        user-select: none;
-        min-height: 40px;
-        color: var(--api-navigation-header-color, inherit);
-        outline: none;
-      }
-
-      .section-title:focus {
-        background-color: var(--api-navigation-section-title-focus-background-color, #e5e5e5);
-      }
-
-      .title-h3,
-      .list-item.summary {
-        font-size: var(--api-navigation-list-section-font-size, 16px);
-        font-weight: var(--api-navigation-list-section-font-weight, 500);
-        line-height: 24px;
-        flex: 1;
-        flex-basis: 0.000000001px;
-        padding: 0;
-        margin: 0;
-      }
-
-      .list-item.summary {
-        padding: var(--api-navigation-list-item-summary-padding, 12px 16px);
-      }
-
-      .list-item.endpoint {
-        font-weight: var(--api-navigation-endpoint-font-weight, 500);
-        font-size: var(--api-navigation-endpoint-font-size, 15px);
-        user-select: none;
-        display: flex;
-        flex-direction: row;
-      }
-
-      .list-item.endpoint:first-of-type {
-        margin-top: 0px;
-      }
-
-      .path-details {
-        flex: 1;
-        flex-basis: 0.000000001px;
-      }
-
-      .path-name,
-      .endpoint-name {
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .path-name {
-        font-size: var(--api-navigation-path-label-font-size, 13px);
-        color: var(--api-navigation-path-label-color, #616161);
-      }
-
-      *[hidden] {
-        display: none !important;
-      }
-
-      .children {
-        background-color: inherit;
-      }
-
-      .list-item {
-        display: block;
-        position: relative;
-        min-height: var(--api-navigation-list-item-min-height, 40px);
-        padding: var(--api-navigation-list-item-padding, 4px 16px);
-        border: none;
-        outline: none;
-        background-color: inherit;
-        width: 100%;
-        text-align: left;
-        box-sizing: border-box;
-        cursor: pointer;
-        word-break: break-all;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        /* For Anypoint styles */
-        border-left: var(--api-navigation-list-item-border-left);
-      }
-
-      .list-item.selected {
-        font-weight: var(--api-navigation-list-item-selected-weight, bold);
-        background-color: var(--api-navigation-list-item-selected-background-color, var(--accent-color));
-        color: var(--api-navigation-list-item-selected-color, #fff);
-        /* For Anypoint styling */
-        border-left: var(--api-navigation-list-item-selected-border-left, initial);
-      }
-
-      .list-item.passive-selected {
-        font-weight: var(--api-navigation-list-item-selected-weight, bold);
-      }
-
-      .list-item[disabled] {
-        color: var(--api-navigation-list-item-disabled-color, var(--disabled-text-color));
-      }
-
-      .list-item:focus {
-        position: relative;
-        outline: 0;
-      }
-
-      .list-item:hover:not(.selected) {
-        /* This is Anypoint styling requirement */
-        border-left: var(--api-navigation-list-item-hovered-border-left, initial);
-      }
-
-      .list-item:focus:before {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        background: currentColor;
-        content: '';
-        opacity: var(--dark-divider-opacity);
-        pointer-events: none;
-      }
-
-      .toggle-button,
-      .endpoint-toggle-button {
-        transform: rotateZ(0deg);
-        transition: transform 0.3s ease-in-out;
-
-        width: var(--api-navigation-endpoint-toggle-icon-width, 32px);
-        height: var(--api-navigation-endpoint-toggle-icon-height, 32px);
-      }
-
-      .endpoint-toggle-button {
-        transform: rotateZ(0deg);
-        transition: transform 0.3s ease-in-out;
-        margin-right: var(--api-navigation-endpoint-toggle-icon-margin-right);
-      }
-
-      [data-opened] .toggle-button,
-      [endpoint-opened] .endpoint-toggle-button {
-        transform: rotateZ(-180deg);
-      }
-
-      .method-label {
-        margin-bottom: 0;
-        white-space: nowrap;
-      }
-
-      .list-item.selected .method-label[data-method] {
-        color: var(--method-display-selected-color, #fff);
-      }
-
-      .operation {
-        padding-left: var(--api-navigation-operation-item-padding-left, 24px);
-        font-size: var(--api-navigation-operation-font-size, 14px);
-      }
-
-      [endpoint-opened] {
-        background-color: var(--api-navigation-operation-endpoint-opened-background-color, inherit);
-      }
-
-      .icon {
-        display: block;
-        width: 24px;
-        height: 24px;
-        fill: currentColor;
-      }
-    `;
+    return [navStyles, httpMethodStyles];
   }
 
   get selected() {
@@ -485,10 +336,23 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   }
 
   set selected(value) {
-    if (this._setProperty('selected', value, true)) {
-      this._selectedChangd(value);
-      this._selectionChnaged(value, this.selectedType);
+    const old = this._selected;
+    /* istanbul ignore if */
+    if (old === value) {
+      return;
     }
+    this._selected = value;
+    this.requestUpdate('selected', old);
+    this._selectedChangd(value);
+    this._selectionChnaged(value, this.selectedType);
+    this.dispatchEvent(
+      new CustomEvent(`selected-changed`, {
+        composed: true,
+        detail: {
+          value,
+        },
+      })
+    );
   }
 
   get selectedType() {
@@ -496,63 +360,64 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   }
 
   set selectedType(value) {
-    if (this._setProperty('selectedType', value, true)) {
-      this._selectionChnaged(this.selected, value);
+    const old = this._selectedType;
+    /* istanbul ignore if */
+    if (old === value) {
+      return;
     }
+    this._selectedType = value;
+    this.requestUpdate('selectedType', old);
+    this._selectionChnaged(this.selected, value);
+    this.dispatchEvent(
+      new CustomEvent(`selectedtype-changed`, {
+        composed: true,
+        detail: {
+          value,
+        },
+      })
+    );
   }
 
-  get _docs() {
-    return this.__docs;
+  /**
+   * @return {Boolean} true when `_docs` property is set with values
+   */
+  get hasDocs() {
+    const { _docs } = this;
+    return !!(_docs && _docs.length);
   }
 
-  set _docs(value) {
-    this._setProperty('_docs', value);
-    this.hasDocs = !!(value && value.length);
+  /**
+   * @return {Boolean} true when `_types` property is set with values
+   */
+  get hasTypes() {
+    const { _types } = this;
+    return !!(_types && _types.length);
   }
 
-  get _types() {
-    return this.__types;
+  /**
+   * @return {Boolean} true when `_security` property is set with values
+   */
+  get hasSecurity() {
+    const { _security } = this;
+    return !!(_security && _security.length);
   }
 
-  set _types(value) {
-    this._setProperty('_types', value);
-    this.hasTypes = !!(value && value.length);
+  /**
+   * @return {Boolean} true when `_endpoints` property is set with values
+   */
+  get hasEndpoints() {
+    const { _endpoints } = this;
+    return !!(_endpoints && _endpoints.length);
   }
 
-  get _security() {
-    return this.__security;
-  }
-
-  set _security(value) {
-    this._setProperty('_security', value);
-    this.hasSecurity = !!(value && value.length);
-  }
-
-  get _endpoints() {
-    return this.__endpoints;
-  }
-
-  set _endpoints(value) {
-    this._setProperty('_endpoints', value);
-    this.hasEndpoints = !!(value && value.length);
-  }
-
-  get summary() {
-    return this._summary;
-  }
-
-  set summary(value) {
-    this._setProperty('summary', value);
-    this._computeRenderSummary(value, this._isFragment);
-  }
-
-  get _isFragment() {
-    return this.__isFragment;
-  }
-
-  set _isFragment(value) {
-    this._setProperty('_isFragment', value);
-    this._computeRenderSummary(this.summary, value);
+  /**
+   * @return {boolean} True when summary should be rendered.
+   * Summary should be rendered only when `summary` is set and
+   * current model is not a RAML fragment.
+   */
+  get _renderSummary() {
+    const { summary, _isFragment } = this;
+    return !!(summary && !_isFragment);
   }
 
   get query() {
@@ -560,27 +425,25 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   }
 
   set query(value) {
-    if (this._setProperty('query', value)) {
-      this._queryChanged(value);
+    const old = this._query;
+    /* istanbul ignore if */
+    if (old === value) {
+      return;
     }
+    this._query = value;
+    this.requestUpdate('query', old);
+    this._queryChanged();
   }
+
   /**
-   * @return {?Element} A reference to currently selected node.
+   * @return {HTMLElement=} A reference to currently selected node.
    */
   get selectedItem() {
     return this._selectedItem;
   }
 
-  get _selectedItem() {
-    return this.__selectedItem;
-  }
-
-  set _selectedItem(value) {
-    this.__selectedItem = value;
-  }
-
   /**
-   * @return {?Element} The currently focused item.
+   * @return {HTMLElement=} The currently focused item.
    */
   get focusedItem() {
     return this._focusedItem;
@@ -597,28 +460,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       return;
     }
     this.__focusedItem = value;
-    this._focusedItemChanged(value, old);
-  }
-
-  _setProperty(prop, value, notify) {
-    const key = '_' + prop;
-    const oldValue = this[key];
-    if (oldValue === value) {
-      return false;
-    }
-    this[key] = value;
-    this.requestUpdate(prop, oldValue);
-    if (notify) {
-      this.dispatchEvent(
-        new CustomEvent(prop.toLowerCase() + '-changed', {
-          composed: true,
-          detail: {
-            value
-          }
-        })
-      );
-    }
-    return true;
+    focusedItemChanged(value, old);
   }
 
   constructor() {
@@ -626,7 +468,14 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
 
     this.summaryLabel = 'Summary';
     this._isFragment = false;
+    this.summary = false;
+    this.noink = false;
+    this.allowPaths = false;
+    this.compatibility = false;
+    this.rearrangeEndpoints = false;
     this.indentSize = 8;
+    this._selectedItem = null;
+    this.aware = null;
 
     this._navigationChangeHandler = this._navigationChangeHandler.bind(this);
     this._focusHandler = this._focusHandler.bind(this);
@@ -641,8 +490,10 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (super.connectedCallback) {
       super.connectedCallback();
     }
+    // @ts-ignore
     if (window.ShadyCSS) {
-      window.ShadyCSS.styleElement(this)
+      // @ts-ignore
+      window.ShadyCSS.styleElement(this);
     }
     if (!this.getAttribute('role')) {
       this.setAttribute('role', 'menubar');
@@ -653,7 +504,10 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (!this.getAttribute('tabindex')) {
       this.setAttribute('tabindex', '0');
     }
-    window.addEventListener('api-navigation-selection-changed', this._navigationChangeHandler);
+    window.addEventListener(
+      'api-navigation-selection-changed',
+      this._navigationChangeHandler
+    );
     this.addEventListener('focus', this._focusHandler);
     this.addEventListener('keydown', this._keydownHandler);
 
@@ -664,21 +518,27 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (super.disconnectedCallback) {
       super.disconnectedCallback();
     }
-    window.removeEventListener('api-navigation-selection-changed', this._navigationChangeHandler);
+    window.removeEventListener(
+      'api-navigation-selection-changed',
+      this._navigationChangeHandler
+    );
     this.removeEventListener('focus', this._focusHandler);
     this.removeEventListener('keydown', this._keydownHandler);
     this._items = null;
   }
+
   /**
    * Overrides `AmfHelperMixin.__amfChanged()`
-   * @param {Array|Object} model AMF model
+   * @param {object[]|object} api AMF model
+   * @override
    */
-  __amfChanged(model) {
-    if (!model) {
+  __amfChanged(api) {
+    if (!api) {
       return;
     }
-    if (model instanceof Array) {
-      model = model[0];
+    let model = api;
+    if (Array.isArray(model)) {
+      [model] = model;
     }
     let data = {};
     let isFragment = true;
@@ -688,13 +548,25 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       isFragment = false;
       model = this._ensureAmfModel(model);
       data = this._collectData(model);
-    } else if (this._hasType(model, this.ns.aml.vocabularies.security.SecuritySchemeFragment)) {
+    } else if (
+      this._hasType(
+        model,
+        this.ns.aml.vocabularies.security.SecuritySchemeFragment
+      )
+    ) {
       data = this._collectSecurityData(model);
       this.securityOpened = true;
-    } else if (this._hasType(model, this.ns.aml.vocabularies.apiContract.UserDocumentationFragment)) {
+    } else if (
+      this._hasType(
+        model,
+        this.ns.aml.vocabularies.apiContract.UserDocumentationFragment
+      )
+    ) {
       data = this._collectDocumentationData(model);
       this.docsOpened = true;
-    } else if (this._hasType(model, this.ns.aml.vocabularies.shapes.DataTypeFragment)) {
+    } else if (
+      this._hasType(model, this.ns.aml.vocabularies.shapes.DataTypeFragment)
+    ) {
       data = this._collectTypeData(model);
       this.typesOpened = true;
     } else if (model['@type'] && moduleKey === model['@type'][0]) {
@@ -718,30 +590,15 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
    * Collects the information about the API and creates data model
    * for the navigation element
    *
-   * @param {Object} model
-   * @return {Object} Data model for the API navigation:
-   * - documentation `Array` - List of documentation data models:
-   *  - id `String` - Node `@id`
-   *  - label `String` - Node label
-   * - types `Array` - List of types data models:
-   *  - id `String` - Node `@id`
-   *  - label `String` - Node label
-   * - securitySchemes `Array` - List of security schemes data models:
-   *  - id `String` - Node `@id`
-   *  - label `String` - Node label
-   * - endpoints `Array` - List of endpoints data models:
-   *  - id `String` - Node `@id`
-   *  - label `String` - Node label
-   *  - methods `Array` - List of methonds data models in an endpoint:
-   *    - id `String` - Node `@id`
-   *    - label `String` - Node label
+   * @param {object} model
+   * @return {TargetModel} Data model for the API navigation
    */
   _collectData(model) {
     const result = {
       documentation: [],
       types: [],
       securitySchemes: [],
-      endpoints: []
+      endpoints: [],
     };
     if (!model) {
       return result;
@@ -755,94 +612,100 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     delete result._basePaths;
     return result;
   }
+
   /**
    * Collects the data from the security fragment
-   * @param {Object} model Security fragment model
-   * @return {Object}
+   * @param {object} model Security fragment model
+   * @return {TargetModel|undefined}
    */
   _collectSecurityData(model) {
     const result = {
-      securitySchemes: []
+      securitySchemes: [],
     };
     const encodes = this._computeEncodes(model);
     if (!encodes) {
-      return;
+      return undefined;
     }
     this._appendSecurityItem(encodes, result);
     return result;
   }
+
   /**
    * Collects the data from the documentation fragment
-   * @param {Object} model Documentation fragment model
-   * @return {Object}
+   * @param {object} model Documentation fragment model
+   * @return {TargetModel|undefined}
    */
   _collectDocumentationData(model) {
     const result = {
-      documentation: []
+      documentation: [],
     };
     const encodes = this._computeEncodes(model);
     if (!encodes) {
-      return;
+      return undefined;
     }
     this._appendDocumentationItem(encodes, result);
     return result;
   }
+
   /**
    * Collects the data from the type fragment
-   * @param {Object} model Type fragment model
-   * @return {Object}
+   * @param {object} model Type fragment model
+   * @return {TargetModel|undefined}
    */
   _collectTypeData(model) {
     const result = {
       types: [],
-      _typeIds: []
+      _typeIds: [],
     };
     const encodes = this._computeEncodes(model);
     if (!encodes) {
-      return;
+      return undefined;
     }
     this._appendTypeItem(encodes, result);
     delete result._typeIds;
     return result;
   }
+
   /**
    * Traverses the `http://raml.org/vocabularies/document#declares`
    * node to find types and security schemes.
    *
-   * @param {Object} model
-   * @param {Object} target Target object where to put data.
+   * @param {object} model AMF model
+   * @param {TargetModel} target Target object where to put data.
    */
   _traverseDeclarations(model, target) {
     const declares = this._computeDeclares(model);
     if (!declares) {
       return;
     }
-    declares.forEach((item) => this._appendModelItem(item, target));
+    declares.forEach(item => this._appendModelItem(item, target));
   }
+
   /**
    * Traverses the `http://raml.org/vocabularies/document#references`
    *
-   * @param {Array|Object} model AMF model
-   * @param {Object} target Target object where to put data.
+   * @param {object} model AMF model
+   * @param {TargetModel} target Target object where to put data.
    */
   _traverseReferences(model, target) {
     const refs = this._computeReferences(model);
     if (!refs) {
       return;
     }
-    refs.forEach((item) => {
+    refs.forEach(item => {
       if (!this._hasType(item, this.ns.aml.vocabularies.document.Module)) {
         return;
       }
       this._traverseDeclarations(item, target);
     });
   }
+
   /**
    * Traverses the `http://raml.org/vocabularies/document#encodes`
    * node to find documentation and endpoints.
    *
-   * @param {Object} model
-   * @param {Object} target Target object where to put data.
+   * @param {object} model AMF model
+   * @param {TargetModel} target Target object where to put data.
    */
   _traverseEncodes(model, target) {
     const data = this._computeWebApi(model);
@@ -855,20 +718,21 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       endpoint = this._rearrangeEndpoints(endpoint);
     }
     if (endpoint) {
-      endpoint.forEach((item) => this._appendModelItem(item, target));
+      endpoint.forEach(item => this._appendModelItem(item, target));
     }
     const dkey = this._getAmfKey(this.ns.aml.vocabularies.core.documentation);
     const documentation = this._ensureArray(data[dkey]);
     if (documentation) {
-      documentation.forEach((item) => this._appendModelItem(item, target));
+      documentation.forEach(item => this._appendModelItem(item, target));
     }
   }
+
   /**
    * Re-arrange the endpoints in relative order to each other, keeping
    * the first endpoints to appear first, and the last endpoints to appear
    * last
-   * @param {Array} endpoints
-   * @return {Array}
+   * @param {EndpointItem[]} endpoints
+   * @return {EndpointItem[]}
    */
   _rearrangeEndpoints(endpoints) {
     if (!endpoints) {
@@ -881,8 +745,14 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       let rightIndex = 0;
 
       while (leftIndex < left.length && rightIndex < right.length) {
-        const leftPath = this._getValue(left[leftIndex], this.ns.raml.vocabularies.apiContract.path)
-        const rightPath = this._getValue(right[rightIndex], this.ns.raml.vocabularies.apiContract.path)
+        const leftPath = this._getValue(
+          left[leftIndex],
+          this.ns.raml.vocabularies.apiContract.path
+        );
+        const rightPath = this._getValue(
+          right[rightIndex],
+          this.ns.raml.vocabularies.apiContract.path
+        );
         if (leftPath < rightPath) {
           resultArray.push(left[leftIndex]);
           leftIndex++;
@@ -892,10 +762,12 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         }
       }
 
-      return resultArray.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
-    }
+      return resultArray
+        .concat(left.slice(leftIndex))
+        .concat(right.slice(rightIndex));
+    };
 
-    const mergeSort = (unsortedArray) => {
+    const mergeSort = unsortedArray => {
       if (unsortedArray.length <= 1) {
         return unsortedArray;
       }
@@ -905,14 +777,15 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       const right = unsortedArray.slice(middle);
 
       return merge(mergeSort(left), mergeSort(right));
-    }
+    };
 
     const listMap = this._createListMap(endpoints);
 
     return Object.keys(listMap)
-      .map((key) => mergeSort(listMap[key]))
+      .map(key => mergeSort(listMap[key]))
       .reduce((acc, value) => acc.concat(value), []);
   }
+
   /**
    * Transforms a list of endpoints into a map that goes from
    * string -> Object[], representing the first part of the endpoint
@@ -922,13 +795,17 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
    * endpoints keeps them in the same relative order to each
    * other
    *
-   * @param {Array} endpoints
-   * @return {Array}
+   * @param {EndpointItem[]} endpoints
+   * @return {object}
    */
   _createListMap(endpoints) {
     const map = {};
-    const getPathInit = (endpoint) => this._getValue(endpoint, this.ns.raml.vocabularies.apiContract.path).split('/')[1];
-    endpoints.forEach((endpoint) => {
+    const getPathInit = endpoint =>
+      /** @type string */ (this._getValue(
+        endpoint,
+        this.ns.raml.vocabularies.apiContract.path
+      )).split('/')[1];
+    endpoints.forEach(endpoint => {
       const pathInit = getPathInit(endpoint);
       if (map[pathInit]) {
         map[pathInit].push(endpoint);
@@ -938,37 +815,51 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     });
     return map;
   }
+
   /**
    * Appends declaration of navigation data model to the target if
    * it matches documentation or security types.
    *
-   * @param {Object} item
-   * @param {Object} target
+   * @param {Object} item AMF model item to check for data.
+   * @param {TargetModel} target The target to which append values.
    */
   _appendModelItem(item, target) {
     if (this._hasType(item, this.ns.w3.shacl.Shape)) {
       this._appendTypeItem(item, target);
-    } else if (this._hasType(item, this.ns.aml.vocabularies.security.SecurityScheme)) {
+    } else if (
+      this._hasType(item, this.ns.aml.vocabularies.security.SecurityScheme)
+    ) {
       this._appendSecurityItem(item, target);
-    } else if (this._hasType(item, this.ns.aml.vocabularies.core.CreativeWork)) {
+    } else if (
+      this._hasType(item, this.ns.aml.vocabularies.core.CreativeWork)
+    ) {
       this._appendDocumentationItem(item, target);
-    } else if (this._hasType(item, this.ns.aml.vocabularies.apiContract.EndPoint)) {
+    } else if (
+      this._hasType(item, this.ns.aml.vocabularies.apiContract.EndPoint)
+    ) {
       this._appendEndpointItem(item, target);
     }
   }
+
   /**
    * Appends "type" item to the results.
    *
    * @param {Object} item Type item declaration
-   * @param {Object} target
+   * @param {TargetModel} target
    */
   _appendTypeItem(item, target) {
-    const w3name = this._getValue(item, this.ns.w3.shacl.name);
+    const w3name = /** @type string */ (this._getValue(
+      item,
+      this.ns.w3.shacl.name
+    ));
     if (w3name && w3name.indexOf('amf_inline_type') === 0) {
       // https://www.mulesoft.org/jira/browse/APIMF-972
       return;
     }
-    let name = this._getValue(item, this.ns.aml.vocabularies.core.name);
+    let name = /** @type string */ (this._getValue(
+      item,
+      this.ns.aml.vocabularies.core.name
+    ));
     if (!name && w3name) {
       name = w3name;
     } else if (!name) {
@@ -978,7 +869,9 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (!id) {
       return;
     }
-    const rfIdKey = this._getAmfKey(this.ns.aml.vocabularies.document.referenceId);
+    const rfIdKey = this._getAmfKey(
+      this.ns.aml.vocabularies.document.referenceId
+    );
     const compareId = item['@id'];
     const refNode = this._ensureArray(item[rfIdKey]);
     const refId = refNode ? refNode[0]['@id'] : undefined;
@@ -991,24 +884,29 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       }
       target.types.push({
         label: name,
-        id: id
+        id,
       });
     }
   }
+
   /**
    * Appends "security" item to the results.
    *
    * @param {Object} item Type item declaration
-   * @param {Object} target
+   * @param {TargetModel} target
    */
   _appendSecurityItem(item, target) {
-    let name = this._getValue(item, this.ns.aml.vocabularies.core.displayName);
+    const voc = this.ns.aml.vocabularies;
+    let name = this._getValue(item, voc.core.displayName);
     if (!name) {
-      name = this._getValue(item, this.ns.aml.vocabularies.security.name);
+      name = this._getValue(item, voc.security.name);
     }
     if (!name) {
-      const apiName = this._getValue(item, this.ns.aml.vocabularies.core.name);
-      const secType = this._getValue(item, this.ns.aml.vocabularies.security.type);
+      const apiName = this._getValue(item, voc.core.name);
+      const secType = /** @type string */ (this._getValue(
+        item,
+        voc.security.type
+      ));
       let result = '';
       if (apiName) {
         result = `${apiName} - `;
@@ -1017,36 +915,41 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     }
     const id = item['@id'];
     target.securitySchemes.push({
-      label: name,
-      id: id
+      label: String(name),
+      id,
     });
   }
+
   /**
    * Appends "documentation" item to the results.
    *
    * @param {Object} item Type item declaration
-   * @param {Object} target
+   * @param {TargetModel} target
    */
   _appendDocumentationItem(item, target) {
     const name = this._getValue(item, this.ns.aml.vocabularies.core.title);
     const id = item['@id'];
     target.documentation.push({
-      label: name,
-      id: id
+      label: String(name),
+      id,
     });
   }
+
   /**
    * Appends "endpoint" item to the results.
    * This also iterates over methods to extract method data.
    *
-   * @param {Object} item Type item declaration
-   * @param {Object} target
+   * @param {Object} item Endpoint item declaration
+   * @param {TargetModel} target
    */
   _appendEndpointItem(item, target) {
     const result = {};
 
     let name = this._getValue(item, this.ns.aml.vocabularies.core.name);
-    const path = this._getValue(item, this.ns.raml.vocabularies.apiContract.path);
+    const path = /** @type string */ (this._getValue(
+      item,
+      this.ns.raml.vocabularies.apiContract.path
+    ));
     result.path = path;
 
     let tmpPath = path;
@@ -1060,7 +963,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       const lowerParts = parts.slice(0, parts.length - 1);
       if (lowerParts.length) {
         for (let i = lowerParts.length - 1; i >= 0; i--) {
-          const currentPath = '/' + lowerParts.slice(0, i + 1).join('/');
+          const currentPath = `/${lowerParts.slice(0, i + 1).join('/')}`;
           if (target._basePaths.indexOf(currentPath) !== -1) {
             indent++;
           }
@@ -1071,7 +974,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       result.renderPath = false;
       if (indent > 0) {
         try {
-          name = this._computePathName(path, parts, indent, target._basePaths);
+          name = computePathName(path, parts, indent, target._basePaths);
         } catch (_) {
           name = path;
         }
@@ -1084,59 +987,43 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     const id = item['@id'];
     const key = this._getAmfKey(this.ns.w3.hydra.supportedOperation);
     const operations = this._ensureArray(item[key]) || [];
-    const methods = operations.map((op) => this._createOperationModel(op));
-    result.label = name;
+    const methods = operations.map(op => this._createOperationModel(op));
+    result.label = String(name);
     result.id = id;
     result.indent = indent;
     result.methods = methods;
     target.endpoints.push(result);
   }
-  /**
-   * Computes label for an endpoint when name is missing and the endpoint
-   * is indented, hence name should be truncated.
-   * @param {String} currentPath Endpoint's path
-   * @param {Array<String>} parts Path parts
-   * @param {Number} indent Endpoint indentation
-   * @param {Array<String>} basePaths List of base paths already used.
-   * @return {String} Name of the path to render.
-   */
-  _computePathName(currentPath, parts, indent, basePaths) {
-    let path = '';
-    for (let i = 0, len = parts.length; i < len; i++) {
-      path += '/' + parts[i];
-      if (basePaths.indexOf(path) !== -1) {
-        indent--;
-      }
-      if (indent === 0) {
-        break;
-      }
-    }
-    return currentPath.replace(path, '');
-  }
+
   /**
    * Creates the view model for an opration.
    *
    * @param {Object} item Operation AMF model
-   * @return {Object} Method view model
+   * @return {MethodItem} Method view model
    */
   _createOperationModel(item) {
-    const label = this._getValue(item, this.ns.aml.vocabularies.core.name);
+    const label = /** @type string */ (this._getValue(
+      item,
+      this.ns.aml.vocabularies.core.name
+    ));
     const methodKey = this.ns.aml.vocabularies.apiContract.method;
     const id = item['@id'];
-    const method = this._getValue(item, methodKey);
+    const method = /** @type string */ (this._getValue(item, methodKey));
     return {
       label,
       id,
-      method
+      method,
     };
   }
+
   /**
    * Click handler for section name item.
    * Toggles the view.
    *
-   * @param {ClickEvent} e
+   * @param {MouseEvent} e
    */
   _toggleSectionHandler(e) {
+    // @ts-ignore: this is for polyfills
     const path = (e.composedPath && e.composedPath()) || e.path;
     let node;
     const test = true;
@@ -1153,70 +1040,80 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   }
 
   _toggleSection(node) {
-    const section = node.dataset.section;
-    const openedKey = section + 'Opened';
+    const { section } = node.dataset;
+    const openedKey = `${section}Opened`;
     this[openedKey] = !this[openedKey];
   }
+
   /**
    * Selectes new item in the menu.
    *
-   * @param {Node} node
+   * @param {HTMLElement} node
    */
   _selectItem(node) {
     const id = node.dataset.apiId;
-    const shape = node.dataset.shape;
+    const { shape } = node.dataset;
     this.selectedType = undefined; // cancels event fireing
     this.selected = id;
     this.selectedType = shape; // now fire event
     this._selectedItem = node;
     this._focusedItem = node;
   }
+
   /**
    * Toggles selection state of a node that has `data-api-id` set to
    * `id`.
    *
-   * @param {String} id Selected node id.
-   * @return {String} Type of selected node.
+   * @param {string} id Selected node id.
+   * @return {string|undefined} Type of selected node.
    */
   _addSelection(id) {
     if (!this.shadowRoot) {
-      return;
+      return undefined;
     }
-    let node = this.shadowRoot.querySelector(`[data-api-id="${id}"]`);
+    let node = /** @type HTMLElement */ (this.shadowRoot.querySelector(
+      `[data-api-id="${id}"]`
+    ));
     if (!node) {
-      return;
+      return undefined;
     }
     if (node.nodeName === 'IRON-COLLAPSE') {
       node = this.shadowRoot.querySelector(`.operation[data-api-id="${id}"]`);
     }
     if (!node) {
-      return;
+      return undefined;
     }
     node.classList.add('selected');
+    // @ts-ignore
     if (node.part && node.part.add) {
+      // @ts-ignore
       node.part.add('api-navigation-list-item-selected');
     }
     let collapse;
     switch (node.dataset.shape) {
       case 'method':
-        collapse = node.parentElement;
+        collapse = /** @type IronCollapseElement */ (node.parentElement);
         this.endpointsOpened = true;
         break;
       case 'endpoint':
-        collapse = node.parentElement;
+        collapse = /** @type IronCollapseElement */ (node.parentElement);
         break;
       case 'type':
       case 'documentation':
       case 'security':
-        collapse = node.parentElement.parentElement;
+        collapse = /** @type IronCollapseElement */ (node.parentElement
+          .parentElement);
         break;
+      default:
+        collapse = undefined;
     }
     if (collapse && !collapse.opened) {
       collapse.opened = true;
-      collapse.setAttribute('endpoint-opened', true);
+      collapse.setAttribute('endpoint-opened', 'true');
     }
     return node.dataset.shape;
   }
+
   /**
    * Removes any current selection that may exist.
    */
@@ -1228,19 +1125,24 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     for (let i = 0, len = nodes.length; i < len; i++) {
       const node = nodes[i];
       node.classList.remove('selected');
+      // @ts-ignore
       if (node.part && node.part.remove) {
+        // @ts-ignore
         node.part.remove('api-navigation-list-item-selected');
       }
     }
   }
+
   /**
    * Toggles endpoint operations list.
    *
-   * @param {String} id ID of the endpoint.
+   * @param {string} id ID of the endpoint.
    */
   toggleOperations(id) {
     let selector = `.operation-collapse[data-api-id="${id}"]`;
-    const collapse = this.shadowRoot.querySelector(selector);
+    const collapse = /** @type IronCollapseElement */ (this.shadowRoot.querySelector(
+      selector
+    ));
     if (!collapse) {
       return;
     }
@@ -1251,17 +1153,18 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       return;
     }
     if (collapse.opened) {
-      label.setAttribute('endpoint-opened', true);
-      collapse.setAttribute('endpoint-opened', true);
+      label.setAttribute('endpoint-opened', 'true');
+      collapse.setAttribute('endpoint-opened', 'true');
     } else {
       label.removeAttribute('endpoint-opened');
       collapse.removeAttribute('endpoint-opened');
     }
   }
+
   /**
    * Updates the state of selected element when `selected` changes.
    *
-   * @param {String} current New selection
+   * @param {string} current New selection
    */
   _selectedChangd(current) {
     this._clearSelection();
@@ -1270,13 +1173,14 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       this._addSelection(current);
     }
   }
+
   /**
    * Label and method check agains `query` function called by `dom-repeat`
    * element. This method uses `__effectiveQuery` property set by
    * `_flushQuery()` method.
    *
-   * @param {Object} item Model item with `lable` property.
-   * @return {Boolean}
+   * @param {MethodItem} item Model item with `lable` property.
+   * @return {boolean}
    */
   _methodFilter(item) {
     if (!this.__effectiveQuery) {
@@ -1287,6 +1191,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       item.method.indexOf(this.__effectiveQuery) !== -1
     );
   }
+
   /**
    * When `query` property change it runs the filter function
    * in a debouncer set for ~50 ms.
@@ -1301,6 +1206,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       this.__queryDebouncer = false;
     });
   }
+
   /**
    * Calles `render()` function on each data repeater that have filterable
    * items.
@@ -1317,11 +1223,12 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     }
     this.__effectiveQuery = q;
   }
+
   /**
    * Dispatches `api-navigation-selection-changed` event on selection change.
    *
-   * @param {String} selected Selected id
-   * @param {String} selectedType Type of AMF shape
+   * @param {string} selected Selected id
+   * @param {string} selectedType Type of AMF shape
    */
   _selectionChnaged(selected, selectedType) {
     if (!selectedType || this.__cancelNavigationEvent) {
@@ -1329,7 +1236,9 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     }
     let endpointId;
     if (selectedType === 'method' && selected) {
-      const node = this.shadowRoot.querySelector(`.operation[data-api-id="${selected}"]`);
+      const node = /** @type HTMLElement */ (this.shadowRoot.querySelector(
+        `.operation[data-api-id="${selected}"]`
+      ));
       if (node) {
         endpointId = node.dataset.parentId;
       }
@@ -1338,39 +1247,41 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       bubbles: true,
       composed: true,
       detail: {
-        selected: selected,
+        selected,
         type: selectedType,
-        endpointId
-      }
+        endpointId,
+      },
     });
     this.dispatchEvent(e);
   }
+
   /**
    * Navigation item click handler.
    * It used to be common function for all clicks inside the element
    * but in tests not all events were handled.
    *
-   * @param {ClickEvent} e
+   * @param {MouseEvent} e
    */
   _itemClickHandler(e) {
+    const etarget = /** @type HTMLElement */ (e.target);
     let target;
     if (e.currentTarget) {
-      target = e.currentTarget;
+      target = /** @type HTMLElement */ (e.currentTarget);
+    } else if (etarget.classList.contains('method-label')) {
+      target = /** @type HTMLElement */ (etarget.parentNode);
     } else {
-      if (e.target.classList.contains('method-label')) {
-        target = e.target.parentNode;
-      } else {
-        target = e.target;
-      }
+      target = etarget;
     }
     this._selectItem(target);
   }
+
   /**
    * Handler for `api-navigation-selection-changed`. Updates the selection
    * if dispatched from other element.
    * @param {CustomEvent} e
    */
   _navigationChangeHandler(e) {
+    // @ts-ignore
     const path = (e.composedPath && e.composedPath()) || e.path;
     if (path[0] === this) {
       return;
@@ -1389,10 +1300,8 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   }
 
   _handlePassiveNavigation(detail) {
-    switch (detail.type) {
-      case 'method':
-        this._selectMethodPassive(detail.selected);
-        break;
+    if (detail.type === 'method') {
+      this._selectMethodPassive(detail.selected);
     }
   }
 
@@ -1417,17 +1326,20 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     }
     node.classList.add('passive-selected');
     this.__hasPassiveSelection = true;
-    if (!node.parentElement.opened) {
-      node.parentElement.opened = true;
+    const collapse = /** @type IronCollapseElement */ (node.parentElement);
+    if (!collapse.opened) {
+      collapse.opened = true;
     }
   }
+
   /**
    * Endpoint label click handler.
    * Toggles endpoint's methods list.
    *
-   * @param {ClickEvent} e
+   * @param {MouseEvent} e
    */
   _toggleEndpoint(e) {
+    // @ts-ignore
     const path = (e.composedPath && e.composedPath()) || e.path;
     const test = true;
     while (test) {
@@ -1445,6 +1357,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       break;
     }
   }
+
   /**
    * Computes `style` attribute value for endpoint item.
    * It sets padding-left property to indent resources.
@@ -1471,6 +1384,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     const result = factor * size + padding;
     return `padding-left: ${result}px`;
   }
+
   /**
    * Computes operation list item left padding from CSS veriables.
    * @return {Number}
@@ -1479,7 +1393,9 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     let paddingLeft;
     const prop = '--api-navigation-operation-item-padding-left';
     const defaultPadding = 24;
+    // @ts-ignore
     if (window.ShadyCSS) {
+      // @ts-ignore
       paddingLeft = window.ShadyCSS.getComputedStyleValue(this, prop);
     } else {
       paddingLeft = getComputedStyle(this).getPropertyValue(prop);
@@ -1488,11 +1404,13 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       return defaultPadding;
     }
     paddingLeft = paddingLeft.replace('px', '').trim();
-    if (isNaN(paddingLeft)) {
+    const result = Number(paddingLeft);
+    if (Number.isNaN(result)) {
       return defaultPadding;
     }
-    return Number(paddingLeft);
+    return result;
   }
+
   /**
    * Computes endpoint list item left padding from CSS veriables.
    * @return {Number}
@@ -1501,7 +1419,9 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     let padding;
     const prop = '--api-navigation-list-item-padding';
     const defaultPadding = 16;
+    // @ts-ignore
     if (window.ShadyCSS) {
+      // @ts-ignore
       padding = window.ShadyCSS.getComputedStyleValue(this, prop);
     } else {
       padding = getComputedStyle(this).getPropertyValue(prop);
@@ -1524,33 +1444,20 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       case 4:
         paddingLeftValue = parts[3];
         break;
+      default:
+        return defaultPadding;
     }
     if (!paddingLeftValue) {
       return defaultPadding;
     }
     paddingLeftValue = paddingLeftValue.replace('px', '').trim();
-    if (isNaN(paddingLeftValue)) {
+    const result = Number(paddingLeftValue);
+    if (Number.isNaN(result)) {
       return defaultPadding;
     }
-    return Number(paddingLeftValue);
+    return result;
   }
-  /**
-   * Computes value for `_renderSummary` property
-   * @param {Boolean} summary Current value of `summary` property
-   * @param {Boolean} isFragment Current value of `_isFragment` property
-   */
-  _computeRenderSummary(summary, isFragment) {
-    this._renderSummary = !!(summary && !isFragment);
-  }
-  /**
-   * Computes condition value to render path label.
-   * @param {Boolean} allowPaths Component configuration property.
-   * @param {Boolean} renderPath Endpoint property
-   * @return {Boolean} True if both arguments are trully.
-   */
-  _computeRenderPath(allowPaths, renderPath) {
-    return !!(allowPaths && renderPath);
-  }
+
   /**
    * Updates value of `amf` from `raml-aware`'s api property change.
    * @param {CustomEvent} e
@@ -1558,39 +1465,41 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   _awareApiChanged(e) {
     this.amf = e.detail.value;
   }
+
   /**
    * Returns filtered list of items to render in the menu list.
    * When `query` is set it tests `label` property of each item if it contains
    * the query. Otherwise it returns all items.
    * @param {String} prop Name of the source property keeping array values to render.
-   * @return {Array|undefined}
+   * @return {TypeItem[]|undefined}
    */
   _getFilteredType(prop) {
     const value = this[prop];
     if (!value || !value.length) {
-      return;
+      return undefined;
     }
     const q = this.__effectiveQuery;
     if (!q) {
       return value;
     }
-    return value.filter((item) => {
+    return value.filter(item => {
       if (typeof item.label !== 'string') {
         return false;
       }
       return item.label.toLowerCase().indexOf(q) !== -1;
     });
   }
+
   /**
    * Returns a list of endpoints to render.
    * When `query` is set it returns filtered list of endpoints for given query.
    * Othewise it returns all endpoints.
-   * @return {Array|undefined} Filtered list of endpoints
+   * @return {EndpointItem[]|undefined} Filtered list of endpoints
    */
   _getFilteredEndpoints() {
     const value = this._endpoints;
     if (!value || !value.length) {
-      return;
+      return undefined;
     }
     const q = this.__effectiveQuery;
     if (!q) {
@@ -1617,12 +1526,15 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       const methods = [];
       for (let j = 0, mLen = eMethods.length; j < mLen; j++) {
         const method = eMethods[j];
-        if ((method.label || '').toLowerCase().indexOf(q) !== -1 || method.method.indexOf(q) !== -1) {
+        if (
+          (method.label || '').toLowerCase().indexOf(q) !== -1 ||
+          method.method.indexOf(q) !== -1
+        ) {
           methods[methods.length] = method;
         }
       }
       if (methods.length) {
-        const copy = Object.assign({}, endpoint);
+        const copy = { ...endpoint };
         copy.methods = methods;
         result[result.length] = copy;
       }
@@ -1630,24 +1542,36 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     return result;
   }
 
+  /**
+   * Closes all `iron-collapse` elements
+   */
   _closeCollapses() {
     const nodes = this.shadowRoot.querySelectorAll('.operation-collapse');
     for (let i = 0, len = nodes.length; i < len; i++) {
-      const node = nodes[i];
+      const node = /** @type IronCollapseElement */ (nodes[i]);
       if (node.opened) {
         node.opened = false;
       }
     }
   }
 
+  /**
+   * A handler for the focus event on this element.
+   * @param {FocusEvent} e
+   */
   _focusHandler(e) {
     if (this._shiftTabPressed) {
       // do not focus the menu itself
       return;
     }
+    // @ts-ignore
     const path = (e.composedPath && e.composedPath()) || e.path;
     const rootTarget = path[0];
-    if (rootTarget !== this && typeof rootTarget.tabIndex !== 'undefined' && !this.contains(rootTarget)) {
+    if (
+      rootTarget !== this &&
+      typeof rootTarget.tabIndex !== 'undefined' &&
+      !this.contains(rootTarget)
+    ) {
       return;
     }
     this._focusedItem = null;
@@ -1659,9 +1583,12 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     }
   }
 
+  /**
+   * Focuses on the previous item in the navigation.
+   */
   focusPrevious() {
     const items = this._listActiveItems();
-    const length = items.length;
+    const { length } = items;
     const curFocusIndex = items.indexOf(this._focusedItem);
     for (let i = 1; i < length + 1; i++) {
       const item = items[(curFocusIndex - i + length) % length];
@@ -1670,24 +1597,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         this._focusedItem = item;
         // Focus might not have worked, if the element was hidden or not
         // focusable. In that case, try again.
-        if (owner.activeElement === item) {
-          return;
-        }
-      }
-    }
-  }
-
-  focusNext() {
-    const items = this._listActiveItems();
-    const length = items.length;
-    const curFocusIndex = items.indexOf(this._focusedItem);
-    for (let i = 1; i < length + 1; i++) {
-      const item = items[(curFocusIndex + i) % length];
-      if (!item.hasAttribute('disabled')) {
-        const owner = (item.getRootNode && item.getRootNode()) || document;
-        this._focusedItem = item;
-        // Focus might not have worked, if the element was hidden or not
-        // focusable. In that case, try again.
+        // @ts-ignore
         if (owner.activeElement === item) {
           return;
         }
@@ -1696,22 +1606,27 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   }
 
   /**
-   * Discretely updates tabindex values among menu items as the focused item
-   * changes.
-   *
-   * @param {Element} focusedItem The element that is currently focused.
-   * @param {?Element} old The last element that was considered focused, if
-   * applicable.
+   * Focuses on the next item in the navigation.
    */
-  _focusedItemChanged(focusedItem, old) {
-    if (old) {
-      old.setAttribute('tabindex', '-1');
-    }
-    if (focusedItem && !focusedItem.hasAttribute('disabled')) {
-      focusedItem.setAttribute('tabindex', '0');
-      focusedItem.focus();
+  focusNext() {
+    const items = this._listActiveItems();
+    const { length } = items;
+    const curFocusIndex = items.indexOf(this._focusedItem);
+    for (let i = 1; i < length + 1; i++) {
+      const item = items[(curFocusIndex + i) % length];
+      if (!item.hasAttribute('disabled')) {
+        const owner = (item.getRootNode && item.getRootNode()) || document;
+        this._focusedItem = item;
+        // Focus might not have worked, if the element was hidden or not
+        // focusable. In that case, try again.
+        // @ts-ignore
+        if (owner.activeElement === item) {
+          return;
+        }
+      }
     }
   }
+
   /**
    * Resets all tabindex attributes to the appropriate value based on the
    * current selection state. The appropriate value is `0` (focusable) for
@@ -1722,11 +1637,15 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   _resetTabindices() {
     const { selectedItem } = this;
     const items = this._listActiveItems();
-    items.forEach((item) => {
+    items.forEach(item => {
       item.setAttribute('tabindex', item === selectedItem ? '0' : '-1');
     });
   }
 
+  /**
+   * Lists all HTML elements that are currently rendered in the view.
+   * @return {Element[]} Currently rendered items.
+   */
   _listActiveItems() {
     if (this._items) {
       return this._items;
@@ -1743,11 +1662,13 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       if (node) {
         result[result.length] = node;
       }
-      const nodes = this.shadowRoot.querySelectorAll('.endpoints .list-item.endpoint');
+      const nodes = this.shadowRoot.querySelectorAll(
+        '.endpoints .list-item.endpoint'
+      );
       for (let i = 0; i < nodes.length; i++) {
-        const node = nodes[i];
-        result[result.length] = node;
-        const collapse = node.nextElementSibling;
+        const item = nodes[i];
+        result[result.length] = item;
+        const collapse = item.nextElementSibling;
         if (collapse.localName !== 'iron-collapse') {
           continue;
         }
@@ -1773,6 +1694,10 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     return result;
   }
 
+  /**
+   * @param {string} selector The prefix for the query selector
+   * @return {Element[]} Nodes returned from query function.
+   */
   _listSectionActiveNodes(selector) {
     let result = [];
     const node = this.shadowRoot.querySelector(`${selector} .section-title`);
@@ -1788,6 +1713,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     }
     return result;
   }
+
   /**
    * Handler for the keydown event.
    * @param {KeyboardEvent} e
@@ -1798,9 +1724,9 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     } else if (e.key === 'ArrowUp') {
       this._onUpKey(e);
     } else if (e.key === 'Tab' && e.shiftKey) {
-      this._onShiftTabDown(e);
+      this._onShiftTabDown();
     } else if (e.key === 'Escape') {
-      this._onEscKey(e);
+      this._onEscKey();
     } else if (e.key === ' ' || e.code === 'Space') {
       this._onSpace(e);
     } else if (e.key === 'Enter' || e.key === 'NumpadEnter') {
@@ -1808,165 +1734,193 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     }
     e.stopPropagation();
   }
+
   /**
    * Handler that is called when the up key is pressed.
    *
-   * @param {CustomEvent} e A key combination event.
+   * @param {KeyboardEvent} e A key combination event.
    */
   _onUpKey(e) {
     this.focusPrevious();
     e.preventDefault();
   }
+
   /**
    * Handler that is called when the down key is pressed.
    *
-   * @param {CustomEvent} e A key combination event.
+   * @param {KeyboardEvent} e A key combination event.
    */
   _onDownKey(e) {
     e.preventDefault();
     e.stopPropagation();
     this.focusNext();
   }
+
   /**
    * Handler that is called when the esc key is pressed.
-   *
-   * @param {CustomEvent} e A key combination event.
    */
   _onEscKey() {
-    const focusedItem = this.focusedItem;
+    const { focusedItem } = this;
     if (focusedItem) {
       focusedItem.blur();
     }
   }
 
+  /**
+   * A handler for the spacebar key down.
+   * @param {KeyboardEvent} e
+   */
   _onSpace(e) {
     e.preventDefault();
     e.stopPropagation();
+    // @ts-ignore
     const path = (e.composedPath && e.composedPath()) || e.path;
-    const target = path && path[0];
+    const target = /** @type HTMLElement */ (path && path[0]);
     if (!target) {
       return;
     }
     const { classList } = target;
     if (classList.contains('section-title')) {
       this._toggleSection(target);
-    } else if (classList.contains('list-item') && classList.contains('endpoint')) {
+    } else if (
+      classList.contains('list-item') &&
+      classList.contains('endpoint')
+    ) {
       this.toggleOperations(target.dataset.endpointId);
     } else if (classList.contains('list-item')) {
       this._selectItem(target);
     }
   }
+
   /**
    * Handler that is called when a shift+tab keypress is detected by the menu.
-   *
-   * @param {CustomEvent} event A key combination event.
    */
   _onShiftTabDown() {
     const oldTabIndex = this.getAttribute('tabindex');
-
     this._shiftTabPressed = true;
-
     this._focusedItem = null;
-
     this.setAttribute('tabindex', '-1');
-
     setTimeout(() => {
       this.setAttribute('tabindex', oldTabIndex);
       this._shiftTabPressed = false;
     }, 1);
   }
+
   /**
    * Renders a template for endpoints and methods list.
-   * @return {TemplateResult}
+   * @return {TemplateResult|string}
    */
   _endpointsTemplate() {
     if (!this.hasEndpoints) {
-      return;
+      return '';
     }
     const items = this._getFilteredEndpoints();
     if (!items || !items.length) {
-      return;
+      return '';
     }
-    return html`
-      <section class="endpoints" ?data-opened="${this.endpointsOpened}">
-        <div
-          class="section-title"
-          data-section="endpoints"
-          @click="${this._toggleSectionHandler}"
-          title="Toggle endpoints list"
-          aria-haspopup="true"
-          role="menuitem"
+    return html` <section
+      class="endpoints"
+      ?data-opened="${this.endpointsOpened}"
+    >
+      <div
+        class="section-title"
+        data-section="endpoints"
+        @click="${this._toggleSectionHandler}"
+        title="Toggle endpoints list"
+        aria-haspopup="true"
+        role="menuitem"
+      >
+        <div class="title-h3">Endpoints</div>
+        <anypoint-icon-button
+          part="toggle-button"
+          class="toggle-button"
+          aria-label="Toggle endpoints"
+          .noink="${this.noink}"
+          ?compatibility="${this.compatibility}"
+          tabindex="-1"
         >
-          <div class="title-h3">Endpoints</div>
-          <anypoint-icon-button
-            part="toggle-button"
-            class="toggle-button"
-            aria-label="Toggle endpoints"
-            .noink="${this.noink}"
-            ?compatibility="${this.compatibility}"
-            tabindex="-1"
-          >
-            <span class="icon">${keyboardArrowDown}</span>
-          </anypoint-icon-button>
+          <span class="icon">${keyboardArrowDown}</span>
+        </anypoint-icon-button>
+      </div>
+      <iron-collapse
+        .opened="${this.endpointsOpened}"
+        aria-hidden="${this.endpointsOpened ? 'false' : 'true'}"
+        role="menu"
+      >
+        <div class="children">
+          ${items.map(item => this._endpointTemplate(item))}
         </div>
-        <iron-collapse .opened="${this.endpointsOpened}" aria-hidden="${this.endpointsOpened ? 'false' : 'true'}" role="menu">
-          <div class="children">
-            ${items.map((item) => this._endpointTemplate(item))}
-          </div>
-        </iron-collapse>
-      </section>`;
+      </iron-collapse>
+    </section>`;
   }
 
+  /**
+   * @param {EndpointItem} item
+   * @return {TemplateResult} Template for an endpoint item.
+   */
   _endpointTemplate(item) {
     return html`<div
-      part="api-navigation-list-item"
-      class="list-item endpoint"
-      ?hidden="${item.hidden}"
-      data-endpoint-id="${item.id}"
-      data-endpoint-path="${item.path}"
-      @click="${this._toggleEndpoint}"
-      title="Toggle endpoint documentation"
-      style="${this._computeEndpointPadding(item.indent, this.indentSize)}"
-      role="menuitem"
-      aria-haspopup="true">
-      <div class="path-details">
-        <div class="endpoint-name">${item.label}</div>
-        ${this._computeRenderPath(this.allowPaths, item.renderPath) ? html`<div class="path-name">${item.path}</div>` : undefined}
-      </div>
-      <anypoint-icon-button
-        part="api-navigation-endpoint-toggle-button toggle-button"
-        class="endpoint-toggle-button"
-        aria-label="Toggle endpoint"
-        .noink="${this.noink}"
-        ?compatibility="${this.compatibility}"
-        tabindex="-1">
-        <span class="icon">${keyboardArrowDown}</span>
-      </anypoint-icon-button>
-    </div>
-    <iron-collapse
-      part="api-navigation-operation-collapse"
-      class="operation-collapse"
-      ?hidden="${item.hidden}"
-      data-api-id="${item.id}"
-      aria-hidden="${item.hidden ? 'true' : 'false'}"
-      role="menu">
-      <div
         part="api-navigation-list-item"
-        class="list-item operation"
+        class="list-item endpoint"
+        data-endpoint-id="${item.id}"
+        data-endpoint-path="${item.path}"
+        @click="${this._toggleEndpoint}"
+        title="Toggle endpoint documentation"
+        style="${this._computeEndpointPadding(item.indent, this.indentSize)}"
         role="menuitem"
-        tabindex="0"
-        data-api-id="${item.id}"
-        data-shape="endpoint"
-        @click="${this._itemClickHandler}"
-        style="${this._computeMethodPadding(item.indent, this.indentSize)}">
-        Overview
+        aria-haspopup="true"
+      >
+        <div class="path-details">
+          <div class="endpoint-name">${item.label}</div>
+          ${computeRenderPath(this.allowPaths, item.renderPath)
+            ? html`<div class="path-name">${item.path}</div>`
+            : undefined}
+        </div>
+        <anypoint-icon-button
+          part="api-navigation-endpoint-toggle-button toggle-button"
+          class="endpoint-toggle-button"
+          aria-label="Toggle endpoint"
+          .noink="${this.noink}"
+          ?compatibility="${this.compatibility}"
+          tabindex="-1"
+        >
+          <span class="icon">${keyboardArrowDown}</span>
+        </anypoint-icon-button>
       </div>
-      ${item.methods.map((methodItem) => this._methodTemplate(item, methodItem))}
-    </iron-collapse>`;
+      <iron-collapse
+        part="api-navigation-operation-collapse"
+        class="operation-collapse"
+        data-api-id="${item.id}"
+        role="menu"
+      >
+        <div
+          part="api-navigation-list-item"
+          class="list-item operation"
+          role="menuitem"
+          tabindex="0"
+          data-api-id="${item.id}"
+          data-shape="endpoint"
+          @click="${this._itemClickHandler}"
+          style="${this._computeMethodPadding(item.indent, this.indentSize)}"
+        >
+          Overview
+        </div>
+        ${item.methods.map(methodItem =>
+          this._methodTemplate(item, methodItem)
+        )}
+      </iron-collapse>`;
   }
 
+  /**
+   * @param {EndpointItem} endpointItem
+   * @param {MethodItem} methodItem
+   * @return {TemplateResult}
+   */
   _methodTemplate(endpointItem, methodItem) {
-    const style = this._computeMethodPadding(endpointItem.indent, this.indentSize);
+    const style = this._computeMethodPadding(
+      endpointItem.indent,
+      this.indentSize
+    );
     return html`<div
       part="api-navigation-list-item"
       class="list-item operation"
@@ -1976,22 +1930,26 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       data-parent-id="${endpointItem.id}"
       data-shape="method"
       @click="${this._itemClickHandler}"
-      style="${style}">
-      <span class="method-label" data-method="${methodItem.method}">${methodItem.method}</span>
+      style="${style}"
+    >
+      <span class="method-label" data-method="${methodItem.method}"
+        >${methodItem.method}</span
+      >
       ${methodItem.label}
     </div>`;
   }
+
   /**
    * Renders a template for documentation list.
-   * @return {TemplateResult}
+   * @return {TemplateResult|string}
    */
   _documentationTemplate() {
     if (!this.hasDocs) {
-      return;
+      return '';
     }
     const items = this._getFilteredType('_docs');
     if (!items || !items.length) {
-      return;
+      return '';
     }
     return html`
       <section class="documentation" ?data-opened="${this.docsOpened}">
@@ -2009,37 +1967,52 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
             @click="${this._itemClickHandler}"
             aria-label="Toggle documents"
             ?compatibility="${this.compatibility}"
-            tabindex="-1">
+            tabindex="-1"
+          >
             <span class="icon">${keyboardArrowDown}</span>
           </anypoint-icon-button>
         </div>
         <iron-collapse .opened="${this.docsOpened}">
           <div class="children">
-          ${items.map((item) => html`
-            <div part="api-navigation-list-item" class="list-item" role="menuitem"
-              tabindex="0" data-api-id="${item.id}" data-shape="documentation" @click="${this._itemClickHandler}">
-              ${item.label}
-            </div>`)}
+            ${items.map(
+              item => html` <div
+                part="api-navigation-list-item"
+                class="list-item"
+                role="menuitem"
+                tabindex="0"
+                data-api-id="${item.id}"
+                data-shape="documentation"
+                @click="${this._itemClickHandler}"
+              >
+                ${item.label}
+              </div>`
+            )}
           </div>
         </iron-collapse>
       </section>
     `;
   }
+
   /**
    * Renders a template for types list.
-   * @return {TemplateResult}
+   * @return {TemplateResult|string}
    */
   _typesTemplate() {
     if (!this.hasTypes) {
-      return;
+      return '';
     }
     const items = this._getFilteredType('_types');
     if (!items || !items.length) {
-      return;
+      return '';
     }
     return html`
       <section class="types" ?data-opened="${this.typesOpened}">
-        <div class="section-title" data-section="types" @click="${this._toggleSectionHandler}" title="Toggle types list">
+        <div
+          class="section-title"
+          data-section="types"
+          @click="${this._toggleSectionHandler}"
+          title="Toggle types list"
+        >
           <div class="title-h3">Types</div>
           <anypoint-icon-button
             part="toggle-button"
@@ -2054,82 +2027,118 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         </div>
         <iron-collapse .opened="${this.typesOpened}">
           <div class="children">
-            ${items.map((item) =>
-              html`<div part="api-navigation-list-item" class="list-item" role="menuitem"
-                  tabindex="0" data-api-id="${item.id}" data-shape="type"
-                  @click="${this._itemClickHandler}">
-                  ${item.label}
-                </div>`)}
-          </div>
-        </iron-collapse>
-      </section>
-    `;
-  }
-  /**
-   * Renders a template for security schemes list.
-   * @return {TemplateResult}
-   */
-  _securityTemplate() {
-    if (!this.hasSecurity) {
-      return;
-    }
-    const items = this._getFilteredType('_security');
-    if (!items || !items.length) {
-      return;
-    }
-    return html`
-      <section class="security" ?data-opened="${this.securityOpened}">
-        <div class="section-title" data-section="security" @click="${this._toggleSectionHandler}" title="Toggle security list">
-          <div class="title-h3">Security</div>
-          <anypoint-icon-button
-            part="toggle-button"
-            class="toggle-button"
-            noink="${this.noink}"
-            aria-label="Toggle security"
-            ?compatibility="${this.compatibility}"
-            tabindex="-1">
-            <span class="icon">${keyboardArrowDown}</span>
-          </anypoint-icon-button>
-        </div>
-        <iron-collapse .opened="${this.securityOpened}">
-          <div class="children">
             ${items.map(
-              (item) => html`<div
+              item =>
+                html`<div
                   part="api-navigation-list-item"
                   class="list-item"
                   role="menuitem"
                   tabindex="0"
                   data-api-id="${item.id}"
-                  data-shape="security"
-                  @click="${this._itemClickHandler}">
+                  data-shape="type"
+                  @click="${this._itemClickHandler}"
+                >
                   ${item.label}
                 </div>`
             )}
           </div>
         </iron-collapse>
-      </section>`;
+      </section>
+    `;
+  }
+
+  /**
+   * @return {TemplateResult|string} template for security schemes list.
+   */
+  _securityTemplate() {
+    if (!this.hasSecurity) {
+      return '';
+    }
+    const items = this._getFilteredType('_security');
+    if (!items || !items.length) {
+      return '';
+    }
+    return html` <section
+      class="security"
+      ?data-opened="${this.securityOpened}"
+    >
+      <div
+        class="section-title"
+        data-section="security"
+        @click="${this._toggleSectionHandler}"
+        title="Toggle security list"
+      >
+        <div class="title-h3">Security</div>
+        <anypoint-icon-button
+          part="toggle-button"
+          class="toggle-button"
+          noink="${this.noink}"
+          aria-label="Toggle security"
+          ?compatibility="${this.compatibility}"
+          tabindex="-1"
+        >
+          <span class="icon">${keyboardArrowDown}</span>
+        </anypoint-icon-button>
+      </div>
+      <iron-collapse .opened="${this.securityOpened}">
+        <div class="children">
+          ${items.map(
+            item => html`<div
+              part="api-navigation-list-item"
+              class="list-item"
+              role="menuitem"
+              tabindex="0"
+              data-api-id="${item.id}"
+              data-shape="security"
+              @click="${this._itemClickHandler}"
+            >
+              ${item.label}
+            </div>`
+          )}
+        </div>
+      </iron-collapse>
+    </section>`;
+  }
+
+  /**
+   * @return {TemplateResult|string} Template for `raml-aware`
+   */
+  _awareTemplate() {
+    const { aware } = this;
+    if (!aware) {
+      return '';
+    }
+    return html`<raml-aware
+      @api-changed="${this._awareApiChanged}"
+      .scope="${aware}"
+    ></raml-aware>`;
   }
 
   render() {
-    return html`<style>${this.styles}</style>
-      ${this.aware ?
-        html`<raml-aware @api-changed="${this._awareApiChanged}" .scope="${this.aware}"></raml-aware>`
-        : undefined}
+    const { styles, _renderSummary, summaryLabel } = this;
+    return html`<style>
+        ${styles}
+      </style>
+      ${this._awareTemplate()}
       <div class="wrapper" role="menu" aria-label="Navigate the API">
-      ${this._renderSummary ? html`
-        <section class="summary">
-          <div part="api-navigation-list-item" class="list-item summary"
-            role="menuitem" tabindex="0" data-api-id="summary" data-shape="summary"
-            @click="${this._itemClickHandler}">
-            ${this.summaryLabel}
-          </div>
-        </section>` : undefined}
-      ${this._endpointsTemplate()}
-      ${this._documentationTemplate()}
-      ${this._typesTemplate()}
-      ${this._securityTemplate()}
-      </div>
-    `;
+        ${_renderSummary
+          ? html` <section class="summary">
+              <div
+                part="api-navigation-list-item"
+                class="list-item summary"
+                role="menuitem"
+                tabindex="0"
+                data-api-id="summary"
+                data-shape="summary"
+                @click="${this._itemClickHandler}"
+              >
+                ${summaryLabel}
+              </div>
+            </section>`
+          : undefined}
+        ${this._endpointsTemplate()} ${this._documentationTemplate()}
+        ${this._typesTemplate()} ${this._securityTemplate()}
+      </div> `;
   }
   /**
    * Dispatched when navigation occurrs.
@@ -2139,7 +2148,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
    *
    * @event api-navigation-selection-changed
    * @param {String} selected `@id` of selected AMF shape
-   * @param {?String} endpointId Available only if `type` is `method`.
+   * @param {String=} endpointId Available only if `type` is `method`.
    * It is parent endpoint ID.
    * @param {String} type The type of selected shape. It can be one of
    * `documentation`, `type`, `security`, `endpoint`, `method` or `summary`.
