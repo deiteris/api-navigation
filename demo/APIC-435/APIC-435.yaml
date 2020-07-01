@@ -1,0 +1,27 @@
+swagger: "2.0"
+info:
+  title: testExamples
+  description: Testing examples display
+  version: "1.0"
+externalDocs:
+  url: http://
+  description: |
+    Welcome to the _Test API_ Documentation. The _Test API_
+    allows you to test console and mocking service features
+    [integration libraries](https://mulesoft.com)
+  x-amf-title: Test Console and Mocking Service
+x-amf-userDocumentation:
+  -
+    url: http://
+    content: The API gives you chance to test features referred to API Console and Mocking Service.
+    title: Legal
+  -
+    url: http://
+    content: |
+      this is the content
+    title: Another title
+  -
+    url: http://
+    content: Fragment doc content
+    title: Fragment doc title
+paths: {}
