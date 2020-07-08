@@ -937,7 +937,8 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     const urlNode = item[this._getAmfKey(core.url)];
     const url = urlNode ? (urlNode[0] || urlNode)['@id'] : undefined;
     const title = this._getValue(item, core.title);
-    const label = String(title);
+    const description = this._getValue(item, core.description);
+    const label = title ? String(title) : String(description);
     let isExternal = false;
     if (url) {
       isExternal = true;

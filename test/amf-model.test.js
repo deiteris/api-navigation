@@ -223,6 +223,32 @@ describe('AMF model test', () => {
         });
       });
     });
+
+    [
+      ['Regular model', false],
+      ['Compact model', true],
+    ].forEach(item => {
+      describe(String(item[0]), () => {
+        let element;
+
+        beforeEach(async () => {
+          const amf = await AmfLoader.load(item[1], 'ext-docs');
+          element = await basicFixture();
+          element.amf = amf;
+          await nextFrame();
+        });
+
+        it('Collects documentation information', () => {
+          const result = element._docs;
+          assert.equal(result.length, 1);
+
+          assert.typeOf(result[0].id, 'string');
+          assert.equal(result[0].label, 'Docs');
+          assert.isTrue(result[0].isExternal);
+          assert.equal(result[0].url, 'https://example.com');
+        });
+      });
+    });
   });
 
   describe('_collectData()', () => {
