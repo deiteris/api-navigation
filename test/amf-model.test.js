@@ -31,6 +31,7 @@ describe('AMF model test', () => {
           assert.equal(result.length, 2);
           assert.typeOf(result[0].id, 'string');
           assert.typeOf(result[0].label, 'string');
+          assert.equal(result[0].label, 'How to begin');
           assert.typeOf(result[0].isExternal, 'boolean');
           assert.isUndefined(result[0].url);
         });
@@ -178,6 +179,73 @@ describe('AMF model test', () => {
             assert.typeOf(nodes[i].dataset.endpointId, 'string');
             assert.isAbove(nodes[i].dataset.endpointId.length, 0);
           }
+        });
+      });
+    });
+
+    [
+      ['Regular model', false],
+      ['Compact model', true],
+    ].forEach(item => {
+      describe(String(item[0]), () => {
+        let element;
+
+        beforeEach(async () => {
+          const amf = await AmfLoader.load(item[1], 'APIC-435');
+          element = await basicFixture();
+          element.amf = amf;
+          await nextFrame();
+        });
+
+        it('Collects documentation information', () => {
+          const result = element._docs;
+          assert.equal(result.length, 4);
+
+          assert.typeOf(result[0].id, 'string');
+          assert.equal(result[0].label, 'Test Console and Mocking Service');
+          assert.isTrue(result[0].isExternal);
+          assert.equal(result[0].url, 'http://');
+
+          assert.typeOf(result[1].id, 'string');
+          assert.equal(result[1].label, 'Legal');
+          assert.isTrue(result[1].isExternal);
+          assert.equal(result[1].url, 'http://');
+
+          assert.typeOf(result[2].id, 'string');
+          assert.equal(result[2].label, 'Another title');
+          assert.isTrue(result[2].isExternal);
+          assert.equal(result[2].url, 'http://');
+
+          assert.typeOf(result[3].id, 'string');
+          assert.equal(result[3].label, 'Fragment doc title');
+          assert.isTrue(result[3].isExternal);
+          assert.equal(result[3].url, 'http://');
+        });
+      });
+    });
+
+    [
+      ['Regular model', false],
+      ['Compact model', true],
+    ].forEach(item => {
+      describe(String(item[0]), () => {
+        let element;
+
+        beforeEach(async () => {
+          const amf = await AmfLoader.load(item[1], 'ext-docs');
+          element = await basicFixture();
+          element.amf = amf;
+          await nextFrame();
+        });
+
+        it('Collects documentation information', () => {
+          const result = element._docs;
+          assert.equal(result.length, 1);
+
+          assert.typeOf(result[0].id, 'string');
+          assert.equal(result[0].label, 'Docs');
+          assert.isTrue(result[0].isExternal);
+          assert.equal(result[0].url, 'https://example.com');
         });
       });
     });

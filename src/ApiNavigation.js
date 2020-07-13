@@ -348,8 +348,8 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     }
     this._selected = value;
     this.requestUpdate('selected', old);
-    this._selectedChangd(value);
-    this._selectionChnaged(value, this.selectedType);
+    this._selectedChanged(value);
+    this._selectionChanged(value, this.selectedType);
     this.dispatchEvent(
       new CustomEvent(`selected-changed`, {
         composed: true,
@@ -372,7 +372,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     }
     this._selectedType = value;
     this.requestUpdate('selectedType', old);
-    this._selectionChnaged(this.selected, value);
+    this._selectionChanged(this.selected, value);
     this.dispatchEvent(
       new CustomEvent(`selectedtype-changed`, {
         composed: true,
@@ -586,7 +586,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     this._endpoints = data.endpoints;
     this._closeCollapses();
     setTimeout(() => {
-      this._selectedChangd(this.selected);
+      this._selectedChanged(this.selected);
       this._resetTabindices();
     });
   }
@@ -936,15 +936,12 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     const id = item['@id'];
     const urlNode = item[this._getAmfKey(core.url)];
     const url = urlNode ? (urlNode[0] || urlNode)['@id'] : undefined;
+    const title = this._getValue(item, core.title);
+    const description = this._getValue(item, core.description);
+    const label = title ? String(title) : String(description);
     let isExternal = false;
-    let label;
     if (url) {
       isExternal = true;
-      const desc = this._getValue(item, core.description);
-      label = String(desc);
-    } else {
-      const title = this._getValue(item, core.title);
-      label = String(title);
     }
     const result = {
       id,
@@ -1186,7 +1183,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
    *
    * @param {string} current New selection
    */
-  _selectedChangd(current) {
+  _selectedChanged(current) {
     this._clearSelection();
     this._cleanPassiveSelection();
     if (current) {
@@ -1250,7 +1247,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
    * @param {string} selected Selected id
    * @param {string} selectedType Type of AMF shape
    */
-  _selectionChnaged(selected, selectedType) {
+  _selectionChanged(selected, selectedType) {
     if (!selectedType || this.__cancelNavigationEvent) {
       return;
     }
