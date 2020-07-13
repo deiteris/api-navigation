@@ -1100,3 +1100,36 @@
 * updating test name in SL [3bf5435](https://github.com/advanced-rest-client/api-navigation/commit/3bf54351483247ffdf2eee9953b2e903fd40f4da) by Pawel
 
 
+<a name="4.1.2"></a>
+## [4.1.2](https://github.com/advanced-rest-client/api-navigation/compare/4.1.0...4.1.2) (2020-07-13)
+
+### Build
+
+* bump version [4de8d5b](https://github.com/advanced-rest-client/api-navigation/commit/4de8d5b1e52a229483a8d32f0ce4bb1b72b4c483) by Carolina Wright
+* bumping version [0c6ce80](https://github.com/advanced-rest-client/api-navigation/commit/0c6ce80f5366f8d42ce7c21b3341804aed9de2d1) by Pawel
+
+
+### Update
+
+* [ci skip] automated merge master->stage. syncing main branches [381d85c](https://github.com/advanced-rest-client/api-navigation/commit/381d85c95fbcbddf9b3a50313c445b5e4347ca5e) by Ci agent
+* [ci skip] automated merge master->stage. syncing main branches [9ace22b](https://github.com/advanced-rest-client/api-navigation/commit/9ace22b1e75194b59ae99e09044a97d2062d254b) by Ci agent
+
+
+### Bug Fixes
+
+* when no title for doc use description as label [5138837](https://github.com/advanced-rest-client/api-navigation/commit/513883718d9cd6f62527b1842c9131160abecc67) by Carolina Wright
+* APIC-435 use title as label for documentation items [a73c3ea](https://github.com/advanced-rest-client/api-navigation/commit/a73c3ea8a6fca7699b256bdb1e86b0920e6a37d0) by Carolina Wright
+* fixes APIC-408 - OAS external docs [0b9a229](https://github.com/advanced-rest-client/api-navigation/commit/0b9a2290221f01205ba3f2a41bda18da2d7fcd46) by Pawel
+
+
+### Refactor
+
+* refactoring to open-wc standards [5a0a91e](https://github.com/advanced-rest-client/api-navigation/commit/5a0a91eb5c6328cec98914c91654a493d64b89c2) by Pawel
+
+
+### Testing
+
+* increasing timeout for AMF tests [29862ce](https://github.com/advanced-rest-client/api-navigation/commit/29862cee6b4629359bbd570ef6003747aab566d7) by Pawel
+* updating test name in SL [3bf5435](https://github.com/advanced-rest-client/api-navigation/commit/3bf54351483247ffdf2eee9953b2e903fd40f4da) by Pawel
+
+
