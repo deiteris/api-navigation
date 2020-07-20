@@ -925,6 +925,12 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     });
   }
 
+  _validUrlRegex = /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
+
+  _validUrl(url) {
+    return this._validUrlRegex.test(url) ? url : 'about:blank';
+  }
+
   /**
    * Appends "documentation" item to the results.
    *
@@ -935,12 +941,13 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     const { core } = this.ns.aml.vocabularies;
     const id = item['@id'];
     const urlNode = item[this._getAmfKey(core.url)];
-    const url = urlNode ? (urlNode[0] || urlNode)['@id'] : undefined;
     const title = this._getValue(item, core.title);
     const description = this._getValue(item, core.description);
     const label = title ? String(title) : String(description);
     let isExternal = false;
+    let url = urlNode ? (urlNode[0] || urlNode)['@id'] : undefined;
     if (url) {
+      url = this._validUrl(url);
       isExternal = true;
     }
     const result = {
@@ -2182,7 +2189,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       </div> `;
   }
   /**
-   * Dispatched when navigation occurrs.
+   * Dispatched when navigation occurs.
    * It ensures that `type` property is always set when selection changes
    * (selection type changes later than the selection but within the same
    * microtask).
