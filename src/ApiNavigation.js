@@ -925,6 +925,12 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     });
   }
 
+  _validUrl(url) {
+    return url.startsWith('http://') || url.startsWith('https://')
+      ? url
+      : 'about:blank';
+  }
+
   /**
    * Appends "documentation" item to the results.
    *
@@ -935,12 +941,13 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     const { core } = this.ns.aml.vocabularies;
     const id = item['@id'];
     const urlNode = item[this._getAmfKey(core.url)];
-    const url = urlNode ? (urlNode[0] || urlNode)['@id'] : undefined;
     const title = this._getValue(item, core.title);
     const description = this._getValue(item, core.description);
     const label = title ? String(title) : String(description);
     let isExternal = false;
+    let url = urlNode ? (urlNode[0] || urlNode)['@id'] : undefined;
     if (url) {
+      url = this._validUrl(url);
       isExternal = true;
     }
     const result = {
@@ -2182,7 +2189,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       </div> `;
   }
   /**
-   * Dispatched when navigation occurrs.
+   * Dispatched when navigation occurs.
    * It ensures that `type` property is always set when selection changes
    * (selection type changes later than the selection but within the same
    * microtask).

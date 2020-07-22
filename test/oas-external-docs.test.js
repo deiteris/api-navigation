@@ -67,6 +67,24 @@ describe('OAS external documentation computations', () => {
           assert.equal(node.getAttribute('href'), 'https://example.com');
         });
       });
+
+      describe('Invalid URL', () => {
+        let element;
+        let amf;
+
+        before(async () => {
+          amf = await AmfLoader.load(compact, 'APIC-449');
+        });
+
+        beforeEach(async () => {
+          element = await basicFixture(amf);
+        });
+
+        it('URL default to about:blank when invalid', () => {
+          const node = element.shadowRoot.querySelector('a.list-item');
+          assert.equal(node.getAttribute('href'), 'about:blank');
+        });
+      });
     });
   });
 });

@@ -17,5 +17,6 @@
   "oas-demo/oas-demo.yaml": "OAS 3.0",
   "APIC-349-cache-resolution/APIC-349-cache-resolution.raml": "RAML 1.0",
   "ext-docs/ext-docs.yaml": "OAS 3.0",
-  "APIC-435/APIC-435.yaml": "OAS 2.0"
+  "APIC-435/APIC-435.yaml": "OAS 2.0",
+  "APIC-449/APIC-449.yaml": "OAS 3.0"
 }

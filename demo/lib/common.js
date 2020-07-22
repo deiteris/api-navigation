@@ -92,6 +92,7 @@ export class NavDemoPage extends DemoPage {
       ['oauth-flows', 'OAS OAuth Flow'],
       ['oas-bearer', 'OAS Bearer'],
       ['ext-docs', 'External docs'],
+      ['APIC-449', 'APIC-449'],
     ].map(
       ([file, label]) => html`
         <anypoint-item data-src="${file}-compact.json"
