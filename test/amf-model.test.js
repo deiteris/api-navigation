@@ -204,22 +204,22 @@ describe('AMF model test', () => {
           assert.typeOf(result[0].id, 'string');
           assert.equal(result[0].label, 'Test Console and Mocking Service');
           assert.isTrue(result[0].isExternal);
-          assert.equal(result[0].url, 'about:blank');
+          assert.equal(result[0].url, 'http://');
 
           assert.typeOf(result[1].id, 'string');
           assert.equal(result[1].label, 'Legal');
           assert.isTrue(result[1].isExternal);
-          assert.equal(result[1].url, 'about:blank');
+          assert.equal(result[1].url, 'http://');
 
           assert.typeOf(result[2].id, 'string');
           assert.equal(result[2].label, 'Another title');
           assert.isTrue(result[2].isExternal);
-          assert.equal(result[2].url, 'about:blank');
+          assert.equal(result[2].url, 'http://');
 
           assert.typeOf(result[3].id, 'string');
           assert.equal(result[3].label, 'Fragment doc title');
           assert.isTrue(result[3].isExternal);
-          assert.equal(result[3].url, 'about:blank');
+          assert.equal(result[3].url, 'http://');
         });
       });
     });
