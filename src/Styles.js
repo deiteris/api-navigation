@@ -103,7 +103,7 @@ export default css`
     text-align: left;
     box-sizing: border-box;
     cursor: pointer;
-    word-break: break-all;
+    word-break: var(--api-navigation-list-item-word-break, break-all);
     display: flex;
     flex-direction: row;
     align-items: center;

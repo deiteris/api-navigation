@@ -69,7 +69,7 @@ export declare function computePathName(currentPath: string, parts: string[], in
  *
  * @param allowPaths Component configuration property.
  * @param renderPath Endpoint property
- * @returns True if both arguments are trully.
+ * @returns True if both arguments are truly.
  */
 export declare function computeRenderPath(allowPaths: boolean, renderPath: boolean): boolean;
 
@@ -129,6 +129,7 @@ export declare function computeRenderPath(allowPaths: boolean, renderPath: boole
  * `--api-navigation-list-item-selected-background-color` | Background color of selected menu item | `--accent-color`
  * `--api-navigation-list-item-selected-color` | Color of selected menu item | `#fff`
  * `--api-navigation-list-item-disabled-color` | Color of disabled menu item. Currently not in use. | `--disabled-text-color`
+ * `--api-navigation-list-item-word-break` | Word break of menu item. | `break-all`
  * `--api-navigation-toggle-icon-color` | Color of the toggle button next to section title | `rgba(0, 0, 0, 0.74)`
  * `--api-navigation-toggle-icon-hover-color` | Color of the toggle button next to section title when hovering. | `--secondary-button-color` or `rgba(0, 0, 0, 0.88)`
  * `--api-navigation-endpoint-toggle-icon-color` | Colot of endpoint toggle button | `--api-navigation-toggle-icon-color` or `rgba(0, 0, 0, 0.74)`
@@ -154,7 +155,7 @@ export declare function computeRenderPath(allowPaths: boolean, renderPath: boole
  * `--api-navigation-endpoint-toggle-icon-width` | | `32px`
  * `--api-navigation-endpoint-toggle-icon-height` | | `32px`
  * `--api-navigation-endpoint-toggle-icon-margin-right` | | ``
- * `--api-navigation-background-color` | Navigation element backgound color | `inherit`
+ * `--api-navigation-background-color` | Navigation element background color | `inherit`
  * `--api-navigation-color` | Navigation element color | `inherit`
  * `--arc-font-body1-font-size` | | `inherit`
  * `--arc-font-body1-font-weight` | | `inherit`
