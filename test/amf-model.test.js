@@ -348,7 +348,7 @@ describe('AMF model test', () => {
       document.body.dispatchEvent(e);
     }
 
-    it('Selectes a method', () => {
+    it('Selects a method', () => {
       const method = AmfHelper.getMethod(element, amf, '/files', 'post');
       dispatch(method['@id'], 'method');
       const node = element.shadowRoot.querySelector('.passive-selected');

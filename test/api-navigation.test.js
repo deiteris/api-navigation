@@ -1,4 +1,4 @@
-import { fixture, assert, nextFrame, html, aTimeout } from '@open-wc/testing';
+import { assert, aTimeout, fixture, html, nextFrame } from '@open-wc/testing';
 import * as MockInteractions from '@polymer/iron-test-helpers/mock-interactions.js';
 import * as sinon from 'sinon';
 import { AmfLoader } from './amf-loader.js';
@@ -66,10 +66,7 @@ describe('<api-navigation>', () => {
   }
 
   async function modelFixture(amf) {
-    const elm = await fixture(
-      html`<api-navigation .amf="${amf}"></api-navigation>`
-    );
-    return elm;
+    return fixture(html`<api-navigation .amf="${amf}"></api-navigation>`);
   }
 
   describe('Super basics - without model', () => {
@@ -84,8 +81,12 @@ describe('<api-navigation>', () => {
       assert.isFalse(element._isFragment);
     });
 
-    it('_renderSummary is not false', () => {
+    it('_renderSummary is false', () => {
       assert.isFalse(element._renderSummary);
+    });
+
+    it('lexicalOrder is false', () => {
+      assert.isFalse(element.lexicalOrder);
     });
 
     it('summary is not rendered', () => {
@@ -1141,6 +1142,53 @@ describe('<api-navigation>', () => {
           assert.equal(element.getAttribute('tabindex'), '0');
         });
       });
+    });
+  });
+
+  describe('_getLexicalOrder', () => {
+    let element;
+    beforeEach(async () => {
+      element = await basicFixture();
+      await nextFrame();
+    });
+
+    it('returns first appearance in lexical order', async () => {
+      const model = {
+        'http://a.ml/vocabularies/document-source-maps#sources': {
+          'http://a.ml/vocabularies/document-source-maps#lexical': [
+            '[(11,4)-(12,0)]',
+            '[(12,4)-(17,0)]',
+            '[(10,2)-(17,0)]',
+          ],
+        },
+      };
+      assert.equal(element._getLexicalOrder(model), 11);
+    });
+
+    it('returns undefined when no sources', async () => {
+      const model = {};
+      assert.isUndefined(element._getLexicalOrder(model));
+    });
+
+    it('returns undefined when no lexical', async () => {
+      const model = {
+        'http://a.ml/vocabularies/document-source-maps#': {},
+      };
+      assert.isUndefined(element._getLexicalOrder(model));
+    });
+  });
+
+  describe('_sortByOrder', () => {
+    let element;
+    beforeEach(async () => {
+      element = await basicFixture();
+      await nextFrame();
+    });
+
+    it('sorts by order', async () => {
+      const values = [{ order: 2 }, { order: 1 }];
+      const sortedValues = [{ order: 1 }, { order: 2 }];
+      assert.deepEqual(element._sortByOrder(values), sortedValues);
     });
   });
 });
