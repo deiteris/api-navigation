@@ -329,6 +329,11 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
        * Enables compatibility with Anypoint components.
        */
       compatibility: { type: Boolean },
+      /**
+       * Determines whether to order endpoints using lexical order or not
+       * Default: false
+       */
+      lexicalSort: { type: Boolean },
     };
   }
 
@@ -481,6 +486,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     this.indentSize = 8;
     this._selectedItem = null;
     this.aware = null;
+    this.lexicalOrder = false;
 
     this._navigationChangeHandler = this._navigationChangeHandler.bind(this);
     this._focusHandler = this._focusHandler.bind(this);
@@ -533,6 +539,49 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   }
 
   /**
+   * Get first appearance in lexical information
+   * @param {Object} value
+   * @return {String|undefined} order.
+   */
+  _getLexicalOrder(value) {
+    const sKey = this._getAmfKey(
+      this.ns.aml.vocabularies.docSourceMaps.sources
+    );
+    const sources = value[sKey];
+    if (!sources) {
+      return undefined;
+    }
+
+    const lKey = this._getAmfKey(
+      this.ns.aml.vocabularies.docSourceMaps.lexical
+    );
+    const lexical = sources[lKey];
+
+    if (!lexical || lexical.length === 0) {
+      return undefined;
+    }
+
+    const firstPosition = lexical[0];
+    const positionStart = firstPosition.indexOf('(') + 1;
+    const positionEnd = firstPosition.indexOf(',');
+    return firstPosition.substring(positionStart, positionEnd);
+  }
+
+  /**
+   * Sort array using lexical order
+   * @param {Array<Object>} value
+   * @return {Array<Object>} A sorter array.
+   */
+  _sortByOrder(value) {
+    return value.sort((a, b) => {
+      if (a.order === b.order) {
+        return 0;
+      }
+      return a.order < b.order ? -1 : 1;
+    });
+  }
+
+  /**
    * Overrides `AmfHelperMixin.__amfChanged()`
    * @param {object[]|object} api AMF model
    * @override
@@ -581,9 +630,13 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       this._isFragment = isFragment;
     }
     this._docs = data.documentation;
-    this._types = data.types;
+    this._types = this.lexicalOrder
+      ? this._sortByOrder(data.types)
+      : data.types;
     this._security = data.securitySchemes;
-    this._endpoints = data.endpoints;
+    this._endpoints = this.lexicalOrder
+      ? this._sortByOrder(data.endpoints)
+      : data.endpoints;
     this._closeCollapses();
     setTimeout(() => {
       this._selectedChanged(this.selected);
@@ -890,6 +943,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       target.types.push({
         label: name,
         id,
+        order: this._getLexicalOrder(item),
       });
     }
   }
@@ -1016,6 +1070,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     result.id = id;
     result.indent = indent;
     result.methods = methods;
+    result.order = this._getLexicalOrder(item);
     target.endpoints.push(result);
   }
 

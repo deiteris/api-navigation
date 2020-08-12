@@ -11,6 +11,10 @@ declare interface ModelItem {
    * The AMF `@id` associated with the label.
    */
   id: string;
+  /**
+   * Line appearance in specification.
+   */
+  order: string|undefined;
 }
 
 declare interface MethodItem extends ModelItem {
