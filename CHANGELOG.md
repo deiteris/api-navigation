@@ -1165,3 +1165,38 @@
 * when invalid url default to about:blank [0ea732b](https://github.com/advanced-rest-client/api-navigation/commit/0ea732b3faa52caf514253663990c109432d09ea) by Carolina Wright
 
 
+<a name="4.1.4"></a>
+## [4.1.4](https://github.com/advanced-rest-client/api-navigation/compare/4.1.2...4.1.4) (2020-08-14)
+
+### Build
+
+* bump version [1a25498](https://github.com/advanced-rest-client/api-navigation/commit/1a254982a7ef7f86f2d816ee415145e0f70bc83b) by Carolina Wright
+* bump version [7cab050](https://github.com/advanced-rest-client/api-navigation/commit/7cab05057ead74613e7096a2db224fadfdce38a3) by Carolina Wright
+
+
+### Update
+
+* [ci skip] automated merge master->stage. syncing main branches [4a1a0b0](https://github.com/advanced-rest-client/api-navigation/commit/4a1a0b01945eedf184a0355082edb86d27ae0ff7) by Ci agent
+* [ci skip] automated merge master->stage. syncing main branches [e99345a](https://github.com/advanced-rest-client/api-navigation/commit/e99345a02486d04c72ca8d25e8eb6497e33d1a75) by Ci agent
+
+
+### Features
+
+* new variable for list item word-break [7d143bc](https://github.com/advanced-rest-client/api-navigation/commit/7d143bca9ff8db82b5493487ca4d2aa1364129de) by Carolina Wright
+
+
+### Bug Fixes
+
+* validate start of url in documentation [4fa06f7](https://github.com/advanced-rest-client/api-navigation/commit/4fa06f76d57f733fa3f8a3e7cd8de34961c3b491) by Carolina Wright
+* url regex [19dafbc](https://github.com/advanced-rest-client/api-navigation/commit/19dafbc29461cc172e9afcdd4fbad306231bd57a) by Carolina Wright
+* apic-449 validate documentation url [5008dbe](https://github.com/advanced-rest-client/api-navigation/commit/5008dbebfd82dfc8fe9cbb0badb15b898f9fbcc2) by Carolina Wright
+
+
+### Testing
+
+* increse timeout [3e329cc](https://github.com/advanced-rest-client/api-navigation/commit/3e329cc6f9f7b69082d34f5d4c97e5cff5dddb5c) by Carolina Wright
+* validate url [46c519a](https://github.com/advanced-rest-client/api-navigation/commit/46c519a75bb4666b6b3234f705bfbdc82e27ef16) by Carolina Wright
+* increase timeout [1b8d8a3](https://github.com/advanced-rest-client/api-navigation/commit/1b8d8a33e21787919b0d86dc5fadd18dada04f76) by Carolina Wright
+* when invalid url default to about:blank [0ea732b](https://github.com/advanced-rest-client/api-navigation/commit/0ea732b3faa52caf514253663990c109432d09ea) by Carolina Wright
+
+
