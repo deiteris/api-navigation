@@ -215,4 +215,20 @@ export default css`
     display: inline-block;
     vertical-align: middle;
   }
+
+  .method-label[data-method='publish'] {
+    background-color: var(
+      --http-method-label-publish-background-color,
+      rgba(31, 157, 85, 0.12)
+    );
+    color: var(--http-method-label-publish-color, #1f9d55);
+  }
+
+  .method-label[data-method='subscribe'] {
+    background-color: var(
+      --http-method-label-subscribe-background-color,
+      rgba(52, 144, 220, 0.12)
+    );
+    color: var(--http-method-label-subscribe-color, #3490dc);
+  }
 `;
