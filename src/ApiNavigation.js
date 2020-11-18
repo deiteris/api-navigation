@@ -1177,12 +1177,16 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (!label) {
       return;
     }
+    const toggleButton = label.querySelector('.icon');
+
     if (collapse.opened) {
       label.setAttribute('endpoint-opened', 'true');
       collapse.setAttribute('endpoint-opened', 'true');
+      toggleButton.setAttribute('aria-label', 'Expanded');
     } else {
       label.removeAttribute('endpoint-opened');
       collapse.removeAttribute('endpoint-opened');
+      toggleButton.setAttribute('aria-label', 'Collapsed');
     }
   }
 
@@ -1843,6 +1847,8 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (!items || !items.length) {
       return '';
     }
+    const toggleState = this.endpointsOpened ? 'Expanded' : 'Collapsed';
+
     return html` <section
       class="endpoints"
       ?data-opened="${this.endpointsOpened}"
@@ -1864,7 +1870,9 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
           ?compatibility="${this.compatibility}"
           tabindex="-1"
         >
-          <span class="icon">${keyboardArrowDown}</span>
+          <span class="icon" aria-label="${toggleState}"
+            >${keyboardArrowDown}</span
+          >
         </anypoint-icon-button>
       </div>
       <iron-collapse
@@ -1909,7 +1917,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
           ?compatibility="${this.compatibility}"
           tabindex="-1"
         >
-          <span class="icon">${keyboardArrowDown}</span>
+          <span class="icon" aria-label="Collapsed">${keyboardArrowDown}</span>
         </anypoint-icon-button>
       </div>
       <iron-collapse
@@ -1978,6 +1986,8 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (!items || !items.length) {
       return '';
     }
+    const toggleState = this.docsOpened ? 'Expanded' : 'Collapsed';
+
     return html`
       <section class="documentation" ?data-opened="${this.docsOpened}">
         <div
@@ -1996,7 +2006,9 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
             ?compatibility="${this.compatibility}"
             tabindex="-1"
           >
-            <span class="icon">${keyboardArrowDown}</span>
+            <span class="icon" aria-label="${toggleState}"
+              >${keyboardArrowDown}</span
+            >
           </anypoint-icon-button>
         </div>
         <iron-collapse .opened="${this.docsOpened}">
@@ -2054,6 +2066,8 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (!items || !items.length) {
       return '';
     }
+    const toggleState = this.typesOpened ? 'Expanded' : 'Collapsed';
+
     return html`
       <section class="types" ?data-opened="${this.typesOpened}">
         <div
@@ -2071,7 +2085,9 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
             ?compatibility="${this.compatibility}"
             tabindex="-1"
           >
-            <span class="icon">${keyboardArrowDown}</span>
+            <span class="icon" aria-label="${toggleState}"
+              >${keyboardArrowDown}</span
+            >
           </anypoint-icon-button>
         </div>
         <iron-collapse .opened="${this.typesOpened}">
@@ -2107,6 +2123,8 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (!items || !items.length) {
       return '';
     }
+    const toggleState = this.securityOpened ? 'Expanded' : 'Collapsed';
+
     return html` <section
       class="security"
       ?data-opened="${this.securityOpened}"
@@ -2126,7 +2144,9 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
           ?compatibility="${this.compatibility}"
           tabindex="-1"
         >
-          <span class="icon">${keyboardArrowDown}</span>
+          <span class="icon" aria-label="${toggleState}"
+            >${keyboardArrowDown}</span
+          >
         </anypoint-icon-button>
       </div>
       <iron-collapse .opened="${this.securityOpened}">
