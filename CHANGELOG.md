@@ -1221,3 +1221,22 @@
 * new variable for list item word-break [7d143bc](https://github.com/advanced-rest-client/api-navigation/commit/7d143bca9ff8db82b5493487ca4d2aa1364129de) by Carolina Wright
 
 
+<a name="4.2.0"></a>
+## [4.2.0](https://github.com/advanced-rest-client/api-navigation/compare/4.1.4...4.2.0) (2020-11-24)
+
+### Build
+
+* bump version [25c1dc7](https://github.com/advanced-rest-client/api-navigation/commit/25c1dc776ae9ebfc09cfae387c5ba7830f297892) by Carolina Wright
+
+
+### Update
+
+* [ci skip] automated merge master->stage. syncing main branches [5142829](https://github.com/advanced-rest-client/api-navigation/commit/5142829561297c2acd2f1acb360ecc15319596a7) by Ci agent
+* [ci skip] automated merge master->stage. syncing main branches [f8fd69f](https://github.com/advanced-rest-client/api-navigation/commit/f8fd69f71f728a4d6f863465b018c7b467a84874) by Ci agent
+
+
+### Features
+
+* expanded/collapsed toggle button label [48ccee5](https://github.com/advanced-rest-client/api-navigation/commit/48ccee599735ebe925a5e2a532f22a2fdd957fb4) by Carolina Wright
+
+
