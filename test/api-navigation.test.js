@@ -9,6 +9,8 @@ import { computePathName, computeRenderPath } from '../src/ApiNavigation.js';
 /* eslint-disable no-plusplus */
 
 describe('<api-navigation>', () => {
+  const asyncApi = 'async-api';
+
   async function basicFixture() {
     return fixture(`<api-navigation></api-navigation>`);
   }
@@ -935,6 +937,30 @@ describe('<api-navigation>', () => {
         assert.ok(node);
       });
     });
+
+    describe('AsyncAPI', () => {
+      let amf;
+      let element;
+
+      beforeEach(async () => {
+        amf = await AmfLoader.load(item[1], asyncApi);
+        element = await basicFixture();
+        element.amf = amf;
+        await nextFrame();
+      });
+
+      it('should render channels', () => {
+        assert.lengthOf(element._endpoints, 2);
+      });
+
+      it('should render "Channels" label', () => {
+        assert.equal(
+          element.shadowRoot.querySelector('.endpoints div.title-h3')
+            .textContent,
+          'Channels'
+        );
+      });
+    });
   });
 
   describe('a11y', () => {
@@ -946,8 +972,8 @@ describe('<api-navigation>', () => {
       await nextFrame();
     });
 
-    it('Performs a11y tests', async () => {
-      await assert.isAccessible(element);
+    it('Performs a11y tests', () => {
+      assert.isAccessible(element);
     });
   });
 

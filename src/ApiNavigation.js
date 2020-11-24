@@ -714,7 +714,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
    * @param {TargetModel} target Target object where to put data.
    */
   _traverseEncodes(model, target) {
-    const data = this._computeWebApi(model);
+    const data = this._computeApi(model);
     if (!data) {
       return;
     }
@@ -1849,6 +1849,9 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     }
     const toggleState = this.endpointsOpened ? 'Expanded' : 'Collapsed';
 
+    const sectionLabel = this._isWebAPI(this.amf) ? 'Endpoints' : 'Channels';
+    const lowercaseSectionLabel = sectionLabel.toLowerCase();
+
     return html` <section
       class="endpoints"
       ?data-opened="${this.endpointsOpened}"
@@ -1857,15 +1860,15 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         class="section-title"
         data-section="endpoints"
         @click="${this._toggleSectionHandler}"
-        title="Toggle endpoints list"
+        title="Toggle ${lowercaseSectionLabel} list"
         aria-haspopup="true"
         role="menuitem"
       >
-        <div class="title-h3">Endpoints</div>
+        <div class="title-h3">${sectionLabel}</div>
         <anypoint-icon-button
           part="toggle-button"
           class="toggle-button"
-          aria-label="Toggle endpoints"
+          aria-label="Toggle ${lowercaseSectionLabel}"
           .noink="${this.noink}"
           ?compatibility="${this.compatibility}"
           tabindex="-1"
