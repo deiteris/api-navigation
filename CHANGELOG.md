@@ -1240,3 +1240,12 @@
 * expanded/collapsed toggle button label [48ccee5](https://github.com/advanced-rest-client/api-navigation/commit/48ccee599735ebe925a5e2a532f22a2fdd957fb4) by Carolina Wright
 
 
+<a name="4.2.1"></a>
+## [4.2.1](https://github.com/advanced-rest-client/api-navigation/compare/4.1.6...4.2.1) (2020-11-27)
+
+### Update
+
+* [ci skip] automated merge master->stage. syncing main branches [fe5a1bf](https://github.com/advanced-rest-client/api-navigation/commit/fe5a1bfc83a4d73d4dbe05fb24e5a9dbe3e9ef8f) by Ci agent
+* [ci skip] automated merge master->stage. syncing main branches [5142829](https://github.com/advanced-rest-client/api-navigation/commit/5142829561297c2acd2f1acb360ecc15319596a7) by Ci agent
+
+
