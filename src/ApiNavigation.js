@@ -989,7 +989,11 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       if (lowerParts.length) {
         for (let i = lowerParts.length - 1; i >= 0; i--) {
           const currentPath = `/${lowerParts.slice(0, i + 1).join('/')}`;
-          if (target._basePaths.indexOf(currentPath) !== -1) {
+          if (
+            target._basePaths[target._basePaths.length - 2].startsWith(
+              currentPath
+            )
+          ) {
             indent++;
           }
         }

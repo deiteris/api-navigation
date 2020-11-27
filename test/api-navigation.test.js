@@ -10,6 +10,7 @@ import { computePathName, computeRenderPath } from '../src/ApiNavigation.js';
 
 describe('<api-navigation>', () => {
   const asyncApi = 'async-api';
+  const unorderedEndpoints = 'unordered-endpoints';
 
   async function basicFixture() {
     return fixture(`<api-navigation></api-navigation>`);
@@ -958,6 +959,27 @@ describe('<api-navigation>', () => {
           element.shadowRoot.querySelector('.endpoints div.title-h3')
             .textContent,
           'Channels'
+        );
+      });
+    });
+
+    describe('Unordered endpoints', () => {
+      let amf;
+      let element;
+
+      beforeEach(async () => {
+        amf = await AmfLoader.load(item[1], unorderedEndpoints);
+        element = await basicFixture();
+        element.amf = amf;
+        await nextFrame();
+      });
+
+      it('should render full path of third endpoint', () => {
+        assert.equal(
+          element.shadowRoot.querySelectorAll(
+            '.list-item.endpoint .endpoint-name'
+          )[2].innerText,
+          '/foo/bar'
         );
       });
     });
