@@ -1,0 +1,46 @@
+#%RAML 1.0
+types:
+  Customer:
+    properties:
+      address:
+        properties:
+          street:
+            example: 12 Oxford St.
+            type: string
+          city:
+            example: London
+            type: string
+      id:
+        example: 1299
+        type: number
+        format: int
+      name:
+        example: Example
+        type: string
+title: Banking
+description: Banking
+documentation:
+  -
+    content: Bank
+    title: Api Details
+  -
+    content: newItem
+    title: newItem
+/customers/{id}:
+  post:
+    body:
+      application/json:
+        type: Customer
+    responses:
+      "201":
+        body:
+          text/plain:
+            default: Created successfully
+            example: Customer created
+            type: string
+  uriParameters:
+    id:
+      default: 21
+      example: 23
+      type: number
+      format: int  

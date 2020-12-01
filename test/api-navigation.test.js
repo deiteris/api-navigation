@@ -983,6 +983,18 @@ describe('<api-navigation>', () => {
         );
       });
     });
+
+    describe('APIC-550', () => {
+      let element;
+      let amf;
+
+      it('should render without errors', async () => {
+        amf = await AmfLoader.load(item[1], 'APIC-550');
+        element = await modelFixture(amf);
+        await nextFrame();
+        assert.lengthOf(element._endpoints, 1);
+      });
+    });
   });
 
   describe('a11y', () => {
