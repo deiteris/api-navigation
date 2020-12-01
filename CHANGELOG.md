@@ -1249,3 +1249,12 @@
 * [ci skip] automated merge master->stage. syncing main branches [5142829](https://github.com/advanced-rest-client/api-navigation/commit/5142829561297c2acd2f1acb360ecc15319596a7) by Ci agent
 
 
+<a name="4.2.2"></a>
+## [4.2.2](https://github.com/advanced-rest-client/api-navigation/compare/4.2.0...4.2.2) (2020-12-01)
+
+### Update
+
+* [ci skip] automated merge master->stage. syncing main branches [24e642c](https://github.com/advanced-rest-client/api-navigation/commit/24e642c2093e28b24aa361c98306ba280b1f9bfe) by Ci agent
+* [ci skip] automated merge master->stage. syncing main branches [fe5a1bf](https://github.com/advanced-rest-client/api-navigation/commit/fe5a1bfc83a4d73d4dbe05fb24e5a9dbe3e9ef8f) by Ci agent
+
+
