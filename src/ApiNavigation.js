@@ -993,7 +993,8 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
             target._basePaths[target._basePaths.length - 2];
           if (
             previousBasePathItem &&
-            previousBasePathItem.startsWith(currentPath)
+            (previousBasePathItem === currentPath ||
+              previousBasePathItem.startsWith(`${currentPath}/`))
           ) {
             indent++;
           }

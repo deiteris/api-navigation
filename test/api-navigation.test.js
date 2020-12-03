@@ -1020,6 +1020,30 @@ describe('<api-navigation>', () => {
         );
       });
     });
+
+    describe('APIC-554-ii', () => {
+      let amf;
+      let element;
+
+      before(async () => {
+        amf = await AmfLoader.load(item[1], 'APIC-554-ii');
+      });
+
+      beforeEach(async () => {
+        element = await modelFixture(amf);
+      });
+
+      it('should compute endpoint names correctly', () => {
+        const labels = [
+          '/customers/{customer}/chromeos/deviceId',
+          '/customer/{customer}/chromeos/deviceId',
+        ];
+        assert.deepEqual(
+          element._endpoints.map(e => e.label),
+          labels
+        );
+      });
+    });
   });
 
   describe('a11y', () => {

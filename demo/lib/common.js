@@ -96,6 +96,7 @@ export class NavDemoPage extends DemoPage {
       ['async-api', 'AsyncAPI'],
       ['unordered-endpoints', 'Unordered endpoints API'],
       ['APIC-554', 'APIC-554'],
+      ['APIC-554-ii', 'APIC-554-ii'],
     ].map(
       ([file, label]) => html`
         <anypoint-item data-src="${file}-compact.json"
