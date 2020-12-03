@@ -533,8 +533,8 @@ describe('<api-navigation>', () => {
     it('Computes short path', () => {
       const base = ['/root', '/root/other'];
       const current = '/root/other/path';
-      const parts = ['root', 'other'];
-      const indent = 2;
+      const parts = ['root', 'other', 'path'];
+      const indent = 3;
       const result = computePathName(current, parts, indent, base);
       assert.equal(result, '/path');
     });
@@ -993,6 +993,31 @@ describe('<api-navigation>', () => {
         element = await modelFixture(amf);
         await nextFrame();
         assert.lengthOf(element._endpoints, 1);
+      });
+    });
+
+    describe('APIC-554', () => {
+      let amf;
+      let element;
+
+      before(async () => {
+        amf = await AmfLoader.load(item[1], 'APIC-554');
+      });
+
+      beforeEach(async () => {
+        element = await modelFixture(amf);
+      });
+
+      it('should compute endpoint names correctly', () => {
+        const labels = [
+          '/customer/{customerId}/chromeos',
+          '/deviceId',
+          '/customerId',
+        ];
+        assert.deepEqual(
+          element._endpoints.map(e => e.label),
+          labels
+        );
       });
     });
   });
