@@ -112,7 +112,7 @@ function focusedItemChanged(focusedItem, old) {
  */
 export function computePathName(currentPath, parts, indent, basePaths) {
   let path = '';
-  for (let i = 0, len = parts.length; i < len; i++) {
+  for (let i = 0, len = parts.length - 1; i < len; i++) {
     path += `/${parts[i]}`;
     if (basePaths.indexOf(path) !== -1) {
       indent--;
