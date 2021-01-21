@@ -1,7 +1,7 @@
 {
   "name": "@api-components/api-navigation",
   "description": "An element to display the response body",
-  "version": "4.2.4",
+  "version": "4.2.5",
   "license": "Apache-2.0",
   "main": "api-navigation.js",
   "keywords": [

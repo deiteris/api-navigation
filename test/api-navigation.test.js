@@ -1044,6 +1044,27 @@ describe('<api-navigation>', () => {
         );
       });
     });
+
+    describe('SE-19215', () => {
+      let amf;
+      let element;
+
+      before(async () => {
+        amf = await AmfLoader.load(item[1], 'SE-19215');
+      });
+
+      beforeEach(async () => {
+        element = await modelFixture(amf);
+      });
+
+      it('should compute endpoint names correctly', () => {
+        const labels = ['/omaha/transactionscall1', '/transactions/call2'];
+        assert.deepEqual(
+          element._endpoints.map(e => e.label),
+          labels
+        );
+      });
+    });
   });
 
   describe('a11y', () => {

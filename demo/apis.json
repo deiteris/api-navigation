@@ -23,5 +23,6 @@
   "async-api/async-api.yaml": "ASYNC 2.0",
   "APIC-550/APIC-550.raml": "RAML 1.0",
   "APIC-554/APIC-554.raml": "RAML 1.0",
-  "APIC-554-ii/APIC-554-ii.raml": "RAML 1.0"
+  "APIC-554-ii/APIC-554-ii.raml": "RAML 1.0",
+  "SE-19215/SE-19215.raml": "RAML 1.0"
 }
