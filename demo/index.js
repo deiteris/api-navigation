@@ -8,6 +8,11 @@ export class DemoPage extends NavDemoPage {
     this.initObservableProperties([
       'summary', 'noink', 'allowPaths', 'rearrangeEndpoints',
     ]);
+    this.compatibility = false;
+    this.summary = false;
+    this.noink = false;
+    this.allowPaths = false;
+    this.rearrangeEndpoints = false;
   }
 
   _demoTemplate() {
@@ -16,7 +21,6 @@ export class DemoPage extends NavDemoPage {
       darkThemeActive,
       compatibility,
       amf,
-      narrow,
       summary,
       noink,
       allowPaths,
@@ -32,18 +36,17 @@ export class DemoPage extends NavDemoPage {
 
       <arc-interactive-demo
         .states="${demoStates}"
-        @state-chanegd="${this._demoStateHandler}"
+        @state-changed="${this._demoStateHandler}"
         ?dark="${darkThemeActive}"
       >
         <api-navigation
           .amf="${amf}"
           .query="${this.query}"
-          endpointsopened
+          endpointsOpened
           ?summary="${summary}"
           ?noink="${noink}"
           ?allowPaths="${allowPaths}"
           ?rearrangeEndpoints="${rearrangeEndpoints}"
-          ?narrow="${narrow}"
           ?compatibility="${compatibility}"
           slot="content"
         ></api-navigation>
@@ -103,7 +106,7 @@ export class DemoPage extends NavDemoPage {
     return html `
       <section class="documentation-section">
         <h2>Usage</h2>
-        <p>API navigation comes with 2 predefied styles:</p>
+        <p>API navigation comes with 2 predefined styles:</p>
         <ul>
           <li><b>Material Design</b> (default)</li>
           <li>
@@ -149,4 +152,3 @@ export class DemoPage extends NavDemoPage {
 }
 const instance = new DemoPage();
 instance.render();
-window._demo = instance;

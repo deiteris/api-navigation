@@ -1,3 +1,4 @@
+/* eslint-disable lit-a11y/click-events-have-key-events */
 import { LitElement, html } from 'lit-element';
 import { AmfHelperMixin } from '@api-components/amf-helper-mixin/amf-helper-mixin.js';
 import '@api-components/raml-aware/raml-aware.js';
@@ -19,53 +20,12 @@ import navStyles from './Styles.js';
 
 /** @typedef {import('@polymer/iron-collapse').IronCollapseElement} IronCollapseElement */
 /** @typedef {import('lit-element').TemplateResult} TemplateResult */
-
-/**
- * @typedef {Object} MethodItem
- * @property {string} label
- * @property {string} id
- * @property {string} method
- */
-
-/**
- * @typedef {Object} EndpointItem
- * @property {string} label
- * @property {string} id
- * @property {string} path
- * @property {boolean} renderPath
- * @property {number} indent
- * @property {MethodItem[]} methods
- */
-
-/**
- * @typedef {Object} SecurityItem
- * @property {string} label
- * @property {string} id
- */
-
-/**
- * @typedef {Object} TypeItem
- * @property {string} label
- * @property {string} id
- */
-
-/**
- * @typedef {Object} DocumentationItem
- * @property {string} label
- * @property {string} id
- * @property {boolean} isExternal
- * @property {string=} url
- */
-
-/**
- * @typedef {Object} TargetModel
- * @property {DocumentationItem[]=} documentation
- * @property {TypeItem[]=} types
- * @property {SecurityItem[]=} securitySchemes
- * @property {EndpointItem[]=} endpoints
- * @property {string[]=} _typeIds
- * @property {string[]=} _basePaths
- */
+/** @typedef {import('./types').MethodItem} MethodItem */
+/** @typedef {import('./types').EndpointItem} EndpointItem */
+/** @typedef {import('./types').SecurityItem} SecurityItem */
+/** @typedef {import('./types').TypeItem} TypeItem */
+/** @typedef {import('./types').DocumentationItem} DocumentationItem */
+/** @typedef {import('./types').TargetModel} TargetModel */
 
 /**
  * Maps authorization scheme name to a label
@@ -129,7 +89,7 @@ export function computePathName(currentPath, parts, indent, basePaths) {
  * Computes condition value to render path label.
  * @param {boolean} allowPaths Component configuration property.
  * @param {boolean} renderPath Endpoint property
- * @return {boolean} True if both arguments are trully.
+ * @return {boolean} True if both arguments are truly.
  */
 export function computeRenderPath(allowPaths, renderPath) {
   return !!(allowPaths && renderPath);
@@ -140,7 +100,7 @@ export function computeRenderPath(allowPaths, renderPath) {
  * A navigation for an API spec using AMF model.
  *
  * This element is to replace deprecated `raml-path-selector`.
- * It is lightweight and much less complex in comparision.
+ * It is lightweight and much less complex in comparison.
  *
  * The element works with [AMF](https://github.com/mulesoft/amf)
  * json/ld model. When the model is set it computes list of documentation
@@ -178,52 +138,6 @@ export function computeRenderPath(allowPaths, renderPath) {
  * This event, annotated with `passive: true` property in the detail object
  * prohibits other element from taking a navigation action but some
  * may reflect the change in the UI.
- *
- * ## Styling
- *
- * Custom property | Description | Default
- * ----------------|-------------|----------
- * `--api-navigation-header-color` | Color of section title | `rgba(0, 0, 0, 0.84)`
- * `--api-navigation-section-title-background-color` | Background color of the section title | `inherit`
- * `--api-navigation-list-item-min-height` | Minimum height of menu items. Note that each item has top and bottom padding set to 4px which cobines to default 48px. | `40px`
- * `--api-navigation-list-item-color` | Color of the menu items | `rgba(0, 0, 0, 0.84)`
- * `--api-navigation-list-item-selected-weight` | Font weight of selected menu item | `bold`
- * `--api-navigation-list-item-selected-background-color` | Background color of selected menu item | `--accent-color`
- * `--api-navigation-list-item-selected-color` | Color of selected menu item | `#fff`
- * `--api-navigation-list-item-disabled-color` | Color of disabled menu item. Currently not in use. | `--disabled-text-color`
- * `--api-navigation-list-item-word-break` | Word break of menu item. | `break-all`
- * `--api-navigation-toggle-icon-color` | Color of the toggle button next to section title | `rgba(0, 0, 0, 0.74)`
- * `--api-navigation-toggle-icon-hover-color` | Color of the toggle button next to section title when hovering. | `--secondary-button-color` or `rgba(0, 0, 0, 0.88)`
- * `--api-navigation-endpoint-toggle-icon-color` | Colot of endpoint toggle button | `--api-navigation-toggle-icon-color` or `rgba(0, 0, 0, 0.74)`
- * `--method-display-get-color` | Font color of the GET method label box | `rgb(0, 128, 0)`
- * `--method-display-post-color` | Font color of the POST method label box | `rgb(33, 150, 243)`
- * `--method-display-put-color` | Font color of the PUT method label box | `rgb(255, 165, 0)`
- * `--method-display-delete-color` | Font color of the DELETE method label box | `rgb(244, 67, 54)`
- * `--method-display-patch-color` | Font color of the PATCH method label box | `rgb(156, 39, 176)`
- * `--api-navigation-operation-item-padding-left` | Padding left of operation (method) label under endpoint | `20px`
- * `--api-navigation-operation-collapse` | Mixin applied to operation list collapsable element | ``
- * `--api-navigation-list-section-font-size` | Font size of toggable section label | `16px`
- * `--api-navigation-endpoint-font-size` | Font size applied to endpoint label | `15px`
- * `--api-navigation-operation-font-size` | Font size of operation (HTTP method) label | `14px`
- * `--api-navigation-list-item-padding` | Padding of list a item | `4px 16px`
- * `--api-navigation-method-label-color` | Color of the HTTP method label | `#000`
- * `--api-navigation-method-label-background-color` | Background color of the HTTP method label | `transparent`
- * `--method-display-font-weigth` | Font weight of HTTP label | `400`
- * `--method-label-VERB-background-color` | Background color of HTTP method label. Possible verbs are: `get`, `post`, `put`, `delete`, `patch` | `vary`
- * `--method-label-VERB-color` | Color of HTTP method label. Possible verbs are: `get`, `post`, `put`, `delete`, `patch` | `vary`
- * `--api-navigation-operation-endpoint-opened-background-color` | Background color of opened methods list | `inherit`
- * `--api-navigation-path-label-font-size` | Path label font size | `13px`
- * `--api-navigation-path-label-color` | Path label font color | `#616161`
- * `--api-navigation-endpoint-toggle-icon-width` | | `32px`
- * `--api-navigation-endpoint-toggle-icon-height` | | `32px`
- * `--api-navigation-endpoint-toggle-icon-margin-right` | | ``
- * `--api-navigation-background-color` | Navigation element background color | `inherit`
- * `--api-navigation-color` | Navigation element color | `inherit`
- * `--arc-font-body1-font-size` | | `inherit`
- * `--arc-font-body1-font-weight` | | `inherit`
- * `--arc-font-body1-line-height` | | `inherit`
- *
- * @demo demo/index.html
  */
 export class ApiNavigation extends AmfHelperMixin(LitElement) {
   static get properties() {
@@ -307,7 +221,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
        * In pixels.
        *
        * The attribute name for this property is `indent-size`. Note, that this
-       * will change to web consistant name `indentsize` in the future.
+       * will change to web consistent name `indentSize` in the future.
        */
       indentSize: { type: Number, reflect: true, attribute: 'indent-size' },
       /**
@@ -490,7 +404,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   }
 
   /**
-   * Ensures aria role atribute is in place.
+   * Ensures aria role attribute is in place.
    * Attaches element's listeners.
    */
   connectedCallback() {
@@ -502,9 +416,11 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       // @ts-ignore
       window.ShadyCSS.styleElement(this);
     }
-    if (!this.getAttribute('role')) {
-      this.setAttribute('role', 'menubar');
-    }
+    // Pawel: This role requires children to be present in the DOM, but in this case none is rendered
+    // in the light DOM but rather in the shadow DOM. Therefore the element cannot have this role.
+    // if (!this.getAttribute('role')) {
+    //   this.setAttribute('role', 'menubar');
+    // }
     if (!this.getAttribute('aria-label')) {
       this.setAttribute('aria-label', 'API structure');
     }
@@ -719,16 +635,16 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (!data) {
       return;
     }
-    const ekey = this._getAmfKey(this.ns.aml.vocabularies.apiContract.endpoint);
-    let endpoint = this._ensureArray(data[ekey]);
+    const eKey = this._getAmfKey(this.ns.aml.vocabularies.apiContract.endpoint);
+    let endpoint = this._ensureArray(data[eKey]);
     if (this.rearrangeEndpoints) {
       endpoint = this._rearrangeEndpoints(endpoint);
     }
     if (endpoint) {
       endpoint.forEach(item => this._appendModelItem(item, target));
     }
-    const dkey = this._getAmfKey(this.ns.aml.vocabularies.core.documentation);
-    const documentation = this._ensureArray(data[dkey]);
+    const dKey = this._getAmfKey(this.ns.aml.vocabularies.core.documentation);
+    const documentation = this._ensureArray(data[dKey]);
     if (documentation) {
       documentation.forEach(item => this._appendModelItem(item, target));
     }
@@ -965,7 +881,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
    * Appends "endpoint" item to the results.
    * This also iterates over methods to extract method data.
    *
-   * @param {Object} item Endpoint item declaration
+   * @param {any} item Endpoint item declaration
    * @param {TargetModel} target
    */
   _appendEndpointItem(item, target) {
@@ -1017,7 +933,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       result.renderPath = true;
     }
     const id = item['@id'];
-    const key = this._getAmfKey(this.ns.w3.hydra.supportedOperation);
+    const key = this._getAmfKey(this.ns.aml.vocabularies.apiContract.supportedOperation);
     const operations = this._ensureArray(item[key]) || [];
     const methods = operations.map(op => this._createOperationModel(op));
     result.label = String(name);
@@ -1028,9 +944,9 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   }
 
   /**
-   * Creates the view model for an opration.
+   * Creates the view model for an optation.
    *
-   * @param {Object} item Operation AMF model
+   * @param {any} item Operation AMF model
    * @return {MethodItem} Method view model
    */
   _createOperationModel(item) {
@@ -1078,14 +994,14 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   }
 
   /**
-   * Selectes new item in the menu.
+   * Selects new item in the menu.
    *
    * @param {HTMLElement} node
    */
   _selectItem(node) {
     const id = node.dataset.apiId;
     const { shape } = node.dataset;
-    this.selectedType = undefined; // cancels event fireing
+    this.selectedType = undefined; // cancels event firing
     this.selected = id;
     this.selectedType = shape; // now fire event
     this._selectedItem = node;
@@ -1211,11 +1127,11 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   }
 
   /**
-   * Label and method check agains `query` function called by `dom-repeat`
+   * Label and method check against `query` function called by `dom-repeat`
    * element. This method uses `__effectiveQuery` property set by
    * `_flushQuery()` method.
    *
-   * @param {MethodItem} item Model item with `lable` property.
+   * @param {MethodItem} item Model item with `label` property.
    * @return {boolean}
    */
   _methodFilter(item) {
@@ -1244,7 +1160,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   }
 
   /**
-   * Calles `render()` function on each data repeater that have filterable
+   * Calls `render()` function on each data repeater that have filterable
    * items.
    * It set's `__effectiveQuery` property on the element that is beyond
    * Polymer's data binding system so it skips 2 function calls each time
@@ -1299,14 +1215,14 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
    * @param {MouseEvent} e
    */
   _itemClickHandler(e) {
-    const etarget = /** @type HTMLElement */ (e.target);
+    const eTarget = /** @type HTMLElement */ (e.target);
     let target;
     if (e.currentTarget) {
       target = /** @type HTMLElement */ (e.currentTarget);
-    } else if (etarget.classList.contains('method-label')) {
-      target = /** @type HTMLElement */ (etarget.parentNode);
+    } else if (eTarget.classList.contains('method-label')) {
+      target = /** @type HTMLElement */ (eTarget.parentNode);
     } else {
-      target = etarget;
+      target = eTarget;
     }
     this._selectItem(target);
   }
@@ -1422,7 +1338,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   }
 
   /**
-   * Computes operation list item left padding from CSS veriables.
+   * Computes operation list item left padding from CSS variables.
    * @return {Number}
    */
   _computeOperationPaddingLeft() {
@@ -1448,7 +1364,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   }
 
   /**
-   * Computes endpoint list item left padding from CSS veriables.
+   * Computes endpoint list item left padding from CSS variables.
    * @return {Number}
    */
   _computeEndpointPaddingLeft() {
@@ -1506,8 +1422,8 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
    * Returns filtered list of items to render in the menu list.
    * When `query` is set it tests `label` property of each item if it contains
    * the query. Otherwise it returns all items.
-   * @param {String} prop Name of the source property keeping array values to render.
-   * @return {Array<TypeItem|DocumentationItem|SecurityItem|EndpointItem>|undefined}
+   * @param {string} prop Name of the source property keeping array values to render.
+   * @returns {Array<TypeItem|DocumentationItem|SecurityItem|EndpointItem>|undefined}
    */
   _getFilteredType(prop) {
     const value = this[prop];
@@ -1529,8 +1445,8 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   /**
    * Returns a list of endpoints to render.
    * When `query` is set it returns filtered list of endpoints for given query.
-   * Othewise it returns all endpoints.
-   * @return {EndpointItem[]|undefined} Filtered list of endpoints
+   * Otherwise it returns all endpoints.
+   * @returns {EndpointItem[]|undefined} Filtered list of endpoints
    */
   _getFilteredEndpoints() {
     const value = this._endpoints;
@@ -1553,7 +1469,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         result[result.length] = endpoint;
         continue;
       }
-      // otherwise check all methods and only include matched mathods. If none match
+      // otherwise check all methods and only include matched methods. If none match
       // then do not include endpoint.
       const eMethods = endpoint.methods;
       if (!eMethods || !eMethods.length) {
@@ -1803,7 +1719,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   }
 
   /**
-   * A handler for the spacebar key down.
+   * A handler for the space bar key down.
    * @param {KeyboardEvent} e
    */
   _onSpace(e) {
@@ -2234,6 +2150,6 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
    * Summary is a special case not included in AMF model but means that the
    * user requested API summary view (start screen).
    * @param {Boolean} passive If true then the event wasn't caused by user
-   * intentional interaction and regular navigation action should not occurr.
+   * intentional interaction and regular navigation action should not occur.
    */
 }

@@ -1,55 +1,7 @@
 import {LitElement, TemplateResult, CSSResult} from 'lit-element';
+import {AmfHelperMixin} from '@api-components/amf-helper-mixin';
+import { MethodItem, EndpointItem, SecurityItem, TypeItem, DocumentationItem, TargetModel } from './types';
 
-import {AmfHelperMixin} from '@api-components/amf-helper-mixin/amf-helper-mixin.js';
-
-declare interface ModelItem {
-  /**
-   * A label to render in the menu list item
-   */
-  label: string;
-  /**
-   * The AMF `@id` associated with the label.
-   */
-  id: string;
-}
-
-declare interface MethodItem extends ModelItem {
-  method: string;
-}
-
-declare interface EndpointItem extends ModelItem {
-  indent: number;
-  methods: MethodItem[];
-  renderPath: boolean;
-  path: string;
-}
-
-declare interface SecurityItem extends ModelItem {
-}
-
-declare interface TypeItem extends ModelItem {
-}
-
-declare interface DocumentationItem extends ModelItem {
-  /**
-   * When set the documentation item refers to an external document
-   */
-  isExternal: boolean;
-  /**
-   * Only set when `isExternal` equals `true`.
-   * An URL for the external documentation.
-   */
-  url?: string;
-}
-
-declare interface TargetModel {
-  documentation?: DocumentationItem[];
-  types?: TypeItem[];
-  securitySchemes?: SecurityItem[];
-  endpoints?: EndpointItem[];
-  _typeIds?: string[];
-  _basePaths?: string[];
-}
 
 /**
  * Computes label for an endpoint when name is missing and the endpoint
@@ -78,11 +30,11 @@ export declare function computeRenderPath(allowPaths: boolean, renderPath: boole
  * A navigation for an API spec using AMF model.
  *
  * This element is to replace deprecated `raml-path-selector`.
- * It is lightweight and much less complex in comparision.
+ * It is lightweight and much less complex in comparison.
  *
  * The element works with [AMF](https://github.com/mulesoft/amf)
  * json/ld model. When the model is set it computes list of documentation
- * nodes, types, endpoints, mathods and security schemas.
+ * nodes, types, endpoints, methods and security schemas.
  * As a result user can select any of the items in the UI and the application
  * is informed about user choice via custom event.
  *
@@ -99,15 +51,15 @@ export declare function computeRenderPath(allowPaths: boolean, renderPath: boole
  * <api-navigation aware="api-console"></api-navigation>
  * ```
  *
- * Once the `raml-aware` element receives some that they are instantly
- * transfered to `api-navigation`.
+ * Once the `raml-aware` element receives some data it's instantly
+ * transferred to `api-navigation`.
  *
  * Note, this element does not contain polyfills for Array platform features.
  * Use `arc-polyfills` to add support for IE and Safari 9.
  *
  * ## Passive navigation
  *
- * Passive navigation means that a navigation event occured but it wasn't
+ * Passive navigation means that a navigation event occurred but it wasn't
  * invoked by intentional user interaction. For example
  * `api-endpoint-documentation` component renders list of documentations for
  * HTTP methods. While scrolling through the list navigation context
@@ -116,66 +68,29 @@ export declare function computeRenderPath(allowPaths: boolean, renderPath: boole
  * This event, annotated with `passive: true` property in the detail object
  * prohibits other element from taking a navigation action but some
  * may reflect the change in the UI.
- *
- * ## Styling
- *
- * Custom property | Description | Default
- * ----------------|-------------|----------
- * `--api-navigation-header-color` | Color of section title | `rgba(0, 0, 0, 0.84)`
- * `--api-navigation-section-title-background-color` | Background color of the section title | `inherit`
- * `--api-navigation-list-item-min-height` | Minimum heigtht of menu items. Note that each item has top and bottom padding set to 4px which cobines to default 48px. | `40px`
- * `--api-navigation-list-item-color` | Color of the menu items | `rgba(0, 0, 0, 0.84)`
- * `--api-navigation-list-item-selected-weight` | Font weight of selected menu item | `bold`
- * `--api-navigation-list-item-selected-background-color` | Background color of selected menu item | `--accent-color`
- * `--api-navigation-list-item-selected-color` | Color of selected menu item | `#fff`
- * `--api-navigation-list-item-disabled-color` | Color of disabled menu item. Currently not in use. | `--disabled-text-color`
- * `--api-navigation-list-item-word-break` | Word break of menu item. | `break-all`
- * `--api-navigation-toggle-icon-color` | Color of the toggle button next to section title | `rgba(0, 0, 0, 0.74)`
- * `--api-navigation-toggle-icon-hover-color` | Color of the toggle button next to section title when hovering. | `--secondary-button-color` or `rgba(0, 0, 0, 0.88)`
- * `--api-navigation-endpoint-toggle-icon-color` | Colot of endpoint toggle button | `--api-navigation-toggle-icon-color` or `rgba(0, 0, 0, 0.74)`
- * `--method-display-get-color` | Font color of the GET method label box | `rgb(0, 128, 0)`
- * `--method-display-post-color` | Font color of the POST method label box | `rgb(33, 150, 243)`
- * `--method-display-put-color` | Font color of the PUT method label box | `rgb(255, 165, 0)`
- * `--method-display-delete-color` | Font color of the DELETE method label box | `rgb(244, 67, 54)`
- * `--method-display-patch-color` | Font color of the PATCH method label box | `rgb(156, 39, 176)`
- * `--api-navigation-operation-item-padding-left` | Padding left of operation (method) label under endpoint | `20px`
- * `--api-navigation-operation-collapse` | Mixin applied to operation list collapsable element | ``
- * `--api-navigation-list-section-font-size` | Font size of toggable section label | `16px`
- * `--api-navigation-endpoint-font-size` | Font size applied to endpoint label | `15px`
- * `--api-navigation-operation-font-size` | Font size of operation (HTTP method) label | `14px`
- * `--api-navigation-list-item-padding` | Padding of list a item | `4px 16px`
- * `--api-navigation-method-label-color` | Color of the HTTP method label | `#000`
- * `--api-navigation-method-label-background-color` | Background color of the HTTP method label | `transparent`
- * `--method-display-font-weigth` | Font weight of HTTP label | `400`
- * `--method-label-VERB-background-color` | Background color of HTTP method label. Possible verbs are: `get`, `post`, `put`, `delete`, `patch` | `vary`
- * `--method-label-VERB-color` | Color of HTTP method label. Possible verbs are: `get`, `post`, `put`, `delete`, `patch` | `vary`
- * `--api-navigation-operation-endpoint-opened-background-color` | Background color of opened methods list | `inherit`
- * `--api-navigation-path-label-font-size` | Path label font size | `13px`
- * `--api-navigation-path-label-color` | Path label font color | `#616161`
- * `--api-navigation-endpoint-toggle-icon-width` | | `32px`
- * `--api-navigation-endpoint-toggle-icon-height` | | `32px`
- * `--api-navigation-endpoint-toggle-icon-margin-right` | | ``
- * `--api-navigation-background-color` | Navigation element background color | `inherit`
- * `--api-navigation-color` | Navigation element color | `inherit`
- * `--arc-font-body1-font-size` | | `inherit`
- * `--arc-font-body1-font-weight` | | `inherit`
- * `--arc-font-body1-line-height` | | `inherit`
+ * 
+ * @fires selected-changed
+ * @fires selectedtype-changed
+ * @fires api-navigation-selection-changed
  */
 export declare class ApiNavigation {
   readonly styles: CSSResult[];
 
   /**
    * `raml-aware` scope property to use.
+   * @deprecated
+   * @attribute
    */
-  aware: string|undefined;
+  aware: string;
 
   /**
    * A model `@id` of selected documentation part.
    * Special case is for `summary` view. It's not part of an API
    * but most applications has some kins of summary view for the
    * API.
+   * @attribute
    */
-  selected: string|undefined;
+  selected: string;
 
   /**
    * Type of the selected item.
@@ -183,64 +98,72 @@ export declare class ApiNavigation {
    * or `summary`.
    *
    * This property is set after `selected` property.
+   * @attribute
    */
-  selectedType: string|undefined;
+  selectedType: string;
 
   /**
    * If set it renders `API summary` menu option.
    * It will allow to set `selected` and `selectedType` to `summary`
    * when this option is set.
+   * @attribute
    */
   summary: boolean;
 
   /**
    * A label for the `summary` section.
    * @default "Summary"
+   * @attribute
    */
   summaryLabel: string;
 
   /**
    * Computed list of documentation items in the API.
    */
-  _docs: DocumentationItem[]|undefined;
+  _docs: DocumentationItem[];
 
   /**
    * Determines and changes state of documentation panel.
+   * @attribute
    */
-  docsOpened: boolean|null|undefined;
+  docsOpened: boolean;
 
   /**
    * Computed list of "type" items in the API.
    */
-  _types: TypeItem[]|undefined;
+  _types: TypeItem[];
 
   /**
    * Determines and changes state of types panel.
+   * @attribute
    */
-  typesOpened: boolean|null|undefined;
+  typesOpened: boolean;
 
   /**
    * Computed list of Security schemes items in the API.
    */
-  _security: SecurityItem[]|undefined;
+  _security: SecurityItem[];
 
   /**
    * Determines and changes state of security panel.
+   * @attribute
    */
-  securityOpened: boolean|undefined;
+  securityOpened: boolean;
 
   /**
    * Computed list of endpoint items in the API.
    */
-  _endpoints: EndpointItem[]|undefined;
+  _endpoints: EndpointItem[];
 
   /**
    * Determines and changes state of endpoints panel.
+   * @attribute
    */
-  endpointsOpened: boolean|undefined;
+  endpointsOpened: boolean;
 
   /**
    * If true, the element will not produce a ripple effect when interacted with via the pointer.
+   * @attribute
    */
   noink: boolean;
 
@@ -250,28 +173,31 @@ export declare class ApiNavigation {
    *
    * This is not currently exposed in element's UI due
    * to complexity of search and performance.
+   * @attribute
    */
-  query: string|undefined;
+  query: string;
 
   /**
    * Size of endpoint indentation for nested resources.
    * In pixels.
    *
    * The attribute name for this property is `indent-size`. Note, that this
-   * will change to web consistant name `indentsize` in the future.
+   * will change to web consistent name `indentSize` in the future.
+   * @attribute
    */
-  indentSize: number|null|undefined;
+  indentSize: number;
 
   /**
    * Flag set when passed AMF model is a RAML fragment.
    */
-  _isFragment: boolean|null|undefined;
+  _isFragment: boolean;
 
   /**
    * When set it renders full path below endpoint name if the endpoint has
    * a name (different than the path).
    * This is not always recommended to use this option as some complex APIs
    * may render this component difficult to understand.
+   * @attribute
    */
   allowPaths: boolean;
 
@@ -279,51 +205,53 @@ export declare class ApiNavigation {
    * If this value is set, then the navigation component will sort the list
    * of endpoints based on the `path` value of the endpoint, keeping the order
    * of which endpoint was first in the list, relative to each other
+   * @attribute
    */
   rearrangeEndpoints: boolean;
 
   /**
    * Enables compatibility with Anypoint components.
+   * @attribute
    */
   compatibility: boolean;
 
   /**
    * true when `_docs` property is set with values
    */
-  readonly hasDocs: boolean;
+  get hasDocs(): boolean;
 
   /**
    * true when `_types` property is set with values
    */
-  readonly hasTypes: boolean;
+  get hasTypes(): boolean;
 
   /**
    * true when `_security` property is set with values
    */
-  readonly hasSecurity: boolean;
+  get hasSecurity(): boolean;
 
   /**
    * true when `_endpoints` property is set with values
    */
-  readonly hasEndpoints: boolean;
+  get hasEndpoints(): boolean;
   /**
    * True when summary should be rendered.
    * Summary should be rendered only when `summary` is set and
    * current model is not a RAML fragment.
    */
-  readonly _renderSummary: boolean;
+  get _renderSummary(): boolean;
 
   /**
    * The currently selected item.
    */
-  readonly selectedItem: HTMLElement|null;
+  get selectedItem(): HTMLElement;
   /**
    * The currently focused item.
    */
-  readonly focusedItem: HTMLElement|null;
+  get focusedItem(): HTMLElement;
 
   /**
-   * Ensures aria role atribute is in place.
+   * Ensures aria role attribute is in place.
    * Attaches element's listeners.
    */
   connectedCallback(): void;
@@ -436,7 +364,7 @@ export declare class ApiNavigation {
   _appendEndpointItem(item: object, target: TargetModel): void;
 
   /**
-   * Creates the view model for an opration.
+   * Creates the view model for an operation.
    *
    * @param item Operation AMF model
    * @returns Method view model
@@ -451,7 +379,7 @@ export declare class ApiNavigation {
   _toggleSection(node: HTMLElement): void;
 
   /**
-   * Selectes new item in the menu.
+   * Selects new item in the menu.
    */
   _selectItem(node: HTMLElement): void;
 
@@ -481,14 +409,14 @@ export declare class ApiNavigation {
    *
    * @param current New selection
    */
-  _selectedChangd(current: string): void;
+  _selectedChanged(current: string): void;
 
   /**
-   * Label and method check agains `query` function called by `dom-repeat`
+   * Label and method check against `query` function called by `dom-repeat`
    * element. This method uses `__effectiveQuery` property set by
    * `_flushQuery()` method.
    *
-   * @param item Model item with `lable` property.
+   * @param item Model item with `label` property.
    */
   _methodFilter(item: MethodItem): boolean;
 
@@ -499,7 +427,7 @@ export declare class ApiNavigation {
   _queryChanged(): void;
 
   /**
-   * Calles `render()` function on each data repeater that have filterable
+   * Calls `render()` function on each data repeater that have filterable
    * items.
    * It set's `__effectiveQuery` property on the element that is beyond
    * Polymer's data binding system so it skips 2 function calls each time
@@ -515,7 +443,7 @@ export declare class ApiNavigation {
    * @param selected Selected id
    * @param selectedType Type of AMF shape
    */
-  _selectionChnaged(selected: string, selectedType: string): void;
+  _selectionChanged(selected: string, selectedType: string): void;
 
   /**
    * Navigation item click handler.
@@ -552,12 +480,12 @@ export declare class ApiNavigation {
   _computeMethodPadding(factor: Number, size: Number): string;
 
   /**
-   * Computes operation list item left padding from CSS veriables.
+   * Computes operation list item left padding from CSS variables.
    */
   _computeOperationPaddingLeft(): Number;
 
   /**
-   * Computes endpoint list item left padding from CSS veriables.
+   * Computes endpoint list item left padding from CSS variables.
    */
   _computeEndpointPaddingLeft(): Number;
 
@@ -578,7 +506,7 @@ export declare class ApiNavigation {
   /**
    * Returns a list of endpoints to render.
    * When `query` is set it returns filtered list of endpoints for given query.
-   * Othewise it returns all endpoints.
+   * Otherwise it returns all endpoints.
    *
    * @returns Filtered list of endpoints
    */
@@ -650,7 +578,7 @@ export declare class ApiNavigation {
   _onEscKey(): void;
 
   /**
-   * A handler for the spacebar key down.
+   * A handler for the space bar key down.
    */
   _onSpace(e: KeyboardEvent): void;
 

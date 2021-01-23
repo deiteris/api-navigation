@@ -1,0 +1,238 @@
+{
+  "version": "experimental",
+  "tags": [
+    {
+      "name": "api-navigation",
+      "path": "./api-navigation.js",
+      "description": "`api-navigation`\nA navigation for an API spec using AMF model.\n\nThis element is to replace deprecated `raml-path-selector`.\nIt is lightweight and much less complex in comparison.\n\nThe element works with [AMF](https://github.com/mulesoft/amf)\njson/ld model. When the model is set it computes list of documentation\nnodes, types, endpoints, methods and security schemas.\nAs a result user can select any of the items in the UI and the application\nis informed about user choice via custom event.\n\nThe selection is a selected API shape `@id`. The application is responsible\nfor computing the model selected by the user.\n\nAMF model can be passed directly by setting `amf` property or by\nsetting `aware` property and by use `raml-aware` element. It allows\nto communicate AMF data without having access to the element due to\nshadow DOM restrictions.\n\n```html\n<raml-aware scope=\"api-console\"></raml-aware>\n<api-navigation aware=\"api-console\"></api-navigation>\n```\n\nOnce the `raml-aware` element receives some data it's instantly\ntransferred to `api-navigation`.\n\nNote, this element does not contain polyfills for Array platform features.\nUse `arc-polyfills` to add support for IE and Safari 9.\n\n## Passive navigation\n\nPassive navigation means that a navigation event occurred but it wasn't\ninvoked by intentional user interaction. For example\n`api-endpoint-documentation` component renders list of documentations for\nHTTP methods. While scrolling through the list navigation context\nchanges (user reads documentation of a method) but the navigation never\nwas caused by user intentional interaction.\nThis event, annotated with `passive: true` property in the detail object\nprohibits other element from taking a navigation action but some\nmay reflect the change in the UI.",
+      "attributes": [
+        {
+          "name": "aware",
+          "description": "`raml-aware` scope property to use.",
+          "type": "string",
+          "deprecated": true
+        },
+        {
+          "name": "selected",
+          "description": "A model `@id` of selected documentation part.\nSpecial case is for `summary` view. It's not part of an API\nbut most applications has some kins of summary view for the\nAPI.",
+          "type": "string"
+        },
+        {
+          "name": "selectedType",
+          "description": "Type of the selected item.\nOne of `documentation`, `type`, `security`, `endpoint`, `method`\nor `summary`.\n\nThis property is set after `selected` property.",
+          "type": "string"
+        },
+        {
+          "name": "summary",
+          "description": "If set it renders `API summary` menu option.\nIt will allow to set `selected` and `selectedType` to `summary`\nwhen this option is set.",
+          "type": "boolean"
+        },
+        {
+          "name": "summaryLabel",
+          "description": "A label for the `summary` section.",
+          "type": "string",
+          "default": "\"\\\"Summary\\\"\""
+        },
+        {
+          "name": "docsOpened",
+          "description": "Determines and changes state of documentation panel.",
+          "type": "boolean"
+        },
+        {
+          "name": "typesOpened",
+          "description": "Determines and changes state of types panel.",
+          "type": "boolean"
+        },
+        {
+          "name": "securityOpened",
+          "description": "Determines and changes state of security panel.",
+          "type": "boolean"
+        },
+        {
+          "name": "endpointsOpened",
+          "description": "Determines and changes state of endpoints panel.",
+          "type": "boolean"
+        },
+        {
+          "name": "noink",
+          "description": "If true, the element will not produce a ripple effect when interacted with via the pointer.",
+          "type": "boolean"
+        },
+        {
+          "name": "query",
+          "description": "Filters list elements by this value when set.\nClear the value to reset the search.\n\nThis is not currently exposed in element's UI due\nto complexity of search and performance.",
+          "type": "string"
+        },
+        {
+          "name": "indentSize",
+          "description": "Size of endpoint indentation for nested resources.\nIn pixels.\n\nThe attribute name for this property is `indent-size`. Note, that this\nwill change to web consistent name `indentSize` in the future.",
+          "type": "number"
+        },
+        {
+          "name": "allowPaths",
+          "description": "When set it renders full path below endpoint name if the endpoint has\na name (different than the path).\nThis is not always recommended to use this option as some complex APIs\nmay render this component difficult to understand.",
+          "type": "boolean"
+        },
+        {
+          "name": "rearrangeEndpoints",
+          "description": "If this value is set, then the navigation component will sort the list\nof endpoints based on the `path` value of the endpoint, keeping the order\nof which endpoint was first in the list, relative to each other",
+          "type": "boolean"
+        },
+        {
+          "name": "compatibility",
+          "description": "Enables compatibility with Anypoint components.",
+          "type": "boolean"
+        }
+      ],
+      "properties": [
+        {
+          "name": "styles",
+          "type": "CSSResult[]"
+        },
+        {
+          "name": "aware",
+          "attribute": "aware",
+          "description": "`raml-aware` scope property to use.",
+          "type": "string",
+          "deprecated": true
+        },
+        {
+          "name": "selected",
+          "attribute": "selected",
+          "description": "A model `@id` of selected documentation part.\nSpecial case is for `summary` view. It's not part of an API\nbut most applications has some kins of summary view for the\nAPI.",
+          "type": "string"
+        },
+        {
+          "name": "selectedType",
+          "attribute": "selectedType",
+          "description": "Type of the selected item.\nOne of `documentation`, `type`, `security`, `endpoint`, `method`\nor `summary`.\n\nThis property is set after `selected` property.",
+          "type": "string"
+        },
+        {
+          "name": "summary",
+          "attribute": "summary",
+          "description": "If set it renders `API summary` menu option.\nIt will allow to set `selected` and `selectedType` to `summary`\nwhen this option is set.",
+          "type": "boolean"
+        },
+        {
+          "name": "summaryLabel",
+          "attribute": "summaryLabel",
+          "description": "A label for the `summary` section.",
+          "type": "string",
+          "default": "\"\\\"Summary\\\"\""
+        },
+        {
+          "name": "docsOpened",
+          "attribute": "docsOpened",
+          "description": "Determines and changes state of documentation panel.",
+          "type": "boolean"
+        },
+        {
+          "name": "typesOpened",
+          "attribute": "typesOpened",
+          "description": "Determines and changes state of types panel.",
+          "type": "boolean"
+        },
+        {
+          "name": "securityOpened",
+          "attribute": "securityOpened",
+          "description": "Determines and changes state of security panel.",
+          "type": "boolean"
+        },
+        {
+          "name": "endpointsOpened",
+          "attribute": "endpointsOpened",
+          "description": "Determines and changes state of endpoints panel.",
+          "type": "boolean"
+        },
+        {
+          "name": "noink",
+          "attribute": "noink",
+          "description": "If true, the element will not produce a ripple effect when interacted with via the pointer.",
+          "type": "boolean"
+        },
+        {
+          "name": "query",
+          "attribute": "query",
+          "description": "Filters list elements by this value when set.\nClear the value to reset the search.\n\nThis is not currently exposed in element's UI due\nto complexity of search and performance.",
+          "type": "string"
+        },
+        {
+          "name": "indentSize",
+          "attribute": "indentSize",
+          "description": "Size of endpoint indentation for nested resources.\nIn pixels.\n\nThe attribute name for this property is `indent-size`. Note, that this\nwill change to web consistent name `indentSize` in the future.",
+          "type": "number"
+        },
+        {
+          "name": "allowPaths",
+          "attribute": "allowPaths",
+          "description": "When set it renders full path below endpoint name if the endpoint has\na name (different than the path).\nThis is not always recommended to use this option as some complex APIs\nmay render this component difficult to understand.",
+          "type": "boolean"
+        },
+        {
+          "name": "rearrangeEndpoints",
+          "attribute": "rearrangeEndpoints",
+          "description": "If this value is set, then the navigation component will sort the list\nof endpoints based on the `path` value of the endpoint, keeping the order\nof which endpoint was first in the list, relative to each other",
+          "type": "boolean"
+        },
+        {
+          "name": "compatibility",
+          "attribute": "compatibility",
+          "description": "Enables compatibility with Anypoint components.",
+          "type": "boolean"
+        },
+        {
+          "name": "hasDocs",
+          "description": "true when `_docs` property is set with values",
+          "type": "boolean"
+        },
+        {
+          "name": "hasTypes",
+          "description": "true when `_types` property is set with values",
+          "type": "boolean"
+        },
+        {
+          "name": "hasSecurity",
+          "description": "true when `_security` property is set with values",
+          "type": "boolean"
+        },
+        {
+          "name": "hasEndpoints",
+          "description": "true when `_endpoints` property is set with values",
+          "type": "boolean"
+        },
+        {
+          "name": "selectedItem",
+          "description": "The currently selected item.",
+          "type": "HTMLElement"
+        },
+        {
+          "name": "focusedItem",
+          "description": "The currently focused item.",
+          "type": "HTMLElement"
+        },
+        {
+          "name": "ns",
+          "description": "A namespace for AMF model.",
+          "type": "Namespace"
+        },
+        {
+          "name": "amf",
+          "description": "Generated AMF json/ld model form the API spec.\nThe element assumes the object of the first array item to be a\ntype of `\"http://raml.org/vocabularies/document#Document`\non AMF vocabulary.\n\nIt is only useful for the element to resolve references.",
+          "type": "object | object[] | undefined"
+        }
+      ],
+      "events": [
+        {
+          "name": "selected-changed"
+        },
+        {
+          "name": "selectedtype-changed"
+        },
+        {
+          "name": "api-navigation-selection-changed"
+        }
+      ]
+    }
+  ]
+}

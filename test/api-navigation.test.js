@@ -8,70 +8,99 @@ import { computePathName, computeRenderPath } from '../src/ApiNavigation.js';
 
 /* eslint-disable no-plusplus */
 
+/** @typedef {import('../').ApiNavigation} ApiNavigation */
+
 describe('<api-navigation>', () => {
   const asyncApi = 'async-api';
   const unorderedEndpoints = 'unordered-endpoints';
 
+  /**
+   * @returns {Promise<ApiNavigation>}
+   */
   async function basicFixture() {
-    return fixture(`<api-navigation></api-navigation>`);
+    return fixture(html`<api-navigation></api-navigation>`);
   }
 
+  /**
+   * @returns {Promise<ApiNavigation>}
+   */
   async function summaryFixture() {
-    return fixture(`<api-navigation summary></api-navigation>`);
+    return fixture(html`<api-navigation summary></api-navigation>`);
   }
 
+  /**
+   * @returns {Promise<ApiNavigation>}
+   */
   async function preselectedFixture() {
     return fixture(
-      `<api-navigation summary selected="test1"></api-navigation>`
+      html`<api-navigation summary selected="test1"></api-navigation>`
     );
   }
 
+  /**
+   * @returns {Promise<ApiNavigation>}
+   */
   async function arrangedFixture() {
     return fixture(
-      `<api-navigation rearrangeendpoints="true"></api-navigation>`
+      html`<api-navigation rearrangeEndpoints></api-navigation>`
     );
   }
 
+  /**
+   * @returns {Promise<ApiNavigation>}
+   */
   async function endpointsOpenedFixture(amf) {
-    const elm = await fixture(html`<api-navigation
+    const elm = /** @type ApiNavigation */ (await fixture(html`<api-navigation
       endpointsOpened
       .amf="${amf}"
-    ></api-navigation>`);
+    ></api-navigation>`));
     await nextFrame();
     return elm;
   }
 
+  /**
+   * @returns {Promise<ApiNavigation>}
+   */
   async function docsOpenedFixture(amf) {
-    const elm = await fixture(html`<api-navigation
+    const elm = /** @type ApiNavigation */ (await fixture(html`<api-navigation
       docsOpened
       .amf="${amf}"
-    ></api-navigation>`);
+    ></api-navigation>`));
     await nextFrame();
     return elm;
   }
 
+  /**
+   * @returns {Promise<ApiNavigation>}
+   */
   async function typesOpenedFixture(amf) {
-    const elm = await fixture(html`<api-navigation
-      typesopened
+    const elm = /** @type ApiNavigation */ (await fixture(html`<api-navigation
+      typesOpened
       .amf="${amf}"
-    ></api-navigation>`);
+    ></api-navigation>`));
     await nextFrame();
     return elm;
   }
 
+  /**
+   * @returns {Promise<ApiNavigation>}
+   */
   async function securityOpenedFixture(amf) {
-    const elm = await fixture(html`<api-navigation
-      securityopened
+    const elm = /** @type ApiNavigation */ (await fixture(html`<api-navigation
+      securityOpened
       .amf="${amf}"
-    ></api-navigation>`);
+    ></api-navigation>`));
     await nextFrame();
     return elm;
   }
 
+  /**
+   * @returns {Promise<ApiNavigation>}
+   */
   async function modelFixture(amf) {
-    const elm = await fixture(
+    const elm = /** @type ApiNavigation */ (await fixture(
       html`<api-navigation .amf="${amf}"></api-navigation>`
-    );
+    ));
     return elm;
   }
 
@@ -301,6 +330,7 @@ describe('<api-navigation>', () => {
         },
       ];
       element = await preselectedFixture();
+      // @ts-ignore
       element._endpoints = model;
       await nextFrame();
     });
@@ -452,6 +482,7 @@ describe('<api-navigation>', () => {
       element._docs = model.docs;
       element._types = model.types;
       element._security = model.security;
+      // @ts-ignore
       element._endpoints = model.endpoints;
       await nextFrame();
     });
@@ -576,7 +607,7 @@ describe('<api-navigation>', () => {
       assert.equal(result, 10);
     });
 
-    it('Computes value for tripple padding value', () => {
+    it('Computes value for triple padding value', () => {
       element.style.setProperty(
         '--api-navigation-list-item-padding',
         '5px 10px 15px'
@@ -1068,16 +1099,17 @@ describe('<api-navigation>', () => {
   });
 
   describe('a11y', () => {
-    let element;
+    let element = /** @type ApiNavigation */ (null);
     beforeEach(async () => {
       const amf = await AmfLoader.load();
       element = await summaryFixture();
       element.amf = amf;
+      element.selected = 'summary';
       await nextFrame();
     });
 
-    it('Performs a11y tests', () => {
-      assert.isAccessible(element);
+    it('Performs a11y tests', async () => {
+      await assert.isAccessible(element);
     });
   });
 
