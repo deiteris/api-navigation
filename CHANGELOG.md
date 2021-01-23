@@ -1285,3 +1285,19 @@
 * [ci skip] automated merge master->stage. syncing main branches [1e02b96](https://github.com/advanced-rest-client/api-navigation/commit/1e02b9648dd397068b00b0ccc4a2f3e218339a25) by Ci agent
 
 
+<a name="4.2.6"></a>
+## [4.2.6](https://github.com/advanced-rest-client/api-navigation/compare/4.2.4...4.2.6) (2021-01-23)
+
+### Update
+
+* bumping version [5e0c347](https://github.com/advanced-rest-client/api-navigation/commit/5e0c34788091489f1196fff38bcf3ea53a9325f2) by Pawel Psztyc
+* updating types and meta [2c6ef67](https://github.com/advanced-rest-client/api-navigation/commit/2c6ef672de9142b648d2dfe1620fa742f764ba00) by Pawel Psztyc
+* [ci skip] automated merge master->stage. syncing main branches [6d37ebd](https://github.com/advanced-rest-client/api-navigation/commit/6d37ebd546d69641cb822c9002dd998411c8438b) by Ci agent
+* [ci skip] automated merge master->stage. syncing main branches [6eb9254](https://github.com/advanced-rest-client/api-navigation/commit/6eb9254b6351a7128f60b3fc6c51d481b02e5fd7) by Ci agent
+
+
+### Refactor
+
+* replacing iron-collapse with Anypoint component [fbb33eb](https://github.com/advanced-rest-client/api-navigation/commit/fbb33eb2999f67d8a191f0dd2ea3807ef1ae4157) by Pawel Psztyc
+
+
