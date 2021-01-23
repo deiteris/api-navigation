@@ -9,6 +9,7 @@ import { computePathName, computeRenderPath } from '../src/ApiNavigation.js';
 /* eslint-disable no-plusplus */
 
 /** @typedef {import('../').ApiNavigation} ApiNavigation */
+/** @typedef {import('@anypoint-web-components/anypoint-collapse').AnypointCollapseElement} AnypointCollapseElement */
 
 describe('<api-navigation>', () => {
   const asyncApi = 'async-api';
@@ -870,7 +871,7 @@ describe('<api-navigation>', () => {
         assert.isTrue(spy.args[0][0] === node);
       });
 
-      it('Makes adjustemnts for method label', () => {
+      it('Makes adjustments for method label', () => {
         const node = element.shadowRoot.querySelector('.method-label');
         const parent = node.parentNode;
         const spy = sinon.spy(element, '_selectItem');
@@ -893,7 +894,7 @@ describe('<api-navigation>', () => {
         await nextFrame();
       });
 
-      it('Sets __effectiveQuery as a lowecase query', () => {
+      it('Sets __effectiveQuery as a lowercase query', () => {
         element.__queryDebouncer = true;
         element.query = 'Files';
         element._flushQuery();
@@ -944,7 +945,7 @@ describe('<api-navigation>', () => {
         assert.isFalse(result);
       });
 
-      it('Returns false when both undefinerd', () => {
+      it('Returns false when both undefined', () => {
         const result = computeRenderPath(false, false);
         assert.isFalse(result);
       });
@@ -1121,31 +1122,31 @@ describe('<api-navigation>', () => {
 
     it('opens endpoints when initialized', async () => {
       const element = await endpointsOpenedFixture(amf);
-      const node = element.shadowRoot.querySelector(
-        '.endpoints > iron-collapse'
-      );
+      const node = /** @type AnypointCollapseElement */ (element.shadowRoot.querySelector(
+        '.endpoints > anypoint-collapse'
+      ));
       assert.isTrue(node.opened);
     });
 
     it('opens documentation when initialized', async () => {
       const element = await docsOpenedFixture(amf);
-      const node = element.shadowRoot.querySelector(
-        '.documentation > iron-collapse'
-      );
+      const node = /** @type AnypointCollapseElement */ (element.shadowRoot.querySelector(
+        '.documentation > anypoint-collapse'
+      ));
       assert.isTrue(node.opened);
     });
 
     it('opens types when initialized', async () => {
       const element = await typesOpenedFixture(amf);
-      const node = element.shadowRoot.querySelector('.types > iron-collapse');
+      const node = /** @type AnypointCollapseElement */ (element.shadowRoot.querySelector('.types > anypoint-collapse'));
       assert.isTrue(node.opened);
     });
 
     it('opens security when initialized', async () => {
       const element = await securityOpenedFixture(amf);
-      const node = element.shadowRoot.querySelector(
-        '.security > iron-collapse'
-      );
+      const node = /** @type AnypointCollapseElement */ (element.shadowRoot.querySelector(
+        '.security > anypoint-collapse'
+      ));
       assert.isTrue(node.opened);
     });
   });
@@ -1201,7 +1202,7 @@ describe('<api-navigation>', () => {
           MockInteractions.keyDownOn(element, 38, [], 'ArrowUp');
           await aTimeout(0);
           const node = element.shadowRoot.querySelectorAll(
-            '.endpoints > iron-collapse .list-item.endpoint'
+            '.endpoints > anypoint-collapse .list-item.endpoint'
           )[2];
           assert.equal(
             element.focusedItem,
@@ -1265,7 +1266,7 @@ describe('<api-navigation>', () => {
           assert.equal(keyCounter, 0);
         });
 
-        it('selects operation item with spacebar', () => {
+        it('selects operation item with space bar', () => {
           const node = element.shadowRoot.querySelector('.list-item.operation');
           MockInteractions.keyDownOn(node, 32, [], ' ');
           assert.equal(element.selected, node.dataset.apiId);
@@ -1277,13 +1278,13 @@ describe('<api-navigation>', () => {
           assert.equal(element.selected, node.dataset.apiId);
         });
 
-        it('toggles endpoints with spacebar', () => {
+        it('toggles endpoints with space bar', () => {
           const node = element.shadowRoot.querySelector('.section-title');
           MockInteractions.keyDownOn(node, 32, [], ' ');
           assert.isTrue(element.endpointsOpened);
         });
 
-        it('toggles endpoint with spacebar', () => {
+        it('toggles endpoint with space bar', () => {
           const node = element.shadowRoot.querySelector('.list-item.endpoint');
           MockInteractions.keyDownOn(node, 32, [], ' ');
           assert.isTrue(node.nextElementSibling.opened);

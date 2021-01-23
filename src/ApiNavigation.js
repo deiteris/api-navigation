@@ -7,7 +7,7 @@ import {
   keyboardArrowDown,
   openInNew,
 } from '@advanced-rest-client/arc-icons/ArcIcons.js';
-import '@polymer/iron-collapse/iron-collapse.js';
+import '@anypoint-web-components/anypoint-collapse/anypoint-collapse.js';
 import httpMethodStyles from '@api-components/http-method-label/http-method-label-common-styles.js';
 import navStyles from './Styles.js';
 
@@ -18,7 +18,7 @@ import navStyles from './Styles.js';
 /* eslint-disable class-methods-use-this */
 /* eslint-disable prefer-destructuring */
 
-/** @typedef {import('@polymer/iron-collapse').IronCollapseElement} IronCollapseElement */
+/** @typedef {import('@anypoint-web-components/anypoint-collapse').AnypointCollapseElement} AnypointCollapseElement */
 /** @typedef {import('lit-element').TemplateResult} TemplateResult */
 /** @typedef {import('./types').MethodItem} MethodItem */
 /** @typedef {import('./types').EndpointItem} EndpointItem */
@@ -1025,7 +1025,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     if (!node) {
       return undefined;
     }
-    if (node.nodeName === 'IRON-COLLAPSE') {
+    if (node.localName === 'anypoint-collapse') {
       node = this.shadowRoot.querySelector(`.operation[data-api-id="${id}"]`);
     }
     if (!node) {
@@ -1040,16 +1040,16 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     let collapse;
     switch (node.dataset.shape) {
       case 'method':
-        collapse = /** @type IronCollapseElement */ (node.parentElement);
+        collapse = /** @type AnypointCollapseElement */ (node.parentElement);
         this.endpointsOpened = true;
         break;
       case 'endpoint':
-        collapse = /** @type IronCollapseElement */ (node.parentElement);
+        collapse = /** @type AnypointCollapseElement */ (node.parentElement);
         break;
       case 'type':
       case 'documentation':
       case 'security':
-        collapse = /** @type IronCollapseElement */ (node.parentElement
+        collapse = /** @type AnypointCollapseElement */ (node.parentElement
           .parentElement);
         break;
       default:
@@ -1495,12 +1495,12 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
   }
 
   /**
-   * Closes all `iron-collapse` elements
+   * Closes all `anypoint-collapse` elements
    */
   _closeCollapses() {
     const nodes = this.shadowRoot.querySelectorAll('.operation-collapse');
     for (let i = 0, len = nodes.length; i < len; i++) {
-      const node = /** @type IronCollapseElement */ (nodes[i]);
+      const node = /** @type AnypointCollapseElement */ (nodes[i]);
       if (node.opened) {
         node.opened = false;
       }
@@ -1621,7 +1621,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         const item = nodes[i];
         result[result.length] = item;
         const collapse = item.nextElementSibling;
-        if (collapse.localName !== 'iron-collapse') {
+        if (collapse.localName !== 'anypoint-collapse') {
           continue;
         }
         const children = collapse.querySelectorAll('.list-item.operation');
@@ -1801,7 +1801,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
           >
         </anypoint-icon-button>
       </div>
-      <iron-collapse
+      <anypoint-collapse
         .opened="${this.endpointsOpened}"
         aria-hidden="${this.endpointsOpened ? 'false' : 'true'}"
         role="menu"
@@ -1809,7 +1809,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         <div class="children">
           ${items.map(item => this._endpointTemplate(item))}
         </div>
-      </iron-collapse>
+      </anypoint-collapse>
     </section>`;
   }
 
@@ -1846,7 +1846,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
           <span class="icon" aria-label="Collapsed">${keyboardArrowDown}</span>
         </anypoint-icon-button>
       </div>
-      <iron-collapse
+      <anypoint-collapse
         part="api-navigation-operation-collapse"
         class="operation-collapse"
         data-api-id="${item.id}"
@@ -1867,7 +1867,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         ${item.methods.map(methodItem =>
           this._methodTemplate(item, methodItem)
         )}
-      </iron-collapse>`;
+      </anypoint-collapse>`;
   }
 
   /**
@@ -1937,11 +1937,11 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
             >
           </anypoint-icon-button>
         </div>
-        <iron-collapse .opened="${this.docsOpened}">
+        <anypoint-collapse .opened="${this.docsOpened}">
           <div class="children">
             ${items.map(item => this._documentationItemTemplate(item))}
           </div>
-        </iron-collapse>
+        </anypoint-collapse>
       </section>
     `;
   }
@@ -2016,7 +2016,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
             >
           </anypoint-icon-button>
         </div>
-        <iron-collapse .opened="${this.typesOpened}">
+        <anypoint-collapse .opened="${this.typesOpened}">
           <div class="children">
             ${items.map(
               item =>
@@ -2033,7 +2033,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
                 </div>`
             )}
           </div>
-        </iron-collapse>
+        </anypoint-collapse>
       </section>
     `;
   }
@@ -2075,7 +2075,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
           >
         </anypoint-icon-button>
       </div>
-      <iron-collapse .opened="${this.securityOpened}">
+      <anypoint-collapse .opened="${this.securityOpened}">
         <div class="children">
           ${items.map(
             item => html`<div
@@ -2091,7 +2091,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
             </div>`
           )}
         </div>
-      </iron-collapse>
+      </anypoint-collapse>
     </section>`;
   }
 
