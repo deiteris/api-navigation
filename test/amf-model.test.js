@@ -383,13 +383,22 @@ describe('AMF model test', () => {
     });
 
     it('closes methods collapse when changing model', async () => {
-      const node = element.shadowRoot.querySelector('.operation-collapse');
-      node.opened = true;
+      const collapseNode = element.shadowRoot.querySelector('.operation-collapse');
+      const node = element.shadowRoot.querySelector('.list-item.endpoint');
+      node.click();
       await nextFrame();
+
+      assert.equal(node.getAttribute('endpoint-opened'), "true");
+      assert.equal(collapseNode.getAttribute('endpoint-opened'), "true");
+      assert.isTrue(collapseNode.opened);
+
       /* eslint-disable-next-line require-atomic-updates */
       element.amf = compactAmf;
       await nextFrame();
-      assert.isFalse(node.opened);
+
+      assert.equal(node.getAttribute('endpoint-opened'), "undefined");
+      assert.equal(collapseNode.getAttribute('endpoint-opened'), "undefined");
+      assert.isUndefined(collapseNode.opened);
     });
   });
 });
