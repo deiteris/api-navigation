@@ -108,9 +108,9 @@ describe('<api-navigation>', () => {
   /**
    * @returns {Promise<ApiNavigation>}
    */
-  async function operationsOpenedFixture(amf) {
+  async function operationsOpenedFixture(amf, operationsOpened = true) {
     const elm = /** @type ApiNavigation */ (await fixture(
-      html`<api-navigation .amf="${amf}" operationsOpened></api-navigation>`
+      html`<api-navigation .amf="${amf}" .operationsOpened="${operationsOpened}"></api-navigation>`
     ));
     return elm;
   }
@@ -1123,11 +1123,16 @@ describe('<api-navigation>', () => {
       });
 
       it('should expand all operations when operationsOpened', () => {
-        const operations = element.querySelectorAll('.list-item.endpoint');
-        assert.equal(operations.length, 10);
+        const operations = element.shadowRoot.querySelectorAll('.list-item.endpoint');
+        assert.equal(operations.length, 32);
 
-        const openedOperations = operations.filter(e => e.getAttribute('endpoint-opened') === 'false');
-        assert.equal(openedOperations.length, 10);
+        let openedOperations = 0;
+        operations.forEach(e => {
+          if (e.getAttribute('endpoint-opened') === 'true') {
+            openedOperations++;
+          }
+        });
+        assert.equal(openedOperations, 32);
       });
     });
   });
