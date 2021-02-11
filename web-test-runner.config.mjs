@@ -9,6 +9,6 @@ export default {
 			return next();
 		}
 	],
-	testsStartTimeout: 30000,
-	testsFinishTimeout: 30000,
+	testsStartTimeout: 40000,
+	testsFinishTimeout: 40000,
 };
