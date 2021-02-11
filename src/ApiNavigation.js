@@ -245,6 +245,10 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
        * Enables compatibility with Anypoint components.
        */
       compatibility: { type: Boolean },
+      /**
+       * No overview as a separated element. Overview can be seen by clicking the endpoint label.
+       */
+      noOverview: { type: Boolean },
     };
   }
 
@@ -397,6 +401,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     this.indentSize = 8;
     this._selectedItem = null;
     this.aware = null;
+    this.noOverview = false;
 
     this._navigationChangeHandler = this._navigationChangeHandler.bind(this);
     this._focusHandler = this._focusHandler.bind(this);
@@ -1815,6 +1820,46 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
 
   /**
    * @param {EndpointItem} item
+   * @return {TemplateResult} Template for an endpoint overview.
+   */
+  _overviewTemplate(item) {
+    if (this.noOverview) {
+      return '';
+    }
+    return html`<div
+        part="api-navigation-list-item"
+        class="list-item operation"
+        role="menuitem"
+        tabindex="0"
+        data-api-id="${item.id}"
+        data-shape="endpoint"
+        @click="${this._itemClickHandler}"
+        style="${this._computeMethodPadding(item.indent, this.indentSize)}"
+        >
+          Overview
+        </div>`
+  }
+
+  /**
+   * @param {EndpointItem} item
+   * @return {TemplateResult} Template for an endpoint path.
+   */
+  _endpointPathTemplate(item) {
+    const {noOverview} = this;
+
+    return html`<div class="path-details">
+        ${noOverview ? 
+      html`<div class="endpoint-name-overview" @click="${this._itemClickHandler}" data-api-id="${item.id}" data-shape="endpoint">${item.label}</div>` 
+      : html`<div class="endpoint-name">${item.label}</div>`}
+        
+        ${computeRenderPath(this.allowPaths, item.renderPath)
+      ? html`<div class="path-name">${item.path}</div>`
+      : undefined}
+      </div>`;
+  }
+
+    /**
+   * @param {EndpointItem} item
    * @return {TemplateResult} Template for an endpoint item.
    */
   _endpointTemplate(item) {
@@ -1823,18 +1868,13 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         class="list-item endpoint"
         data-endpoint-id="${item.id}"
         data-endpoint-path="${item.path}"
-        @click="${this._toggleEndpoint}"
+        @click="${!this.noOverview && this._toggleEndpoint}"
         title="Toggle endpoint documentation"
         style="${this._computeEndpointPadding(item.indent, this.indentSize)}"
         role="menuitem"
         aria-haspopup="true"
       >
-        <div class="path-details">
-          <div class="endpoint-name">${item.label}</div>
-          ${computeRenderPath(this.allowPaths, item.renderPath)
-            ? html`<div class="path-name">${item.path}</div>`
-            : undefined}
-        </div>
+        ${this._endpointPathTemplate(item)}
         <anypoint-icon-button
           part="api-navigation-endpoint-toggle-button toggle-button"
           class="endpoint-toggle-button"
@@ -1842,6 +1882,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
           .noink="${this.noink}"
           ?compatibility="${this.compatibility}"
           tabindex="-1"
+          @click="${this.noOverview && this._toggleEndpoint}"
         >
           <span class="icon" aria-label="Collapsed">${keyboardArrowDown}</span>
         </anypoint-icon-button>
@@ -1852,18 +1893,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         data-api-id="${item.id}"
         role="menu"
       >
-        <div
-          part="api-navigation-list-item"
-          class="list-item operation"
-          role="menuitem"
-          tabindex="0"
-          data-api-id="${item.id}"
-          data-shape="endpoint"
-          @click="${this._itemClickHandler}"
-          style="${this._computeMethodPadding(item.indent, this.indentSize)}"
-        >
-          Overview
-        </div>
+        ${this._overviewTemplate(item)}
         ${item.methods.map(methodItem =>
           this._methodTemplate(item, methodItem)
         )}

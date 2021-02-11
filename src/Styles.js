@@ -73,9 +73,14 @@ export default css`
   }
 
   .path-name,
-  .endpoint-name {
+  .endpoint-name,
+  .endpoint-name-overview {
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  
+  .endpoint-name-overview:hover {
+    text-decoration: underline;
   }
 
   .path-name {
