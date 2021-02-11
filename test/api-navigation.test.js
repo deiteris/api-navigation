@@ -1097,6 +1097,64 @@ describe('<api-navigation>', () => {
         );
       });
     });
+
+    describe('noOverview', () => {
+      let amf;
+      let element;
+
+      before(async () => {
+        amf = await AmfLoader.load(item[1], 'simple-api');
+      });
+
+      beforeEach(async () => {
+        element = await modelFixture(amf);
+      });
+
+      it('should set noOverview to false by default', () => {
+        assert.isFalse(element.noOverview)
+      });
+
+      it('should render endpoints overview by default', () => {
+        const endpoints = element.shadowRoot.querySelectorAll(
+          '.list-item.operation[data-shape="endpoint"]'
+        );
+        assert.equal(endpoints.length, 3);
+      });
+
+      it('should render endpoints name by default', () => {
+        const endpoints = element.shadowRoot.querySelectorAll(
+          '.endpoint-name'
+        );
+        assert.equal(endpoints.length, 3);
+      });
+
+      it('should set noOverview to true', async () => {
+        element.noOverview = true;
+        await aTimeout();
+
+        assert.isTrue(element.noOverview)
+      });
+
+      it('should not render endpoints overview when noOverview', () => {
+        element.noOverview = true;
+        await aTimeout();
+
+        const endpoints = element.shadowRoot.querySelectorAll(
+          '.list-item.operation[data-shape="endpoint"]'
+        );
+        assert.equal(endpoints.length, 0);
+      });
+
+      it('should render clickable endpoints name when noOverview', () => {
+        element.noOverview = true;
+        await aTimeout();
+
+        const endpoints = element.shadowRoot.querySelectorAll(
+          '.endpoint-name-overview'
+        );
+        assert.equal(endpoints.length, 3);
+      });
+    });
   });
 
   describe('a11y', () => {
