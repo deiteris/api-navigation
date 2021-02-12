@@ -26,6 +26,7 @@ export class DemoPage extends NavDemoPage {
       allowPaths,
       rearrangeEndpoints,
     } = this;
+    const op = true
     return html `
     <section class="documentation-section">
       <h3>Interactive demo</h3>
@@ -49,6 +50,7 @@ export class DemoPage extends NavDemoPage {
           ?rearrangeEndpoints="${rearrangeEndpoints}"
           ?compatibility="${compatibility}"
           slot="content"
+          .operationsOpened="${op}"
         ></api-navigation>
 
         <label slot="options" id="mainOptionsLabel">Options</label>

@@ -1119,7 +1119,8 @@ describe('<api-navigation>', () => {
       });
 
       beforeEach(async () => {
-        element = await operationsOpenedFixture(amf);
+        element = await operationsOpenedFixture(amf, true);
+        await aTimeout()
       });
 
       it('should expand all operations when operationsOpened', () => {
@@ -1128,7 +1129,7 @@ describe('<api-navigation>', () => {
 
         let openedOperations = 0;
         operations.forEach(e => {
-          if (e.getAttribute('endpoint-opened') === 'true') {
+          if (e.getAttribute('endpoint-opened') === '') {
             openedOperations++;
           }
         });

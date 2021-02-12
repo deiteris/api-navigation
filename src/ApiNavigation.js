@@ -5,7 +5,6 @@ import '@api-components/raml-aware/raml-aware.js';
 import '@anypoint-web-components/anypoint-button/anypoint-icon-button.js';
 import {
   keyboardArrowDown,
-  keyboardArrowUp,
   openInNew,
 } from '@advanced-rest-client/arc-icons/ArcIcons.js';
 import '@anypoint-web-components/anypoint-collapse/anypoint-collapse.js';
@@ -315,13 +314,26 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       return;
     }
     this._operationsOpened = value;
-    if (value !== undefined) {
-      this._openedOperations = []
+
+    if (value === undefined) {
+      return;
+    }
+
+    this._updatedOpenedOperations = !value;
+    if (!value) {
+      this._openedOperations = [];
     }
   }
 
   get operationsOpened() {
     return this._operationsOpened;
+  }
+
+  _addOpenedOperations(endpoints) {
+    if (!this._updatedOpenedOperations && endpoints) {
+      this._openedOperations = endpoints.map(e => e.id);
+      this._updatedOpenedOperations = true;
+    }
   }
 
   /**
@@ -423,6 +435,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     this._selectedItem = null;
     this.aware = null;
     this._openedOperations = [];
+    this._updatedOpenedOperations = true;
 
     this._navigationChangeHandler = this._navigationChangeHandler.bind(this);
     this._focusHandler = this._focusHandler.bind(this);
@@ -532,6 +545,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     setTimeout(() => {
       this._selectedChanged(this.selected);
       this._resetTabindices();
+      this._addOpenedOperations(data.endpoints)
     });
   }
 
@@ -1827,7 +1841,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
    * @return {TemplateResult} Template for an endpoint item.
    */
   _endpointTemplate(item) {
-    const isEndpointOpened = this._openedOperations.includes(item.id) || this.operationsOpened;
+    const isEndpointOpened = this._openedOperations.includes(item.id);
     const ariaLabel = isEndpointOpened ? 'Expanded' : 'Collapsed';
 
     return html`<div
@@ -1840,7 +1854,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         style="${this._computeEndpointPadding(item.indent, this.indentSize)}"
         role="menuitem"
         aria-haspopup="true"
-        endpoint-opened="${isEndpointOpened}"
+        ?endpoint-opened="${isEndpointOpened}"
       >
         <div class="path-details">
           <div class="endpoint-name">${item.label}</div>
@@ -1856,7 +1870,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
           ?compatibility="${this.compatibility}"
           tabindex="-1"
         >
-          <span class="icon" aria-label="${ariaLabel}">${isEndpointOpened ? keyboardArrowDown : keyboardArrowUp}</span>
+          <span class="icon" aria-label="${ariaLabel}">${keyboardArrowDown}</span>
         </anypoint-icon-button>
       </div>
       <anypoint-collapse
@@ -1865,7 +1879,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         data-api-id="${item.id}"
         role="menu"
         .opened="${isEndpointOpened}"
-        endpoint-opened="${isEndpointOpened}"
+        ?endpoint-opened="${isEndpointOpened}"
       >
         <div
           part="api-navigation-list-item"
