@@ -1154,6 +1154,43 @@ describe('<api-navigation>', () => {
         );
         assert.equal(endpoints.length, 3);
       });
+
+      describe('menu keyboard navigation', () => {
+        it('should focus on endpoint path detail first', async () => {
+          element.noOverview = true;
+          element.endpointsOpened = true;
+          await aTimeout(5);
+          MockInteractions.focus(element);
+          await nextFrame();
+          // Key press down
+          MockInteractions.keyDownOn(element, 40, [], 'ArrowDown');
+          await nextFrame();
+          const node = element.shadowRoot.querySelector('div[data-endpoint-path="/one"] .path-details');
+          assert.equal(
+            element.focusedItem,
+            node,
+            'element.focusedItem is last item'
+          );
+        });
+
+        it('should focus on endpoint toggle arrow second', async () => {
+          element.noOverview = true;
+          element.endpointsOpened = true;
+          await aTimeout(5);
+          MockInteractions.focus(element);
+          await nextFrame();
+          // Key press down
+          MockInteractions.keyDownOn(element, 40, [], 'ArrowDown');
+          MockInteractions.keyDownOn(element, 40, [], 'ArrowDown');
+          await nextFrame();
+          const node = element.shadowRoot.querySelector('div[data-endpoint-path="/one"] anypoint-icon-button');
+          assert.equal(
+            element.focusedItem,
+            node,
+            'element.focusedItem is last item'
+          );
+        });
+      });
     });
   });
 
