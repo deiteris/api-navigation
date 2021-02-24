@@ -6,13 +6,14 @@ export class DemoPage extends NavDemoPage {
   constructor() {
     super();
     this.initObservableProperties([
-      'summary', 'noink', 'allowPaths', 'rearrangeEndpoints',
+      'summary', 'noink', 'allowPaths', 'rearrangeEndpoints', 'noOverview'
     ]);
     this.compatibility = false;
     this.summary = false;
     this.noink = false;
     this.allowPaths = false;
     this.rearrangeEndpoints = false;
+    this.noOverview = false;
   }
 
   _demoTemplate() {
@@ -25,6 +26,7 @@ export class DemoPage extends NavDemoPage {
       noink,
       allowPaths,
       rearrangeEndpoints,
+      noOverview,
     } = this;
     return html `
     <section class="documentation-section">
@@ -48,6 +50,7 @@ export class DemoPage extends NavDemoPage {
           ?allowPaths="${allowPaths}"
           ?rearrangeEndpoints="${rearrangeEndpoints}"
           ?compatibility="${compatibility}"
+          ?noOverview="${noOverview}"
           slot="content"
         ></api-navigation>
 
@@ -85,6 +88,14 @@ export class DemoPage extends NavDemoPage {
           @change="${this._toggleMainOption}"
         >
           Rearrange endpoints
+        </anypoint-checkbox>
+        <anypoint-checkbox
+          aria-describedby="mainOptionsLabel"
+          slot="options"
+          name="noOverview"
+          @change="${this._toggleMainOption}"
+        >
+          No overview
         </anypoint-checkbox>
       </arc-interactive-demo>
     </section>`;
