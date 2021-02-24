@@ -1130,14 +1130,14 @@ describe('<api-navigation>', () => {
 
       it('should set noOverview to true', async () => {
         element.noOverview = true;
-        await aTimeout();
+        await aTimeout(0);
 
         assert.isTrue(element.noOverview)
       });
 
-      it('should not render endpoints overview when noOverview', () => {
+      it('should not render endpoints overview when noOverview', async () => {
         element.noOverview = true;
-        await aTimeout();
+        await aTimeout(0);
 
         const endpoints = element.shadowRoot.querySelectorAll(
           '.list-item.operation[data-shape="endpoint"]'
@@ -1145,9 +1145,9 @@ describe('<api-navigation>', () => {
         assert.equal(endpoints.length, 0);
       });
 
-      it('should render clickable endpoints name when noOverview', () => {
+      it('should render clickable endpoints name when noOverview', async () => {
         element.noOverview = true;
-        await aTimeout();
+        await aTimeout(0);
 
         const endpoints = element.shadowRoot.querySelectorAll(
           '.endpoint-name-overview'
@@ -1167,8 +1167,8 @@ describe('<api-navigation>', () => {
       await nextFrame();
     });
 
-    it('Performs a11y tests', async () => {
-      await assert.isAccessible(element);
+    it('Performs a11y tests', () => {
+      assert.isAccessible(element);
     });
   });
 
