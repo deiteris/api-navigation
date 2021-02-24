@@ -388,6 +388,20 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     focusedItemChanged(value, old);
   }
 
+  get noOverview() {
+    return this._noOverview;
+  }
+
+  set noOverview(value) {
+    const old = this._noOverview;
+    if (old === value) {
+      return;
+    }
+    this._noOverview = value;
+    this.requestUpdate('noOverview', old);
+    this._items = null;
+  }
+
   constructor() {
     super();
 
@@ -1619,19 +1633,28 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       if (node) {
         result[result.length] = node;
       }
-      const nodes = this.shadowRoot.querySelectorAll(
-        '.endpoints .list-item.endpoint'
-      );
+      let nodes;
+      if (this.noOverview) {
+        nodes = this.shadowRoot.querySelectorAll(
+          '.endpoints .list-item.endpoint .path-details,.endpoint-toggle-button'
+        );
+      } else {
+        nodes = this.shadowRoot.querySelectorAll(
+          '.endpoints .list-item.endpoint'
+        );
+      }
       for (let i = 0; i < nodes.length; i++) {
         const item = nodes[i];
         result[result.length] = item;
-        const collapse = item.nextElementSibling;
+        const collapse = this.noOverview ? item.parentElement.nextElementSibling : item.nextElementSibling;
         if (collapse.localName !== 'anypoint-collapse') {
           continue;
         }
-        const children = collapse.querySelectorAll('.list-item.operation');
-        if (children.length) {
-          result = result.concat(Array.from(children));
+        if (!item.classList.contains('path-details')) {
+          const children = collapse.querySelectorAll('.list-item.operation');
+          if (children.length) {
+            result = result.concat(Array.from(children));
+          }
         }
       }
     }
