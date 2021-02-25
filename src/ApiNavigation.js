@@ -322,6 +322,8 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     this._updatedOpenedOperations = !value;
     if (!value) {
       this._openedOperations = [];
+    } else {
+      this._addOpenedOperations(this._endpoints);
     }
   }
 
