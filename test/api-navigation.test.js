@@ -1148,8 +1148,8 @@ describe('<api-navigation>', () => {
       await nextFrame();
     });
 
-    it('Performs a11y tests', async () => {
-      await assert.isAccessible(element);
+    it('Performs a11y tests', () => {
+      assert.isAccessible(element);
     });
   });
 
