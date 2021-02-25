@@ -9,7 +9,7 @@ export class DemoPage extends NavDemoPage {
       'summary', 'noink', 'allowPaths', 'rearrangeEndpoints', 'operationsOpened'
     ]);
     this.compatibility = false;
-    this.summary = false;
+    this.summary = true;
     this.noink = false;
     this.allowPaths = false;
     this.rearrangeEndpoints = false;
@@ -94,7 +94,6 @@ export class DemoPage extends NavDemoPage {
           slot="options"
           name="operationsOpened"
           @change="${this._toggleMainOption}"
-          checked
         >
           Operations opened
         </anypoint-checkbox>
