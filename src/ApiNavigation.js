@@ -17,6 +17,7 @@ import navStyles from './Styles.js';
 /* eslint-disable no-param-reassign */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable prefer-destructuring */
+/* eslint-disable consistent-return */
 
 /** @typedef {import('@anypoint-web-components/anypoint-collapse').AnypointCollapseElement} AnypointCollapseElement */
 /** @typedef {import('lit-element').TemplateResult} TemplateResult */
@@ -1329,6 +1330,18 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     }
   }
 
+  _toggleEndpointDocumentation(e) {
+    if (!this.noOverview) {
+      return this._toggleEndpoint(e)
+    }
+  }
+
+  _toggleEndpointButton(e) {
+    if (this.noOverview) {
+      return this._toggleEndpoint(e)
+    }
+  }
+
   /**
    * Computes `style` attribute value for endpoint item.
    * It sets padding-left property to indent resources.
@@ -1891,7 +1904,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         class="list-item endpoint"
         data-endpoint-id="${item.id}"
         data-endpoint-path="${item.path}"
-        @click="${!this.noOverview && this._toggleEndpoint}"
+        @click="${this._toggleEndpointDocumentation}"
         title="Toggle endpoint documentation"
         style="${this._computeEndpointPadding(item.indent, this.indentSize)}"
         role="menuitem"
@@ -1905,7 +1918,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
           .noink="${this.noink}"
           ?compatibility="${this.compatibility}"
           tabindex="-1"
-          @click="${this.noOverview && this._toggleEndpoint}"
+          @click="${this._toggleEndpointButton}"
         >
           <span class="icon" aria-label="Collapsed">${keyboardArrowDown}</span>
         </anypoint-icon-button>
