@@ -13,7 +13,7 @@ export class DemoPage extends NavDemoPage {
     this.noink = false;
     this.allowPaths = false;
     this.rearrangeEndpoints = false;
-    this.operationsOpened = false;
+    this.operationsOpened = true;
   }
 
   _demoTemplate() {
