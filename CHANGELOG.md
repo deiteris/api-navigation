@@ -1301,3 +1301,43 @@
 * replacing iron-collapse with Anypoint component [fbb33eb](https://github.com/advanced-rest-client/api-navigation/commit/fbb33eb2999f67d8a191f0dd2ea3807ef1ae4157) by Pawel Psztyc
 
 
+<a name="4.2.7"></a>
+## [4.2.7](https://github.com/advanced-rest-client/api-navigation/compare/4.2.5...4.2.7) (2021-03-02)
+
+### Build
+
+* bump version [94f5cc3](https://github.com/advanced-rest-client/api-navigation/commit/94f5cc356ac74e64efd7aa50bd9ffc4764928130) by Carolina Wright
+
+
+### Update
+
+* [ci skip] automated merge master->stage. syncing main branches [4a0f1ce](https://github.com/advanced-rest-client/api-navigation/commit/4a0f1cef1a67244ade05045b50d7b3dba988930b) by Ci agent
+* bumping version [5e0c347](https://github.com/advanced-rest-client/api-navigation/commit/5e0c34788091489f1196fff38bcf3ea53a9325f2) by Pawel Psztyc
+* updating types and meta [2c6ef67](https://github.com/advanced-rest-client/api-navigation/commit/2c6ef672de9142b648d2dfe1620fa742f764ba00) by Pawel Psztyc
+* [ci skip] automated merge master->stage. syncing main branches [6d37ebd](https://github.com/advanced-rest-client/api-navigation/commit/6d37ebd546d69641cb822c9002dd998411c8438b) by Ci agent
+
+
+### Features
+
+* new property operationsOpened added to expand or collapse all operations [e24911a](https://github.com/advanced-rest-client/api-navigation/commit/e24911aedf700b3cbc92512b5d366d05c4e208ad) by Carolina Wright
+
+
+### Bug Fixes
+
+* operationsOpened set to true in demo page [53c72d1](https://github.com/advanced-rest-client/api-navigation/commit/53c72d15549c3c7c0622abfc4a284f175c417a66) by Carolina Wright
+* endpoints animation and toggle after operationsOpened is set [cd08bb9](https://github.com/advanced-rest-client/api-navigation/commit/cd08bb9e5761eebed99745afb7f24d0f572b883d) by Carolina Wright
+
+
+### Refactor
+
+* replacing iron-collapse with Anypoint component [fbb33eb](https://github.com/advanced-rest-client/api-navigation/commit/fbb33eb2999f67d8a191f0dd2ea3807ef1ae4157) by Pawel Psztyc
+
+
+### Testing
+
+* a11y test is not async [7665cb9](https://github.com/advanced-rest-client/api-navigation/commit/7665cb906cdecbb799bea01423f5f5ddfe58b330) by Francisco Di Giandomenico
+* fix operationsOpened test [da73a7a](https://github.com/advanced-rest-client/api-navigation/commit/da73a7a4a07ea70072097ecf580647bb0433eab4) by Carolina Wright
+* increase timeout [4cf15af](https://github.com/advanced-rest-client/api-navigation/commit/4cf15afdc9469dad5f0faf5d679c4ef8b6b064a3) by Carolina Wright
+* test new property [fad6054](https://github.com/advanced-rest-client/api-navigation/commit/fad6054abfee3f1e7662aed6ebc09b8e0b8dab3f) by Carolina Wright
+
+

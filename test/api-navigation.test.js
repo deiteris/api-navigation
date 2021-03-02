@@ -105,6 +105,16 @@ describe('<api-navigation>', () => {
     return elm;
   }
 
+  /**
+   * @returns {Promise<ApiNavigation>}
+   */
+  async function operationsOpenedFixture(amf, operationsOpened = true) {
+    const elm = /** @type ApiNavigation */ (await fixture(
+      html`<api-navigation .amf="${amf}" .operationsOpened="${operationsOpened}"></api-navigation>`
+    ));
+    return elm;
+  }
+
   describe('Super basics - without model', () => {
     let element;
 
@@ -351,11 +361,13 @@ describe('<api-navigation>', () => {
       assert.ok(panel);
     });
 
-    it('Clicking on endpoint toggles operation', () => {
+    it('Clicking on endpoint toggles operation', async () => {
       const node = element.shadowRoot.querySelectorAll(
         '.endpoints .list-item.endpoint'
       )[1];
       node.click();
+      await aTimeout(0);
+
       const collapsable = node.nextElementSibling;
       assert.isTrue(collapsable.opened);
     });
@@ -1098,6 +1110,33 @@ describe('<api-navigation>', () => {
       });
     });
 
+    describe('operationsOpened', () => {
+      let amf;
+      let element;
+
+      before(async () => {
+        amf = await AmfLoader.load(item[1]);
+      });
+
+      beforeEach(async () => {
+        element = await operationsOpenedFixture(amf, true);
+        await aTimeout()
+      });
+
+      it('should expand all operations when operationsOpened', () => {
+        const operations = element.shadowRoot.querySelectorAll('.list-item.endpoint');
+        assert.equal(operations.length, 32);
+
+        let openedOperations = 0;
+        operations.forEach(e => {
+          if (e.getAttribute('endpoint-opened') === '') {
+            openedOperations++;
+          }
+        });
+        assert.equal(openedOperations, 32);
+      });
+    });
+
     describe('noOverview', () => {
       let amf;
       let element;
@@ -1379,9 +1418,11 @@ describe('<api-navigation>', () => {
           assert.isTrue(element.endpointsOpened);
         });
 
-        it('toggles endpoint with space bar', () => {
+        it('toggles endpoint with space bar', async() => {
           const node = element.shadowRoot.querySelector('.list-item.endpoint');
           MockInteractions.keyDownOn(node, 32, [], ' ');
+          await aTimeout(0);
+
           assert.isTrue(node.nextElementSibling.opened);
         });
 

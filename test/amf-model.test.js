@@ -1,4 +1,4 @@
-import { fixture, assert, nextFrame } from '@open-wc/testing';
+import { fixture, assert, nextFrame, aTimeout } from '@open-wc/testing';
 import { AmfLoader } from './amf-loader.js';
 import { AmfHelper } from './amf-helper.js';
 import '../api-navigation.js';
@@ -383,13 +383,23 @@ describe('AMF model test', () => {
     });
 
     it('closes methods collapse when changing model', async () => {
-      const node = element.shadowRoot.querySelector('.operation-collapse');
-      node.opened = true;
-      await nextFrame();
+      const collapseNode = element.shadowRoot.querySelector('.operation-collapse');
+      const node = element.shadowRoot.querySelector('.list-item.endpoint');
+      node.click();
+      await aTimeout();
+      await aTimeout();
+
+      assert.equal(node.getAttribute('endpoint-opened'), "");
+      assert.equal(collapseNode.getAttribute('endpoint-opened'), "");
+      assert.isTrue(collapseNode.opened);
+
       /* eslint-disable-next-line require-atomic-updates */
       element.amf = compactAmf;
       await nextFrame();
-      assert.isFalse(node.opened);
+
+      assert.isNull(node.getAttribute('endpoint-opened'));
+      assert.isNull(collapseNode.getAttribute('endpoint-opened'));
+      assert.isFalse(collapseNode.opened);
     });
   });
 });
