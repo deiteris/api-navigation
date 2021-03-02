@@ -245,6 +245,14 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
        * Enables compatibility with Anypoint components.
        */
       compatibility: { type: Boolean },
+      /**
+       * Determines and changes state of endpoints.
+       */
+      operationsOpened: { type: Boolean, reflect: true },
+      /**
+       * List of opened operations id
+       */
+      _openedOperations: { type: Array, reflect: true }
     };
   }
 
@@ -297,6 +305,37 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         },
       })
     );
+  }
+
+  set operationsOpened(value) {
+    const old = this._operationsOpened;
+    /* istanbul ignore if */
+    if (old === value) {
+      return;
+    }
+    this._operationsOpened = value;
+
+    if (value === undefined) {
+      return;
+    }
+
+    this._updatedOpenedOperations = !value;
+    if (!value) {
+      this._openedOperations = [];
+    } else {
+      this._addOpenedOperations(this._endpoints);
+    }
+  }
+
+  get operationsOpened() {
+    return this._operationsOpened;
+  }
+
+  _addOpenedOperations(endpoints) {
+    if (!this._updatedOpenedOperations && endpoints) {
+      this._openedOperations = endpoints.map(e => e.id);
+      this._updatedOpenedOperations = true;
+    }
   }
 
   /**
@@ -397,6 +436,8 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     this.indentSize = 8;
     this._selectedItem = null;
     this.aware = null;
+    this._openedOperations = [];
+    this._updatedOpenedOperations = true;
 
     this._navigationChangeHandler = this._navigationChangeHandler.bind(this);
     this._focusHandler = this._focusHandler.bind(this);
@@ -506,6 +547,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     setTimeout(() => {
       this._selectedChanged(this.selected);
       this._resetTabindices();
+      this._addOpenedOperations(data.endpoints)
     });
   }
 
@@ -1055,9 +1097,12 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       default:
         collapse = undefined;
     }
-    if (collapse && !collapse.opened) {
+    if (node.dataset.shape === 'method' || node.dataset.shape === 'endpoint') {
+      if (!this._openedOperations.includes(id)) {
+        this.toggleOperations(id)
+      }
+    } else if (collapse && !collapse.opened) {
       collapse.opened = true;
-      collapse.setAttribute('endpoint-opened', 'true');
     }
     return node.dataset.shape;
   }
@@ -1087,30 +1132,13 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
    * @param {string} id ID of the endpoint.
    */
   toggleOperations(id) {
-    let selector = `.operation-collapse[data-api-id="${id}"]`;
-    const collapse = /** @type IronCollapseElement */ (this.shadowRoot.querySelector(
-      selector
-    ));
-    if (!collapse) {
-      return;
-    }
-    collapse.opened = !collapse.opened;
-    selector = `.list-item.endpoint[data-endpoint-id="${id}"]`;
-    const label = this.shadowRoot.querySelector(selector);
-    if (!label) {
-      return;
-    }
-    const toggleButton = label.querySelector('.icon');
-
-    if (collapse.opened) {
-      label.setAttribute('endpoint-opened', 'true');
-      collapse.setAttribute('endpoint-opened', 'true');
-      toggleButton.setAttribute('aria-label', 'Expanded');
+    const operationIndex = this._openedOperations.indexOf(id);
+    if (operationIndex !== -1) {
+      this._openedOperations.splice(operationIndex, 1)
     } else {
-      label.removeAttribute('endpoint-opened');
-      collapse.removeAttribute('endpoint-opened');
-      toggleButton.setAttribute('aria-label', 'Collapsed');
+      this._openedOperations.push(id)
     }
+    this.requestUpdate();
   }
 
   /**
@@ -1498,12 +1526,9 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
    * Closes all `anypoint-collapse` elements
    */
   _closeCollapses() {
-    const nodes = this.shadowRoot.querySelectorAll('.operation-collapse');
-    for (let i = 0, len = nodes.length; i < len; i++) {
-      const node = /** @type AnypointCollapseElement */ (nodes[i]);
-      if (node.opened) {
-        node.opened = false;
-      }
+    if (this._openedOperations.length > 0) {
+      this._openedOperations = [];
+      this.requestUpdate();
     }
   }
 
@@ -1818,6 +1843,9 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
    * @return {TemplateResult} Template for an endpoint item.
    */
   _endpointTemplate(item) {
+    const isEndpointOpened = this._openedOperations.includes(item.id);
+    const ariaLabel = isEndpointOpened ? 'Expanded' : 'Collapsed';
+
     return html`<div
         part="api-navigation-list-item"
         class="list-item endpoint"
@@ -1828,6 +1856,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         style="${this._computeEndpointPadding(item.indent, this.indentSize)}"
         role="menuitem"
         aria-haspopup="true"
+        ?endpoint-opened="${isEndpointOpened}"
       >
         <div class="path-details">
           <div class="endpoint-name">${item.label}</div>
@@ -1843,7 +1872,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
           ?compatibility="${this.compatibility}"
           tabindex="-1"
         >
-          <span class="icon" aria-label="Collapsed">${keyboardArrowDown}</span>
+          <span class="icon" aria-label="${ariaLabel}">${keyboardArrowDown}</span>
         </anypoint-icon-button>
       </div>
       <anypoint-collapse
@@ -1851,6 +1880,8 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         class="operation-collapse"
         data-api-id="${item.id}"
         role="menu"
+        .opened="${isEndpointOpened}"
+        ?endpoint-opened="${isEndpointOpened}"
       >
         <div
           part="api-navigation-list-item"
