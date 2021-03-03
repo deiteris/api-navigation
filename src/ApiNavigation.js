@@ -1089,6 +1089,8 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     }
     if (node.localName === 'anypoint-collapse') {
       node = this.shadowRoot.querySelector(`.operation[data-api-id="${id}"]`);
+    } else if (node.className === 'endpoint-name-overview' && this.noOverview) {
+      node = this.shadowRoot.querySelector(`.endpoint[data-endpoint-id="${id}"]`);
     }
     if (!node) {
       return undefined;

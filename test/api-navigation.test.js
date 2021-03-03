@@ -1194,6 +1194,20 @@ describe('<api-navigation>', () => {
         assert.equal(endpoints.length, 3);
       });
 
+      it('should select endpoint when clicking its name', async () => {
+        element.noOverview = true;
+        await aTimeout(0);
+
+        const endpointName = element.shadowRoot.querySelector(
+          '.endpoint-name-overview'
+        );
+        endpointName.click();
+        await aTimeout(0);
+
+        const endpoint = element.shadowRoot.querySelector(`.endpoint[data-endpoint-id="${endpointName.dataset.apiId}"]`);
+        assert.equal(endpoint.className, "list-item endpoint selected");
+      });
+
       describe('menu keyboard navigation', () => {
         it('should focus on endpoint path detail first', async () => {
           element.noOverview = true;
