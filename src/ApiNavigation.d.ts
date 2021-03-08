@@ -216,6 +216,18 @@ export declare class ApiNavigation {
   compatibility: boolean;
 
   /**
+   * Determines and changes state of endpoints.
+   * @attribute
+   */
+  operationsOpened: boolean;
+
+  /**
+   * No overview as a separated element. Overview can be seen by clicking the endpoint label.
+   * @attribute
+   */
+  noOverview: boolean;
+
+  /**
    * true when `_docs` property is set with values
    */
   get hasDocs(): boolean;

@@ -6,7 +6,7 @@ export class DemoPage extends NavDemoPage {
   constructor() {
     super();
     this.initObservableProperties([
-      'summary', 'noink', 'allowPaths', 'rearrangeEndpoints', 'operationsOpened'
+      'summary', 'noink', 'allowPaths', 'rearrangeEndpoints', 'operationsOpened', 'noOverview'
     ]);
     this.compatibility = false;
     this.summary = true;
@@ -14,6 +14,7 @@ export class DemoPage extends NavDemoPage {
     this.allowPaths = false;
     this.rearrangeEndpoints = false;
     this.operationsOpened = true;
+    this.noOverview = false;
   }
 
   _demoTemplate() {
@@ -27,6 +28,7 @@ export class DemoPage extends NavDemoPage {
       allowPaths,
       rearrangeEndpoints,
       operationsOpened,
+      noOverview,
     } = this;
     return html `
     <section class="documentation-section">
@@ -50,6 +52,7 @@ export class DemoPage extends NavDemoPage {
           ?allowPaths="${allowPaths}"
           ?rearrangeEndpoints="${rearrangeEndpoints}"
           ?compatibility="${compatibility}"
+          ?noOverview="${noOverview}"
           slot="content"
           ?operationsOpened="${operationsOpened}"
         ></api-navigation>
@@ -96,6 +99,14 @@ export class DemoPage extends NavDemoPage {
           @change="${this._toggleMainOption}"
         >
           Operations opened
+        </anypoint-checkbox>
+        <anypoint-checkbox
+          aria-describedby="mainOptionsLabel"
+          slot="options"
+          name="noOverview"
+          @change="${this._toggleMainOption}"
+        >
+          No overview
         </anypoint-checkbox>
       </arc-interactive-demo>
     </section>`;

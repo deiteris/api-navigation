@@ -366,7 +366,7 @@ describe('<api-navigation>', () => {
         '.endpoints .list-item.endpoint'
       )[1];
       node.click();
-      await aTimeout()
+      await aTimeout(0);
 
       const collapsable = node.nextElementSibling;
       assert.isTrue(collapsable.opened);
@@ -1136,6 +1136,115 @@ describe('<api-navigation>', () => {
         assert.equal(openedOperations, 32);
       });
     });
+
+    describe('noOverview', () => {
+      let amf;
+      let element;
+
+      before(async () => {
+        amf = await AmfLoader.load(item[1], 'simple-api');
+      });
+
+      beforeEach(async () => {
+        element = await modelFixture(amf);
+      });
+
+      it('should set noOverview to false by default', () => {
+        assert.isFalse(element.noOverview)
+      });
+
+      it('should render endpoints overview by default', () => {
+        const endpoints = element.shadowRoot.querySelectorAll(
+          '.list-item.operation[data-shape="endpoint"]'
+        );
+        assert.equal(endpoints.length, 3);
+      });
+
+      it('should render endpoints name by default', () => {
+        const endpoints = element.shadowRoot.querySelectorAll(
+          '.endpoint-name'
+        );
+        assert.equal(endpoints.length, 3);
+      });
+
+      it('should set noOverview to true', async () => {
+        element.noOverview = true;
+        await aTimeout(0);
+
+        assert.isTrue(element.noOverview)
+      });
+
+      it('should not render endpoints overview when noOverview', async () => {
+        element.noOverview = true;
+        await aTimeout(0);
+
+        const endpoints = element.shadowRoot.querySelectorAll(
+          '.list-item.operation[data-shape="endpoint"]'
+        );
+        assert.equal(endpoints.length, 0);
+      });
+
+      it('should render clickable endpoints name when noOverview', async () => {
+        element.noOverview = true;
+        await aTimeout(0);
+
+        const endpoints = element.shadowRoot.querySelectorAll(
+          '.endpoint-name-overview'
+        );
+        assert.equal(endpoints.length, 3);
+      });
+
+      it('should select endpoint when clicking its name', async () => {
+        element.noOverview = true;
+        await aTimeout(0);
+
+        const endpointName = element.shadowRoot.querySelector(
+          '.endpoint-name-overview'
+        );
+        endpointName.click();
+        await aTimeout(0);
+
+        const endpoint = element.shadowRoot.querySelector(`.endpoint[data-endpoint-id="${endpointName.dataset.apiId}"]`);
+        assert.equal(endpoint.className, "list-item endpoint selected");
+      });
+
+      describe('menu keyboard navigation', () => {
+        it('should focus on endpoint path detail first', async () => {
+          element.noOverview = true;
+          element.endpointsOpened = true;
+          await aTimeout(5);
+          MockInteractions.focus(element);
+          await nextFrame();
+          // Key press down
+          MockInteractions.keyDownOn(element, 40, [], 'ArrowDown');
+          await nextFrame();
+          const node = element.shadowRoot.querySelector('div[data-endpoint-path="/one"] .path-details');
+          assert.equal(
+            element.focusedItem,
+            node,
+            'element.focusedItem is last item'
+          );
+        });
+
+        it('should focus on endpoint toggle arrow second', async () => {
+          element.noOverview = true;
+          element.endpointsOpened = true;
+          await aTimeout(5);
+          MockInteractions.focus(element);
+          await nextFrame();
+          // Key press down
+          MockInteractions.keyDownOn(element, 40, [], 'ArrowDown');
+          MockInteractions.keyDownOn(element, 40, [], 'ArrowDown');
+          await nextFrame();
+          const node = element.shadowRoot.querySelector('div[data-endpoint-path="/one"] anypoint-icon-button');
+          assert.equal(
+            element.focusedItem,
+            node,
+            'element.focusedItem is last item'
+          );
+        });
+      });
+    });
   });
 
   describe('a11y', () => {
@@ -1326,7 +1435,7 @@ describe('<api-navigation>', () => {
         it('toggles endpoint with space bar', async() => {
           const node = element.shadowRoot.querySelector('.list-item.endpoint');
           MockInteractions.keyDownOn(node, 32, [], ' ');
-          await aTimeout();
+          await aTimeout(0);
 
           assert.isTrue(node.nextElementSibling.opened);
         });
