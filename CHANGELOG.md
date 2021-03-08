@@ -1341,3 +1341,45 @@
 * test new property [fad6054](https://github.com/advanced-rest-client/api-navigation/commit/fad6054abfee3f1e7662aed6ebc09b8e0b8dab3f) by Carolina Wright
 
 
+<a name="4.2.8"></a>
+## [4.2.8](https://github.com/advanced-rest-client/api-navigation/compare/4.2.6...4.2.8) (2021-03-08)
+
+### Build
+
+* package-lock.json updated [83b8386](https://github.com/advanced-rest-client/api-navigation/commit/83b8386c45179f8e7042cb993596f738af416f33) by Carolina Wright
+* bump version [471eb37](https://github.com/advanced-rest-client/api-navigation/commit/471eb37ea992d3d3588243a3be0d65112a330238) by Carolina Wright
+* bump version [94f5cc3](https://github.com/advanced-rest-client/api-navigation/commit/94f5cc356ac74e64efd7aa50bd9ffc4764928130) by Carolina Wright
+
+
+### Update
+
+* update types [63d9331](https://github.com/advanced-rest-client/api-navigation/commit/63d9331582631a59449d790c7d92a1a840e7f73a) by Carolina Wright
+* [ci skip] automated merge master->stage. syncing main branches [84d7f85](https://github.com/advanced-rest-client/api-navigation/commit/84d7f8561a8afe3d540cbeace3698ca822cb63f3) by Ci agent
+* [ci skip] automated merge master->stage. syncing main branches [4a0f1ce](https://github.com/advanced-rest-client/api-navigation/commit/4a0f1cef1a67244ade05045b50d7b3dba988930b) by Ci agent
+
+
+### Features
+
+* noOverview property to not render overview as a separated element for endpoints [83e859a](https://github.com/advanced-rest-client/api-navigation/commit/83e859ae80bfa10840d7bc1baf9c17989f6f334d) by Carolina Wright
+* new property operationsOpened added to expand or collapse all operations [e24911a](https://github.com/advanced-rest-client/api-navigation/commit/e24911aedf700b3cbc92512b5d366d05c4e208ad) by Carolina Wright
+
+
+### Bug Fixes
+
+* select endpoint when clicking its name [47b10a8](https://github.com/advanced-rest-client/api-navigation/commit/47b10a899ee56b216e50a6eb0676b3deb616f0b5) by Carolina Wright
+* handle enpoint toggle in new methods [96c6882](https://github.com/advanced-rest-client/api-navigation/commit/96c6882a71d3fe4243807ed4690ab5a27b2f563f) by Carolina Wright
+* operationsOpened set to true in demo page [53c72d1](https://github.com/advanced-rest-client/api-navigation/commit/53c72d15549c3c7c0622abfc4a284f175c417a66) by Carolina Wright
+* endpoints animation and toggle after operationsOpened is set [cd08bb9](https://github.com/advanced-rest-client/api-navigation/commit/cd08bb9e5761eebed99745afb7f24d0f572b883d) by Carolina Wright
+
+
+### Testing
+
+* a11y test is not async [7665cb9](https://github.com/advanced-rest-client/api-navigation/commit/7665cb906cdecbb799bea01423f5f5ddfe58b330) by Francisco Di Giandomenico
+* navigate through items with noOverview [0ad1432](https://github.com/advanced-rest-client/api-navigation/commit/0ad143267a00ea20190b60547634a793d7dc89bc) by Francisco Di Giandomenico
+* fix test code [c7c0d20](https://github.com/advanced-rest-client/api-navigation/commit/c7c0d20742324c05171f3ecdb3473b89803bb019) by Francisco Di Giandomenico
+* fix operationsOpened test [da73a7a](https://github.com/advanced-rest-client/api-navigation/commit/da73a7a4a07ea70072097ecf580647bb0433eab4) by Carolina Wright
+* new property [5b7a1f8](https://github.com/advanced-rest-client/api-navigation/commit/5b7a1f891f700a1db19e8608b397cfe70f4736b6) by Carolina Wright
+* increase timeout [4cf15af](https://github.com/advanced-rest-client/api-navigation/commit/4cf15afdc9469dad5f0faf5d679c4ef8b6b064a3) by Carolina Wright
+* test new property [fad6054](https://github.com/advanced-rest-client/api-navigation/commit/fad6054abfee3f1e7662aed6ebc09b8e0b8dab3f) by Carolina Wright
+
+
