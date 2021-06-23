@@ -1,6 +1,6 @@
 [![Published on NPM](https://img.shields.io/npm/v/@api-components/api-navigation.svg)](https://www.npmjs.com/package/@api-components/api-navigation)
 
-[![Build Status](https://travis-ci.com/advanced-rest-client/api-navigation.svg)](https://travis-ci.com/advanced-rest-client/api-navigation)
+[![Tests and publishing](https://github.com/advanced-rest-client/api-navigation/actions/workflows/deployment.yml/badge.svg)](https://github.com/advanced-rest-client/api-navigation/actions/workflows/deployment.yml)
 
 [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/advanced-rest-client/api-navigation)
 
