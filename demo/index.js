@@ -6,7 +6,7 @@ export class DemoPage extends NavDemoPage {
   constructor() {
     super();
     this.initObservableProperties([
-      'summary', 'noink', 'allowPaths', 'rearrangeEndpoints', 'operationsOpened', 'noOverview'
+      'summary', 'noink', 'allowPaths', 'rearrangeEndpoints', 'operationsOpened', 'noOverview', 'renderFullPaths'
     ]);
     this.compatibility = false;
     this.summary = true;
@@ -15,6 +15,7 @@ export class DemoPage extends NavDemoPage {
     this.rearrangeEndpoints = false;
     this.operationsOpened = true;
     this.noOverview = false;
+    this.renderFullPaths = false;
   }
 
   _demoTemplate() {
@@ -29,6 +30,7 @@ export class DemoPage extends NavDemoPage {
       rearrangeEndpoints,
       operationsOpened,
       noOverview,
+      renderFullPaths,
     } = this;
     return html `
     <section class="documentation-section">
@@ -55,6 +57,7 @@ export class DemoPage extends NavDemoPage {
           ?noOverview="${noOverview}"
           slot="content"
           ?operationsOpened="${operationsOpened}"
+          ?renderFullPaths="${renderFullPaths}"
         ></api-navigation>
 
         <label slot="options" id="mainOptionsLabel">Options</label>
@@ -90,7 +93,7 @@ export class DemoPage extends NavDemoPage {
           name="rearrangeEndpoints"
           @change="${this._toggleMainOption}"
         >
-          Rearrange endpoints
+          Sort endpoints
         </anypoint-checkbox>
         <anypoint-checkbox
           aria-describedby="mainOptionsLabel"
@@ -107,6 +110,15 @@ export class DemoPage extends NavDemoPage {
           @change="${this._toggleMainOption}"
         >
           No overview
+        </anypoint-checkbox>
+        </anypoint-checkbox>
+        <anypoint-checkbox
+          aria-describedby="mainOptionsLabel"
+          slot="options"
+          name="renderFullPaths"
+          @change="${this._toggleMainOption}"
+        >
+          Render full paths
         </anypoint-checkbox>
       </arc-interactive-demo>
     </section>`;

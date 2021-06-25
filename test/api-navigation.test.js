@@ -41,7 +41,7 @@ describe('<api-navigation>', () => {
   /**
    * @returns {Promise<ApiNavigation>}
    */
-  async function arrangedFixture() {
+  async function sortedFixture() {
     return fixture(
       html`<api-navigation rearrangeEndpoints></api-navigation>`
     );
@@ -386,7 +386,7 @@ describe('<api-navigation>', () => {
     });
   });
 
-  describe('Rearranging endpoint', () => {
+  describe('Sorting endpoints', () => {
     let element;
     let amf;
 
@@ -401,29 +401,55 @@ describe('<api-navigation>', () => {
     ];
 
     const expected = [
-      { [pathKey]: '/transactions' },
-      { [pathKey]: '/transactions/:txId' },
-      { [pathKey]: '/billing' },
       { [pathKey]: '/accounts' },
       { [pathKey]: '/accounts/:accountId' },
+      { [pathKey]: '/billing' },
+      { [pathKey]: '/transactions' },
+      { [pathKey]: '/transactions/:txId' },
     ];
 
     beforeEach(async () => {
-      element = await arrangedFixture();
+      element = await sortedFixture();
       amf = await AmfLoader.load(false, 'rearrange-api');
     });
 
-    it('should rearrange endpoints', () => {
-      const rearranged = element._rearrangeEndpoints(dataSet);
-      assert.sameDeepOrderedMembers(rearranged, expected);
+    it('should sort endpoints', () => {
+      const sorted = element._rearrangeEndpoints(dataSet);
+      assert.sameDeepOrderedMembers(sorted, expected);
     });
 
-    it('should have endpoints rearranged', () => {
+    it('should have endpoints sorted', () => {
       element.amf = amf;
 
       element._endpoints.forEach((endpoint, i) =>
         assert.equal(endpoint.path, expected[i][pathKey])
       );
+    });
+
+
+    it('should sort after setting rearrangeEndpoints property', async () => {
+      element = await modelFixture(amf);
+      await nextFrame();
+      let elementEndpointPaths = element._endpoints.map(endpoint => endpoint.path);
+      const expectedPaths = expected.map(endpoint => endpoint[pathKey]);
+      assert.notSameDeepOrderedMembers(elementEndpointPaths, expectedPaths);
+      element.rearrangeEndpoints = true;
+      await nextFrame();
+      elementEndpointPaths = element._endpoints.map(endpoint => endpoint.path);
+      assert.sameDeepOrderedMembers(elementEndpointPaths, expectedPaths);
+    });
+
+    it('should unsort after toggling rearrangeEndpoints property off', async () => {
+      element = await modelFixture(amf);
+      element.rearrangeEndpoints = true;
+      await nextFrame();
+      let elementEndpointPaths = element._endpoints.map(endpoint => endpoint.path);
+      const expectedPaths = expected.map(endpoint => endpoint[pathKey]);
+      assert.sameDeepOrderedMembers(elementEndpointPaths, expectedPaths);
+      element.rearrangeEndpoints = false;
+      await nextFrame();
+      elementEndpointPaths = element._endpoints.map(endpoint => endpoint.path);
+      assert.notSameDeepOrderedMembers(elementEndpointPaths, expectedPaths);
     });
   });
 
@@ -1120,7 +1146,7 @@ describe('<api-navigation>', () => {
 
       beforeEach(async () => {
         element = await operationsOpenedFixture(amf, true);
-        await aTimeout()
+        await aTimeout(0);
       });
 
       it('should expand all operations when operationsOpened', () => {
@@ -1243,6 +1269,33 @@ describe('<api-navigation>', () => {
             'element.focusedItem is last item'
           );
         });
+      });
+    });
+
+    describe('renderFullPaths', () => {
+      let amf;
+      let element;
+
+      beforeEach(async () => {
+        amf = await AmfLoader.load(item[1]);
+        element = await basicFixture();
+        element.amf = amf;
+        await nextFrame();
+      });
+
+      it('renders full paths when renderFullPaths is set', async () => {
+        element.renderFullPaths = true;
+        element.endpointsOpened = true;
+        await aTimeout(50);
+        const renderedPath = element.shadowRoot.querySelectorAll('.list-item.endpoint')[2].textContent.split('\n').join('').trim();
+        assert.equal(renderedPath, '/files/{fileId}/copy');
+      });
+
+      it('does not indent any endpoint', async () => {
+        element.renderFullPaths = true;
+        element.endpointsOpened = true;
+        await aTimeout(50);
+        element._endpoints.forEach(endpoint => assert.equal(endpoint.indent, 0));
       });
     });
   });

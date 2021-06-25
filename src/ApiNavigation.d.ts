@@ -228,6 +228,13 @@ export declare class ApiNavigation {
   noOverview: boolean;
 
   /**
+   * When set, avoiids truncating and indentation of endpoint paths.
+   * Instead, the full path for each endpoint will be rendered.
+   * @attribute
+   */
+  renderFullPaths: boolean;
+
+  /**
    * true when `_docs` property is set with values
    */
   get hasDocs(): boolean;
@@ -323,9 +330,7 @@ export declare class ApiNavigation {
   _traverseEncodes(model: object, target: TargetModel): void;
 
   /**
-   * Re-arrange the endpoints in relative order to each other, keeping
-   * the first endpoints to appear first, and the last endpoints to appear
-   * last
+   * Sort endpoints alphabetically based on path
    */
   _rearrangeEndpoints(endpoints: EndpointItem[]): EndpointItem[];
 
