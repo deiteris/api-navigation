@@ -1833,6 +1833,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
           .noink="${this.noink}"
           ?compatibility="${this.compatibility}"
           tabindex="-1"
+          data-toggle="endpoints"
         >
           <span class="icon" aria-label="${toggleState}"
             >${keyboardArrowDown}</span
@@ -2079,6 +2080,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
             aria-label="Toggle types"
             ?compatibility="${this.compatibility}"
             tabindex="-1"
+            data-toggle="types"
           >
             <span class="icon" aria-label="${toggleState}"
               >${keyboardArrowDown}</span
@@ -2138,6 +2140,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
           aria-label="Toggle security"
           ?compatibility="${this.compatibility}"
           tabindex="-1"
+          data-toggle="security"
         >
           <span class="icon" aria-label="${toggleState}"
             >${keyboardArrowDown}</span
