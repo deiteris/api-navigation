@@ -762,7 +762,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       if (pathA < pathB){
         return -1;
       }
-      
+
       if (pathA > pathB){
         return 1;
       }
@@ -1867,6 +1867,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         tabindex="0"
         data-api-id="${item.id}"
         data-shape="endpoint"
+        data-endpoint-overview="${item.path}"
         @click="${this._itemClickHandler}"
         style="${this._computeMethodPadding(item.indent, this.indentSize)}"
         >
@@ -2098,6 +2099,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
                   tabindex="0"
                   data-api-id="${item.id}"
                   data-shape="type"
+                  data-type-name="${item.label}"
                   @click="${this._itemClickHandler}"
                 >
                   ${item.label}
@@ -2157,6 +2159,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
               tabindex="0"
               data-api-id="${item.id}"
               data-shape="security"
+              data-security-name="${item.label}"
               @click="${this._itemClickHandler}"
             >
               ${item.label}
