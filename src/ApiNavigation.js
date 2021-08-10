@@ -762,7 +762,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       if (pathA < pathB){
         return -1;
       }
-      
+
       if (pathA > pathB){
         return 1;
       }
@@ -1833,6 +1833,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
           .noink="${this.noink}"
           ?compatibility="${this.compatibility}"
           tabindex="-1"
+          data-toggle="endpoints"
         >
           <span class="icon" aria-label="${toggleState}"
             >${keyboardArrowDown}</span
@@ -1866,6 +1867,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
         tabindex="0"
         data-api-id="${item.id}"
         data-shape="endpoint"
+        data-endpoint-overview="${item.path}"
         @click="${this._itemClickHandler}"
         style="${this._computeMethodPadding(item.indent, this.indentSize)}"
         >
@@ -2079,6 +2081,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
             aria-label="Toggle types"
             ?compatibility="${this.compatibility}"
             tabindex="-1"
+            data-toggle="types"
           >
             <span class="icon" aria-label="${toggleState}"
               >${keyboardArrowDown}</span
@@ -2096,6 +2099,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
                   tabindex="0"
                   data-api-id="${item.id}"
                   data-shape="type"
+                  data-type-name="${item.label}"
                   @click="${this._itemClickHandler}"
                 >
                   ${item.label}
@@ -2138,6 +2142,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
           aria-label="Toggle security"
           ?compatibility="${this.compatibility}"
           tabindex="-1"
+          data-toggle="security"
         >
           <span class="icon" aria-label="${toggleState}"
             >${keyboardArrowDown}</span
@@ -2154,6 +2159,7 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
               tabindex="0"
               data-api-id="${item.id}"
               data-shape="security"
+              data-security-name="${item.label}"
               @click="${this._itemClickHandler}"
             >
               ${item.label}
