@@ -167,21 +167,22 @@ export default css`
 
   .toggle-button,
   .endpoint-toggle-button {
-    transform: rotateZ(0deg);
-    transition: transform 0.3s ease-in-out;
-
     width: var(--api-navigation-endpoint-toggle-icon-width, 32px);
     height: var(--api-navigation-endpoint-toggle-icon-height, 32px);
   }
 
   .endpoint-toggle-button {
-    transform: rotateZ(0deg);
-    transition: transform 0.3s ease-in-out;
     margin-right: var(--api-navigation-endpoint-toggle-icon-margin-right);
   }
 
-  [data-opened] .toggle-button,
-  [endpoint-opened] .endpoint-toggle-button {
+  .toggle-button > span.icon,
+  .endpoint-toggle-button > span.icon {
+    transform: rotateZ(0deg);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  [data-opened] .toggle-button > span.icon,
+  [endpoint-opened] .endpoint-toggle-button > span.icon {
     transform: rotateZ(-180deg);
   }
 
