@@ -1163,6 +1163,29 @@ describe('<api-navigation>', () => {
       });
     });
 
+    describe('GH-27', () => {
+      let amf;
+      let element;
+
+      before(async () => {
+        amf = await AmfLoader.load(item[1]);
+      });
+
+      beforeEach(async () => {
+        element = await modelFixture(amf);
+        await aTimeout(0);
+      });
+
+      it('selected operation should expand endpoint', async () => {
+        const operation = element.shadowRoot.querySelector('.list-item.operation[data-shape="method"]');
+        element.selected = operation.dataset.apiId;
+        element.selectedType = 'method';
+        await nextFrame();
+        assert.equal(operation.classList.contains('selected'), true);
+        assert.notEqual(operation.parentElement.getAttribute('endpoint-opened'), null);
+      });
+    });
+
     describe('noOverview', () => {
       let amf;
       let element;
