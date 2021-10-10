@@ -1,10 +1,12 @@
+# DEPRECATED
+
+This component is being deprecated. The code base has been moved to [amf-components](https://github.com/advanced-rest-client/amf-components) module. This module will be archived when [PR 1](https://github.com/advanced-rest-client/amf-components/pull/1) is merged.
+
+-----
+
 [![Published on NPM](https://img.shields.io/npm/v/@api-components/api-navigation.svg)](https://www.npmjs.com/package/@api-components/api-navigation)
 
 [![Tests and publishing](https://github.com/advanced-rest-client/api-navigation/actions/workflows/deployment.yml/badge.svg)](https://github.com/advanced-rest-client/api-navigation/actions/workflows/deployment.yml)
-
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/advanced-rest-client/api-navigation)
-
-## &lt;api-navigation&gt;
 
 A navigation for an API spec generated from AMF ld+json model.
 
