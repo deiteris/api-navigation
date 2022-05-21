@@ -1093,6 +1093,9 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
       if (!this._openedOperations.includes(id)) {
         this.toggleOperations(id)
       }
+      if (collapse && !this._openedOperations.includes(collapse.dataset.apiId)) {
+        this.toggleOperations(collapse.dataset.apiId);
+      }
     } else if (collapse && !collapse.opened) {
       collapse.opened = true;
     }
@@ -1883,10 +1886,10 @@ export class ApiNavigation extends AmfHelperMixin(LitElement) {
     const {noOverview} = this;
 
     return html`<div class="path-details">
-        ${noOverview ? 
-      html`<div class="endpoint-name-overview" @click="${this._itemClickHandler}" data-api-id="${item.id}" data-shape="endpoint">${item.label}</div>` 
+        ${noOverview ?
+      html`<div class="endpoint-name-overview" @click="${this._itemClickHandler}" data-api-id="${item.id}" data-shape="endpoint">${item.label}</div>`
       : html`<div class="endpoint-name">${item.label}</div>`}
-        
+
         ${computeRenderPath(this.allowPaths, item.renderPath)
       ? html`<div class="path-name">${item.path}</div>`
       : undefined}
